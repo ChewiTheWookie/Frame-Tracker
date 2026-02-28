@@ -1,0 +1,58 @@
+.navDropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 0;
+    background: var(--bg);
+    backdrop-filter: blur(15px);
+    border-bottom: 2px solid var(--accent);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.8),
+        0 0 20px var(--accent-glow);
+    z-index: 9999;
+    overflow: hidden;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.navDropdown.show {
+    height: 170px;
+}
+
+.navLinks {
+    width: 100%;
+    padding: 0 2rem 0 3rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navLink {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    padding: 5px 5px;
+    text-decoration: none;
+}
+
+.navLink:hover {
+    color: #fff;
+}
+
+.navLink.active {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent-glow);
+}
+
+.navLink.active:hover {
+    color: #fff;
+}

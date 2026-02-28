@@ -1,0 +1,38 @@
+.tabsContainer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabsContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.tabButton {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 5px 5px;
+    flex-shrink: 0;
+}
+
+.tabButton:hover {
+    color: #fff;
+}
+
+.activeTab {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent-glow);
+}

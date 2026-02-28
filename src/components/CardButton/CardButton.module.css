@@ -1,0 +1,23 @@
+.action-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #aaa;
+    padding: 6px 0;
+    font-size: 0.7rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+}
+
+.active {
+    background: #c1ac6c;
+    color: #000 !important;
+    border-color: #c1ac6c;
+}
+
+.active.helminth {
+    background: #a34eb0;
+    border-color: #a34eb0;
+}

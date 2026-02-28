@@ -1,0 +1,40 @@
+.statsBar {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 5px 15px;
+    gap: 15px;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.statLabel {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.statValue {
+    font-size: 1rem;
+    font-family: "Mono", monospace;
+}
+
+.statValue span {
+    font-size: 0.7rem;
+    color: #555;
+    margin-left: 2px;
+}
+
+.statDivider {
+    width: 1px;
+    height: 25px;
+    background: rgba(255, 255, 255, 0.1);
+}

@@ -1,0 +1,8 @@
+.searchControls {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 0 20px;
+    margin: 1.5rem 0;
+}

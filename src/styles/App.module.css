@@ -1,0 +1,43 @@
+.appContainer {
+    min-height: 100vh;
+    padding: 0 2rem 2rem 2rem;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.topSection {
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    will-change: background-color;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--accent);
+    padding: 3.5rem 0 2rem 0;
+}
+
+.header h1 {
+    letter-spacing: 5px;
+    font-weight: 200;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent-glow);
+    margin: 0;
+}
+
+.titleContainer {
+    position: relative;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.titleContainer:hover h1 {
+    opacity: 0.8;
+}

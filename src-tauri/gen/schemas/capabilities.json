@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Basic capabilities","local":true,"windows":["main"],"permissions":["core:default","opener:default","store:default","core:event:default"]}}
