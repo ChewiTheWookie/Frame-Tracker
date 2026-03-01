@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ROUTES } from "./routes/Routes";
-import { MASTERY_CAT } from "./routes/Categories";
+import { MASTERY_CATEGORIES } from "./types/inventory";
 import { useInventoryStore } from "./store/useInventoryStore";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
@@ -25,7 +25,7 @@ export function App() {
                 return (
                     <>
                         <CategoryTabs
-                            categories={MASTERY_CAT}
+                            categories={MASTERY_CATEGORIES}
                             activeCategory={activeMasteryCat}
                             onCategoryChange={setActiveMasteryCat}
                         />

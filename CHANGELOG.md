@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - 🛠️add `Arquebex` to the archweapon category
 - 🛠️ add `Cranial Foremount` to the `resouce.rs` ignore list
+- 🛠️ Fix `All` Category not showing up in `Mastery Tracker`
 
 ### Dev Notes
 
