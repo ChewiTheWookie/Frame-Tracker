@@ -19,3 +19,5 @@ Here is what Frame Tracker can do:
 - #### Mastery Tracking
     - **Track Parts**: Remember what components you have for each weapon
     - **Filtering**: Filter through everything in Warframe to see what you have the parts to craft or what you own, mastered or helminthed
+
+## Changelog: [Link](CHANGELOG.md)
