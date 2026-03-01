@@ -1,4 +1,4 @@
-export const INVENTORY_EXCLUSIONS = [
+pub const EXCLUSIONS: &[&str] = &[
     "AugmentCard",
     "Doppelganger",
     "/Upgrades/",

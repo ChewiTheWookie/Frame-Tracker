@@ -20,27 +20,31 @@ export function MasteryTracker() {
         return items.filter((item) => {
             const isActuallyCraftable =
                 item.craftable && !item.owned && !item.mastered;
+
+            const matchesCategory =
+                activeCategory === "All" || item.category === activeCategory;
+
+            const matchesSearch = item.name
+                .toLowerCase()
+                .includes(search.toLowerCase());
+
+            const matchesNonPrimes = !filters.nonPrimesOnly || !item.isPrime;
+            const matchesPrimes = !filters.primesOnly || item.isPrime;
+
+            const matchesHideFed = !filters.hideFed || !item.helminthed;
+            const matchHideMastered = !filters.hideOwned || !item.mastered;
+
             const isActuallyOwned =
                 item.owned ||
                 item.mastered ||
                 item.helminthed ||
                 item.craftable;
 
-            const matchesCategory =
-                activeCategory === "All" || item.category === activeCategory;
-            const matchesSearch = item.name
-                .toLowerCase()
-                .includes(search.toLowerCase());
-            const matchesNonPrimes =
-                !filters.nonPrimesOnly || !item.name.includes("Prime");
-            const matchesPrimes =
-                !filters.primesOnly || item.name.includes("Prime");
-            const matchesHideFed = !filters.hideFed || !item.helminthed;
-            const matchHideMastered = !filters.hideOwned || !item.mastered;
             const matchHideUnOwned = !filters.hideUnowned || isActuallyOwned;
             const matchCraftable =
                 !filters.craftableOnly || !isActuallyCraftable;
-            const matchShowOnwed = !filters.ownedOnly || !item.owned;
+            const matchHideOwned =
+                !filters.ownedOnly || !(item.owned && !item.mastered);
 
             return (
                 matchesCategory &&
@@ -51,7 +55,7 @@ export function MasteryTracker() {
                 matchHideMastered &&
                 matchHideUnOwned &&
                 matchCraftable &&
-                matchShowOnwed
+                matchHideOwned
             );
         });
     }, [items, search, activeCategory, filters]);

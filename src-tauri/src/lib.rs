@@ -1,4 +1,6 @@
+mod api;
 mod commands;
+mod models;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -6,9 +8,7 @@ pub fn run() {
         ::default()
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(
-            tauri::generate_handler![commands::fetch_wiki_data, commands::fetch_world_data]
-        )
+        .invoke_handler(tauri::generate_handler![commands::fetch_wiki_data::fetch_wiki_data])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

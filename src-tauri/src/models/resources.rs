@@ -1,4 +1,4 @@
-export const RESOURCES = [
+pub const RESOURCES: &[&str] = &[
     "Credits",
     "Neural Sensors",
     "Neurodes",

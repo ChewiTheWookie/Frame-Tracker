@@ -1,5 +1,4 @@
 import { MasteryTracker } from "../pages/MasteryTracker";
-import { DailysTracker } from "../pages/DailysTracker";
 
 export const ROUTES = [
     {
@@ -7,11 +6,5 @@ export const ROUTES = [
         path: "/",
         element: <MasteryTracker />,
         key: "mastery",
-    },
-    {
-        name: "Daily Checklist",
-        path: "/DailysTracker",
-        element: <DailysTracker />,
-        key: "dailys",
     },
 ];

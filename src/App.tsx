@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ROUTES } from "./routes/Routes";
-import { MASTERY_CAT, DAILY_CAT } from "./routes/Categories";
+import { MASTERY_CAT } from "./routes/Categories";
 import { useInventoryStore } from "./store/useInventoryStore";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
@@ -18,7 +18,6 @@ export function App() {
     const setActiveMasteryCat = useInventoryStore(
         (state) => state.setActiveCategory,
     );
-    const [activeDailyCat, setActiveDailyCat] = useState("All");
 
     const renderCategoryTabs = () => {
         switch (location.pathname) {
@@ -32,14 +31,6 @@ export function App() {
                         />
                         <SearchControls />
                     </>
-                );
-            case "/DailysTracker":
-                return (
-                    <CategoryTabs
-                        categories={DAILY_CAT}
-                        activeCategory={activeDailyCat}
-                        onCategoryChange={setActiveDailyCat}
-                    />
                 );
             default:
                 return null;

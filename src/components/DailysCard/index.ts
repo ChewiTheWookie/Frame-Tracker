@@ -1,1 +1,0 @@
-export { DailysCard } from "./DailysCard";

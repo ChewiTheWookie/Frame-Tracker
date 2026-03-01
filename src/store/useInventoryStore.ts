@@ -2,9 +2,6 @@ import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
 import { load, Store } from "@tauri-apps/plugin-store";
 import { Category, Item } from "../types/inventory";
-import { RESOURCES } from "../types/resources";
-import { INVENTORY_EXCLUSIONS } from "../types/inventoryExclusions";
-import { CATEGORY_KEYWORDS } from "../types/inventoryMapping";
 
 type ActiveCategory = Category | "All";
 
@@ -70,28 +67,6 @@ const getStore = async () => {
     return store;
 };
 
-const getCategory = (id: string, name: string): Category => {
-    if (CATEGORY_KEYWORDS.MODULAR.some((k) => id.includes(k))) return "Modular";
-    if (CATEGORY_KEYWORDS.ARCH_WEAPONS.some((k) => id.includes(k)))
-        return "Arch Weapons";
-    if (CATEGORY_KEYWORDS.VEHICLES.some((k) => id.includes(k) || name === k))
-        return "Vehicles";
-    if (CATEGORY_KEYWORDS.COMPANIONS.some((k) => id.includes(k)))
-        return "Companions";
-    if (CATEGORY_KEYWORDS.WARFRAMES.some((k) => id.includes(k)))
-        return "Warframes";
-
-    if (id.includes("/Weapons/")) {
-        if (CATEGORY_KEYWORDS.SECONDARY.some((k) => id.includes(k)))
-            return "Secondary";
-        if (CATEGORY_KEYWORDS.MELEE.some((k) => id.includes(k))) return "Melee";
-
-        return "Primary";
-    }
-
-    return "Unknown";
-};
-
 export const useInventoryStore = create<InventoryState>((set) => ({
     items: [],
     loading: false,
@@ -122,104 +97,57 @@ export const useInventoryStore = create<InventoryState>((set) => ({
             const savedData =
                 (await db.get<UserProgress>("user_progress")) || {};
 
-            const rawData: any[] = await invoke("fetch_wiki_data");
-
-            const wikiData = rawData.filter((item) => {
-                const id = item.uniqueName;
-
-                const isBlacklisted = INVENTORY_EXCLUSIONS.some((excluded) =>
-                    id.includes(excluded),
-                );
-
-                return !isBlacklisted;
-            });
+            const wikiData: any[] = await invoke("fetch_wiki_data");
 
             const merged = wikiData.map((item) => {
-                const id = item.uniqueName;
-                const name = item.name;
+                const saved = savedData[item.id] || {};
 
-                const category = getCategory(id, name);
-
-                const saved = savedData[id] || {};
-
-                if (category === "Unknown") {
-                    console.log(
-                        `%c[UNCATEGORIZED]: ${name} | Path: ${id}`,
-                        "color: orange",
-                    );
-                }
-
-                const filteredComponents = (item.components || [])
-                    .filter((comp: any) => !RESOURCES.includes(comp.name))
-                    .map((comp: any) => {
-                        const partStatus = saved.parts?.[comp.name] ?? false;
-                        return [comp.name, partStatus];
+                let parts: Record<string, boolean> = {};
+                if (item.components && item.components.length > 0) {
+                    item.components.forEach((comp: any) => {
+                        parts[comp.name] = saved.parts?.[comp.name] ?? false;
                     });
-
-                let parts = Object.fromEntries(filteredComponents);
-                if (Object.keys(parts).length === 0) {
+                } else {
                     parts = { Blueprint: saved.parts?.Blueprint ?? false };
                 }
 
-                const isWarframe = category === "Warframes";
-                const isNecraMech = name === "Voidrig" || name === "Bonewidow";
-                const isPrime = name.includes("Prime");
-                const isFeedable = isWarframe && !isPrime && !isNecraMech;
-
                 return {
-                    id: item.uniqueName,
-                    name: item.name,
-                    image: `https://cdn.warframestat.us/img/${item.imageName}`,
-                    category,
+                    ...item,
                     mastered: saved.mastered ?? false,
                     helminthed: saved.helminthed ?? false,
                     owned: saved.owned ?? false,
                     craftable: saved.craftable ?? false,
-                    isFeedable,
-                    parts: parts,
+                    parts,
                 };
             });
 
             set({ items: merged, userProgress: savedData, loading: false });
         } catch (error) {
-            console.error("Failed to fetch wiki data:", error);
+            console.error(error);
         }
     },
 
     togglePart: async (itemId, partName) => {
         set({ saving: true });
-
         set((state) => {
             const itemIndex = state.items.findIndex((i) => i.id === itemId);
             if (itemIndex === -1) return { saving: false };
 
             const currentItem = state.items[itemIndex];
-            const currentParts = currentItem.parts ?? {};
-
             const updatedParts = {
-                ...currentParts,
-                [partName]: !currentParts[partName],
+                ...currentItem.parts,
+                [partName]: !currentItem.parts?.[partName],
             };
 
             const allPartsChecked = Object.values(updatedParts).every(
-                (status) => status === true,
+                (v) => v === true,
             );
-
-            const isOwned = currentItem.owned ?? false;
-            const shouldBeCraftable = allPartsChecked && !isOwned;
-
-            const currentProgress = state.userProgress[itemId] || {
-                mastered: currentItem.mastered,
-                helminthed: currentItem.helminthed,
-                owned: isOwned,
-                craftable: false,
-                parts: {},
-            };
+            const shouldBeCraftable = allPartsChecked && !currentItem.owned;
 
             const newUserProgress = {
                 ...state.userProgress,
                 [itemId]: {
-                    ...currentProgress,
+                    ...(state.userProgress[itemId] || {}),
                     parts: updatedParts,
                     craftable: shouldBeCraftable,
                 },
@@ -232,77 +160,58 @@ export const useInventoryStore = create<InventoryState>((set) => ({
                 craftable: shouldBeCraftable,
             };
 
-            saveProgressToDisk(newUserProgress).then(() => {
-                set({ saving: false });
-            });
-
-            return {
-                items: newItems,
-                userProgress: newUserProgress,
-            };
+            saveProgressToDisk(newUserProgress).then(() =>
+                set({ saving: false }),
+            );
+            return { items: newItems, userProgress: newUserProgress };
         });
     },
 
     toggleStatus: async (id, field) => {
         set({ saving: true });
-
         set((state) => {
             const itemIndex = state.items.findIndex((i) => i.id === id);
             if (itemIndex === -1) return { saving: false };
 
-            const currentItem = state.items[itemIndex];
-
-            const isMastered =
-                field === "mastered"
-                    ? !currentItem.mastered
-                    : currentItem.mastered;
-            const isOwned =
-                field === "owned" ? !currentItem.owned : currentItem.owned;
-            const isHelminthed =
-                field === "helminthed"
-                    ? !currentItem.helminthed
-                    : currentItem.helminthed;
-
-            const currentParts = currentItem.parts ?? {};
-            const allPartsChecked = Object.values(currentParts).every(
-                (val) => val === true,
-            );
-
-            let isCraftable = allPartsChecked && !isOwned && !isMastered;
-
+            const item = state.items[itemIndex];
             const updatedStatus = {
-                mastered: isMastered,
-                owned: isOwned,
-                helminthed: isHelminthed,
-                craftable: isCraftable,
+                mastered: field === "mastered" ? !item.mastered : item.mastered,
+                owned: field === "owned" ? !item.owned : item.owned,
+                helminthed:
+                    field === "helminthed" ? !item.helminthed : item.helminthed,
             };
 
-            const currentEntry = state.userProgress[id] || {
-                parts: currentParts,
-            };
-            const updatedEntry = {
-                ...currentEntry,
-                ...updatedStatus,
-                parts: currentParts,
-            };
+            const allPartsChecked = Object.values(item.parts || {}).every(
+                (v) => v === true,
+            );
+            const isCraftable =
+                allPartsChecked &&
+                !updatedStatus.owned &&
+                !updatedStatus.mastered;
 
             const newUserProgress = {
                 ...state.userProgress,
-                [id]: updatedEntry,
+                [id]: {
+                    ...state.userProgress[id],
+                    ...updatedStatus,
+                    craftable: isCraftable,
+                },
             };
+
             const newItems = [...state.items];
-            newItems[itemIndex] = { ...currentItem, ...updatedStatus };
+            newItems[itemIndex] = {
+                ...item,
+                ...updatedStatus,
+                craftable: isCraftable,
+            };
 
             saveProgressToDisk(newUserProgress).then(() =>
                 set({ saving: false }),
             );
-
-            return {
-                items: newItems,
-                userProgress: newUserProgress,
-            };
+            return { items: newItems, userProgress: newUserProgress };
         });
     },
+
     toggleFilter: (key) =>
         set((state) => {
             const newFilters = { ...state.filters };

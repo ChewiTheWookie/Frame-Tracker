@@ -5,10 +5,9 @@ export const MASTERY_CATEGORIES = [
     "Secondary",
     "Melee",
     "Companions",
+    "Vehicles",
     "Arch Weapons",
     "Modular",
-    "Vehicles",
-    "Unknown",
 ] as const;
 
 export type Category = (typeof MASTERY_CATEGORIES)[number];
@@ -18,10 +17,11 @@ export interface Item {
     name: string;
     image: string;
     category: Category;
+    isPrime: boolean;
+    isFeedable: boolean;
     mastered: boolean;
     helminthed: boolean;
     craftable: boolean;
     owned: boolean;
-    isFeedable?: boolean;
     parts?: Record<string, boolean>;
 }

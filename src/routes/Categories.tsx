@@ -1,8 +1,5 @@
-import { MASTERY_CATEGORIES } from "../types/inventory";
-import { DAILY_CATEGORIES } from "../types/dailyTask";
+import { MASTERY_CATEGORIES, Category } from "../types/inventory";
 
 export const MASTERY_CAT = MASTERY_CATEGORIES.filter(
-    (cat) => cat !== "Unknown",
+    (cat): cat is Exclude<Category, "All"> => cat !== "All",
 );
-
-export const DAILY_CAT = DAILY_CATEGORIES.filter((cat) => cat !== "Unknown");
