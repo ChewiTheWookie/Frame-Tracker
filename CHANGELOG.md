@@ -12,7 +12,8 @@ All notable changes to this project will be logged here
 
 ### Dev Notes
 
-- ✏️ Moved from `.json` storage files in the frontend to a backend `SQLite` database
+- ✏️ moved from `.json` storage files in the frontend to a backend `SQLite` database
+- ✏️ add cach for API data fetched by `get_wiki_data` in `inventory.rs`
 
 ## 0.1.5 (2026-02-28)
 
