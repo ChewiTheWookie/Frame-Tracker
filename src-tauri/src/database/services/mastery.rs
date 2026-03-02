@@ -1,15 +1,13 @@
-use crate::database::db::{ DbState, DbUserProgress };
-use tauri::State;
+use sqlx::{ sqlite::SqlitePool, Row };
 use std::collections::HashMap;
-use sqlx::Row;
+use crate::database::db::DbUserProgress;
 
-#[tauri::command]
-pub async fn save_item_progress(
-    id: String,
-    progress: DbUserProgress,
-    state: State<'_, DbState>
-) -> Result<(), String> {
-    let parts_json = serde_json::to_string(&progress.parts).map_err(|e| e.to_string())?;
+pub async fn save_progress(
+    pool: &SqlitePool,
+    id: &str,
+    progress: &DbUserProgress
+) -> Result<(), sqlx::Error> {
+    let parts_json = serde_json::to_string(&progress.parts).unwrap_or_else(|_| "{}".to_string());
 
     sqlx
         ::query(
@@ -28,27 +26,21 @@ pub async fn save_item_progress(
         .bind(progress.owned)
         .bind(progress.craftable)
         .bind(parts_json)
-        .execute(&state.pool).await
-        .map_err(|e| e.to_string())?;
+        .execute(pool).await?;
 
     Ok(())
 }
 
-#[tauri::command]
-pub async fn get_all_user_progress(
-    state: State<'_, DbState>
-) -> Result<HashMap<String, DbUserProgress>, String> {
-    let rows = sqlx
-        ::query("SELECT * FROM mastery_tracker")
-        .fetch_all(&state.pool).await
-        .map_err(|e| e.to_string())?;
+pub async fn fetch_all_progress(
+    pool: &SqlitePool
+) -> Result<HashMap<String, DbUserProgress>, sqlx::Error> {
+    let rows = sqlx::query("SELECT * FROM mastery_tracker").fetch_all(pool).await?;
 
     let mut results = HashMap::new();
 
     for row in rows {
         let id: String = row.get("id");
         let parts_json: String = row.get("parts_json");
-
         let parts = serde_json::from_str(&parts_json).unwrap_or_default();
 
         results.insert(id, DbUserProgress {

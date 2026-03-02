@@ -23,9 +23,9 @@ pub fn run() {
         })
         .invoke_handler(
             tauri::generate_handler![
-                commands::fetch_wiki_data::fetch_wiki_data,
-                commands::mastery_db::save_item_progress,
-                commands::mastery_db::get_all_user_progress
+                commands::mastery_tracker::fetch_wiki_data::fetch_wiki_data,
+                commands::mastery_tracker::save_item_progress::save_item_progress,
+                commands::mastery_tracker::get_all_user_progress::get_all_user_progress
             ]
         )
         .run(tauri::generate_context!())
