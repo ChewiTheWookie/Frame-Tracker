@@ -1,17 +1,34 @@
 use crate::api::requests::get_wiki_data;
 use crate::database::services::mastery;
+use crate::models::mastery_tracker::ProcessedItem;
 use sqlx::SqlitePool;
 use std::collections::HashMap;
+use std::sync::Arc;
+use tokio::sync::Mutex;
 
-pub async fn get_merged_inventory(pool: &SqlitePool) -> Result<Vec<serde_json::Value>, String> {
-    let (progress_result, wiki_result) = tokio::join!(
-        mastery::fetch_all_progress(pool),
-        get_wiki_data()
-    );
+pub async fn get_merged_inventory(
+    pool: &SqlitePool,
+    cache: &Arc<Mutex<Option<Vec<ProcessedItem>>>>
+) -> Result<Vec<serde_json::Value>, String> {
+    // 1. Lock the cache to check if we already have data
+    let mut cache_lock = cache.lock().await;
 
-    let progress_map = progress_result.map_err(|e| e.to_string())?;
-    let wiki_items = wiki_result?;
+    let wiki_items = if let Some(cached_data) = &*cache_lock {
+        cached_data.clone()
+    } else {
+        // Only the first call hits the network
+        let fresh_data = get_wiki_data().await?;
+        *cache_lock = Some(fresh_data.clone());
+        fresh_data
+    };
 
+    // Drop the lock as soon as we have the data so other threads can use it
+    drop(cache_lock);
+
+    // 2. Fetch user progress from DB
+    let progress_map = mastery::fetch_all_progress(pool).await.map_err(|e| e.to_string())?;
+
+    // 3. Merge data (using your existing logic)
     let merged = wiki_items
         .into_iter()
         .map(|item| {

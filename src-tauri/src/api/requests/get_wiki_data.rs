@@ -22,6 +22,8 @@ pub async fn get_wiki_data() -> Result<Vec<ProcessedItem>, String> {
 
     let resource_set: HashSet<&str> = RESOURCES.iter().cloned().collect();
 
+    println!("FETCHING DATA");
+
     let processed = items
         .into_iter()
 

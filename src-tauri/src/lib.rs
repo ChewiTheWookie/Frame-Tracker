@@ -1,5 +1,7 @@
 use crate::database::{ DbState, init_db };
 use tauri::Manager;
+use std::sync::Arc;
+use tokio::sync::Mutex;
 
 mod api;
 mod database;
@@ -17,7 +19,10 @@ pub fn run() {
             std::fs::create_dir_all(&app_data_dir).expect("failed to create app data dir");
 
             let pool = tauri::async_runtime::block_on(async { init_db(app_data_dir).await });
-            app.manage(DbState { pool });
+            app.manage(DbState {
+                pool,
+                wiki_cache: Arc::new(Mutex::new(None)),
+            });
 
             Ok(())
         })

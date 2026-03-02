@@ -1,8 +1,12 @@
+use crate::models::mastery_tracker::ProcessedItem;
 use sqlx::sqlite::SqlitePool;
 use serde::{ Deserialize, Serialize };
+use std::sync::Arc;
+use tokio::sync::Mutex;
 
 pub struct DbState {
     pub pool: SqlitePool,
+    pub wiki_cache: Arc<Mutex<Option<Vec<ProcessedItem>>>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
