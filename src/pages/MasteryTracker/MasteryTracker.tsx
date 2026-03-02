@@ -1,70 +1,85 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useInventoryStore } from "../../store/useInventoryStore";
 import { InventoryCard } from "../../components/InventoryCard";
 import { Grid } from "../../components/Grid";
 
-// import styles from "./MasteryTracker.module.css";
+import styles from "./MasteryTracker.module.css";
 
 export function MasteryTracker() {
     const items = useInventoryStore((state) => state.items);
-    const search = useInventoryStore((state) => state.search);
+    const visibleCount = useInventoryStore((state) => state.visibleCount);
+    const loadMore = useInventoryStore((state) => state.loadMore);
     const fetchWikiData = useInventoryStore((state) => state.fetchWikiData);
-    const activeCategory = useInventoryStore((state) => state.activeCategory);
-    const filters = useInventoryStore((state) => state.filters);
+
+    const [showTopButton, setShowTopButton] = useState(false);
+    const loaderRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        fetchWikiData();
-    }, [fetchWikiData]);
+        if (items.length === 0) {
+            fetchWikiData();
+        }
+    }, [fetchWikiData, items.length]);
 
-    const filteredItems = useMemo(() => {
-        return items.filter((item) => {
-            const isActuallyCraftable =
-                item.craftable && !item.owned && !item.mastered;
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && items.length > visibleCount) {
+                    loadMore();
+                }
+            },
+            {
+                threshold: 0,
+                rootMargin: "0px 0px 400px 0px",
+            },
+        );
 
-            const matchesCategory =
-                activeCategory === "All" || item.category === activeCategory;
+        if (loaderRef.current) {
+            observer.observe(loaderRef.current);
+        }
 
-            const matchesSearch = item.name
-                .toLowerCase()
-                .includes(search.toLowerCase());
+        return () => observer.disconnect();
+    }, [items.length, visibleCount, loadMore]);
 
-            const matchesNonPrimes = !filters.nonPrimesOnly || !item.isPrime;
-            const matchesPrimes = !filters.primesOnly || item.isPrime;
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowTopButton(window.scrollY > 500);
+        };
 
-            const matchesHideFed = !filters.hideFed || !item.helminthed;
-            const matchHideMastered = !filters.hideOwned || !item.mastered;
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
-            const isActuallyOwned =
-                item.owned ||
-                item.mastered ||
-                item.helminthed ||
-                item.craftable;
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
-            const matchHideUnOwned = !filters.hideUnowned || isActuallyOwned;
-            const matchCraftable =
-                !filters.craftableOnly || !isActuallyCraftable;
-            const matchHideOwned =
-                !filters.ownedOnly || !(item.owned && !item.mastered);
-
-            return (
-                matchesCategory &&
-                matchesSearch &&
-                matchesNonPrimes &&
-                matchesPrimes &&
-                matchesHideFed &&
-                matchHideMastered &&
-                matchHideUnOwned &&
-                matchCraftable &&
-                matchHideOwned
-            );
-        });
-    }, [items, search, activeCategory, filters]);
+    const displayedItems = useMemo(() => {
+        return items.slice(0, visibleCount);
+    }, [items, visibleCount]);
 
     return (
-        <Grid>
-            {filteredItems.map((item) => (
-                <InventoryCard key={item.id} item={item} />
-            ))}
-        </Grid>
+        <div className={styles.trackerContainer}>
+            <Grid>
+                {displayedItems.map((item) => (
+                    <InventoryCard key={item.id} item={item} />
+                ))}
+            </Grid>
+
+            {items.length > visibleCount && (
+                <div ref={loaderRef} className={styles.infiniteLoader}>
+                    <div className={styles.loaderLine} />
+                    <span>SCANNING REMAINING INVENTORY</span>
+                    <div className={styles.loaderLine} />
+                </div>
+            )}
+
+            <button
+                className={`${styles.backToTop} ${showTopButton ? styles.visible : ""}`}
+                onClick={scrollToTop}
+                aria-label="Back to top"
+            >
+                ▲
+            </button>
+        </div>
     );
 }

@@ -20,6 +20,10 @@ Here is what Frame Tracker can do:
     - **Track Parts**: Remember what components you have for each weapon
     - **Filtering**: Filter through everything in Warframe to see what you have the parts to craft or what you own, mastered or helminthed
 
+## Keybinds
+
+- `/` or `Ctrl + F`: Auto focus searchbar
+
 ## Changelog:
 
 - [Link](CHANGELOG.md)
