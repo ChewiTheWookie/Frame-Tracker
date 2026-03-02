@@ -4,9 +4,13 @@ use sqlx::SqlitePool;
 use std::collections::HashMap;
 
 pub async fn get_merged_inventory(pool: &SqlitePool) -> Result<Vec<serde_json::Value>, String> {
-    let progress_map = mastery::fetch_all_progress(pool).await.map_err(|e| e.to_string())?;
+    let (progress_result, wiki_result) = tokio::join!(
+        mastery::fetch_all_progress(pool),
+        get_wiki_data()
+    );
 
-    let wiki_items = get_wiki_data().await?;
+    let progress_map = progress_result.map_err(|e| e.to_string())?;
+    let wiki_items = wiki_result?;
 
     let merged = wiki_items
         .into_iter()
