@@ -2,6 +2,25 @@
 
 All notable changes to this project will be logged here
 
+## 0.1.6
+
+### ⚠️⚠️WARNING⚠️⚠️
+
+- THIS BUILD WILL BREAK YOUR SAVE
+- This version moves away from a .json save files for a local SQLite database
+- Version `0.1.5` will no longer be supported and unfortunatly due to low download count dev time will not be spent on importing json files to SQLite
+
+### Features
+
+- ✨ add keyboard shortcut for focusing the search bar with either `/` or `Ctrl + F`
+
+### Dev Notes
+
+- ✏️ moved from `.json` storage files in the frontend to a backend `SQLite` database
+- ✏️ add cach for API data fetched by `get_wiki_data` in `inventory.rs`
+- ✏️ moved search from fronted to backend
+- ✏️ add a maximum number of cards displayed to reduce latency with an automatic load more based on scrolling
+
 ## 0.1.5 (2026-02-28)
 
 ### Bug Fixes

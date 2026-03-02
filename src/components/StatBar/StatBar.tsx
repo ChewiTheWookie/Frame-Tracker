@@ -1,22 +1,23 @@
+import { useMemo } from "react";
 import { useInventoryStore } from "../../store/useInventoryStore";
 
 import styles from "./StatBar.module.css";
 
 export function StatBar() {
-    const items = useInventoryStore((state) => state.items);
+    const allItems = useInventoryStore((state) => state.allItems);
     const activeCategory = useInventoryStore((state) => state.activeCategory);
 
-    const filteredItems =
-        activeCategory === "All"
-            ? items
-            : items.filter((item) => item.category === activeCategory);
+    const categoryItems = useMemo(() => {
+        return activeCategory === "All"
+            ? allItems
+            : allItems.filter((item) => item.category === activeCategory);
+    }, [allItems, activeCategory]);
 
     const stats = {
-        mastered: filteredItems.filter((i) => i.mastered).length,
-        totalMastery: filteredItems.length,
-
-        fed: filteredItems.filter((i) => i.helminthed).length,
-        totalFed: filteredItems.filter((i) => i.isFeedable).length,
+        mastered: categoryItems.filter((i) => i.mastered).length,
+        totalMastery: categoryItems.length,
+        fed: categoryItems.filter((i) => i.helminthed).length,
+        totalFed: categoryItems.filter((i) => i.isFeedable).length,
     };
 
     const showFedStats = stats.totalFed > 0;

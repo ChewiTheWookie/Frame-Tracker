@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
-import { load, Store } from "@tauri-apps/plugin-store";
 import { Category, Item } from "../types/inventory";
 
 type ActiveCategory = Category | "All";
@@ -17,6 +16,7 @@ interface UserProgress {
 
 interface InventoryState {
     items: Item[];
+    allItems: Item[];
     loading: boolean;
     activeCategory: ActiveCategory;
     setActiveCategory: (cat: ActiveCategory) => void;
@@ -27,11 +27,9 @@ interface InventoryState {
         id: string,
         field: "mastered" | "helminthed" | "owned",
     ) => Promise<void>;
-    togglePart: (itemId: string, partName: string) => void;
-
+    togglePart: (itemId: string, partName: string) => Promise<void>;
     search: string;
     setSearch: (val: string) => void;
-
     filters: {
         nonPrimesOnly: boolean;
         primesOnly: boolean;
@@ -41,40 +39,25 @@ interface InventoryState {
         craftableOnly: boolean;
         ownedOnly: boolean;
     };
-    toggleFilter: (
-        key:
-            | "primesOnly"
-            | "hideFed"
-            | "nonPrimesOnly"
-            | "hideOwned"
-            | "hideUnowned"
-            | "craftableOnly"
-            | "ownedOnly",
-    ) => void;
-
+    toggleFilter: (key: keyof InventoryState["filters"]) => void;
     showAllBacks: boolean;
     toggleShowAllBacks: () => void;
+    visibleCount: number;
+    loadMore: () => void;
+    resetVisibleCount: () => void;
 }
 
-let store: Store | null = null;
-const getStore = async () => {
-    if (!store) {
-        store = await load("inventory.json", {
-            autoSave: 1000,
-            defaults: {},
-        });
-    }
-    return store;
-};
+let searchDebounceTimer: ReturnType<typeof setTimeout>;
+let currentSearchId = 0;
 
-export const useInventoryStore = create<InventoryState>((set) => ({
+export const useInventoryStore = create<InventoryState>((set, get) => ({
     items: [],
+    allItems: [],
     loading: false,
     activeCategory: "All",
     userProgress: {},
     saving: false,
     search: "",
-
     filters: {
         nonPrimesOnly: false,
         primesOnly: false,
@@ -84,160 +67,215 @@ export const useInventoryStore = create<InventoryState>((set) => ({
         craftableOnly: false,
         ownedOnly: false,
     },
-
     showAllBacks: false,
 
-    setSearch: (val) => set({ search: val }),
-    setActiveCategory: (cat) => set({ activeCategory: cat }),
+    visibleCount: 50,
+
+    loadMore: () => set((state) => ({ visibleCount: state.visibleCount + 50 })),
+
+    resetVisibleCount: () => set({ visibleCount: 50 }),
 
     fetchWikiData: async () => {
+        const requestId = ++currentSearchId;
+        const state = get();
+
         set({ loading: true });
+
         try {
-            const db = await getStore();
-            const savedData =
-                (await db.get<UserProgress>("user_progress")) || {};
-
-            const wikiData: any[] = await invoke("fetch_wiki_data");
-
-            const merged = wikiData.map((item) => {
-                const saved = savedData[item.id] || {};
-
-                let parts: Record<string, boolean> = {};
-                if (item.components && item.components.length > 0) {
-                    item.components.forEach((comp: any) => {
-                        parts[comp.name] = saved.parts?.[comp.name] ?? false;
-                    });
-                } else {
-                    parts = { Blueprint: saved.parts?.Blueprint ?? false };
-                }
-
-                return {
-                    ...item,
-                    mastered: saved.mastered ?? false,
-                    helminthed: saved.helminthed ?? false,
-                    owned: saved.owned ?? false,
-                    craftable: saved.craftable ?? false,
-                    parts,
-                };
+            const filteredItems: Item[] = await invoke("fetch_wiki_data", {
+                search: state.search,
+                activeCategory: state.activeCategory,
+                filters: state.filters,
             });
 
-            set({ items: merged, userProgress: savedData, loading: false });
+            if (state.allItems.length === 0) {
+                const fullList: Item[] = await invoke("fetch_wiki_data", {
+                    search: "",
+                    activeCategory: "All",
+                    filters: {
+                        nonPrimesOnly: false,
+                        primesOnly: false,
+                        hideFed: false,
+                        hideOwned: false,
+                        hideUnowned: false,
+                        craftableOnly: false,
+                        ownedOnly: false,
+                    },
+                });
+                set({ allItems: fullList });
+            }
+
+            if (requestId === currentSearchId) {
+                const progressMap: UserProgress = {};
+                filteredItems.forEach((item) => {
+                    progressMap[item.id] = {
+                        mastered: item.mastered,
+                        helminthed: item.helminthed,
+                        owned: item.owned,
+                        craftable: item.craftable,
+                        parts: item.parts,
+                    };
+                });
+
+                set({
+                    items: filteredItems,
+                    userProgress: progressMap,
+                    loading: false,
+                });
+            }
         } catch (error) {
-            console.error(error);
+            if (requestId === currentSearchId) {
+                console.error("Failed to fetch data:", error);
+                set({ loading: false });
+            }
         }
     },
 
-    togglePart: async (itemId, partName) => {
-        set({ saving: true });
-        set((state) => {
-            const itemIndex = state.items.findIndex((i) => i.id === itemId);
-            if (itemIndex === -1) return { saving: false };
+    setSearch: (val) => {
+        set({ search: val, visibleCount: 50 });
 
-            const currentItem = state.items[itemIndex];
-            const updatedParts = {
-                ...currentItem.parts,
-                [partName]: !currentItem.parts?.[partName],
-            };
+        clearTimeout(searchDebounceTimer);
 
-            const allPartsChecked = Object.values(updatedParts).every(
-                (v) => v === true,
-            );
-            const shouldBeCraftable = allPartsChecked && !currentItem.owned;
+        searchDebounceTimer = setTimeout(async () => {
+            const requestId = ++currentSearchId;
+            const { search, activeCategory, filters } = get();
 
-            const newUserProgress = {
-                ...state.userProgress,
-                [itemId]: {
-                    ...(state.userProgress[itemId] || {}),
-                    parts: updatedParts,
-                    craftable: shouldBeCraftable,
-                },
-            };
+            set({ loading: true });
+            try {
+                const mergedItems = await invoke("fetch_wiki_data", {
+                    search,
+                    activeCategory,
+                    filters,
+                });
 
-            const newItems = [...state.items];
-            newItems[itemIndex] = {
-                ...currentItem,
-                parts: updatedParts,
-                craftable: shouldBeCraftable,
-            };
-
-            saveProgressToDisk(newUserProgress).then(() =>
-                set({ saving: false }),
-            );
-            return { items: newItems, userProgress: newUserProgress };
-        });
+                if (requestId === currentSearchId) {
+                    set({ items: mergedItems as Item[], loading: false });
+                }
+            } catch (e) {
+                if (requestId === currentSearchId) {
+                    console.error(e);
+                    set({ loading: false });
+                }
+            }
+        }, 200);
     },
 
-    toggleStatus: async (id, field) => {
-        set({ saving: true });
-        set((state) => {
-            const itemIndex = state.items.findIndex((i) => i.id === id);
-            if (itemIndex === -1) return { saving: false };
-
-            const item = state.items[itemIndex];
-            const updatedStatus = {
-                mastered: field === "mastered" ? !item.mastered : item.mastered,
-                owned: field === "owned" ? !item.owned : item.owned,
-                helminthed:
-                    field === "helminthed" ? !item.helminthed : item.helminthed,
-            };
-
-            const allPartsChecked = Object.values(item.parts || {}).every(
-                (v) => v === true,
-            );
-            const isCraftable =
-                allPartsChecked &&
-                !updatedStatus.owned &&
-                !updatedStatus.mastered;
-
-            const newUserProgress = {
-                ...state.userProgress,
-                [id]: {
-                    ...state.userProgress[id],
-                    ...updatedStatus,
-                    craftable: isCraftable,
-                },
-            };
-
-            const newItems = [...state.items];
-            newItems[itemIndex] = {
-                ...item,
-                ...updatedStatus,
-                craftable: isCraftable,
-            };
-
-            saveProgressToDisk(newUserProgress).then(() =>
-                set({ saving: false }),
-            );
-            return { items: newItems, userProgress: newUserProgress };
-        });
+    setActiveCategory: (cat) => {
+        set({ activeCategory: cat, visibleCount: 50 });
+        get().fetchWikiData();
     },
 
     toggleFilter: (key) =>
         set((state) => {
-            const newFilters = { ...state.filters };
-
-            const filterKey = key as keyof typeof state.filters;
-            newFilters[key] = !newFilters[key];
-
+            const newFilters = { ...state.filters, [key]: !state.filters[key] };
             if (newFilters[key]) {
-                switch (filterKey) {
-                    case "primesOnly":
-                        newFilters.nonPrimesOnly = false;
-                        break;
-                    case "nonPrimesOnly":
-                        newFilters.primesOnly = false;
-                        break;
-                }
+                if (key === "primesOnly") newFilters.nonPrimesOnly = false;
+                if (key === "nonPrimesOnly") newFilters.primesOnly = false;
             }
-
+            set({ visibleCount: 50 });
+            setTimeout(() => get().fetchWikiData(), 0);
             return { filters: newFilters };
         }),
+
+    togglePart: async (id, partName) => {
+        const state = get();
+        const item = state.allItems.find((i) => i.id === id);
+        if (!item) return;
+
+        set({ saving: true });
+
+        const updatedParts = {
+            ...item.parts,
+            [partName]: !item.parts?.[partName],
+        };
+
+        const allPartsChecked = Object.values(updatedParts).every(
+            (v) => v === true,
+        );
+        const shouldBeCraftable =
+            allPartsChecked && !item.owned && !item.mastered;
+
+        const updatedProgress = {
+            ...(state.userProgress[id] || {
+                mastered: false,
+                owned: false,
+                helminthed: false,
+                craftable: false,
+                parts: {},
+            }),
+            parts: updatedParts,
+            craftable: shouldBeCraftable,
+        };
+
+        const updatedItem = { ...item, ...updatedProgress };
+
+        set({
+            items: state.items.map((i) => (i.id === id ? updatedItem : i)),
+            allItems: state.allItems.map((i) =>
+                i.id === id ? updatedItem : i,
+            ),
+            userProgress: { ...state.userProgress, [id]: updatedProgress },
+        });
+
+        saveProgress(id, updatedProgress).then(() => set({ saving: false }));
+    },
+
+    toggleStatus: async (id, field) => {
+        const state = get();
+        const item = state.allItems.find((i) => i.id === id);
+        if (!item) return;
+
+        set({ saving: true });
+        const updatedStatus = {
+            mastered: field === "mastered" ? !item.mastered : item.mastered,
+            owned: field === "owned" ? !item.owned : item.owned,
+            helminthed:
+                field === "helminthed" ? !item.helminthed : item.helminthed,
+        };
+
+        const allPartsChecked = Object.values(item.parts || {}).every(
+            (v) => v === true,
+        );
+        const isCraftable =
+            allPartsChecked && !updatedStatus.owned && !updatedStatus.mastered;
+
+        const updatedProgress = {
+            ...(state.userProgress[id] || {
+                mastered: false,
+                owned: false,
+                helminthed: false,
+                craftable: false,
+                parts: {},
+            }),
+            ...updatedStatus,
+            craftable: isCraftable,
+        };
+
+        const updatedItem = { ...item, ...updatedProgress };
+
+        set({
+            items: state.items.map((i) => (i.id === id ? updatedItem : i)),
+            allItems: state.allItems.map((i) =>
+                i.id === id ? updatedItem : i,
+            ),
+            userProgress: { ...state.userProgress, [id]: updatedProgress },
+        });
+
+        saveProgress(id, updatedProgress).then(() => set({ saving: false }));
+    },
 
     toggleShowAllBacks: () =>
         set((state) => ({ showAllBacks: !state.showAllBacks })),
 }));
 
-async function saveProgressToDisk(progress: UserProgress) {
-    const db = await getStore();
-    await db.set("user_progress", progress);
+async function saveProgress(itemId: string, progress: any) {
+    try {
+        await invoke("save_item_progress", {
+            id: itemId,
+            progress: progress,
+        });
+    } catch (e) {
+        console.error("Database save failed:", e);
+    } finally {
+    }
 }

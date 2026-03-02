@@ -16,12 +16,13 @@ export interface Item {
     id: string;
     name: string;
     image: string;
-    category: Category;
+    category: string;
     isPrime: boolean;
     isFeedable: boolean;
+    components: { name: string }[];
     mastered: boolean;
     helminthed: boolean;
-    craftable: boolean;
     owned: boolean;
-    parts?: Record<string, boolean>;
+    craftable: boolean;
+    parts: Record<string, boolean>;
 }

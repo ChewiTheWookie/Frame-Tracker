@@ -1,12 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useInventoryStore } from "../../store/useInventoryStore";
 import styles from "./SearchBar.module.css";
 
 export const SearchBar = () => {
-    const { search, setSearch, activeCategory, filters, toggleFilter } =
-        useInventoryStore();
+    const setSearch = useInventoryStore((state) => state.setSearch);
+    const search = useInventoryStore((state) => state.search);
+    const activeCategory = useInventoryStore((state) => state.activeCategory);
+    const [localSearch, setLocalSearch] = useState(search);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const { filters, toggleFilter } = useInventoryStore();
     const { showAllBacks, toggleShowAllBacks } = useInventoryStore();
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        const handleFocusRequest = () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            inputRef.current?.focus();
+        };
+
+        window.addEventListener("focus-search", handleFocusRequest);
+        return () =>
+            window.removeEventListener("focus-search", handleFocusRequest);
+    }, []);
+
+    useEffect(() => {
+        setLocalSearch(search);
+    }, [search]);
+
+    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value;
+        setLocalSearch(val);
+        setSearch(val);
+    };
 
     const tabs = [
         {
@@ -63,11 +89,12 @@ export const SearchBar = () => {
         <div className={styles.searchContainer}>
             <div className={styles.inputWrapper}>
                 <input
+                    ref={inputRef}
                     className={styles.searchInput}
                     type="text"
                     placeholder={`SEARCH ${activeCategory.toUpperCase()}...`}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    value={localSearch}
+                    onChange={handleTextChange}
                 />
                 <button
                     className={`${styles.filterToggleButton} ${isOpen ? styles.active : ""}`}

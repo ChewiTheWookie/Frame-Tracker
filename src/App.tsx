@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ROUTES } from "./routes/Routes";
 import { MASTERY_CATEGORIES } from "./types/inventory";
@@ -18,6 +18,26 @@ export function App() {
     const setActiveMasteryCat = useInventoryStore(
         (state) => state.setActiveCategory,
     );
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (
+                e.target instanceof HTMLInputElement ||
+                e.target instanceof HTMLTextAreaElement
+            ) {
+                return;
+            }
+
+            if (e.key === "/" || ((e.ctrlKey || e.metaKey) && e.key === "f")) {
+                e.preventDefault();
+
+                window.dispatchEvent(new CustomEvent("focus-search"));
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
 
     const renderCategoryTabs = () => {
         switch (location.pathname) {
