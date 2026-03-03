@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Features
 
 - ✨ add loading throbber in `Throbber.tsx` for `MasteryTracker.tsx`
+- ✨ add Weekly Tasks tracker
 
 ### Bug Fixes
 

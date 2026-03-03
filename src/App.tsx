@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ROUTES } from "./routes/Routes";
 import { MASTERY_CATEGORIES } from "./types/inventory";
+import { WEEKLY_CATEGORIES } from "./types/weekly";
 import { useInventoryStore } from "./store/useInventoryStore";
+import { useWeeklyStore } from "./store/useWeeklyStore";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
 import { CategoryTabs } from "./components/CategoryTabs";
@@ -16,6 +18,11 @@ export function App() {
 
     const activeMasteryCat = useInventoryStore((state) => state.activeCategory);
     const setActiveMasteryCat = useInventoryStore(
+        (state) => state.setActiveCategory,
+    );
+
+    const activeWeeklyCat = useWeeklyStore((state) => state.activeCategory);
+    const setActiveWeeklyCat = useWeeklyStore(
         (state) => state.setActiveCategory,
     );
 
@@ -48,6 +55,17 @@ export function App() {
                             categories={MASTERY_CATEGORIES}
                             activeCategory={activeMasteryCat}
                             onCategoryChange={setActiveMasteryCat}
+                        />
+                        <SearchControls />
+                    </>
+                );
+            case "/weekly":
+                return (
+                    <>
+                        <CategoryTabs
+                            categories={WEEKLY_CATEGORIES}
+                            activeCategory={activeWeeklyCat}
+                            onCategoryChange={setActiveWeeklyCat}
                         />
                         <SearchControls />
                     </>

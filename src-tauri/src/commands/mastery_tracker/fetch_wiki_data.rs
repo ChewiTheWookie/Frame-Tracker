@@ -1,6 +1,5 @@
-use crate::database::db::DbState;
-use crate::database::services::inventory;
-use crate::models::mastery_tracker::MasteryFilters;
+use crate::database::{ db::DbState, services::inventory };
+use crate::models::MasteryFilters;
 use tauri::State;
 
 #[tauri::command]

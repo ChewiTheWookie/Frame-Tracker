@@ -30,7 +30,10 @@ pub fn run() {
             tauri::generate_handler![
                 commands::mastery_tracker::fetch_wiki_data::fetch_wiki_data,
                 commands::mastery_tracker::save_item_progress::save_item_progress,
-                commands::mastery_tracker::get_all_user_progress::get_all_user_progress
+                commands::mastery_tracker::get_all_user_progress::get_all_user_progress,
+
+                commands::weekly_tracker::get_weekly_tasks::get_weekly_tasks,
+                commands::weekly_tracker::adjust_weekly_task::adjust_weekly_task
             ]
         )
         .run(tauri::generate_context!())

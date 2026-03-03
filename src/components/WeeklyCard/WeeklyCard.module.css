@@ -1,0 +1,41 @@
+.contentWrapper {
+    composes: contentWrapper from "../InventoryCard/InventoryCard.module.css";
+}
+
+.cardTitle {
+    composes: cardTitle from "../InventoryCard/InventoryCard.module.css";
+    margin-bottom: 5px;
+}
+
+.card-actions {
+    composes: card-actions from "../InventoryCard/InventoryCard.module.css";
+}
+
+.card-info {
+    margin-top: auto;
+}
+
+.categoryBadge {
+    text-align: center;
+    color: var(--color);
+    font-size: 1rem;
+}
+
+.counterOverlay {
+    text-align: center;
+    color: var(--color);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.partsList {
+    composes: partsList from "../InventoryCard/InventoryCard.module.css";
+}
+
+.partRow {
+    composes: partRow from "../InventoryCard/InventoryCard.module.css";
+}
+
+.mastered {
+    composes: mastered from "../InventoryCard/InventoryCard.module.css";
+}

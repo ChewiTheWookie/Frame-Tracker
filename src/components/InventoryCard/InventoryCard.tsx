@@ -31,7 +31,7 @@ export const InventoryCard = ({ item }: Props) => {
                 />
             </div>
             <div className={styles["card-info"]}>
-                <h4>{item.name}</h4>
+                <h4 className={styles["card-info-h4"]}>{item.name}</h4>
                 <div className={styles["card-actions"]}>
                     <CardButton
                         label="UNRANKED"
@@ -55,7 +55,7 @@ export const InventoryCard = ({ item }: Props) => {
 
     const BackContent = (
         <div className={`${styles.contentWrapper} ${statusClasses}`}>
-            <h4 className={styles.cardBackTitle}>{item.name}</h4>
+            <h4 className={styles.cardTitle}>{item.name}</h4>
             <div className={styles.partsList}>
                 {item.parts &&
                     Object.entries(item.parts).map(([partName, owned]) => (

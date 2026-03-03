@@ -1,45 +1,81 @@
 import { useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import { useInventoryStore } from "../../store/useInventoryStore";
+import { useWeeklyStore } from "../../store/useWeeklyStore";
 
 import styles from "./StatBar.module.css";
 
 export function StatBar() {
+    const location = useLocation();
+    const isWeeklyPage = location.pathname === "/weekly";
+
     const allItems = useInventoryStore((state) => state.allItems);
-    const activeCategory = useInventoryStore((state) => state.activeCategory);
+    const activeMasteryCat = useInventoryStore((state) => state.activeCategory);
 
-    const categoryItems = useMemo(() => {
-        return activeCategory === "All"
-            ? allItems
-            : allItems.filter((item) => item.category === activeCategory);
-    }, [allItems, activeCategory]);
+    const weeklyTasks = useWeeklyStore((state) => state.tasks);
+    const activeWeeklyCat = useWeeklyStore((state) => state.activeCategory);
 
-    const stats = {
-        mastered: categoryItems.filter((i) => i.mastered).length,
-        totalMastery: categoryItems.length,
-        fed: categoryItems.filter((i) => i.helminthed).length,
-        totalFed: categoryItems.filter((i) => i.isFeedable).length,
-    };
+    const stats = useMemo(() => {
+        if (isWeeklyPage) {
+            const filtered =
+                activeWeeklyCat === "All"
+                    ? weeklyTasks
+                    : weeklyTasks.filter((t) => t.category === activeWeeklyCat);
 
-    const showFedStats = stats.totalFed > 0;
+            return {
+                label: "COMPLETED",
+                current: filtered.filter(
+                    (t) => t.currentCompletions >= t.maxCompletions,
+                ).length,
+                total: filtered.length,
+                showSecondary: false,
+            };
+        } else {
+            const filtered =
+                activeMasteryCat === "All"
+                    ? allItems
+                    : allItems.filter(
+                          (item) => item.category === activeMasteryCat,
+                      );
+
+            return {
+                label: "MASTERED",
+                current: filtered.filter((i) => i.mastered).length,
+                total: filtered.length,
+                secondaryLabel: "FED",
+                secondaryCurrent: filtered.filter((i) => i.helminthed).length,
+                secondaryTotal: filtered.filter((i) => i.isFeedable).length,
+                showSecondary: filtered.filter((i) => i.isFeedable).length > 0,
+            };
+        }
+    }, [
+        isWeeklyPage,
+        allItems,
+        activeMasteryCat,
+        weeklyTasks,
+        activeWeeklyCat,
+    ]);
 
     return (
         <div className={styles.statsBar}>
             <div className={styles.statItem}>
-                <span className={styles.statLabel}>MASTERED</span>
+                <span className={styles.statLabel}>{stats.label}</span>
                 <span className={styles.statValue}>
-                    {stats.mastered}
-                    <span>/{stats.totalMastery}</span>
+                    {stats.current}
+                    <span>/{stats.total}</span>
                 </span>
             </div>
 
-            {showFedStats && (
+            {stats.showSecondary && (
                 <>
                     <div className={styles.statDivider} />
                     <div className={styles.statItem}>
-                        <span className={styles.statLabel}>FED</span>
+                        <span className={styles.statLabel}>
+                            {stats.secondaryLabel}
+                        </span>
                         <span className={styles.statValue}>
-                            {stats.fed}
-                            <span>/{stats.totalFed}</span>
+                            {stats.secondaryCurrent}
+                            <span>/{stats.secondaryTotal}</span>
                         </span>
                     </div>
                 </>

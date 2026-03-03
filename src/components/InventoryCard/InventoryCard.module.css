@@ -73,7 +73,7 @@
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
 
-.card-info h4 {
+.card-info-h4 {
     margin: 5px 0 15px 0;
     color: var(--color);
     text-transform: uppercase;
@@ -88,7 +88,7 @@
     margin-top: auto;
 }
 
-.cardBackTitle {
+.cardTitle {
     margin: 10px 0 15px 0;
     color: var(--color);
     font-size: 1.2rem;

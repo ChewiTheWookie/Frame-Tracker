@@ -1,4 +1,7 @@
-use crate::models::mastery_tracker::ProcessedItem;
+use crate::{
+    database::services::seed_weekly_tasks::seed_weekly_tasks,
+    models::mastery_tracker::ProcessedItem,
+};
 use sqlx::sqlite::SqlitePool;
 use serde::{ Deserialize, Serialize };
 use std::sync::Arc;
@@ -37,6 +40,23 @@ pub async fn init_db(app_data_dir: std::path::PathBuf) -> SqlitePool {
     )
         .execute(&pool).await
         .unwrap();
+
+    sqlx::query(
+        "CREATE TABLE IF NOT EXISTS weekly_tasks (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        category TEXT NOT NULL,
+        current_completions INTEGER NOT NULL DEFAULT 0,
+        max_completions INTEGER NOT NULL DEFAULT 1,
+        last_reset TEXT NOT NULL
+    )"
+    )
+        .execute(&pool).await
+        .unwrap();
+
+    if let Err(e) = seed_weekly_tasks(&pool).await {
+        eprintln!("Failed to seed weekly tasks: {}", e);
+    }
 
     pool
 }

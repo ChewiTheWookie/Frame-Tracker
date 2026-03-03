@@ -1,9 +1,8 @@
 use crate::api::requests::get_wiki_data;
 use crate::database::services::mastery;
-use crate::models::mastery_tracker::{ MasteryFilters, ProcessedItem };
+use crate::models::{ mastery_tracker::ProcessedItem, MasteryFilters };
 use sqlx::SqlitePool;
-use std::collections::HashMap;
-use std::sync::Arc;
+use std::{ collections::HashMap, sync::Arc };
 use tokio::sync::Mutex;
 
 pub async fn get_merged_inventory(
