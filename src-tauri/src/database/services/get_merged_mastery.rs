@@ -1,11 +1,11 @@
 use crate::api::requests::get_wiki_data;
-use crate::database::services::mastery;
+use crate::database::services::mastery_service;
 use crate::models::{ mastery_tracker::ProcessedItem, MasteryFilters };
 use sqlx::SqlitePool;
 use std::{ collections::HashMap, sync::Arc };
 use tokio::sync::Mutex;
 
-pub async fn get_merged_inventory(
+pub async fn get_merged_mastery(
     pool: &SqlitePool,
     cache: &Arc<Mutex<Option<Vec<ProcessedItem>>>>,
     search: String,
@@ -24,7 +24,7 @@ pub async fn get_merged_inventory(
 
     drop(cache_lock);
 
-    let progress_map = mastery::fetch_all_progress(pool).await.map_err(|e| e.to_string())?;
+    let progress_map = mastery_service::fetch_all_progress(pool).await.map_err(|e| e.to_string())?;
 
     let search_lower = search.to_lowercase();
 
