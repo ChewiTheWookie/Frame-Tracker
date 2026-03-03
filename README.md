@@ -1,6 +1,6 @@
 # Frame Tracker
 
-[![version badge](https://img.shields.io/github/v/release/ChewiTheWookie/Frame-Tracker)](https://github.com/ChewiTheWookie/Frame-Tracker/releases/latest) [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE) [![Changelog](https://img.shields.io/badge/Changelog-%2314e31f?style=flat)](CHANGELOG.md)
+[![version badge](https://img.shields.io/github/v/release/ChewiTheWookie/Frame-Tracker)](https://github.com/ChewiTheWookie/Frame-Tracker/releases/latest) [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE.txt) [![Changelog](https://img.shields.io/badge/Changelog-%2314e31f?style=flat)](CHANGELOG.md)
 
 Third-party companion app for Warframe built in Tauri with React, TypeScript and Rust to track various things along your Warframe journey.
 
