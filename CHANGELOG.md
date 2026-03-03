@@ -12,6 +12,7 @@ All notable changes to this project will be logged here
 ### Dev Notes
 
 - ✏️ Replaced almost all hardcoded colors
+- ✏️ Added route specific filters for `SearchBar.tsx` advanced filters
 
 ## 0.1.6
 

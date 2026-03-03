@@ -1,17 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 import { useInventoryStore } from "../../store/useInventoryStore";
+import { ROUTES } from "../../routes/Routes";
+import { getFilters } from "../../types/filters";
+
 import styles from "./SearchBar.module.css";
 
 export const SearchBar = () => {
+    const store = useInventoryStore();
     const setSearch = useInventoryStore((state) => state.setSearch);
     const search = useInventoryStore((state) => state.search);
     const activeCategory = useInventoryStore((state) => state.activeCategory);
     const [localSearch, setLocalSearch] = useState(search);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const { filters, toggleFilter } = useInventoryStore();
-    const { showAllBacks, toggleShowAllBacks } = useInventoryStore();
     const [isOpen, setIsOpen] = useState(false);
+
+    const currentRouteKey = ROUTES.find(
+        (r) => r.path === location.pathname,
+    )?.key;
+
+    const tabs = getFilters(store, currentRouteKey);
 
     useEffect(() => {
         const handleFocusRequest = () => {
@@ -33,57 +41,6 @@ export const SearchBar = () => {
         setLocalSearch(val);
         setSearch(val);
     };
-
-    const tabs = [
-        {
-            key: "showAllBacks",
-            name: "SHOW ALL BACKS",
-            checked: showAllBacks,
-            onChange: toggleShowAllBacks,
-        },
-        {
-            key: "nonPrimesOnly",
-            name: "HIDE PRIMES",
-            checked: filters.nonPrimesOnly,
-            onChange: () => toggleFilter("nonPrimesOnly"),
-        },
-        {
-            key: "primesOnly",
-            name: "HIDE NON PRIMES",
-            checked: filters.primesOnly,
-            onChange: () => toggleFilter("primesOnly"),
-        },
-        {
-            key: "hideUnowned",
-            name: "HIDE UNOWNED",
-            checked: filters.hideUnowned,
-            onChange: () => toggleFilter("hideUnowned"),
-        },
-        {
-            key: "craftableOnly",
-            name: "HIDE CRAFTABLE",
-            checked: filters.craftableOnly,
-            onChange: () => toggleFilter("craftableOnly"),
-        },
-        {
-            key: "ownedOnly",
-            name: "HIDE OWNED",
-            checked: filters.ownedOnly,
-            onChange: () => toggleFilter("ownedOnly"),
-        },
-        {
-            key: "hideOwned",
-            name: "HIDE MASTERED",
-            checked: filters.hideOwned,
-            onChange: () => toggleFilter("hideOwned"),
-        },
-        {
-            key: "hideFed",
-            name: "HIDE HELMINTHED",
-            checked: filters.hideFed,
-            onChange: () => toggleFilter("hideFed"),
-        },
-    ];
 
     return (
         <div className={styles.searchContainer}>
