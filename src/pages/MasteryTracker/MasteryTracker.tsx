@@ -4,9 +4,11 @@ import { InventoryCard } from "../../components/InventoryCard";
 import { Grid } from "../../components/Grid";
 
 import styles from "./MasteryTracker.module.css";
+import { Throbber } from "../../components/Throbber";
 
 export function MasteryTracker() {
     const items = useInventoryStore((state) => state.items);
+    // const loading = useInventoryStore((state) => state.loading);
     const visibleCount = useInventoryStore((state) => state.visibleCount);
     const loadMore = useInventoryStore((state) => state.loadMore);
     const fetchWikiData = useInventoryStore((state) => state.fetchWikiData);
@@ -57,20 +59,28 @@ export function MasteryTracker() {
         return items.slice(0, visibleCount);
     }, [items, visibleCount]);
 
+    const loading = true;
+
     return (
         <div className={styles.trackerContainer}>
-            <Grid>
-                {displayedItems.map((item) => (
-                    <InventoryCard key={item.id} item={item} />
-                ))}
-            </Grid>
+            {loading && items.length === 0 ? (
+                <Throbber />
+            ) : (
+                <>
+                    <Grid>
+                        {displayedItems.map((item) => (
+                            <InventoryCard key={item.id} item={item} />
+                        ))}
+                    </Grid>
 
-            {items.length > visibleCount && (
-                <div ref={loaderRef} className={styles.infiniteLoader}>
-                    <div className={styles.loaderLine} />
-                    <span>SCANNING REMAINING INVENTORY</span>
-                    <div className={styles.loaderLine} />
-                </div>
+                    {items.length > visibleCount && (
+                        <div ref={loaderRef} className={styles.infiniteLoader}>
+                            <div className={styles.loaderLine} />
+                            <span>SCANNING REMAINING INVENTORY</span>
+                            <div className={styles.loaderLine} />
+                        </div>
+                    )}
+                </>
             )}
 
             <button

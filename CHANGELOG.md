@@ -4,6 +4,10 @@ All notable changes to this project will be logged here
 
 ## 0.1.7
 
+### Features
+
+- ✨ add loading throbber in `Throbber.tsx` for `MasteryTracker.tsx`
+
 ### Bug Fixes
 
 - 🛠️ fix light theme
