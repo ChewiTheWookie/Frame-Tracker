@@ -5,7 +5,7 @@
     justify-content: center;
     width: fit-content;
     min-width: min-content;
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--btn-bg);
     border: 1px solid var(--accent);
     border-radius: 4px;
     padding: 5px 15px;

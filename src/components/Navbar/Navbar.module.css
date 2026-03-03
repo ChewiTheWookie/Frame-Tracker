@@ -34,7 +34,7 @@
 .navLink {
     background: none;
     border: none;
-    color: #888;
+    color: var(--color);
     font-size: 1.1rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -45,7 +45,7 @@
 }
 
 .navLink:hover {
-    color: #fff;
+    color: var(--color-glow);
 }
 
 .navLink.active {
@@ -54,5 +54,5 @@
 }
 
 .navLink.active:hover {
-    color: #fff;
+    color: var(--color-glow);
 }
