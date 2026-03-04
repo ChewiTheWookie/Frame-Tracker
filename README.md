@@ -12,7 +12,7 @@ Third-party companion app for Warframe built in Tauri with React, TypeScript and
 
 Here is what Frame Tracker can do:
 
-#### Mastery Tracking
+### Mastery Tracking
 
 - **Track Parts**: Remember what components you have for each weapon
 - **Filtering & Search**: Filter and search through everything in Warframe to see what you have the parts to craft or what you own, mastered or helminthed
