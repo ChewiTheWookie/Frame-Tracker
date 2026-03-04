@@ -1,5 +1,5 @@
 use crate::database::db::{ DbState, DbUserProgress };
-use crate::database::services::mastery;
+use crate::database::services::mastery_service;
 use tauri::State;
 
 #[tauri::command]
@@ -8,5 +8,5 @@ pub async fn save_item_progress(
     progress: DbUserProgress,
     state: State<'_, DbState>
 ) -> Result<(), String> {
-    mastery::save_progress(&state.pool, &id, &progress).await.map_err(|e| e.to_string())
+    mastery_service::save_progress(&state.pool, &id, &progress).await.map_err(|e| e.to_string())
 }

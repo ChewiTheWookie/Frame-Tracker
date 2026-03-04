@@ -1,89 +1,43 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { useInventoryStore } from "../../store/useInventoryStore";
+import { useWeeklyStore } from "../../store/useWeeklyStore";
+import { ROUTES } from "../../routes/Routes";
+import { getFilters } from "../../types/filters";
+
 import styles from "./SearchBar.module.css";
 
 export const SearchBar = () => {
-    const setSearch = useInventoryStore((state) => state.setSearch);
-    const search = useInventoryStore((state) => state.search);
-    const activeCategory = useInventoryStore((state) => state.activeCategory);
-    const [localSearch, setLocalSearch] = useState(search);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const location = useLocation();
+    const inventoryStore = useInventoryStore();
+    const weeklyStore = useWeeklyStore();
 
-    const { filters, toggleFilter } = useInventoryStore();
-    const { showAllBacks, toggleShowAllBacks } = useInventoryStore();
+    const currentRouteKey = ROUTES.find(
+        (r) => r.path === location.pathname,
+    )?.key;
+
+    const isWeekly = currentRouteKey === "weekly";
+    const activeStore = isWeekly ? weeklyStore : inventoryStore;
+
+    const [localSearch, setLocalSearch] = useState(activeStore.search);
+    const inputRef = useRef<HTMLInputElement>(null);
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        const handleFocusRequest = () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            inputRef.current?.focus();
-        };
+        setLocalSearch(activeStore.search);
+    }, [activeStore.search, location.pathname]);
 
-        window.addEventListener("focus-search", handleFocusRequest);
-        return () =>
-            window.removeEventListener("focus-search", handleFocusRequest);
-    }, []);
-
-    useEffect(() => {
-        setLocalSearch(search);
-    }, [search]);
+    const tabs = getFilters(activeStore, currentRouteKey);
 
     const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setLocalSearch(val);
-        setSearch(val);
+        activeStore.setSearch(val);
     };
 
-    const tabs = [
-        {
-            key: "showAllBacks",
-            name: "SHOW ALL BACKS",
-            checked: showAllBacks,
-            onChange: toggleShowAllBacks,
-        },
-        {
-            key: "nonPrimesOnly",
-            name: "HIDE PRIMES",
-            checked: filters.nonPrimesOnly,
-            onChange: () => toggleFilter("nonPrimesOnly"),
-        },
-        {
-            key: "primesOnly",
-            name: "HIDE NON PRIMES",
-            checked: filters.primesOnly,
-            onChange: () => toggleFilter("primesOnly"),
-        },
-        {
-            key: "hideUnowned",
-            name: "HIDE UNOWNED",
-            checked: filters.hideUnowned,
-            onChange: () => toggleFilter("hideUnowned"),
-        },
-        {
-            key: "craftableOnly",
-            name: "HIDE CRAFTABLE",
-            checked: filters.craftableOnly,
-            onChange: () => toggleFilter("craftableOnly"),
-        },
-        {
-            key: "ownedOnly",
-            name: "HIDE OWNED",
-            checked: filters.ownedOnly,
-            onChange: () => toggleFilter("ownedOnly"),
-        },
-        {
-            key: "hideOwned",
-            name: "HIDE MASTERED",
-            checked: filters.hideOwned,
-            onChange: () => toggleFilter("hideOwned"),
-        },
-        {
-            key: "hideFed",
-            name: "HIDE HELMINTHED",
-            checked: filters.hideFed,
-            onChange: () => toggleFilter("hideFed"),
-        },
-    ];
+    const activeCategoryDisplay = isWeekly
+        ? weeklyStore.activeCategory
+        : inventoryStore.activeCategory;
 
     return (
         <div className={styles.searchContainer}>
@@ -92,7 +46,7 @@ export const SearchBar = () => {
                     ref={inputRef}
                     className={styles.searchInput}
                     type="text"
-                    placeholder={`SEARCH ${activeCategory.toUpperCase()}...`}
+                    placeholder={`SEARCH ${activeCategoryDisplay.toUpperCase()}...`}
                     value={localSearch}
                     onChange={handleTextChange}
                 />

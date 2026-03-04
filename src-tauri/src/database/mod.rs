@@ -1,7 +1,9 @@
 // Dir
 pub mod services {
-    pub mod mastery;
-    pub mod inventory;
+    pub mod mastery_service;
+    pub mod get_merged_mastery;
+    pub mod seed_weekly_tasks;
+    pub mod weekly_service;
 }
 
 // Files

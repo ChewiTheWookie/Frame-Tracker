@@ -1,6 +1,5 @@
-use crate::database::db::DbState;
-use crate::database::services::inventory;
-use crate::models::mastery_tracker::MasteryFilters;
+use crate::database::{ db::DbState, services::get_merged_mastery };
+use crate::models::MasteryFilters;
 use tauri::State;
 
 #[tauri::command]
@@ -10,7 +9,7 @@ pub async fn fetch_wiki_data(
     active_category: String,
     filters: MasteryFilters
 ) -> Result<Vec<serde_json::Value>, String> {
-    inventory::get_merged_inventory(
+    get_merged_mastery::get_merged_mastery(
         &state.pool,
         &state.wiki_cache,
         search,

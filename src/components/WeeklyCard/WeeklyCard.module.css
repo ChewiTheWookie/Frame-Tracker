@@ -1,0 +1,106 @@
+.contentWrapper {
+    composes: contentWrapper from "../Card/Card.module.css";
+}
+
+.cardTitle {
+    composes: cardTitle from "../Card/Card.module.css";
+    margin-bottom: 5px;
+}
+
+.cardActions {
+    composes: cardActions from "../Card/Card.module.css";
+}
+
+.cardInfo {
+    margin-top: auto;
+}
+
+.categoryBadge {
+    text-align: center;
+    color: var(--color);
+    font-size: 1rem;
+}
+
+.counterOverlay {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    color: var(--color);
+    font-size: 1rem;
+    margin: 0 0.3rem 0.6rem 0.3rem;
+}
+
+.counterItem:first-child {
+    justify-self: start;
+}
+
+.counterItem:last-child {
+    justify-self: end;
+}
+
+.detailsList {
+    composes: partsList from "../Card/Card.module.css";
+}
+
+.detailRow {
+    composes: partRow from "../Card/Card.module.css";
+    cursor: default;
+    font-size: 0.8rem;
+}
+
+.mastered {
+    composes: mastered from "../Card/Card.module.css";
+}
+
+.tagContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tagBadge {
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border: 1px solid;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.45);
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.mission {
+    color: #00d1ff;
+    border-color: #00d1ff;
+}
+
+.trade {
+    color: #ff4d4d;
+    border-color: #ff4d4d;
+}
+
+.craft {
+    color: #e0d647;
+    border-color: #e0d647;
+}
+
+.syndicate {
+    color: #48cf43;
+    border-color: #48cf43;
+}
+
+.searchpulse {
+    color: #fff;
+    border-color: #fff;
+}
+
+.task {
+    color: #e239e2;
+    border-color: #e239e2;
+}
+
+.misc {
+    color: #888;
+    border-color: #888;
+}

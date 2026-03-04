@@ -2,26 +2,47 @@ body {
     background-color: #0f0f0f;
     color: #e0e0e0;
     margin: 0;
+
+    --craftable: #ffae00;
+    --owned: #00e5ff;
+    --mastered: #c1ac6c;
+    --helminthed: #a34eb0;
 }
 
 .dark {
     background-color: #0c0b13;
-    color: #c1b1ff;
     --bg: #0c0b13;
-    --card-bg: #161421;
-    --card-border: #312d4a;
-    --btn-bg: #1f1c2e;
+
+    --color: #bbbbbb;
+    --color-glow: #fff;
+    --card-bg: #0f1419cc;
+    --card-border: #c1ac6c4d;
+    --border-secondary: rgba(255, 255, 255, 0.1);
+    --btn-bg: #0000004d;
     --accent: #9a80ff;
     --accent-glow: rgba(154, 128, 255, 0.3);
+
+    --craftable-glow: #ffae0026;
+    --owned-glow: #00e5ff26;
+    --mastered-glow: #c1ac6c26;
+    --helminthed-glow: #a34eb026;
 }
 
 .light {
     background-color: #e6e2d3;
     --bg: #e6e2d3;
-    color: #3d3a33;
-    --card-bg: #f5f2e8;
-    --card-border: #d4cbb3;
-    --btn-bg: #dfd8c4;
+
+    --color: #343028;
+    --color-glow: #c5a059;
+    --card-bg: #bdb9a9f2;
+    --card-border: #7e6d4380;
+    --border-secondary: rgba(32, 31, 27, 0.2);
+    --btn-bg: #615d544d;
     --accent: #c2a35d;
-    --accent-glow: rgba(194, 163, 93, 0.4);
+    --accent-glow: rgba(194, 163, 93, 0.3);
+
+    --craftable-glow: #ffae0050;
+    --owned-glow: #00e5ff55;
+    --mastered-glow: #d1b04375;
+    --helminthed-glow: #a34eb055;
 }

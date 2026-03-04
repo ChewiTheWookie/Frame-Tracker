@@ -1,8 +1,9 @@
 import { Item } from "../../types/inventory";
 import { useInventoryStore } from "../../store/useInventoryStore";
 import { Card } from "../Card/Card";
-import styles from "./InventoryCard.module.css";
 import { CardButton } from "../CardButton";
+
+import styles from "./InventoryCard.module.css";
 
 interface Props {
     item: Item;
@@ -20,7 +21,7 @@ export const InventoryCard = ({ item }: Props) => {
 
     const FrontContent = (
         <div className={`${styles.contentWrapper} ${statusClasses}`}>
-            <div className={styles["image-container"]}>
+            <div className={styles.imageContainer}>
                 <img
                     src={item.image}
                     alt={item.name}
@@ -30,9 +31,9 @@ export const InventoryCard = ({ item }: Props) => {
                     }
                 />
             </div>
-            <div className={styles["card-info"]}>
-                <h4>{item.name}</h4>
-                <div className={styles["card-actions"]}>
+            <div>
+                <h4 className={styles.cardInfoH4}>{item.name}</h4>
+                <div className={styles.cardActions}>
                     <CardButton
                         label="UNRANKED"
                         activeLabel="MASTERED"
@@ -55,7 +56,7 @@ export const InventoryCard = ({ item }: Props) => {
 
     const BackContent = (
         <div className={`${styles.contentWrapper} ${statusClasses}`}>
-            <h4 className={styles.cardBackTitle}>{item.name}</h4>
+            <h4 className={styles.cardTitle}>{item.name}</h4>
             <div className={styles.partsList}>
                 {item.parts &&
                     Object.entries(item.parts).map(([partName, owned]) => (
@@ -74,7 +75,7 @@ export const InventoryCard = ({ item }: Props) => {
                         </div>
                     ))}
             </div>
-            <div className={styles["card-actions"]}>
+            <div className={styles.cardActions}>
                 <CardButton
                     label="UNOWNED"
                     activeLabel="OWNED"

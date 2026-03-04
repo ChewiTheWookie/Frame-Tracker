@@ -2,6 +2,23 @@
 
 All notable changes to this project will be logged here
 
+## 0.1.7
+
+### Features
+
+- ✨ add loading throbber in `Throbber.tsx` for `MasteryTracker.tsx`
+- ✨ add Weekly Tasks tracker
+
+### Bug Fixes
+
+- 🛠️ fix light theme
+- 🛠️ fix card button not having a hover animation
+
+### Dev Notes
+
+- ✏️ Replaced almost all hardcoded colors
+- ✏️ Added route specific filters for `SearchBar.tsx` advanced filters
+
 ## 0.1.6
 
 ### ⚠️⚠️WARNING⚠️⚠️
@@ -25,7 +42,7 @@ All notable changes to this project will be logged here
 
 ### Bug Fixes
 
-- 🛠️add `Arquebex` to the archweapon category
+- 🛠️ add `Arquebex` to the archweapon category
 - 🛠️ add `Cranial Foremount` to the `resouce.rs` ignore list
 - 🛠️ Fix `All` Category not showing up in `Mastery Tracker`
 

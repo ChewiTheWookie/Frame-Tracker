@@ -1,78 +1,47 @@
 .contentWrapper {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    background: rgba(15, 20, 25, 0.8);
-    border: 1px solid rgba(193, 172, 108, 0.3);
-    padding: 1.25rem;
-    backdrop-filter: blur(5px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    composes: contentWrapper from "../Card/Card.module.css";
 }
 
 .craftable {
-    border-color: rgb(255, 174, 0) !important;
-    box-shadow: inset 0 0 10px #ffae0026;
+    border-color: var(--craftable) !important;
+    box-shadow: 0 0 15px var(--craftable-glow);
     background: linear-gradient(
         135deg,
-        rgba(15, 20, 25, 1) 0%,
-        rgba(255, 174, 0, 0.1) 100%
+        var(--card-bg) 0%,
+        var(--craftable-glow) 100%
     );
-}
-
-.craftable .card-info h4 {
-    color: #ffae00;
-    text-shadow: 0 0 8px rgba(255, 174, 0, 0.4);
 }
 
 .owned {
-    border-color: #00e5ff !important;
-    box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.15);
+    border-color: var(--owned) !important;
+    box-shadow: 0 0 15px var(--owned-glow);
     background: linear-gradient(
         135deg,
-        rgba(15, 20, 25, 1) 0%,
-        rgba(0, 229, 255, 0.1) 100%
+        var(--card-bg) 0%,
+        var(--owned-glow) 100%
     );
-}
-
-.owned .card-info h4 {
-    color: #00e5ff;
-    text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
 }
 
 .helminthed {
-    border-color: #a34eb0 !important;
-    box-shadow: 0 0 15px rgba(163, 78, 176, 0.4);
-}
-
-.helminthed .card-info h4 {
-    color: #a34eb0;
-    text-shadow: 0 0 8px rgba(#a34eb0 0.4);
-}
-
-.mastered {
-    border-color: #c1ac6c !important;
-    box-shadow: inset 0 0 10px rgba(193, 172, 108, 0.1);
+    border-color: var(--helminthed) !important;
+    box-shadow: 0 0 15px var(--helminthed-glow);
     background: linear-gradient(
         135deg,
-        rgba(15, 20, 25, 1) 0%,
-        rgba(193, 172, 108, 0.15) 100%
+        var(--card-bg) 0%,
+        var(--helminthed-glow) 100%
     );
 }
 
-.mastered.helminthed.card-info h4,
-.mastered .card-info h4 {
-    color: #c1ac6c;
-    text-shadow: 0 0 8px rgba(#c1ac6c 0.4);
+.mastered {
+    composes: mastered from "../Card/Card.module.css";
 }
 
 .mastered.helminthed {
-    border-color: #c1ac6c !important;
-    outline: 2px solid #a34eb0;
+    border-color: var(--mastered) !important;
+    outline: 2px solid var(--helminthed);
 }
 
-.image-container {
+.imageContainer {
     width: 100%;
     aspect-ratio: 16/9;
     background: rgba(0, 0, 0, 0.2);
@@ -82,68 +51,49 @@
     margin-bottom: 10px;
 }
 
-.image-container img {
+.imageContainer img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
 
-.card-info h4 {
+.cardInfoH4 {
     margin: 5px 0 15px 0;
-    color: #e0e0e0;
+    color: var(--color);
     text-transform: uppercase;
     letter-spacing: 1.75px;
     font-size: 0.9rem;
     text-align: center;
 }
 
-.card-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: auto;
+.cardActions {
+    composes: cardActions from "../Card/Card.module.css";
 }
 
-.cardBackTitle {
-    margin: 10px 0 15px 0;
-    color: #e0e0e0;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    text-align: center;
+.cardTitle {
+    composes: cardTitle from "../Card/Card.module.css";
 }
 
 .partsList {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 10px;
-    flex: 1;
-    overflow-y: auto;
+    composes: partsList from "../Card/Card.module.css";
 }
 
 .partRow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    color: #d8d8d8;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+    composes: partRow from "../Card/Card.module.css";
 }
 
 .partRow:hover {
-    color: #fff;
+    color: var(--color-glow);
 }
 
 .checkbox {
     width: 18px;
     height: 18px;
-    border: 1px solid rgba(193, 172, 108, 0.5);
-    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--card-border);
+    background: var(--btn-bg);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #c1ac6c;
+    color: var(--mastered);
 }

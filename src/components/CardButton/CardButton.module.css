@@ -1,8 +1,8 @@
-.action-btn {
+.actionBtn {
     flex: 1;
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #aaa;
+    border: 1px solid var(--card-border);
+    color: var(--color);
     padding: 6px 0;
     font-size: 0.7rem;
     font-weight: bold;
@@ -11,13 +11,25 @@
     letter-spacing: 1px;
 }
 
+.actionBtn:hover {
+    box-shadow: 0 0 8px var(--card-border);
+}
+
 .active {
-    background: #c1ac6c;
+    background: var(--mastered);
     color: #000 !important;
-    border-color: #c1ac6c;
+    border-color: var(--mastered);
+}
+
+.actve:hover {
+    box-shadow: 0 0 20px var(--mastered);
 }
 
 .active.helminth {
-    background: #a34eb0;
-    border-color: #a34eb0;
+    background: var(--helminthed);
+    border-color: var(--helminthed);
+}
+
+.active.helminth:hover {
+    box-shadow: 0 0 10px var(--helminthed);
 }

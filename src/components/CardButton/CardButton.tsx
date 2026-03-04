@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "./CardButton.module.css";
 
 interface CardButtonProps {
@@ -26,7 +27,7 @@ export const CardButton = ({
     return (
         <button
             className={`
-                ${styles["action-btn"]} 
+                ${styles.actionBtn} 
                 ${isActive ? styles.active : ""} 
                 ${variant === "helminth" ? styles.helminth : ""} 
                 ${className}

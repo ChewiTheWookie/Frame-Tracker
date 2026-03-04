@@ -1,5 +1,5 @@
 use crate::database::db::{ DbState, DbUserProgress };
-use crate::database::services::mastery;
+use crate::database::services::mastery_service;
 use tauri::State;
 use std::collections::HashMap;
 
@@ -7,5 +7,5 @@ use std::collections::HashMap;
 pub async fn get_all_user_progress(
     state: State<'_, DbState>
 ) -> Result<HashMap<String, DbUserProgress>, String> {
-    mastery::fetch_all_progress(&state.pool).await.map_err(|e| e.to_string())
+    mastery_service::fetch_all_progress(&state.pool).await.map_err(|e| e.to_string())
 }

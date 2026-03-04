@@ -1,18 +1,22 @@
 // Dir
 pub mod mastery_tracker {
-    pub mod mastery_item;
-    pub use mastery_item::{ Component, WikiItem, ProcessedItem };
+    pub mod item;
+    pub use item::{ Component, WikiItem, ProcessedItem };
 
-    pub mod mastery_mapping;
-    pub use mastery_mapping::{ CATEGORIES };
+    pub mod mapping;
+    pub use mapping::{ CATEGORIES };
 
-    pub mod mastery_exclusions;
-    pub use mastery_exclusions::{ EXCLUSIONS };
+    pub mod exclusions;
+    pub use exclusions::{ EXCLUSIONS };
+}
 
-    pub mod mastery_filters;
-    pub use mastery_filters::{ MasteryFilters };
+pub mod weekly_tracker {
+    pub mod tasks;
 }
 
 // Files
 pub mod resources;
 pub use resources::RESOURCES;
+
+pub mod filters;
+pub use filters::{ MasteryFilters };
