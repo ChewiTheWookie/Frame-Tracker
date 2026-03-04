@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
-import { WeeklyTask, WeeklyCategories } from "../types/weekly";
+import { WeeklyTask, WeeklyCategories, TAG_FILTER_MAP } from "../types/weekly";
 
 interface WeeklyState {
     tasks: WeeklyTask[];
@@ -9,13 +9,46 @@ interface WeeklyState {
     setActiveCategory: (cat: WeeklyCategories) => void;
     fetchTasks: () => Promise<void>;
     adjustTask: (id: string, isIncrement: boolean) => Promise<void>;
+    search: string;
+    showAllBacks: boolean;
+    filters: {
+        hideCompleted: boolean;
+        hideIncompleted: boolean;
+    } & Record<keyof typeof TAG_FILTER_MAP, boolean>;
+    setSearch: (val: string) => void;
+    toggleShowAllBacks: () => void;
+    toggleFilter: (key: string) => void;
 }
 
 export const useWeeklyStore = create<WeeklyState>((set, get) => ({
     tasks: [],
     isLoading: false,
     activeCategory: "All",
+    search: "",
+    showAllBacks: false,
+    filters: {
+        hideCompleted: false,
+        hideIncompleted: false,
+        hideMission: false,
+        hideTrade: false,
+        hideCraft: false,
+        hideSyndicate: false,
+        hideSearchPulse: false,
+        hideMisc: false,
+        hideTask: false,
+    },
+
     setActiveCategory: (activeCategory) => set({ activeCategory }),
+    setSearch: (search) => set({ search }),
+    toggleShowAllBacks: () =>
+        set((state) => ({ showAllBacks: !state.showAllBacks })),
+    toggleFilter: (key) =>
+        set((state) => ({
+            filters: {
+                ...state.filters,
+                [key]: !state.filters[key as keyof typeof state.filters],
+            },
+        })),
 
     fetchTasks: async () => {
         set({ isLoading: true });

@@ -38,11 +38,11 @@
     justify-self: end;
 }
 
-.partsList {
+.detailsList {
     composes: partsList from "../Card/Card.module.css";
 }
 
-.partRow {
+.detailRow {
     composes: partRow from "../Card/Card.module.css";
 }
 
@@ -66,4 +66,39 @@
     letter-spacing: 0.5px;
     pointer-events: none;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.mission {
+    color: #00d1ff;
+    border-color: #00d1ff;
+}
+
+.trade {
+    color: #ff4d4d;
+    border-color: #ff4d4d;
+}
+
+.craft {
+    color: #e0d647;
+    border-color: #e0d647;
+}
+
+.syndicate {
+    color: #48cf43;
+    border-color: #48cf43;
+}
+
+.searchpulse {
+    color: #fff;
+    border-color: #fff;
+}
+
+.task {
+    color: #e239e2;
+    border-color: #e239e2;
+}
+
+.misc {
+    color: #888;
+    border-color: #888;
 }

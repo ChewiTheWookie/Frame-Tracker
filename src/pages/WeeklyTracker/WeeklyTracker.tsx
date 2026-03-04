@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useWeeklyStore } from "../../store/useWeeklyStore";
+import { TAG_FILTER_MAP } from "../../types/weekly";
 import { WeeklyCard } from "../../components/WeeklyCard/WeeklyCard";
 import { Grid } from "../../components/Grid";
 import { Throbber } from "../../components/Throbber";
@@ -7,16 +8,44 @@ import { Throbber } from "../../components/Throbber";
 import styles from "./WeeklyTracker.module.css";
 
 export function WeeklyTracker() {
-    const { tasks, isLoading, fetchTasks, activeCategory } = useWeeklyStore();
+    const { tasks, isLoading, fetchTasks, activeCategory, search, filters } =
+        useWeeklyStore();
 
     useEffect(() => {
         fetchTasks();
     }, [fetchTasks]);
 
     const filteredTasks = useMemo(() => {
-        if (activeCategory === "All") return tasks;
-        return tasks.filter((task) => task.category === activeCategory);
-    }, [tasks, activeCategory]);
+        return tasks.filter((task) => {
+            if (activeCategory !== "All" && task.category !== activeCategory)
+                return false;
+
+            const searchLower = search.toLowerCase();
+            const matchesSearch =
+                task.name.toLowerCase().includes(searchLower) ||
+                (task.location?.toLowerCase().includes(searchLower) ?? false) ||
+                (task.terminal?.toLowerCase().includes(searchLower) ?? false);
+
+            if (!matchesSearch) return false;
+
+            const isDone = task.currentCompletions >= task.maxCompletions;
+
+            if (filters.hideCompleted && isDone) return false;
+            if (filters.hideIncompleted && !isDone) return false;
+
+            const isHiddenByTags = Object.entries(TAG_FILTER_MAP).some(
+                ([filterKey, tagName]) => {
+                    const isFilterActive =
+                        filters[filterKey as keyof typeof filters];
+                    return isFilterActive && task.tags?.includes(tagName);
+                },
+            );
+
+            if (isHiddenByTags) return false;
+
+            return true;
+        });
+    }, [tasks, activeCategory, search, filters]);
 
     if (isLoading && tasks.length === 0) {
         return <Throbber />;
@@ -32,7 +61,7 @@ export function WeeklyTracker() {
                 </Grid>
             ) : (
                 <div className={styles.noResults}>
-                    <p>No tasks found for category: {activeCategory}</p>
+                    <p>No tasks match your current filters or search query.</p>
                 </div>
             )}
         </div>

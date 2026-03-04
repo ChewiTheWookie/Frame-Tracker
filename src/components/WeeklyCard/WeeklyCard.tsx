@@ -1,5 +1,5 @@
-import { WeeklyTask } from "../../types/weekly";
 import { useWeeklyStore } from "../../store/useWeeklyStore";
+import { WeeklyTask } from "../../types/weekly";
 import { Card } from "../Card/Card";
 import { CardButton } from "../CardButton";
 
@@ -10,27 +10,17 @@ interface Props {
 }
 
 export const WeeklyCard = ({ task }: Props) => {
-    const { adjustTask } = useWeeklyStore();
+    const { adjustTask, showAllBacks } = useWeeklyStore();
 
-    const isDone = task.currentCompletions >= task.maxCompletions;
-
-    const getTagColor = (tag: string) => {
-        if (tag === "Trade") return "#ff4d4d";
-        if (tag === "Mission") return "#00d1ff";
-        if (tag === "Craft") return "#c1ac6c";
-        return "#888";
-    };
+    const isCompleted = task.currentCompletions >= task.maxCompletions;
+    const isAtZero = task.currentCompletions === 0;
 
     const TagList = task.tags && task.tags.length > 0 && (
         <div className={styles.tagContainer}>
             {task.tags.map((tag) => (
                 <span
                     key={tag}
-                    className={styles.tagBadge}
-                    style={{
-                        borderColor: getTagColor(tag),
-                        color: getTagColor(tag),
-                    }}
+                    className={`${styles.tagBadge} ${styles[tag.toLowerCase()] || ""}`}
                 >
                     {tag.toUpperCase()}
                 </span>
@@ -38,16 +28,11 @@ export const WeeklyCard = ({ task }: Props) => {
         </div>
     );
 
-    const statusClasses = `
-        ${isDone ? styles.mastered : ""} 
-        ${task.currentCompletions > 0 && !isDone ? styles.owned : ""}
-    `;
-
     const FrontContent = (
-        <div className={`${styles.contentWrapper} ${statusClasses}`}>
+        <div
+            className={`${styles.contentWrapper} ${isCompleted ? styles.mastered : ""}`}
+        >
             <h4 className={styles.cardTitle}>{task.name}</h4>
-            <div className={styles.categoryBadge}>{task.category}</div>
-
             <div className={styles.cardInfo}>
                 <div className={styles.counterOverlay}>
                     <span className={styles.counterItem}>{TagList}</span>
@@ -56,12 +41,19 @@ export const WeeklyCard = ({ task }: Props) => {
                     </span>
                 </div>
                 <div className={styles.cardActions}>
+                    {!isAtZero && (
+                        <CardButton
+                            label="-"
+                            isActive={false}
+                            onClick={() => adjustTask(task.id, false)}
+                        />
+                    )}
                     <CardButton
-                        label="COMPLETE"
+                        label="+"
+                        isActive={isCompleted}
                         activeLabel="COMPLETED"
-                        isActive={isDone}
                         onClick={() => {
-                            if (!isDone) adjustTask(task.id, true);
+                            if (!isCompleted) adjustTask(task.id, true);
                         }}
                     />
                 </div>
@@ -70,30 +62,45 @@ export const WeeklyCard = ({ task }: Props) => {
     );
 
     const BackContent = (
-        <div className={`${styles.contentWrapper} ${statusClasses}`}>
+        <div className={`${styles.contentWrapper} ${styles.back}`}>
             <h4 className={styles.cardTitle}>{task.name}</h4>
-            <div className={styles.partsList}>
-                <div className={styles.partRow}>
-                    <span>Current: {task.currentCompletions}</span>
-                </div>
-                <div className={styles.partRow}>
-                    <span>Limit: {task.maxCompletions}</span>
-                </div>
-            </div>
 
-            <div className={styles.cardActions}>
-                <CardButton
-                    label="RESET PROGRESS"
-                    isActive={task.currentCompletions > 0}
-                    onClick={() => {
-                        if (task.currentCompletions > 0) {
-                            adjustTask(task.id, false);
-                        }
-                    }}
-                />
+            <div className={styles.detailsList}>
+                {task.location && (
+                    <div className={styles.detailRow}>
+                        <span>📍:</span>
+                        <span>{task.location}</span>
+                    </div>
+                )}
+                {task.terminal && (
+                    <div className={styles.detailRow}>
+                        <span>🖥️:</span>
+                        <span>{task.terminal}</span>
+                    </div>
+                )}
+                {task.questRequired && (
+                    <div className={styles.detailRow}>
+                        <span>📜:</span>
+                        <span>{task.questRequired}</span>
+                    </div>
+                )}
+                <div className={styles.detailRow}>
+                    <span>🔄:</span>
+                    <span>
+                        {task.resetInterval === "8h_world"
+                            ? "8 Hours"
+                            : task.category}
+                    </span>
+                </div>
             </div>
         </div>
     );
 
-    return <Card front={FrontContent} back={BackContent} />;
+    return (
+        <Card
+            front={FrontContent}
+            back={BackContent}
+            isFlippedContent={showAllBacks}
+        />
+    );
 };

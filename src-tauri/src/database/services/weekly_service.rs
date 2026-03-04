@@ -105,41 +105,77 @@ pub async fn adjust_weekly_task(
 ) -> Result<(), sqlx::Error> {
     let mut tx = pool.begin().await?;
 
-    if id == "deep_archimedea" {
-        let new_val = if is_increment { 1 } else { 0 };
-        sqlx
-            ::query("UPDATE weekly_tasks SET current_completions = ? WHERE id = 'deep_archimedea'")
-            .bind(new_val)
-            .execute(&mut *tx).await?;
+    let archimedea_ids = ["deep_archimedea", "elite_deep_archimedea", "elite_temporal_archimedea"];
 
-        let pulse_change = if is_increment { 2 } else { -2 };
+    if archimedea_ids.contains(&id.as_ref()) {
+        let active_archimedea: Option<(String,)> = sqlx
+            ::query_as(
+                "SELECT id FROM weekly_tasks WHERE id IN ('deep_archimedea', 'elite_deep_archimedea', 'elite_temporal_archimedea') AND current_completions > 0"
+            )
+            .fetch_optional(&mut *tx).await?;
+
+        let was_any_active = active_archimedea.is_some();
+        let active_id = active_archimedea.map(|(s,)| s);
+
+        if is_increment {
+            if active_id.as_deref() != Some(id) {
+                sqlx
+                    ::query("UPDATE weekly_tasks SET current_completions = 1 WHERE id = ?")
+                    .bind(id)
+                    .execute(&mut *tx).await?;
+
+                for other_id in archimedea_ids.iter().filter(|&&x| x != id) {
+                    sqlx
+                        ::query("UPDATE weekly_tasks SET current_completions = 0 WHERE id = ?")
+                        .bind(other_id)
+                        .execute(&mut *tx).await?;
+                }
+
+                if !was_any_active {
+                    sqlx
+                        ::query(
+                            "UPDATE weekly_tasks SET current_completions = MIN(max_completions, current_completions + 2) WHERE id = 'netracells'"
+                        )
+                        .execute(&mut *tx).await?;
+                }
+            }
+        } else {
+            if active_id.as_deref() == Some(id) {
+                sqlx
+                    ::query("UPDATE weekly_tasks SET current_completions = 0 WHERE id = ?")
+                    .bind(id)
+                    .execute(&mut *tx).await?;
+
+                sqlx
+                    ::query(
+                        "UPDATE weekly_tasks SET current_completions = MAX(0, current_completions - 2) WHERE id = 'netracells'"
+                    )
+                    .execute(&mut *tx).await?;
+            }
+        }
+    } else if id == "netracells" {
+        let any_da_active: (i32,) = sqlx
+            ::query_as(
+                "SELECT COUNT(*) FROM weekly_tasks WHERE id IN ('deep_archimedea', 'elite_deep_archimedea', 'elite_temporal_archimedea') AND current_completions > 0"
+            )
+            .fetch_one(&mut *tx).await?;
+
+        let floor = if any_da_active.0 > 0 { 2 } else { 0 };
+        let amount = if is_increment { 1 } else { -1 };
+
         sqlx
             ::query(
                 "UPDATE weekly_tasks 
              SET current_completions = CASE 
                 WHEN ? > 0 THEN MIN(max_completions, current_completions + ?)
-                ELSE MAX(0, current_completions + ?)
+                ELSE MAX(?, current_completions + ?)
              END 
              WHERE id = 'netracells'"
             )
-            .bind(pulse_change)
-            .bind(pulse_change)
-            .bind(pulse_change)
-            .execute(&mut *tx).await?;
-    } else if id == "netracells" && !is_increment {
-        let da_status: (i32,) = sqlx
-            ::query_as("SELECT current_completions FROM weekly_tasks WHERE id = 'deep_archimedea'")
-            .fetch_one(&mut *tx).await?;
-
-        let floor = if da_status.0 > 0 { 2 } else { 0 };
-
-        sqlx
-            ::query(
-                "UPDATE weekly_tasks 
-             SET current_completions = MAX(?, current_completions - 1) 
-             WHERE id = 'netracells'"
-            )
+            .bind(amount)
+            .bind(amount)
             .bind(floor)
+            .bind(amount)
             .execute(&mut *tx).await?;
     } else {
         let amount = if is_increment { 1 } else { -1 };

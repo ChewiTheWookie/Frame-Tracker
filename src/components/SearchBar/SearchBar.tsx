@@ -1,46 +1,43 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { useInventoryStore } from "../../store/useInventoryStore";
+import { useWeeklyStore } from "../../store/useWeeklyStore";
 import { ROUTES } from "../../routes/Routes";
 import { getFilters } from "../../types/filters";
 
 import styles from "./SearchBar.module.css";
 
 export const SearchBar = () => {
-    const store = useInventoryStore();
-    const setSearch = useInventoryStore((state) => state.setSearch);
-    const search = useInventoryStore((state) => state.search);
-    const activeCategory = useInventoryStore((state) => state.activeCategory);
-    const [localSearch, setLocalSearch] = useState(search);
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    const [isOpen, setIsOpen] = useState(false);
+    const location = useLocation();
+    const inventoryStore = useInventoryStore();
+    const weeklyStore = useWeeklyStore();
 
     const currentRouteKey = ROUTES.find(
         (r) => r.path === location.pathname,
     )?.key;
 
-    const tabs = getFilters(store, currentRouteKey);
+    const isWeekly = currentRouteKey === "weekly";
+    const activeStore = isWeekly ? weeklyStore : inventoryStore;
+
+    const [localSearch, setLocalSearch] = useState(activeStore.search);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        const handleFocusRequest = () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            inputRef.current?.focus();
-        };
+        setLocalSearch(activeStore.search);
+    }, [activeStore.search, location.pathname]);
 
-        window.addEventListener("focus-search", handleFocusRequest);
-        return () =>
-            window.removeEventListener("focus-search", handleFocusRequest);
-    }, []);
-
-    useEffect(() => {
-        setLocalSearch(search);
-    }, [search]);
+    const tabs = getFilters(activeStore, currentRouteKey);
 
     const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setLocalSearch(val);
-        setSearch(val);
+        activeStore.setSearch(val);
     };
+
+    const activeCategoryDisplay = isWeekly
+        ? weeklyStore.activeCategory
+        : inventoryStore.activeCategory;
 
     return (
         <div className={styles.searchContainer}>
@@ -49,7 +46,7 @@ export const SearchBar = () => {
                     ref={inputRef}
                     className={styles.searchInput}
                     type="text"
-                    placeholder={`SEARCH ${activeCategory.toUpperCase()}...`}
+                    placeholder={`SEARCH ${activeCategoryDisplay.toUpperCase()}...`}
                     value={localSearch}
                     onChange={handleTextChange}
                 />
