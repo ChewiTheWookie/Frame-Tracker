@@ -44,6 +44,8 @@
 
 .detailRow {
     composes: partRow from "../Card/Card.module.css";
+    cursor: default;
+    font-size: 0.8rem;
 }
 
 .mastered {
