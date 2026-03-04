@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 0.1.8
+
+### Bug Fixes
+
+- 🛠️ fix `Baro Ki'Tieer` not having the correct name in `task.rs`
+
 ## 0.1.7
 
 ### Features
