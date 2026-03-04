@@ -39,15 +39,3 @@
         opacity: 1;
     }
 }
-
-.loaderLine {
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--accent-glow),
-        transparent
-    );
-    margin: 10px auto;
-    width: 200px;
-}

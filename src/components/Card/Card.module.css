@@ -31,3 +31,61 @@
 .cardBack {
     transform: rotateY(180deg);
 }
+
+.contentWrapper {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.25rem;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.cardActions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.cardTitle {
+    margin: 10px 0 15px 0;
+    color: var(--color);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    text-align: center;
+}
+
+.partsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.partRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    color: var(--color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.mastered {
+    border-color: var(--mastered) !important;
+    box-shadow: 0 0 15px var(--mastered-glow);
+    background: linear-gradient(
+        135deg,
+        var(--card-bg) 0%,
+        var(--mastered-glow) 100%
+    );
+}

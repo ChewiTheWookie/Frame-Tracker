@@ -1,17 +1,17 @@
 .contentWrapper {
-    composes: contentWrapper from "../InventoryCard/InventoryCard.module.css";
+    composes: contentWrapper from "../Card/Card.module.css";
 }
 
 .cardTitle {
-    composes: cardTitle from "../InventoryCard/InventoryCard.module.css";
+    composes: cardTitle from "../Card/Card.module.css";
     margin-bottom: 5px;
 }
 
-.card-actions {
-    composes: card-actions from "../InventoryCard/InventoryCard.module.css";
+.cardActions {
+    composes: cardActions from "../Card/Card.module.css";
 }
 
-.card-info {
+.cardInfo {
     margin-top: auto;
 }
 
@@ -29,13 +29,13 @@
 }
 
 .partsList {
-    composes: partsList from "../InventoryCard/InventoryCard.module.css";
+    composes: partsList from "../Card/Card.module.css";
 }
 
 .partRow {
-    composes: partRow from "../InventoryCard/InventoryCard.module.css";
+    composes: partRow from "../Card/Card.module.css";
 }
 
 .mastered {
-    composes: mastered from "../InventoryCard/InventoryCard.module.css";
+    composes: mastered from "../Card/Card.module.css";
 }

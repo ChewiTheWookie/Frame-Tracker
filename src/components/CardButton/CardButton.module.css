@@ -1,4 +1,4 @@
-.action-btn {
+.actionBtn {
     flex: 1;
     background: transparent;
     border: 1px solid var(--card-border);
@@ -11,7 +11,7 @@
     letter-spacing: 1px;
 }
 
-.action-btn:hover {
+.actionBtn:hover {
     box-shadow: 0 0 8px var(--card-border);
 }
 

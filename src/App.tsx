@@ -50,25 +50,19 @@ export function App() {
         switch (location.pathname) {
             case "/":
                 return (
-                    <>
-                        <CategoryTabs
-                            categories={MASTERY_CATEGORIES}
-                            activeCategory={activeMasteryCat}
-                            onCategoryChange={setActiveMasteryCat}
-                        />
-                        <SearchControls />
-                    </>
+                    <CategoryTabs
+                        categories={MASTERY_CATEGORIES}
+                        activeCategory={activeMasteryCat}
+                        onCategoryChange={setActiveMasteryCat}
+                    />
                 );
             case "/weekly":
                 return (
-                    <>
-                        <CategoryTabs
-                            categories={WEEKLY_CATEGORIES}
-                            activeCategory={activeWeeklyCat}
-                            onCategoryChange={setActiveWeeklyCat}
-                        />
-                        <SearchControls />
-                    </>
+                    <CategoryTabs
+                        categories={WEEKLY_CATEGORIES}
+                        activeCategory={activeWeeklyCat}
+                        onCategoryChange={setActiveWeeklyCat}
+                    />
                 );
             default:
                 return null;
@@ -76,7 +70,7 @@ export function App() {
     };
 
     return (
-        <div className={`${styles.appContainer} `}>
+        <div className={styles.appContainer}>
             <Navbar isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
 
             <div className={styles.topSection}>
@@ -91,7 +85,10 @@ export function App() {
                     </div>
                     <ThemeButton />
                 </header>
-                <nav>{renderCategoryTabs()}</nav>
+                <nav>
+                    {renderCategoryTabs()}
+                    <SearchControls />
+                </nav>
             </div>
 
             <main>

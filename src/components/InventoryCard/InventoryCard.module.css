@@ -1,14 +1,5 @@
 .contentWrapper {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    padding: 1.25rem;
-    backdrop-filter: blur(5px);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+    composes: contentWrapper from "../Card/Card.module.css";
 }
 
 .craftable {
@@ -42,13 +33,7 @@
 }
 
 .mastered {
-    border-color: var(--mastered) !important;
-    box-shadow: 0 0 15px var(--mastered-glow);
-    background: linear-gradient(
-        135deg,
-        var(--card-bg) 0%,
-        var(--mastered-glow) 100%
-    );
+    composes: mastered from "../Card/Card.module.css";
 }
 
 .mastered.helminthed {
@@ -56,7 +41,7 @@
     outline: 2px solid var(--helminthed);
 }
 
-.image-container {
+.imageContainer {
     width: 100%;
     aspect-ratio: 16/9;
     background: rgba(0, 0, 0, 0.2);
@@ -66,14 +51,14 @@
     margin-bottom: 10px;
 }
 
-.image-container img {
+.imageContainer img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
 
-.card-info-h4 {
+.cardInfoH4 {
     margin: 5px 0 15px 0;
     color: var(--color);
     text-transform: uppercase;
@@ -82,39 +67,20 @@
     text-align: center;
 }
 
-.card-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: auto;
+.cardActions {
+    composes: cardActions from "../Card/Card.module.css";
 }
 
 .cardTitle {
-    margin: 10px 0 15px 0;
-    color: var(--color);
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    text-align: center;
+    composes: cardTitle from "../Card/Card.module.css";
 }
 
 .partsList {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 10px;
-    flex: 1;
-    overflow-y: auto;
+    composes: partsList from "../Card/Card.module.css";
 }
 
 .partRow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    color: var(--color);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+    composes: partRow from "../Card/Card.module.css";
 }
 
 .partRow:hover {

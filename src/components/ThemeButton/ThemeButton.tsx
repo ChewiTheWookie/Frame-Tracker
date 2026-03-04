@@ -11,5 +11,3 @@ export function ThemeButton() {
         </button>
     );
 }
-
-export default ThemeButton;

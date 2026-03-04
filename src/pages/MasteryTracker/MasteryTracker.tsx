@@ -2,13 +2,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useInventoryStore } from "../../store/useInventoryStore";
 import { InventoryCard } from "../../components/InventoryCard";
 import { Grid } from "../../components/Grid";
+import { Throbber } from "../../components/Throbber";
 
 import styles from "./MasteryTracker.module.css";
-import { Throbber } from "../../components/Throbber";
 
 export function MasteryTracker() {
     const items = useInventoryStore((state) => state.items);
-    // const loading = useInventoryStore((state) => state.loading);
+    const loading = useInventoryStore((state) => state.loading);
     const visibleCount = useInventoryStore((state) => state.visibleCount);
     const loadMore = useInventoryStore((state) => state.loadMore);
     const fetchWikiData = useInventoryStore((state) => state.fetchWikiData);
@@ -58,8 +58,6 @@ export function MasteryTracker() {
     const displayedItems = useMemo(() => {
         return items.slice(0, visibleCount);
     }, [items, visibleCount]);
-
-    const loading = true;
 
     return (
         <div className={styles.trackerContainer}>

@@ -24,14 +24,14 @@ export const WeeklyCard = ({ task }: Props) => {
             <h4 className={styles.cardTitle}>{task.name}</h4>
             <div className={styles.categoryBadge}>{task.category}</div>
 
-            <div className={styles["card-info"]}>
+            <div className={styles.cardInfo}>
                 <div className={styles.counterOverlay}>
                     {task.currentCompletions} / {task.maxCompletions}
                 </div>
-                <div className={styles["card-actions"]}>
+                <div className={styles.cardActions}>
                     <CardButton
-                        label="INCOMPLETE"
-                        activeLabel="COMPLETE"
+                        label="COMPLETE"
+                        activeLabel="COMPLETED"
                         isActive={isDone}
                         onClick={() => {
                             if (!isDone) adjustTask(task.id, true);
@@ -54,7 +54,7 @@ export const WeeklyCard = ({ task }: Props) => {
                 </div>
             </div>
 
-            <div className={styles["card-actions"]}>
+            <div className={styles.cardActions}>
                 <CardButton
                     label="RESET PROGRESS"
                     isActive={task.currentCompletions > 0}
