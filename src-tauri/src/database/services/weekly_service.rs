@@ -1,6 +1,6 @@
 use crate::models::weekly_tracker::tasks::{ WeeklyTask };
 use sqlx::SqlitePool;
-use chrono::{ DateTime, Utc, Datelike, Duration };
+use chrono::{ DateTime, Utc, Datelike, Duration, Timelike };
 
 fn is_past_monday_reset(last_reset: &DateTime<Utc>, now: &DateTime<Utc>) -> bool {
     let days_since_last = now.signed_duration_since(*last_reset).num_days();
@@ -15,6 +15,20 @@ fn is_past_monday_reset(last_reset: &DateTime<Utc>, now: &DateTime<Utc>) -> bool
 }
 
 fn check_custom_interval(last_reset: &DateTime<Utc>, interval: &str, now: &DateTime<Utc>) -> bool {
+    if interval == "8h_world" {
+        let current_hour = now.hour();
+        let last_boundary_hour = (current_hour / 8) * 8;
+
+        let last_boundary = now
+            .date_naive()
+            .and_hms_opt(last_boundary_hour, 0, 0)
+            .unwrap()
+            .and_local_timezone(Utc)
+            .unwrap();
+
+        return last_reset < &last_boundary;
+    }
+
     let unit = interval.chars().last().unwrap_or(' ');
     let value = interval[..interval.len() - 1].parse::<i64>().unwrap_or(0);
 
@@ -30,9 +44,7 @@ fn check_custom_interval(last_reset: &DateTime<Utc>, interval: &str, now: &DateT
 
 pub async fn get_all_weekly_tasks(pool: &SqlitePool) -> Result<Vec<WeeklyTask>, sqlx::Error> {
     let mut tasks = sqlx
-        ::query_as::<_, WeeklyTask>(
-            "SELECT id, name, category, current_completions, max_completions, last_reset, tags, reset_interval FROM weekly_tasks"
-        )
+        ::query_as::<_, WeeklyTask>("SELECT * FROM weekly_tasks")
         .fetch_all(pool).await?;
 
     let now = Utc::now();
