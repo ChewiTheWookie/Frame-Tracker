@@ -10,13 +10,13 @@ export const MASTERY_CATEGORIES = [
     "Modular",
 ] as const;
 
-export type Category = (typeof MASTERY_CATEGORIES)[number];
+export type MasteryCategories = (typeof MASTERY_CATEGORIES)[number];
 
 export interface Item {
     id: string;
     name: string;
     image: string;
-    category: string;
+    category: MasteryCategories;
     isPrime: boolean;
     isFeedable: boolean;
     components: { name: string }[];

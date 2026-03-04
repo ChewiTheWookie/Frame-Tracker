@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
-import { Category, Item } from "../types/inventory";
+import { MasteryCategories, Item } from "../types/inventory";
 
-type ActiveCategory = Category | "All";
+type ActiveCategory = MasteryCategories | "All";
 
 interface UserProgress {
     [itemId: string]: {

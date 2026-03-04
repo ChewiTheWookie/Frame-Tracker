@@ -43,13 +43,19 @@ pub async fn init_db(app_data_dir: std::path::PathBuf) -> SqlitePool {
 
     sqlx::query(
         "CREATE TABLE IF NOT EXISTS weekly_tasks (
-        id TEXT PRIMARY KEY,
-        name TEXT NOT NULL,
-        category TEXT NOT NULL,
-        current_completions INTEGER NOT NULL DEFAULT 0,
-        max_completions INTEGER NOT NULL DEFAULT 1,
-        last_reset TEXT NOT NULL
-    )"
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            category TEXT NOT NULL,
+            current_completions INTEGER NOT NULL DEFAULT 0,
+            max_completions INTEGER NOT NULL DEFAULT 1,
+            last_reset TEXT NOT NULL,
+            tags TEXT,
+            reset_interval TEXT,
+            location TEXT,
+            terminal TEXT,
+            quest_required TEXT,
+            icon TEXT
+        )"
     )
         .execute(&pool).await
         .unwrap();

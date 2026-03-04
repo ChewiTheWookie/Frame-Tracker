@@ -14,6 +14,30 @@ export const WeeklyCard = ({ task }: Props) => {
 
     const isDone = task.currentCompletions >= task.maxCompletions;
 
+    const getTagColor = (tag: string) => {
+        if (tag === "Trade") return "#ff4d4d";
+        if (tag === "Mission") return "#00d1ff";
+        if (tag === "Craft") return "#c1ac6c";
+        return "#888";
+    };
+
+    const TagList = task.tags && task.tags.length > 0 && (
+        <div className={styles.tagContainer}>
+            {task.tags.map((tag) => (
+                <span
+                    key={tag}
+                    className={styles.tagBadge}
+                    style={{
+                        borderColor: getTagColor(tag),
+                        color: getTagColor(tag),
+                    }}
+                >
+                    {tag.toUpperCase()}
+                </span>
+            ))}
+        </div>
+    );
+
     const statusClasses = `
         ${isDone ? styles.mastered : ""} 
         ${task.currentCompletions > 0 && !isDone ? styles.owned : ""}
@@ -26,7 +50,10 @@ export const WeeklyCard = ({ task }: Props) => {
 
             <div className={styles.cardInfo}>
                 <div className={styles.counterOverlay}>
-                    {task.currentCompletions} / {task.maxCompletions}
+                    <span className={styles.counterItem}>{TagList}</span>
+                    <span className={styles.counterItem}>
+                        {task.currentCompletions} / {task.maxCompletions}
+                    </span>
                 </div>
                 <div className={styles.cardActions}>
                     <CardButton

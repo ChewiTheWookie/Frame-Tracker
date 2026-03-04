@@ -1,30 +1,146 @@
 use serde::{ Deserialize, Serialize };
-use sqlx::FromRow;
 
-#[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
+#[derive(Debug, Serialize, Deserialize, sqlx::FromRow)]
 #[serde(rename_all = "camelCase")]
+#[sqlx(rename_all = "snake_case")]
 pub struct WeeklyTask {
     pub id: String,
     pub name: String,
     pub category: String,
-
-    #[sqlx(rename = "current_completions")]
     pub current_completions: i32,
-
-    #[sqlx(rename = "max_completions")]
     pub max_completions: i32,
-
-    #[sqlx(rename = "last_reset")]
     pub last_reset: String,
+    pub tags: Option<String>,
+    pub reset_interval: Option<String>,
+    pub location: Option<String>,
+    pub terminal: Option<String>,
+    pub quest_required: Option<String>,
+    pub icon: Option<String>,
 }
 
-pub const DEFAULT_WEEKLY_TASKS: [(&str, &str, &str, i32, i32); 7] = [
-    ("sortie", "Sortie", "Daily", 0, 1),
+pub const DEFAULT_WEEKLY_TASKS: &[
+    (
+        &str,
+        &str,
+        &str,
+        i32,
+        i32,
+        Option<&str>,
+        Option<&str>,
+        Option<&str>,
+        Option<&str>,
+        Option<&str>,
+        Option<&str>,
+    )
+] = &[
+    // ? Key, Name, Category, Current Completion, Max Completion, Last Reset, Tags, Reset Interval, Location, Terminal, Quest Required, Icon
 
-    ("archon_hunt", "Archon Hunt", "Weekly", 0, 1),
-    ("netracells", "Netracells", "Weekly", 0, 5),
-    ("deep_archimedea", "Deep Archimedea", "Weekly", 0, 1),
-    ("kahl_mission", "Kahl's Mission", "Weekly", 0, 1),
-    ("circuit", "Circuit", "Weekly", 0, 1),
-    ("circuit_steel", "Steel Path Circuit", "Weekly", 0, 1),
+    ("sortie", "Sortie", "Daily", 0, 1, Some("[\"Mission\"]"), None, None, None, None, None),
+    (
+        "iron_wake",
+        "Iron Wake Trade",
+        "Daily",
+        0,
+        1,
+        Some("[\"Trade\"]"),
+        None,
+        None,
+        None,
+        None,
+        None,
+    ),
+
+    (
+        "archon_hunt",
+        "Archon Hunt",
+        "Weekly",
+        0,
+        1,
+        Some("[\"Mission\"]"),
+        None,
+        None,
+        None,
+        None,
+        None,
+    ),
+    (
+        "netracells",
+        "Netracells",
+        "Weekly",
+        0,
+        5,
+        Some("[\"Mission\"]"),
+        None,
+        None,
+        None,
+        None,
+        None,
+    ),
+    (
+        "deep_archimedea",
+        "Deep Archimedea",
+        "Weekly",
+        0,
+        1,
+        Some("[\"Mission\"]"),
+        None,
+        None,
+        None,
+        None,
+        None,
+    ),
+    (
+        "kahl_mission",
+        "Kahl Garrison",
+        "Weekly",
+        0,
+        1,
+        Some("[\"Mission\"]"),
+        None,
+        None,
+        None,
+        None,
+        None,
+    ),
+    (
+        "kahl_mission",
+        "Kahl's Mission",
+        "Weekly",
+        0,
+        1,
+        Some("[\"Mission\"]"),
+        None,
+        None,
+        None,
+        None,
+        None,
+    ),
+    ("circuit", "Circuit", "Weekly", 0, 1, Some("[\"Mission\"]"), None, None, None, None, None),
+    (
+        "circuit_steel",
+        "Steel Path Circuit",
+        "Weekly",
+        0,
+        1,
+        Some("[\"Mission\"]"),
+        None,
+        None,
+        None,
+        None,
+        None,
+    ),
+
+    (
+        "voca_trade",
+        "Trade For Voca",
+        "Other",
+        0,
+        1,
+        Some("[\"Trade\"]"),
+        Some("8h"),
+        None,
+        None,
+        None,
+        None,
+    ),
 ];

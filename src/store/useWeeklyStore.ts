@@ -1,17 +1,17 @@
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
-import { WeeklyTask } from "../types/weekly";
+import { WeeklyTask, WeeklyCategories } from "../types/weekly";
 
 interface WeeklyState {
     tasks: WeeklyTask[];
     isLoading: boolean;
-    activeCategory: string;
-    setActiveCategory: (cat: string) => void;
+    activeCategory: WeeklyCategories;
+    setActiveCategory: (cat: WeeklyCategories) => void;
     fetchTasks: () => Promise<void>;
     adjustTask: (id: string, isIncrement: boolean) => Promise<void>;
 }
 
-export const useWeeklyStore = create<WeeklyState>((set, _get) => ({
+export const useWeeklyStore = create<WeeklyState>((set, get) => ({
     tasks: [],
     isLoading: false,
     activeCategory: "All",
@@ -20,8 +20,18 @@ export const useWeeklyStore = create<WeeklyState>((set, _get) => ({
     fetchTasks: async () => {
         set({ isLoading: true });
         try {
-            const tasks = await invoke<WeeklyTask[]>("get_weekly_tasks");
-            set({ tasks, isLoading: false });
+            const rawTasks = await invoke<any[]>("get_weekly_tasks");
+            console.log("DATA FROM RUST:", rawTasks[0]);
+
+            const processedTasks = rawTasks.map((task) => ({
+                ...task,
+                tags:
+                    typeof task.tags === "string"
+                        ? JSON.parse(task.tags)
+                        : task.tags || [],
+            }));
+
+            set({ tasks: processedTasks, isLoading: false });
         } catch (error) {
             console.error("Failed to fetch weekly tasks:", error);
             set({ isLoading: false });
@@ -30,10 +40,13 @@ export const useWeeklyStore = create<WeeklyState>((set, _get) => ({
 
     adjustTask: async (id: string, isIncrement: boolean) => {
         try {
-            await invoke("adjust_weekly_task", { id, isIncrement });
+            await invoke("adjust_weekly_task", {
+                id,
+                isIncrement: isIncrement,
+            });
 
-            const updatedTasks = await invoke<WeeklyTask[]>("get_weekly_tasks");
-            set({ tasks: updatedTasks });
+            const { fetchTasks } = get();
+            await fetchTasks();
         } catch (error) {
             console.error("Failed to adjust weekly task:", error);
         }
