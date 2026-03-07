@@ -15,6 +15,10 @@ All notable changes to this project will be logged here
 - 🛠️ fix tasks not reseting
 - 🛠️ fix Archimedea being completeable even if 5 netracells where done
 
+### Dev Notes
+
+- ✏️ add `useTimeStore`
+
 ## 0.1.7
 
 ### Features

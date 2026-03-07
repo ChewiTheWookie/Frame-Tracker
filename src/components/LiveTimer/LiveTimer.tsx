@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { useTimeStore } from "../../store/useTimeStore";
 
 // import styles from "./LiveTimer.module.css";
 
@@ -10,59 +11,42 @@ interface Props {
 }
 
 export const LiveTimer = ({ category, interval, onReset }: Props) => {
-    const [display, setDisplay] = useState("...");
-    const onResetRef = useRef(onReset);
+    const [target, setTarget] = useState<number | null>(null);
+    const now = useTimeStore((state) => state.now);
+    const hasResetTriggered = useRef(false);
 
     useEffect(() => {
-        onResetRef.current = onReset;
-    }, [onReset]);
-
-    useEffect(() => {
-        let timerId: number;
-
-        const startTimer = async () => {
-            try {
-                const targetTimestamp = await invoke<number>("get_next_reset", {
-                    category,
-                    interval,
-                });
-
-                if (!targetTimestamp || targetTimestamp === 0) {
-                    setDisplay("N/A");
-                    return;
-                }
-
-                const runCountdown = () => {
-                    const now = Math.floor(Date.now() / 1000);
-                    const diff = targetTimestamp - now;
-
-                    if (diff <= 0) {
-                        setDisplay("Resetting...");
-                        onResetRef.current?.();
-                        return;
-                    }
-
-                    const h = Math.floor(diff / 3600);
-                    const m = Math.floor((diff % 3600) / 60);
-                    const s = diff % 60;
-
-                    setDisplay(`${h}h ${m}m ${s}s`);
-                    timerId = window.setTimeout(runCountdown, 1000);
-                };
-
-                runCountdown();
-            } catch (err) {
-                console.error("Timer failed:", err);
-                setDisplay("Error");
-            }
-        };
-
-        startTimer();
-
-        return () => {
-            if (timerId) clearTimeout(timerId);
-        };
+        invoke<number>("get_next_reset", { category, interval }).then(
+            setTarget,
+        );
+        hasResetTriggered.current = false;
     }, [category, interval]);
 
-    return <span>{display}</span>;
+    if (target === null) return <span>...</span>;
+    if (target === 0) return <span>N/A</span>;
+
+    const diff = target - now;
+
+    if (diff <= 0) {
+        if (!hasResetTriggered.current) {
+            hasResetTriggered.current = true;
+            onReset?.();
+        }
+        return <span>Resetting...</span>;
+    }
+
+    const formatTime = (seconds: number) => {
+        const d = Math.floor(seconds / 86400);
+        const h = Math.floor((seconds % 86400) / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+
+        if (d >= 1) {
+            return `${d}d ${h}h`;
+        }
+
+        return `${h}h ${m}m ${s}s`;
+    };
+
+    return <span>{formatTime(diff)}</span>;
 };
