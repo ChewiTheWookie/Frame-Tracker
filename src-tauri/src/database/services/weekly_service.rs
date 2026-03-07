@@ -120,6 +120,18 @@ pub async fn adjust_weekly_task(
 
         if is_increment {
             if active_id.as_deref() != Some(id) {
+                if !was_any_active {
+                    let netracells: (i32, i32) = sqlx
+                        ::query_as(
+                            "SELECT current_completions, max_completions FROM weekly_tasks WHERE id = 'netracells'"
+                        )
+                        .fetch_one(&mut *tx).await?;
+
+                    if netracells.0 >= netracells.1 - 1 {
+                        return Ok(());
+                    }
+                }
+
                 sqlx
                     ::query("UPDATE weekly_tasks SET current_completions = 1 WHERE id = ?")
                     .bind(id)
