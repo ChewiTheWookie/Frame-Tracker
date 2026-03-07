@@ -5,6 +5,7 @@ import { MASTERY_CATEGORIES } from "./types/inventory";
 import { WEEKLY_CATEGORIES } from "./types/weekly";
 import { useInventoryStore } from "./store/useInventoryStore";
 import { useWeeklyStore } from "./store/useWeeklyStore";
+import { useTimeStore } from "./store/useTimeStore";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
 import { CategoryTabs } from "./components/CategoryTabs";
@@ -13,6 +14,8 @@ import { SearchControls } from "./components/SearchControls";
 import styles from "./styles/App.module.css";
 
 export function App() {
+    const updateTime = useTimeStore((state) => state.updateTime);
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
 
@@ -45,6 +48,11 @@ export function App() {
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, []);
+
+    useEffect(() => {
+        const intervalId = setInterval(updateTime, 1000);
+        return () => clearInterval(intervalId);
+    }, [updateTime]);
 
     const renderCategoryTabs = () => {
         switch (location.pathname) {

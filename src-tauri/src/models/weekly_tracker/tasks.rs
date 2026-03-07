@@ -84,7 +84,7 @@ pub const DEFAULT_WEEKLY_TASKS: &[
     ("nightcap", "Nightcap Offerings", "Weekly", 0, 1, Some("[\"Trade\"]"), None, Some("Fortuna, Venus"), Some("Nightcap"), Some("The New War"), None),
 
     // Other
-    ("baro", "Trade For Voca", "Other", 0, 1, Some("[\"Trade\"]"), Some("14d"), Some("Relay with Symbol"), Some("Baro Ki'Tieer"), None, None,),
+    ("baro", "Baro Ki'Tieer", "Other", 0, 1, Some("[\"Trade\"]"), Some("baro"), Some("Relay with Symbol"), Some("Baro Ki'Tieer"), None, None,),
     ("mend_the_family", "Mend The Family", "Other", 0, 1, Some("[\"Trade\"]"), Some("8h_world"), Some("Necralisk, Deimos"), Some("Grandmother"), Some("Heart of Deimos"), None,),
     ("voidplume_trade", "Trade For Voidplumes", "Other", 0, 1, Some("[\"Trade\"]"), Some("8h_world"), Some("Chrysalith, Zariman"), Some("Yonta"), Some("Angels of the Zariman"), None,),
     ("voca_trade", "Trade For Voca", "Other", 0, 1, Some("[\"Trade\"]"), Some("8h_world"), Some("Sanctum Anatomica, Deimos"), Some("Loid"), Some("Whispers in the Walls"), None,),

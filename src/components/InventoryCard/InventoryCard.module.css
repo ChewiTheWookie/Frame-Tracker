@@ -3,37 +3,19 @@
 }
 
 .craftable {
-    border-color: var(--craftable) !important;
-    box-shadow: 0 0 15px var(--craftable-glow);
-    background: linear-gradient(
-        135deg,
-        var(--card-bg) 0%,
-        var(--craftable-glow) 100%
-    );
+    composes: craftable from "../Card/Card.module.css";
 }
 
 .owned {
-    border-color: var(--owned) !important;
-    box-shadow: 0 0 15px var(--owned-glow);
-    background: linear-gradient(
-        135deg,
-        var(--card-bg) 0%,
-        var(--owned-glow) 100%
-    );
-}
-
-.helminthed {
-    border-color: var(--helminthed) !important;
-    box-shadow: 0 0 15px var(--helminthed-glow);
-    background: linear-gradient(
-        135deg,
-        var(--card-bg) 0%,
-        var(--helminthed-glow) 100%
-    );
+    composes: owned from "../Card/Card.module.css";
 }
 
 .mastered {
     composes: mastered from "../Card/Card.module.css";
+}
+
+.helminthed {
+    composes: helminthed from "../Card/Card.module.css";
 }
 
 .mastered.helminthed {

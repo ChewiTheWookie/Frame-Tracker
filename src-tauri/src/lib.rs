@@ -33,7 +33,8 @@ pub fn run() {
                 commands::mastery_tracker::get_all_user_progress::get_all_user_progress,
 
                 commands::weekly_tracker::get_weekly_tasks::get_weekly_tasks,
-                commands::weekly_tracker::adjust_weekly_task::adjust_weekly_task
+                commands::weekly_tracker::adjust_weekly_task::adjust_weekly_task,
+                commands::weekly_tracker::get_next_reset::get_next_reset
             ]
         )
         .run(tauri::generate_context!())

@@ -2,6 +2,7 @@ import { useWeeklyStore } from "../../store/useWeeklyStore";
 import { WeeklyTask } from "../../types/weekly";
 import { Card } from "../Card/Card";
 import { CardButton } from "../CardButton";
+import { LiveTimer } from "../LiveTimer";
 
 import styles from "./WeeklyCard.module.css";
 
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export const WeeklyCard = ({ task }: Props) => {
-    const { adjustTask, showAllBacks } = useWeeklyStore();
+    const { adjustTask, showAllBacks, fetchTasks } = useWeeklyStore();
 
     const isCompleted = task.currentCompletions >= task.maxCompletions;
     const isAtZero = task.currentCompletions === 0;
@@ -33,6 +34,13 @@ export const WeeklyCard = ({ task }: Props) => {
             className={`${styles.contentWrapper} ${isCompleted ? styles.mastered : ""}`}
         >
             <h4 className={styles.cardTitle}>{task.name}</h4>
+            <div className={styles.timerDiv}>
+                <LiveTimer
+                    category={task.category}
+                    interval={task.resetInterval}
+                    onReset={fetchTasks}
+                />
+            </div>
             <div className={styles.cardInfo}>
                 <div className={styles.counterOverlay}>
                     <span className={styles.counterItem}>{TagList}</span>
