@@ -7,6 +7,12 @@
     margin-bottom: 5px;
 }
 
+.timerDiv {
+    width: 100%;
+    text-align: center;
+    color: var(--color);
+}
+
 .cardActions {
     composes: cardActions from "../Card/Card.module.css";
 }

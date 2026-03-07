@@ -34,11 +34,13 @@ export const WeeklyCard = ({ task }: Props) => {
             className={`${styles.contentWrapper} ${isCompleted ? styles.mastered : ""}`}
         >
             <h4 className={styles.cardTitle}>{task.name}</h4>
-            <LiveTimer
-                category={task.category}
-                interval={task.resetInterval}
-                onReset={fetchTasks}
-            />
+            <div className={styles.timerDiv}>
+                <LiveTimer
+                    category={task.category}
+                    interval={task.resetInterval}
+                    onReset={fetchTasks}
+                />
+            </div>
             <div className={styles.cardInfo}>
                 <div className={styles.counterOverlay}>
                     <span className={styles.counterItem}>{TagList}</span>

@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 
+// import styles from "./LiveTimer.module.css";
+
 interface Props {
     category: string;
     interval: string | null;
