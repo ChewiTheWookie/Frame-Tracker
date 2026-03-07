@@ -3,15 +3,11 @@ use sqlx::SqlitePool;
 use chrono::{ DateTime, Utc, Datelike, Duration, Timelike };
 
 fn is_past_monday_reset(last_reset: &DateTime<Utc>, now: &DateTime<Utc>) -> bool {
-    let days_since_last = now.signed_duration_since(*last_reset).num_days();
-    if days_since_last >= 7 {
+    if now.signed_duration_since(*last_reset).num_days() >= 7 {
         return true;
     }
 
-    let last_weekday = last_reset.weekday().num_days_from_monday();
-    let now_weekday = now.weekday().num_days_from_monday();
-
-    days_since_last > 0 && now_weekday < last_weekday
+    now.iso_week() != last_reset.iso_week()
 }
 
 fn check_custom_interval(last_reset: &DateTime<Utc>, interval: &str, now: &DateTime<Utc>) -> bool {
@@ -53,7 +49,12 @@ pub async fn get_all_weekly_tasks(pool: &SqlitePool) -> Result<Vec<WeeklyTask>, 
     for task in &mut tasks {
         let last_reset = DateTime::parse_from_rfc3339(&task.last_reset)
             .map(|dt| dt.with_timezone(&Utc))
-            .unwrap_or(now);
+            .or_else(|_| {
+                chrono::NaiveDateTime
+                    ::parse_from_str(&task.last_reset, "%Y-%m-%d %H:%M:%S")
+                    .map(|dt| dt.and_utc())
+            })
+            .unwrap_or_else(|_| DateTime::from_timestamp(0, 0).unwrap().with_timezone(&Utc));
 
         let should_reset = match task.category.as_str() {
             "Daily" => {

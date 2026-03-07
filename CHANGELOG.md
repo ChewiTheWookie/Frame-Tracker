@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - 🛠️ fix `Baro Ki'Tieer` not having the correct name in `task.rs`
 - 🛠️ fix cards in `Mastery Tracker` not having the proper linear gradient
+- 🛠️ fix tasks not reseting
 
 ## 0.1.7
 
