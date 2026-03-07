@@ -8,4 +8,5 @@ pub mod mastery_tracker {
 pub mod weekly_tracker {
     pub mod get_weekly_tasks;
     pub mod adjust_weekly_task;
+    pub mod get_next_reset;
 }

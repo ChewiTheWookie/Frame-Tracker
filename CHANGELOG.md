@@ -4,6 +4,10 @@ All notable changes to this project will be logged here
 
 ## 0.1.8
 
+### Features
+
+- ✨ add timer to keep track of time left before task reset with `LiveTimer.tsx`
+
 ### Bug Fixes
 
 - 🛠️ fix `Baro Ki'Tieer` not having the correct name in `task.rs`

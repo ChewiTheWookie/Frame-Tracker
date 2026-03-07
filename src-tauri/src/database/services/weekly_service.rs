@@ -1,6 +1,6 @@
 use crate::models::weekly_tracker::tasks::{ WeeklyTask };
 use sqlx::SqlitePool;
-use chrono::{ DateTime, Utc, Datelike, Duration, Timelike };
+use chrono::{ DateTime, Utc, Datelike, Duration, Timelike, TimeZone };
 
 fn is_past_monday_reset(last_reset: &DateTime<Utc>, now: &DateTime<Utc>) -> bool {
     if now.signed_duration_since(*last_reset).num_days() >= 7 {
@@ -36,6 +36,54 @@ fn check_custom_interval(last_reset: &DateTime<Utc>, interval: &str, now: &DateT
     };
 
     *now >= *last_reset + duration
+}
+
+pub fn get_next_reset_timestamp(category: String, interval: Option<String>) -> i64 {
+    let now = Utc::now();
+
+    let next = match interval.as_deref() {
+        Some("8h_world") => {
+            let next_boundary = (now.hour() / 8 + 1) * 8;
+            if next_boundary >= 24 {
+                (now + Duration::days(1)).with_hour(0).unwrap()
+            } else {
+                now.with_hour(next_boundary).unwrap()
+            }
+        }
+        Some("baro") => {
+            let anchor = Utc.with_ymd_and_hms(2026, 3, 6, 9, 0, 0).unwrap();
+            let cycle_seconds = 14 * 24 * 60 * 60;
+            let stay_seconds = 48 * 60 * 60;
+
+            let seconds_since = now.signed_duration_since(anchor).num_seconds();
+            let mut offset = seconds_since % cycle_seconds;
+            if offset < 0 {
+                offset += cycle_seconds;
+            }
+
+            if offset < stay_seconds {
+                let arrival = now - Duration::seconds(offset);
+                arrival + Duration::hours(48)
+            } else {
+                let time_until_arrival = cycle_seconds - offset;
+                now + Duration::seconds(time_until_arrival)
+            }
+        }
+        _ =>
+            match category.as_str() {
+                "Daily" => (now + Duration::days(1)).with_hour(0).unwrap(),
+                "Weekly" => {
+                    let days_until_monday = (8 - now.weekday().number_from_monday()) % 7;
+                    let days_to_add = if days_until_monday == 0 { 7 } else { days_until_monday };
+                    (now + Duration::days(days_to_add as i64)).with_hour(0).unwrap()
+                }
+                _ => {
+                    return 0;
+                }
+            }
+    };
+
+    next.with_minute(0).unwrap().with_second(0).unwrap().timestamp()
 }
 
 pub async fn get_all_weekly_tasks(pool: &SqlitePool) -> Result<Vec<WeeklyTask>, sqlx::Error> {
