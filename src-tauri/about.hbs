@@ -1,0 +1,12 @@
+{{! prettier-ignore }}
+[
+  {{#each crates}}
+  {
+    "name": {{{json package.name}}},
+    "version": {{{json package.version}}},
+    "license_id": {{{json license}}},
+    "repository": {{{json package.repository}}},
+    "text": {{#each ../licenses}}{{#if @first}}{{{json text}}}{{/if}}{{/each}}
+  }{{#unless @last}},{{/unless}}
+  {{/each}}
+]

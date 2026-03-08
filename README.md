@@ -25,3 +25,7 @@ Here is what Frame Tracker can do:
 ## Keybinds
 
 - `/` or `Ctrl + F`: Auto focus searchbar
+
+## Licensing & Acknowledgments
+
+Full third-party license attributions for all dependencies can be found directly within the application under the **About** page.
