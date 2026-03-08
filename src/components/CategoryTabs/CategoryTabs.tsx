@@ -21,22 +21,31 @@ export function CategoryTabs() {
 
     let categories: readonly string[] = [];
     let activeCategory = "";
-    let onCategoryChange: (category: any) => void;
+    let updateStore: (category: any) => void;
 
     switch (pathname) {
         case "/":
             categories = MASTERY_CATEGORIES;
             activeCategory = activeMasteryCat;
-            onCategoryChange = setActiveMasteryCat;
+            updateStore = setActiveMasteryCat;
             break;
         case "/weekly":
             categories = WEEKLY_CATEGORIES;
             activeCategory = activeWeeklyCat;
-            onCategoryChange = setActiveWeeklyCat;
+            updateStore = setActiveWeeklyCat;
             break;
         default:
             return null;
     }
+
+    const handleCategoryClick = (cat: string) => {
+        updateStore(cat);
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
 
     if (categories.length === 0) return null;
 
@@ -48,7 +57,7 @@ export function CategoryTabs() {
                     className={`${styles.tabButton} ${
                         activeCategory === cat ? styles.activeTab : ""
                     }`}
-                    onClick={() => onCategoryChange(cat)}
+                    onClick={() => handleCategoryClick(cat)}
                 >
                     {cat}
                 </button>

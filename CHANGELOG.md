@@ -2,6 +2,20 @@
 
 All notable changes to this project will be logged here
 
+## 0.1.9
+
+### Features
+
+- ✨ add auto scroll back to top on category change
+
+### Bug Fixes
+
+- 🛠️ fix `.mastered.helminthed` card gradient
+
+### Dev Notes
+
+- ✏️ Moved category selector logic from `App.tsx` to `CategoryTabs.tsx`
+
 ## 0.1.8
 
 ### Features
