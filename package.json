@@ -1,9 +1,9 @@
 {
     "name": "frametracker",
     "private": true,
-    "version": "0.1.0",
+    "version": "0.1.9",
     "type": "module",
-    "license": "(MIT)",
+    "license": "MIT",
     "scripts": {
         "dev": "vite",
         "licenses:frontend": "license-checker --json --out src/assets/npm-licenses.json && node -e \"const fs=require('fs'); const path='./src/assets/npm-licenses.json'; const d=JSON.parse(fs.readFileSync(path)); Object.values(d).forEach(v=>{if(v.licenseFile) v.licenseText=fs.readFileSync(v.licenseFile,'utf8')}); fs.writeFileSync(path,JSON.stringify(d,null,2))\"",

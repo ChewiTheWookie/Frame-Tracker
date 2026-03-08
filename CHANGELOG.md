@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Features
 
 - ✨ add auto scroll back to top on category change
+- ✨ add third-party license compliance page and automated build script
 
 ### Bug Fixes
 
