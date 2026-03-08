@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ROUTES } from "./routes/Routes";
-import { MASTERY_CATEGORIES } from "./types/inventory";
-import { WEEKLY_CATEGORIES } from "./types/weekly";
-import { useInventoryStore } from "./store/useInventoryStore";
-import { useWeeklyStore } from "./store/useWeeklyStore";
 import { useTimeStore } from "./store/useTimeStore";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
@@ -17,17 +13,6 @@ export function App() {
     const updateTime = useTimeStore((state) => state.updateTime);
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const location = useLocation();
-
-    const activeMasteryCat = useInventoryStore((state) => state.activeCategory);
-    const setActiveMasteryCat = useInventoryStore(
-        (state) => state.setActiveCategory,
-    );
-
-    const activeWeeklyCat = useWeeklyStore((state) => state.activeCategory);
-    const setActiveWeeklyCat = useWeeklyStore(
-        (state) => state.setActiveCategory,
-    );
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -54,29 +39,6 @@ export function App() {
         return () => clearInterval(intervalId);
     }, [updateTime]);
 
-    const renderCategoryTabs = () => {
-        switch (location.pathname) {
-            case "/":
-                return (
-                    <CategoryTabs
-                        categories={MASTERY_CATEGORIES}
-                        activeCategory={activeMasteryCat}
-                        onCategoryChange={setActiveMasteryCat}
-                    />
-                );
-            case "/weekly":
-                return (
-                    <CategoryTabs
-                        categories={WEEKLY_CATEGORIES}
-                        activeCategory={activeWeeklyCat}
-                        onCategoryChange={setActiveWeeklyCat}
-                    />
-                );
-            default:
-                return null;
-        }
-    };
-
     return (
         <div className={styles.appContainer}>
             <Navbar isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
@@ -94,7 +56,7 @@ export function App() {
                     <ThemeButton />
                 </header>
                 <nav>
-                    {renderCategoryTabs()}
+                    <CategoryTabs />
                     <SearchControls />
                 </nav>
             </div>

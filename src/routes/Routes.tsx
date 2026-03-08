@@ -1,3 +1,4 @@
+import { About } from "../pages/About";
 import { MasteryTracker } from "../pages/MasteryTracker";
 import { WeeklyTracker } from "../pages/WeeklyTracker";
 
@@ -13,5 +14,11 @@ export const ROUTES = [
         path: "/weekly",
         element: <WeeklyTracker />,
         key: "weekly",
+    },
+    {
+        name: "About",
+        path: "/about",
+        element: <About />,
+        key: "about",
     },
 ];

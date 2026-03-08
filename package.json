@@ -1,30 +1,34 @@
 {
-  "name": "frametracker",
-  "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "tauri": "tauri"
-  },
-  "dependencies": {
-    "@tauri-apps/api": "^2.10.1",
-    "@tauri-apps/plugin-opener": "^2",
-    "@tauri-apps/plugin-store": "^2.4.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.13.1",
-    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#v1",
-    "zustand": "^5.0.11"
-  },
-  "devDependencies": {
-    "@tauri-apps/cli": "^2",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.6.0",
-    "typescript": "~5.8.3",
-    "vite": "^7.0.4"
-  }
+    "name": "frametracker",
+    "private": true,
+    "version": "0.1.9",
+    "type": "module",
+    "license": "MIT",
+    "scripts": {
+        "dev": "vite",
+        "licenses:frontend": "license-checker --json --out src/assets/npm-licenses.json && node -e \"const fs=require('fs'); const path='./src/assets/npm-licenses.json'; const d=JSON.parse(fs.readFileSync(path)); Object.values(d).forEach(v=>{if(v.licenseFile) v.licenseText=fs.readFileSync(v.licenseFile,'utf8')}); fs.writeFileSync(path,JSON.stringify(d,null,2))\"",
+        "licenses:backend": "cd src-tauri && cargo about generate about.hbs > ../src/assets/cargo-licenses.json",
+        "prebuild": "npm run licenses:frontend && npm run licenses:backend",
+        "build": "npm run prebuild && tsc && vite build",
+        "preview": "vite preview",
+        "tauri": "tauri"
+    },
+    "dependencies": {
+        "@tauri-apps/api": "^2.10.1",
+        "@tauri-apps/plugin-opener": "^2",
+        "@tauri-apps/plugin-store": "^2.4.2",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-router-dom": "^7.13.1",
+        "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#v1",
+        "zustand": "^5.0.11"
+    },
+    "devDependencies": {
+        "@tauri-apps/cli": "^2",
+        "@types/react": "^19.1.8",
+        "@types/react-dom": "^19.1.6",
+        "@vitejs/plugin-react": "^4.6.0",
+        "typescript": "~5.8.3",
+        "vite": "^7.0.4"
+    }
 }
