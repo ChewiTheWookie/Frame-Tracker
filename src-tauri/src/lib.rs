@@ -34,7 +34,9 @@ pub fn run() {
 
                 commands::weekly_tracker::get_weekly_tasks::get_weekly_tasks,
                 commands::weekly_tracker::adjust_weekly_task::adjust_weekly_task,
-                commands::weekly_tracker::get_next_reset::get_next_reset
+                commands::weekly_tracker::get_next_reset::get_next_reset,
+
+                commands::acknowledgment::acknowledgment
             ]
         )
         .run(tauri::generate_context!())

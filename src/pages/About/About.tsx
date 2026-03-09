@@ -1,6 +1,5 @@
-import npmLicenses from "../../assets/npm-licenses.json";
-import cargoLicenses from "../../assets/cargo-licenses.json";
-
+import { useEffect, useState, useRef, useMemo } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import styles from "./About.module.css";
 
 interface CargoPackage {
@@ -12,7 +11,55 @@ interface CargoPackage {
 }
 
 export function About() {
-    const backendPackages = cargoLicenses as CargoPackage[];
+    const [npmData, setNpmData] = useState<Record<string, any>>({});
+    const [cargoData, setCargoData] = useState<CargoPackage[]>([]);
+    const [visibleCount, setVisibleCount] = useState(10);
+    const [loading, setLoading] = useState(true);
+    const observerTarget = useRef(null);
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const npmRaw = await invoke<string>("acknowledgment", {
+                    name: "npm-licenses",
+                });
+                const cargoRaw = await invoke<string>("acknowledgment", {
+                    name: "cargo-licenses",
+                });
+                setNpmData(JSON.parse(npmRaw));
+                setCargoData(JSON.parse(cargoRaw));
+            } catch (e) {
+                console.error("Failed to load licenses", e);
+            } finally {
+                setLoading(false);
+            }
+        }
+        loadData();
+    }, []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !loading) {
+                    setVisibleCount((prev) => prev + 10);
+                }
+            },
+            { threshold: 0.1 },
+        );
+
+        if (observerTarget.current) observer.observe(observerTarget.current);
+        return () => observer.disconnect();
+    }, [loading]);
+
+    const npmEntries = useMemo(() => Object.entries(npmData), [npmData]);
+    const visibleNpm = npmEntries.slice(0, visibleCount);
+
+    const remainingCount = visibleCount - npmEntries.length;
+    const visibleCargo =
+        remainingCount > 0 ? cargoData.slice(0, remainingCount) : [];
+
+    if (loading)
+        return <div className={styles.loader}>Parsing Licenses...</div>;
 
     return (
         <div className={styles.aboutContainer}>
@@ -20,81 +67,81 @@ export function About() {
 
             <section className={styles.section}>
                 <h2 className={styles.sectionHeader}>Frontend Dependencies</h2>
-                {Object.entries(npmLicenses).map(
-                    ([pkgFull, info]: [string, any]) => {
-                        const parts = pkgFull.split("@");
-                        const version = parts.pop();
-                        const name = parts.join("@") || parts[0];
+                {visibleNpm.map(([pkgFull, info]) => {
+                    const parts = pkgFull.split("@");
+                    const version = parts.pop();
+                    const name = parts.join("@") || parts[0];
 
-                        return (
-                            <div key={pkgFull} className={styles.item}>
-                                <div className={styles.meta}>
-                                    <div className={styles.infoGroup}>
-                                        <strong className={styles.name}>
-                                            {name}
-                                        </strong>
-                                        <span className={styles.details}>
-                                            v{version} — {info.licenses}
-                                        </span>
-                                    </div>
+                    return (
+                        <div key={pkgFull} className={styles.item}>
+                            <div className={styles.meta}>
+                                <div className={styles.infoGroup}>
+                                    <strong className={styles.name}>
+                                        {name}
+                                    </strong>
+                                    <span className={styles.details}>
+                                        v{version} — {info.licenses}
+                                    </span>
                                 </div>
-                                {info.licenseText ? (
-                                    <pre className={styles.licenseText}>
-                                        {info.licenseText}
-                                    </pre>
-                                ) : (
-                                    <p className={styles.missingNotice}>
-                                        License text missing from JSON.
-                                    </p>
-                                )}
                             </div>
-                        );
-                    },
-                )}
-            </section>
-
-            <section className={styles.section}>
-                <h2
-                    className={`${styles.sectionHeader} ${styles.backendHeader}`}
-                >
-                    Backend Dependencies
-                </h2>
-                {backendPackages.map((pkg) => (
-                    <div
-                        key={`${pkg.name}-${pkg.version}`}
-                        className={styles.item}
-                    >
-                        <div className={styles.meta}>
-                            <div className={styles.infoGroup}>
-                                <strong className={styles.name}>
-                                    {pkg.name}
-                                </strong>
-                                <span className={styles.details}>
-                                    Version {pkg.version} — {pkg.license_id}
-                                </span>
-                            </div>
-                            {pkg.repository && (
-                                <a
-                                    href={pkg.repository}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className={styles.sourceLink}
-                                >
-                                    Source
-                                </a>
+                            {info.licenseText ? (
+                                <pre className={styles.licenseText}>
+                                    {info.licenseText}
+                                </pre>
+                            ) : (
+                                <p className={styles.missingNotice}>
+                                    Text missing
+                                </p>
                             )}
                         </div>
-
-                        {pkg.text ? (
-                            <pre className={styles.licenseText}>{pkg.text}</pre>
-                        ) : (
-                            <p className={styles.missingNotice}>
-                                License text missing
-                            </p>
-                        )}
-                    </div>
-                ))}
+                    );
+                })}
             </section>
+
+            {visibleCargo.length > 0 && (
+                <section className={styles.section}>
+                    <h2
+                        className={`${styles.sectionHeader} ${styles.backendHeader}`}
+                    >
+                        Backend Dependencies
+                    </h2>
+                    {visibleCargo.map((pkg) => (
+                        <div
+                            key={`${pkg.name}-${pkg.version}`}
+                            className={styles.item}
+                        >
+                            <div className={styles.meta}>
+                                <div className={styles.infoGroup}>
+                                    <strong className={styles.name}>
+                                        {pkg.name}
+                                    </strong>
+                                    <span className={styles.details}>
+                                        v{pkg.version} — {pkg.license_id}
+                                    </span>
+                                </div>
+                            </div>
+                            {pkg.text ? (
+                                <pre className={styles.licenseText}>
+                                    {pkg.text}
+                                </pre>
+                            ) : (
+                                <p className={styles.missingNotice}>
+                                    Text missing
+                                </p>
+                            )}
+                        </div>
+                    ))}
+                </section>
+            )}
+
+            <div
+                ref={observerTarget}
+                style={{ height: "40px", textAlign: "center", opacity: 0.5 }}
+            >
+                {visibleCount < npmEntries.length + cargoData.length
+                    ? "Scrolling for more..."
+                    : "End of notices"}
+            </div>
         </div>
     );
 }
