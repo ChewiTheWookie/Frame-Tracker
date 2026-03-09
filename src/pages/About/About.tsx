@@ -135,10 +135,7 @@ export function About() {
                 </section>
             )}
 
-            <div
-                ref={observerTarget}
-                style={{ height: "40px", textAlign: "center", opacity: 0.5 }}
-            >
+            <div ref={observerTarget} className={styles.missingNotice}>
                 {visibleCount < npmEntries.length + cargoData.length
                     ? "Scrolling for more..."
                     : "End of notices"}

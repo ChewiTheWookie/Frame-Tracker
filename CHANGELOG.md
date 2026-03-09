@@ -4,6 +4,10 @@ All notable changes to this project will be logged here
 
 ## 0.1.10
 
+### Bug Fixs
+
+- 🛠️ fix licenses not showing
+
 ### Dev Notes
 
 - ✏️ moved `About.tsx` logic to backend
