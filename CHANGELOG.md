@@ -2,6 +2,13 @@
 
 All notable changes to this project will be logged here
 
+## 0.1.10
+
+### Dev Notes
+
+- ✏️ moved `About.tsx` logic to backend
+- ✏️ add automatic sync of versions between `package.json`, `tauri.conf.json` and `cargo.toml`
+
 ## 0.1.9
 
 ### Features
