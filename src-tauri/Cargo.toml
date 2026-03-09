@@ -1,6 +1,6 @@
 [package]
 name = "frametracker"
-version = "0.1.7"
+version = "0.1.10"
 description = "A 3rd party companion app for Warframe"
 authors = ["ChewiTheWookie"]
 edition = "2021"

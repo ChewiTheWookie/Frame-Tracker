@@ -1,15 +1,16 @@
 {
     "name": "frametracker",
     "private": true,
-    "version": "0.1.9",
+    "version": "0.1.10",
     "type": "module",
     "license": "MIT",
     "scripts": {
         "dev": "vite",
-        "licenses:frontend": "license-checker --json --out src/assets/npm-licenses.json && node -e \"const fs=require('fs'); const path='./src/assets/npm-licenses.json'; const d=JSON.parse(fs.readFileSync(path)); Object.values(d).forEach(v=>{if(v.licenseFile) v.licenseText=fs.readFileSync(v.licenseFile,'utf8')}); fs.writeFileSync(path,JSON.stringify(d,null,2))\"",
-        "licenses:backend": "cd src-tauri && cargo about generate about.hbs > ../src/assets/cargo-licenses.json",
-        "prebuild": "npm run licenses:frontend && npm run licenses:backend",
-        "build": "npm run prebuild && tsc && vite build",
+        "licenses:frontend": "license-checker --json --out src/assets/npm-licenses.json && node -e \"const fs=require('fs'); const path='./src/assets/npm-licenses.json'; const d=JSON.parse(fs.readFileSync(path)); Object.values(d).forEach(v=>{if(v.licenseFile) v.licenseText=fs.readFileSync(v.licenseFile,'utf8')}); fs.writeFileSync(path,JSON.stringify(d,null,2)); console.log('✅ generated: npm-licenses.json');\"",
+        "licenses:backend": "cd src-tauri && cargo about generate about.hbs > ../src/assets/cargo-licenses.json && echo ✅ generated: cargo-licenses.json",
+        "sync-cargo": "node -e \"const v = require('./package.json').version; const fs = require('fs'); const p = './src-tauri/Cargo.toml'; let c = fs.readFileSync(p, 'utf8'); fs.writeFileSync(p, c.replace(/^version = \\\".*\\\"/m, 'version = \\\"' + v + '\\\"')); console.log('✅ Cargo.toml synced to ' + v);\"",
+        "prebuild": "npm run licenses:frontend && npm run licenses:backend && npm run sync-cargo",
+        "build": "tsc && vite build",
         "preview": "vite preview",
         "tauri": "tauri"
     },
