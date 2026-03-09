@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { Throbber } from "../../components/Throbber";
+
 import styles from "./About.module.css";
 
 interface CargoPackage {
@@ -58,8 +60,7 @@ export function About() {
     const visibleCargo =
         remainingCount > 0 ? cargoData.slice(0, remainingCount) : [];
 
-    if (loading)
-        return <div className={styles.loader}>Parsing Licenses...</div>;
+    if (loading) return <Throbber />;
 
     return (
         <div className={styles.aboutContainer}>

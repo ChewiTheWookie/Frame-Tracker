@@ -99,8 +99,14 @@
 }
 
 .missingNotice {
-    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    height: 80vh;
+    gap: 20px;
     color: var(--accent);
-    margin-top: 0.25rem;
-    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
