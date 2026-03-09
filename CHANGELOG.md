@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - ✏️ moved `About.tsx` logic to backend
 - ✏️ add automatic sync of versions between `package.json`, `tauri.conf.json` and `cargo.toml`
+- ✏️ fix prebuild running twice when running `npm run tauri build`
 
 ## 0.1.9
 
