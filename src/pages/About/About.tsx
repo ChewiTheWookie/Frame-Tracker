@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Throbber } from "../../components/Throbber";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
 import styles from "./About.module.css";
 
@@ -134,6 +135,8 @@ export function About() {
                     ? "Scrolling for more..."
                     : "End of notices"}
             </div>
+
+            <ScrollToTop />
         </div>
     );
 }
