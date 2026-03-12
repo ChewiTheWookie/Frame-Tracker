@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Features
 
 - ✨ add **Lucide** icons from https://lucide.dev/
+- ✨ add new Navbar
 
 ### Dev Notes
 

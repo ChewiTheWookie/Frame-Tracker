@@ -1,7 +1,9 @@
 import { PATHS } from "./paths";
+import { LucideIcon, Telescope, CalendarCheck, Info } from "lucide-react";
 
 interface RouteMetadata {
     label: string;
+    icon: LucideIcon;
     storeType: "inventory" | "weekly" | "none";
     showInNav: boolean;
     features: {
@@ -15,6 +17,7 @@ interface RouteMetadata {
 export const ROUTE_REGISTRY: Record<string, RouteMetadata> = {
     [PATHS.Mastery]: {
         label: "Mastery Tracker",
+        icon: Telescope,
         storeType: "inventory",
         showInNav: true,
         features: {
@@ -26,6 +29,7 @@ export const ROUTE_REGISTRY: Record<string, RouteMetadata> = {
     },
     [PATHS.Weekly]: {
         label: "Weekly Task",
+        icon: CalendarCheck,
         storeType: "weekly",
         showInNav: true,
         features: {
@@ -37,6 +41,7 @@ export const ROUTE_REGISTRY: Record<string, RouteMetadata> = {
     },
     [PATHS.Acknowledgments]: {
         label: "Acknowledgments",
+        icon: Info,
         storeType: "none",
         showInNav: true,
         features: {

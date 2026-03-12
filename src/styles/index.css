@@ -1,4 +1,6 @@
 :root {
+    interpolate-size: allow-keywords;
+
     --craftable: #ffae00;
     --owned: #00e5ff;
     --mastered: #c1ac6c;

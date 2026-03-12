@@ -6,6 +6,8 @@ import { useKeybind } from "./hooks/useKeybinds";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
 import { SearchControls } from "./components/SearchControls";
+import { SaveIndicator } from "./components/SaveIndicator";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 import styles from "./styles/App.module.css";
 
@@ -24,24 +26,25 @@ export function App() {
         <div className={styles.appContainer}>
             <Navbar isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
 
-            <div className={styles.topSection}>
-                <header className={styles.header}>
-                    <div
-                        className={styles.titleContainer}
-                        onMouseEnter={() => setIsMenuOpen(true)}
-                        onMouseLeave={() => setIsMenuOpen(false)}
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    >
-                        <h1 className={styles.title}>Frame Tracker</h1>
-                    </div>
-                    <ThemeButton />
-                </header>
-                <nav>
-                    <SearchControls />
-                </nav>
+            <div className={styles.mainWrapper}>
+                <div className={styles.topSection}>
+                    <header className={styles.header}>
+                        <div className={styles.title}>
+                            <h1>Frame Tracker</h1>
+                        </div>
+                        <ThemeButton />
+                    </header>
+
+                    <nav className={styles.searchNav}>
+                        <SearchControls />
+                    </nav>
+                </div>
+
+                <main className={styles.contentArea}>{useRoutes(ROUTES)}</main>
             </div>
 
-            <main>{useRoutes(ROUTES)}</main>
+            <SaveIndicator />
+            <ScrollToTop />
         </div>
     );
 }
