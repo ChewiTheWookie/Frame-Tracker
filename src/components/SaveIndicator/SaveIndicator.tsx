@@ -18,5 +18,3 @@ export function SaveIndicator() {
         </>
     );
 }
-
-export default SaveIndicator;

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { useInventoryStore } from "../../store/useInventoryStore";
 import { useWeeklyStore } from "../../store/useWeeklyStore";
-import { ROUTES } from "../../routes/Routes";
+import { ROUTE_REGISTRY } from "../../routes/metadata";
 import { getFilters } from "../../types/filters";
 
 import styles from "./SearchBar.module.css";
@@ -11,21 +11,29 @@ export const SearchBar = () => {
     const location = useLocation();
     const inventoryStore = useInventoryStore();
     const weeklyStore = useWeeklyStore();
+    const meta = ROUTE_REGISTRY[location.pathname];
 
-    const currentRouteKey = ROUTES.find(
-        (r) => r.path === location.pathname,
-    )?.key;
+    const isWeekly = meta?.storeType === "weekly";
 
-    const isWeekly = currentRouteKey === "weekly";
-    const activeStore = isWeekly ? weeklyStore : inventoryStore;
+    const activeStore = isWeekly
+        ? weeklyStore
+        : meta?.storeType === "inventory"
+          ? inventoryStore
+          : null;
 
-    const [localSearch, setLocalSearch] = useState(activeStore.search);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const currentRouteKey = isWeekly ? "weekly" : "mastery";
+
+    const [localSearch, setLocalSearch] = useState(activeStore?.search || "");
     const [isOpen, setIsOpen] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        setLocalSearch(activeStore.search);
-    }, [activeStore.search, location.pathname]);
+        if (activeStore) {
+            setLocalSearch(activeStore.search);
+        }
+    }, [activeStore?.search, location.pathname]);
+
+    if (!activeStore) return null;
 
     const tabs = getFilters(activeStore, currentRouteKey);
 
@@ -35,10 +43,6 @@ export const SearchBar = () => {
         activeStore.setSearch(val);
     };
 
-    const activeCategoryDisplay = isWeekly
-        ? weeklyStore.activeCategory
-        : inventoryStore.activeCategory;
-
     return (
         <div className={styles.searchContainer}>
             <div className={styles.inputWrapper}>
@@ -46,7 +50,7 @@ export const SearchBar = () => {
                     ref={inputRef}
                     className={styles.searchInput}
                     type="text"
-                    placeholder={`SEARCH ${activeCategoryDisplay.toUpperCase()}...`}
+                    placeholder={`SEARCH ${activeStore.activeCategory.toUpperCase()}...`}
                     value={localSearch}
                     onChange={handleTextChange}
                 />

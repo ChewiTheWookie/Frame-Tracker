@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { ROUTES } from "../../routes/Routes";
+import { ROUTE_REGISTRY } from "../../routes/metadata";
 
 import styles from "./Navbar.module.css";
 
@@ -18,20 +18,18 @@ export const Navbar = ({ isOpen, setIsOpen }: NavbarProps) => {
             onMouseLeave={() => setIsOpen(false)}
         >
             <div className={styles.navLinks}>
-                {ROUTES.map((route) => (
-                    <Link
-                        key={route.key}
-                        to={route.path}
-                        className={`${styles.navLink} ${
-                            location.pathname === route.path
-                                ? styles.active
-                                : ""
-                        }`}
-                        onClick={() => setIsOpen(false)}
-                    >
-                        {route.name}
-                    </Link>
-                ))}
+                {Object.entries(ROUTE_REGISTRY)
+                    .filter(([_, meta]) => meta.showInNav)
+                    .map(([path, meta]) => (
+                        <Link
+                            key={path}
+                            to={path}
+                            className={`${styles.navLink} ${location.pathname === path ? styles.active : ""}`}
+                            onClick={() => setIsOpen(false)}
+                        >
+                            {meta.label}
+                        </Link>
+                    ))}
             </div>
         </nav>
     );

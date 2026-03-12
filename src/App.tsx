@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import { ROUTES } from "./routes/Routes";
+import { useRoutes } from "react-router-dom";
+import { ROUTES } from "./routes/routes";
 import { useTimeStore } from "./store/useTimeStore";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
-import { CategoryTabs } from "./components/CategoryTabs";
 import { SearchControls } from "./components/SearchControls";
 
 import styles from "./styles/App.module.css";
@@ -56,22 +55,11 @@ export function App() {
                     <ThemeButton />
                 </header>
                 <nav>
-                    <CategoryTabs />
                     <SearchControls />
                 </nav>
             </div>
 
-            <main>
-                <Routes>
-                    {ROUTES.map((route) => (
-                        <Route
-                            path={route.path}
-                            element={route.element}
-                            key={route.key}
-                        />
-                    ))}
-                </Routes>
-            </main>
+            <main>{useRoutes(ROUTES)}</main>
         </div>
     );
 }
