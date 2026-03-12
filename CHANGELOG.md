@@ -14,6 +14,7 @@ All notable changes to this project will be logged here
 - ✏️ move css var from `.dark` and `.light` to `:root` and `:root.light`
 - ✏️ move store selection to `useActiveStore.ts`
 - ✏️ add a version check to prevent build with same version number
+- ✏️ remove nested divs in `About.tsx`
 
 ## 0.1.10
 

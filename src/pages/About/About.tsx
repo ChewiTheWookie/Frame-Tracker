@@ -74,17 +74,13 @@ export function About() {
                     const name = parts.join("@") || parts[0];
 
                     return (
-                        <div key={pkgFull} className={styles.item}>
-                            <div className={styles.meta}>
-                                <div className={styles.infoGroup}>
-                                    <strong className={styles.name}>
-                                        {name}
-                                    </strong>
-                                    <span className={styles.details}>
-                                        v{version} — {info.licenses}
-                                    </span>
-                                </div>
-                            </div>
+                        <details key={pkgFull} className={styles.item}>
+                            <summary className={styles.itemHeader}>
+                                <strong className={styles.name}>{name}</strong>
+                                <span className={styles.details}>
+                                    v{version} — {info.licenses}
+                                </span>
+                            </summary>
                             {info.licenseText ? (
                                 <pre className={styles.licenseText}>
                                     {info.licenseText}
@@ -94,7 +90,7 @@ export function About() {
                                     Text missing
                                 </p>
                             )}
-                        </div>
+                        </details>
                     );
                 })}
             </section>
@@ -107,20 +103,18 @@ export function About() {
                         Backend Dependencies
                     </h2>
                     {visibleCargo.map((pkg) => (
-                        <div
+                        <details
                             key={`${pkg.name}-${pkg.version}`}
                             className={styles.item}
                         >
-                            <div className={styles.meta}>
-                                <div className={styles.infoGroup}>
-                                    <strong className={styles.name}>
-                                        {pkg.name}
-                                    </strong>
-                                    <span className={styles.details}>
-                                        v{pkg.version} — {pkg.license_id}
-                                    </span>
-                                </div>
-                            </div>
+                            <summary className={styles.itemHeader}>
+                                <strong className={styles.name}>
+                                    {pkg.name}
+                                </strong>
+                                <span className={styles.details}>
+                                    v{pkg.version} — {pkg.license_id}
+                                </span>
+                            </summary>
                             {pkg.text ? (
                                 <pre className={styles.licenseText}>
                                     {pkg.text}
@@ -130,7 +124,7 @@ export function About() {
                                     Text missing
                                 </p>
                             )}
-                        </div>
+                        </details>
                     ))}
                 </section>
             )}
