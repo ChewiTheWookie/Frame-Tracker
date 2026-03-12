@@ -5,6 +5,9 @@ async function runPrebuild() {
         console.log("🛠️  Starting modular prebuild...");
 
         console.log(" ");
+        execSync("npx tsx scripts/check-version.ts", { stdio: "inherit" });
+
+        console.log(" ");
         execSync("npx tsx scripts/sync-versions.ts", { stdio: "inherit" });
 
         console.log(" ");

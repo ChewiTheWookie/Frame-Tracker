@@ -13,6 +13,7 @@ All notable changes to this project will be logged here
 - ✏️ add links to `README.md` for the technologies badges
 - ✏️ move css var from `.dark` and `.light` to `:root` and `:root.light`
 - ✏️ move store selection to `useActiveStore.ts`
+- ✏️ add a version check to prevent build with same version number
 
 ## 0.1.10
 
