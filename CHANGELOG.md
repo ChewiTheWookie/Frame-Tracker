@@ -6,10 +6,11 @@ All notable changes to this project will be logged here
 
 ### Dev Notes
 
-- ✏️ moved scripts from `package.json` to `scripts/`
-- ✏️ changed to `useRoutes()` in `App.tsx`
-- ✏️ moved keybind handling out of `App.tsx` to `useKeybinds.ts` hook
-- ✏️ moved global CSS variables from body to :root
+- ✏️ move scripts from `package.json` to `scripts/`
+- ✏️ change to `useRoutes()` in `App.tsx`
+- ✏️ move keybind handling out of `App.tsx` to `useKeybinds.ts` hook
+- ✏️ move global CSS variables from body to :root
+- ✏️ add links to `README.md` for the technologies badges
 
 ## 0.1.10
 
