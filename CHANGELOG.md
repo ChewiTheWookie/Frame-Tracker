@@ -6,7 +6,9 @@ All notable changes to this project will be logged here
 
 ### Dev Notes
 
-- ✏️ Moved scripts from `package.json` to `scripts/`
+- ✏️ moved scripts from `package.json` to `scripts/`
+- ✏️ changed to `useRoutes()` in `App.tsx`
+- ✏️ moved keybind handling out of `App.tsx` to `useKeybinds.ts` hook
 
 ## 0.1.10
 

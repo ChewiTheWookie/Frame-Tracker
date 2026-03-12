@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRoutes } from "react-router-dom";
 import { ROUTES } from "./routes/routes";
 import { useTimeStore } from "./store/useTimeStore";
+import { useKeybind } from "./hooks/useKeybinds";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
 import { SearchControls } from "./components/SearchControls";
@@ -10,28 +11,9 @@ import styles from "./styles/App.module.css";
 
 export function App() {
     const updateTime = useTimeStore((state) => state.updateTime);
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (
-                e.target instanceof HTMLInputElement ||
-                e.target instanceof HTMLTextAreaElement
-            ) {
-                return;
-            }
-
-            if (e.key === "/" || ((e.ctrlKey || e.metaKey) && e.key === "f")) {
-                e.preventDefault();
-
-                window.dispatchEvent(new CustomEvent("focus-search"));
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, []);
+    useKeybind();
 
     useEffect(() => {
         const intervalId = setInterval(updateTime, 1000);
