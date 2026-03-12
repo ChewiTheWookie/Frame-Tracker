@@ -54,7 +54,6 @@ export const useWeeklyStore = create<WeeklyState>((set, get) => ({
         set({ isLoading: true });
         try {
             const rawTasks = await invoke<any[]>("get_weekly_tasks");
-            console.log("DATA FROM RUST:", rawTasks[0]);
 
             const processedTasks = rawTasks.map((task) => ({
                 ...task,

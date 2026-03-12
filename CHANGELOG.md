@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 0.1.11
+
+### Dev Notes
+
+- ✏️ Moved scripts from `package.json` to `scripts/`
+
 ## 0.1.10
 
 ### Bug Fixs
