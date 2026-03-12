@@ -1,46 +1,36 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { useInventoryStore } from "../../store/useInventoryStore";
-import { useWeeklyStore } from "../../store/useWeeklyStore";
-import { ROUTE_REGISTRY } from "../../routes/metadata";
+import { useActiveStore } from "../../hooks/useActiveStore";
 import { getFilters } from "../../types/filters";
 
 import styles from "./SearchBar.module.css";
 
 export const SearchBar = () => {
-    const location = useLocation();
-    const inventoryStore = useInventoryStore();
-    const weeklyStore = useWeeklyStore();
-    const meta = ROUTE_REGISTRY[location.pathname];
+    const { store, currentRouteKey, pathname } = useActiveStore();
 
-    const isWeekly = meta?.storeType === "weekly";
-
-    const activeStore = isWeekly
-        ? weeklyStore
-        : meta?.storeType === "inventory"
-          ? inventoryStore
-          : null;
-
-    const currentRouteKey = isWeekly ? "weekly" : "mastery";
-
-    const [localSearch, setLocalSearch] = useState(activeStore?.search || "");
+    const [localSearch, setLocalSearch] = useState(store?.search || "");
     const [isOpen, setIsOpen] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (activeStore) {
-            setLocalSearch(activeStore.search);
+        if (store) {
+            setLocalSearch(store.search);
         }
-    }, [activeStore?.search, location.pathname]);
+    }, [store?.search, pathname]);
 
-    if (!activeStore) return null;
+    useEffect(() => {
+        const handleFocus = () => inputRef.current?.focus();
+        window.addEventListener("focus-search", handleFocus);
+        return () => window.removeEventListener("focus-search", handleFocus);
+    }, []);
 
-    const tabs = getFilters(activeStore, currentRouteKey);
+    if (!store) return null;
+
+    const filters = getFilters(store, currentRouteKey);
 
     const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setLocalSearch(val);
-        activeStore.setSearch(val);
+        store.setSearch(val);
     };
 
     return (
@@ -50,7 +40,7 @@ export const SearchBar = () => {
                     ref={inputRef}
                     className={styles.searchInput}
                     type="text"
-                    placeholder={`SEARCH ${activeStore.activeCategory.toUpperCase()}...`}
+                    placeholder={`SEARCH ${store.activeCategory.toUpperCase()}...`}
                     value={localSearch}
                     onChange={handleTextChange}
                 />
@@ -67,7 +57,7 @@ export const SearchBar = () => {
                     <div className={styles.dropdownHeader}>
                         ADVANCED FILTERS
                     </div>
-                    {tabs.map((tab) => (
+                    {filters.map((tab) => (
                         <div className={styles.filterOption} key={tab.key}>
                             <span>{tab.name}</span>
                             <label className={styles.switch}>

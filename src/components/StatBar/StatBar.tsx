@@ -1,32 +1,27 @@
 import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
-import { useInventoryStore } from "../../store/useInventoryStore";
-import { useWeeklyStore } from "../../store/useWeeklyStore";
-import { ROUTE_REGISTRY } from "../../routes/metadata";
-
+import { useActiveStore } from "../../hooks/useActiveStore";
 import styles from "./StatBar.module.css";
 
 export function StatBar() {
-    const location = useLocation();
-    const meta = ROUTE_REGISTRY[location.pathname];
-
-    const allItems = useInventoryStore((state) => state.allItems);
-    const activeMasteryCat = useInventoryStore((state) => state.activeCategory);
-
-    const weeklyTasks = useWeeklyStore((state) => state.tasks);
-    const activeWeeklyCat = useWeeklyStore((state) => state.activeCategory);
+    const { store, isWeekly, meta } = useActiveStore();
 
     const stats = useMemo(() => {
-        if (meta?.storeType === "weekly") {
+        if (!store) return null;
+
+        if (isWeekly && "tasks" in store) {
             const filtered =
-                activeWeeklyCat === "All"
-                    ? weeklyTasks
-                    : weeklyTasks.filter((t) => t.category === activeWeeklyCat);
+                store.activeCategory === "All"
+                    ? store.tasks
+                    : store.tasks.filter(
+                          (t) => t.category === store.activeCategory,
+                      );
 
             return {
                 label: "COMPLETED",
                 current: filtered.filter(
-                    (t) => t.currentCompletions >= t.maxCompletions,
+                    (t) =>
+                        (t.currentCompletions as number) >=
+                        (t.maxCompletions as number),
                 ).length,
                 total: filtered.length,
                 showSecondary: false,
@@ -36,29 +31,33 @@ export function StatBar() {
             };
         }
 
-        const filtered =
-            activeMasteryCat === "All"
-                ? allItems
-                : allItems.filter((item) => item.category === activeMasteryCat);
+        if ("allItems" in store) {
+            const filtered =
+                store.activeCategory === "All"
+                    ? store.allItems
+                    : store.allItems.filter(
+                          (item) => item.category === store.activeCategory,
+                      );
 
-        const feedableItems = filtered.filter((i) => i.isFeedable);
+            const feedableItems = filtered.filter((i) => i.isFeedable);
 
-        return {
-            label: "MASTERED",
-            current: filtered.filter((i) => i.mastered).length,
-            total: filtered.length,
-            secondaryLabel: "FED",
-            secondaryCurrent: filtered.filter((i) => i.helminthed).length,
-            secondaryTotal: feedableItems.length,
-            showSecondary: feedableItems.length > 0,
-        };
-    }, [
-        meta?.storeType,
-        allItems,
-        activeMasteryCat,
-        weeklyTasks,
-        activeWeeklyCat,
-    ]);
+            return {
+                label: "MASTERED",
+                current: filtered.filter((i) => i.mastered).length,
+                total: filtered.length,
+                secondaryLabel: "FED",
+                secondaryCurrent: filtered.filter((i) => i.helminthed).length,
+                secondaryTotal: feedableItems.length,
+                showSecondary: feedableItems.length > 0,
+            };
+        }
+
+        return null;
+    }, [store, isWeekly]);
+
+    if (!meta?.features?.stats || !stats) {
+        return null;
+    }
 
     return (
         <div className={styles.statsBar}>

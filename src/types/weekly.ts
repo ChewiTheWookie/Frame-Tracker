@@ -1,4 +1,4 @@
-export const WEEKLY_CATEGORIES = ["All", "Daily", "Weekly", "Other"] as const;
+export const WEEKLY_CATEGORIES = ["All", "Daily", "Weekly", "Other"];
 
 export type WeeklyCategories = (typeof WEEKLY_CATEGORIES)[number];
 
