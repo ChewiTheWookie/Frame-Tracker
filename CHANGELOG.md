@@ -4,6 +4,10 @@ All notable changes to this project will be logged here
 
 ## 0.1.11
 
+### Features
+
+- ✨ add **Lucide** icons from https://lucide.dev/
+
 ### Dev Notes
 
 - ✏️ move scripts from `package.json` to `scripts/`

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useActiveStore } from "../../hooks/useActiveStore";
 import { getFilters } from "../../types/filters";
+import { SlidersHorizontal } from "lucide-react";
 
 import styles from "./SearchBar.module.css";
 
@@ -48,7 +49,11 @@ export const SearchBar = () => {
                     className={`${styles.filterToggleButton} ${isOpen ? styles.active : ""}`}
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    <span className={styles.icon}>⛯</span>
+                    <SlidersHorizontal
+                        size={18}
+                        strokeWidth={2}
+                        className={styles.icon}
+                    />
                 </button>
             </div>
 
