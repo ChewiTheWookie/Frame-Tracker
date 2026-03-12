@@ -9,6 +9,7 @@ All notable changes to this project will be logged here
 - ✏️ moved scripts from `package.json` to `scripts/`
 - ✏️ changed to `useRoutes()` in `App.tsx`
 - ✏️ moved keybind handling out of `App.tsx` to `useKeybinds.ts` hook
+- ✏️ moved global CSS variables from body to :root
 
 ## 0.1.10
 
