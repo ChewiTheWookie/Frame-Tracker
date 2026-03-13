@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useActiveStore } from "../../hooks/useActiveStore";
 import { WeeklyTask } from "../../types/weekly";
 import { WeeklyCard } from "../../components/WeeklyCard/WeeklyCard";
@@ -15,30 +15,15 @@ export function WeeklyTracker() {
 
     useEffect(() => {
         rawWeekly.fetchTasks();
-    }, []);
-
-    const filteredTasks = useMemo(() => {
-        return tasks.filter((task) => {
-            if (activeCategory !== "All" && task.category !== activeCategory)
-                return false;
-
-            const searchLower = search.toLowerCase();
-            const matchesSearch =
-                task.name.toLowerCase().includes(searchLower) ||
-                (task.location?.toLowerCase().includes(searchLower) ?? false);
-
-            if (!matchesSearch) return false;
-            return true;
-        });
-    }, [tasks, activeCategory, search, filters]);
+    }, [search, activeCategory, filters]);
 
     if (loading && tasks.length === 0) return <Throbber />;
 
     return (
         <div className={styles.trackerContainer}>
-            {filteredTasks.length > 0 ? (
+            {tasks.length > 0 ? (
                 <Grid>
-                    {filteredTasks.map((task) => (
+                    {tasks.map((task) => (
                         <WeeklyCard key={task.id} task={task} />
                     ))}
                 </Grid>

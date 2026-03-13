@@ -4,6 +4,7 @@ import { WeeklyTask, WeeklyCategories, TAG_FILTER_MAP } from "../types/weekly";
 
 interface WeeklyState {
     tasks: WeeklyTask[];
+    allTasks: WeeklyTask[];
     isLoading: boolean;
     activeCategory: WeeklyCategories;
     setActiveCategory: (cat: WeeklyCategories) => void;
@@ -22,6 +23,7 @@ interface WeeklyState {
 
 export const useWeeklyStore = create<WeeklyState>((set, get) => ({
     tasks: [],
+    allTasks: [],
     isLoading: false,
     activeCategory: "All",
     search: "",
@@ -56,11 +58,36 @@ export const useWeeklyStore = create<WeeklyState>((set, get) => ({
     },
 
     fetchTasks: async () => {
+        const state = get();
         set({ isLoading: true });
-        try {
-            const rawTasks = await invoke<any[]>("get_weekly_tasks");
 
-            const processedTasks = rawTasks.map((task) => ({
+        try {
+            const filteredTasks = await invoke<any[]>("get_weekly_tasks", {
+                search: state.search,
+                activeCategory: state.activeCategory,
+                filters: state.filters,
+            });
+
+            if (state.allTasks.length === 0) {
+                const fullList = await invoke<any[]>("get_weekly_tasks", {
+                    search: "",
+                    activeCategory: "All",
+                    filters: {
+                        hideCompleted: false,
+                        hideIncompleted: false,
+                        hideMission: false,
+                        hideTrade: false,
+                        hideCraft: false,
+                        hideSyndicate: false,
+                        hideSearchPulse: false,
+                        hideMisc: false,
+                        hideTask: false,
+                    },
+                });
+                set({ allTasks: fullList });
+            }
+
+            const processed = filteredTasks.map((task) => ({
                 ...task,
                 tags:
                     typeof task.tags === "string"
@@ -68,7 +95,7 @@ export const useWeeklyStore = create<WeeklyState>((set, get) => ({
                         : task.tags || [],
             }));
 
-            set({ tasks: processedTasks, isLoading: false });
+            set({ tasks: processed, isLoading: false });
         } catch (error) {
             console.error("Failed to fetch weekly tasks:", error);
             set({ isLoading: false });

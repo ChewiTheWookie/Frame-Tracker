@@ -11,18 +11,22 @@ export function StatBar() {
         const activeCat = store.activeCategory;
 
         if (isWeekly) {
-            const allTasks = rawWeekly.tasks as WeeklyTask[];
-            const filtered =
+            const activeCat = store.activeCategory;
+            const source = rawWeekly.allTasks as WeeklyTask[];
+
+            const filteredByCategory =
                 activeCat === "All"
-                    ? allTasks
-                    : allTasks.filter((t) => t.category === activeCat);
+                    ? source
+                    : source.filter((t) => t.category === activeCat);
+
+            if (filteredByCategory.length === 0) return null;
 
             return {
                 label: "COMPLETED",
-                current: filtered.filter(
+                current: filteredByCategory.filter(
                     (t) => t.currentCompletions >= t.maxCompletions,
                 ).length,
-                total: filtered.length,
+                total: filteredByCategory.length,
                 showSecondary: false,
                 secondaryLabel: "",
                 secondaryCurrent: 0,

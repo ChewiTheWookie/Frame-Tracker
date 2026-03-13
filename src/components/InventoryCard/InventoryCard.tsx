@@ -1,5 +1,5 @@
 import { Item } from "../../types/inventory";
-import { useInventoryStore } from "../../store/useInventoryStore";
+import { useActiveStore } from "../../hooks/useActiveStore";
 import { Card } from "../Card/Card";
 import { CardButton } from "../CardButton";
 
@@ -10,7 +10,8 @@ interface Props {
 }
 
 export const InventoryCard = ({ item }: Props) => {
-    const { toggleStatus, togglePart, showAllBacks } = useInventoryStore();
+    const { store } = useActiveStore();
+    const { toggleStatus, togglePart, showAllBacks } = store;
 
     const statusClasses = `
         ${item.mastered ? styles.mastered : ""} 
@@ -38,7 +39,7 @@ export const InventoryCard = ({ item }: Props) => {
                         label="UNRANKED"
                         activeLabel="MASTERED"
                         isActive={item.mastered}
-                        onClick={() => toggleStatus(item.id, "mastered")}
+                        onClick={() => toggleStatus?.(item.id, "mastered")}
                     />
                     {item.isFeedable && (
                         <CardButton
@@ -46,7 +47,9 @@ export const InventoryCard = ({ item }: Props) => {
                             activeLabel="🧬 FED"
                             isActive={item.helminthed}
                             variant="helminth"
-                            onClick={() => toggleStatus(item.id, "helminthed")}
+                            onClick={() =>
+                                toggleStatus?.(item.id, "helminthed")
+                            }
                         />
                     )}
                 </div>
@@ -80,7 +83,7 @@ export const InventoryCard = ({ item }: Props) => {
                     label="UNOWNED"
                     activeLabel="OWNED"
                     isActive={item.owned}
-                    onClick={() => toggleStatus(item.id, "owned")}
+                    onClick={() => toggleStatus?.(item.id, "owned")}
                 />
             </div>
         </div>

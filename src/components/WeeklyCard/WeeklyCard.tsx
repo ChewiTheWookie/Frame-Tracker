@@ -1,4 +1,4 @@
-import { useWeeklyStore } from "../../store/useWeeklyStore";
+import { useActiveStore } from "../../hooks/useActiveStore";
 import { WeeklyTask } from "../../types/weekly";
 import { Card } from "../Card/Card";
 import { CardButton } from "../CardButton";
@@ -12,7 +12,8 @@ interface Props {
 }
 
 export const WeeklyCard = ({ task }: Props) => {
-    const { adjustTask, showAllBacks, fetchTasks } = useWeeklyStore();
+    const { store } = useActiveStore();
+    const { adjustTask, showAllBacks, fetchTasks } = store;
 
     const isCompleted = task.currentCompletions >= task.maxCompletions;
     const isAtZero = task.currentCompletions === 0;
@@ -54,7 +55,7 @@ export const WeeklyCard = ({ task }: Props) => {
                         <CardButton
                             label="-"
                             isActive={false}
-                            onClick={() => adjustTask(task.id, false)}
+                            onClick={() => adjustTask?.(task.id, false)}
                         />
                     )}
                     <CardButton
@@ -62,7 +63,7 @@ export const WeeklyCard = ({ task }: Props) => {
                         isActive={isCompleted}
                         activeLabel="COMPLETED"
                         onClick={() => {
-                            if (!isCompleted) adjustTask(task.id, true);
+                            if (!isCompleted) adjustTask?.(task.id, true);
                         }}
                     />
                 </div>

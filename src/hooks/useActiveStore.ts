@@ -2,9 +2,9 @@ import { useLocation } from "react-router-dom";
 import { useInventoryStore } from "../store/useInventoryStore";
 import { useWeeklyStore } from "../store/useWeeklyStore";
 import { ROUTE_REGISTRY } from "../routes/metadata";
-import { MASTERY_CATEGORIES } from "../types/inventory";
-import { WEEKLY_CATEGORIES } from "../types/weekly";
 import { NormalizedStore } from "../types/store";
+import { WEEKLY_CATEGORIES } from "../types/weekly";
+import { MASTERY_CATEGORIES } from "../types/inventory";
 
 export function useActiveStore() {
     const { pathname } = useLocation();
@@ -23,6 +23,10 @@ export function useActiveStore() {
               activeCategory: weeklyStore.activeCategory,
               filters: weeklyStore.filters,
               toggleFilter: weeklyStore.toggleFilter,
+              showAllBacks: weeklyStore.showAllBacks,
+              toggleShowAllBacks: weeklyStore.toggleShowAllBacks,
+              adjustTask: weeklyStore.adjustTask,
+              fetchTasks: weeklyStore.fetchTasks,
           }
         : {
               data: invStore.items,
@@ -32,6 +36,10 @@ export function useActiveStore() {
               activeCategory: invStore.activeCategory,
               filters: invStore.filters,
               toggleFilter: invStore.toggleFilter,
+              showAllBacks: invStore.showAllBacks,
+              toggleShowAllBacks: invStore.toggleShowAllBacks,
+              toggleStatus: invStore.toggleStatus,
+              togglePart: invStore.togglePart,
           };
 
     const updateCategory = (cat: string) => {

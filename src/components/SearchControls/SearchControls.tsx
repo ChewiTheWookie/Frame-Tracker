@@ -1,11 +1,11 @@
 import { useLocation } from "react-router-dom";
-import { SaveIndicator } from "../../components/SaveIndicator";
-import { StatBar } from "../../components/StatBar";
-import { SearchBar } from "../../components/SearchBar";
+import { ROUTE_REGISTRY } from "../../routes/metadata";
+import { SaveIndicator } from "../SaveIndicator";
+import { StatBar } from "../StatBar";
+import { SearchBar } from "../SearchBar";
+import { CategoryTabs } from "../CategoryTabs";
 
 import styles from "./SearchControls.module.css";
-import { CategoryTabs } from "../CategoryTabs";
-import { ROUTE_REGISTRY } from "../../routes/metadata";
 
 export function SearchControls() {
     const { pathname } = useLocation();
