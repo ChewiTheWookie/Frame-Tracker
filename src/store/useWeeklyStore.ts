@@ -39,16 +39,21 @@ export const useWeeklyStore = create<WeeklyState>((set, get) => ({
     },
 
     setActiveCategory: (activeCategory) => set({ activeCategory }),
-    setSearch: (search) => set({ search }),
+    setSearch: (search) => {
+        set({ search });
+        get().fetchTasks();
+    },
     toggleShowAllBacks: () =>
         set((state) => ({ showAllBacks: !state.showAllBacks })),
-    toggleFilter: (key) =>
+    toggleFilter: (key) => {
         set((state) => ({
             filters: {
                 ...state.filters,
                 [key]: !state.filters[key as keyof typeof state.filters],
             },
-        })),
+        }));
+        get().fetchTasks();
+    },
 
     fetchTasks: async () => {
         set({ isLoading: true });

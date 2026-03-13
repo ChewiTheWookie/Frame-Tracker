@@ -8,23 +8,19 @@ import styles from "./SearchBar.module.css";
 export const SearchBar = () => {
     const { store, currentRouteKey, pathname } = useActiveStore();
 
-    const [localSearch, setLocalSearch] = useState(store?.search || "");
+    const [localSearch, setLocalSearch] = useState(store.search);
     const [isOpen, setIsOpen] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (store) {
-            setLocalSearch(store.search);
-        }
-    }, [store?.search, pathname]);
+        setLocalSearch(store.search);
+    }, [store.search, pathname]);
 
     useEffect(() => {
         const handleFocus = () => inputRef.current?.focus();
         window.addEventListener("focus-search", handleFocus);
         return () => window.removeEventListener("focus-search", handleFocus);
     }, []);
-
-    if (!store) return null;
 
     const filters = getFilters(store, currentRouteKey);
 
@@ -41,7 +37,7 @@ export const SearchBar = () => {
                     ref={inputRef}
                     className={styles.searchInput}
                     type="text"
-                    placeholder={`SEARCH ${store.activeCategory.toUpperCase()}...`}
+                    placeholder={`SEARCH ${(store.activeCategory || "ALL").toUpperCase()}...`}
                     value={localSearch}
                     onChange={handleTextChange}
                 />
@@ -62,14 +58,14 @@ export const SearchBar = () => {
                     <div className={styles.dropdownHeader}>
                         ADVANCED FILTERS
                     </div>
-                    {filters.map((tab) => (
-                        <div className={styles.filterOption} key={tab.key}>
-                            <span>{tab.name}</span>
+                    {filters.map((filter) => (
+                        <div className={styles.filterOption} key={filter.key}>
+                            <span>{filter.name}</span>
                             <label className={styles.switch}>
                                 <input
                                     type="checkbox"
-                                    checked={tab.checked}
-                                    onChange={tab.onChange}
+                                    checked={filter.checked}
+                                    onChange={filter.onChange}
                                 />
                                 <span className={styles.slider}></span>
                             </label>

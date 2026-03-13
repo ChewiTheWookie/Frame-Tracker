@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useInventoryStore } from "../../store/useInventoryStore";
+import { useActiveStore } from "../../hooks/useActiveStore";
+import { Item } from "../../types/inventory";
 import { InventoryCard } from "../../components/InventoryCard";
 import { Grid } from "../../components/Grid";
 import { Throbber } from "../../components/Throbber";
@@ -8,18 +9,14 @@ import { ScrollToTop } from "../../components/ScrollToTop";
 import styles from "./MasteryTracker.module.css";
 
 export function MasteryTracker() {
-    const items = useInventoryStore((state) => state.items);
-    const loading = useInventoryStore((state) => state.loading);
-    const visibleCount = useInventoryStore((state) => state.visibleCount);
-    const loadMore = useInventoryStore((state) => state.loadMore);
-    const fetchWikiData = useInventoryStore((state) => state.fetchWikiData);
+    const { store, rawInv } = useActiveStore();
+    const { data: items, loading } = store;
+    const { visibleCount, loadMore, fetchWikiData } = rawInv;
 
     const loaderRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (items.length === 0) {
-            fetchWikiData();
-        }
+        if (items.length === 0) fetchWikiData();
     }, [fetchWikiData, items.length]);
 
     useEffect(() => {
@@ -29,21 +26,15 @@ export function MasteryTracker() {
                     loadMore();
                 }
             },
-            {
-                threshold: 0,
-                rootMargin: "0px 0px 400px 0px",
-            },
+            { threshold: 0, rootMargin: "0px 0px 400px 0px" },
         );
 
-        if (loaderRef.current) {
-            observer.observe(loaderRef.current);
-        }
-
+        if (loaderRef.current) observer.observe(loaderRef.current);
         return () => observer.disconnect();
     }, [items.length, visibleCount, loadMore]);
 
     const displayedItems = useMemo(() => {
-        return items.slice(0, visibleCount);
+        return (items as Item[]).slice(0, visibleCount);
     }, [items, visibleCount]);
 
     return (
@@ -57,7 +48,6 @@ export function MasteryTracker() {
                             <InventoryCard key={item.id} item={item} />
                         ))}
                     </Grid>
-
                     {items.length > visibleCount && (
                         <div ref={loaderRef} className={styles.infiniteLoader}>
                             <div className={styles.loaderLine} />
@@ -67,7 +57,6 @@ export function MasteryTracker() {
                     )}
                 </>
             )}
-
             <ScrollToTop />
         </div>
     );
