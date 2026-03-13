@@ -3,7 +3,6 @@ import { useRoutes } from "react-router-dom";
 import { ROUTES } from "./routes/routes";
 import { useTimeStore } from "./store/useTimeStore";
 import { useKeybind } from "./hooks/useKeybinds";
-import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
 import { SearchControls } from "./components/SearchControls";
 
@@ -30,7 +29,6 @@ export function App() {
                         <div className={styles.title}>
                             <h1>Frame Tracker</h1>
                         </div>
-                        <ThemeButton />
                     </header>
 
                     <SearchControls />

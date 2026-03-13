@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { ROUTE_REGISTRY } from "../../routes/metadata";
+import { PATHS } from "../../routes/paths";
 
 import styles from "./Navbar.module.css";
 
@@ -12,6 +13,34 @@ interface NavbarProps {
 export const Navbar = ({ isOpen, setIsOpen }: NavbarProps) => {
     const location = useLocation();
 
+    const renderNavLink = (path: string, meta: any) => {
+        const Icon = meta.icon;
+        const isActive =
+            path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(path);
+
+        return (
+            <Link
+                key={path}
+                to={path}
+                className={`${styles.navLink} ${isActive ? styles.active : ""}`}
+            >
+                <span className={styles.icon}>
+                    <Icon size={20} strokeWidth={2} />
+                </span>
+                <span className={styles.label}>{meta.label}</span>
+            </Link>
+        );
+    };
+
+    const navEntries = Object.entries(ROUTE_REGISTRY).filter(
+        ([_, meta]) => meta.showInNav,
+    );
+
+    const mainLinks = navEntries.filter(([path]) => path !== PATHS.Settings);
+    const settingsLink = navEntries.find(([path]) => path === PATHS.Settings);
+
     return (
         <aside className={`${styles.sidebar} ${isOpen ? styles.expanded : ""}`}>
             <button
@@ -22,28 +51,15 @@ export const Navbar = ({ isOpen, setIsOpen }: NavbarProps) => {
             </button>
 
             <div className={styles.navLinks}>
-                {Object.entries(ROUTE_REGISTRY)
-                    .filter(([_, meta]) => meta.showInNav)
-                    .map(([path, meta]) => {
-                        const Icon = meta.icon;
-                        const isActive = location.pathname === path;
+                <div className={styles.topLinks}>
+                    {mainLinks.map(([path, meta]) => renderNavLink(path, meta))}
+                </div>
 
-                        return (
-                            <Link
-                                key={path}
-                                to={path}
-                                className={`${styles.navLink} ${isActive ? styles.active : ""}`}
-                            >
-                                <span className={styles.icon}>
-                                    <Icon size={20} strokeWidth={2} />
-                                </span>
-
-                                <span className={styles.label}>
-                                    {meta.label}
-                                </span>
-                            </Link>
-                        );
-                    })}
+                {settingsLink && (
+                    <div className={styles.bottomLinks}>
+                        {renderNavLink(settingsLink[0], settingsLink[1])}
+                    </div>
+                )}
             </div>
         </aside>
     );

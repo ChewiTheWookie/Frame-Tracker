@@ -1,5 +1,11 @@
 import { PATHS } from "./paths";
-import { LucideIcon, Telescope, CalendarCheck, Info } from "lucide-react";
+import {
+    LucideIcon,
+    Telescope,
+    CalendarCheck,
+    Info,
+    Settings,
+} from "lucide-react";
 
 interface RouteMetadata {
     label: string;
@@ -39,11 +45,23 @@ export const ROUTE_REGISTRY: Record<string, RouteMetadata> = {
             stats: true,
         },
     },
+    [PATHS.Settings]: {
+        label: "Settings",
+        icon: Settings,
+        storeType: "none",
+        showInNav: true,
+        features: {
+            tabs: false,
+            saveIndicator: false,
+            searchBar: false,
+            stats: false,
+        },
+    },
     [PATHS.Acknowledgments]: {
         label: "Acknowledgments",
         icon: Info,
         storeType: "none",
-        showInNav: true,
+        showInNav: false,
         features: {
             tabs: false,
             saveIndicator: false,

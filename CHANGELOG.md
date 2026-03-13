@@ -8,6 +8,12 @@ All notable changes to this project will be logged here
 
 - ✨ add **Lucide** icons from https://lucide.dev/
 - ✨ add new Navbar
+- ✨ add a Settings page
+- ✨ add use System default for theme
+
+### Bug Fixes
+
+- 🛠️ fix `Acknowledgments.tsx` style
 
 ### Dev Notes
 
@@ -22,6 +28,7 @@ All notable changes to this project will be logged here
 - ✏️ remove nested divs in `About.tsx`
 - ✏️ move scroll to top button to `ScrollToTop.tsx` and added to `About.tsx` and `WeeklyTracker.tsx` pages
 - ✏️ rename About page and related to Acknowledgments
+- ✏️ remove `ThemeButton.tsx` and moved theme selection to settings
 
 ## 0.1.10
 

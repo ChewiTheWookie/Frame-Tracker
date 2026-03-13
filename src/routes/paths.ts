@@ -1,5 +1,6 @@
 export const PATHS = {
     Mastery: "/",
     Weekly: "/weekly",
-    Acknowledgments: "/acknowledgments",
+    Settings: "/settings",
+    Acknowledgments: "/settings/acknowledgments",
 };

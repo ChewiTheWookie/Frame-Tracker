@@ -1,7 +1,10 @@
 import { useEffect, useState, useRef, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
+import { PATHS } from "../../routes/paths";
 import { Throbber } from "../../components/Throbber";
 import { ScrollToTop } from "../../components/ScrollToTop";
+import { ArrowLeft } from "lucide-react";
 
 import styles from "./Acknowledgments.module.css";
 
@@ -14,6 +17,8 @@ interface CargoPackage {
 }
 
 export function Acknowledgments() {
+    const navigate = useNavigate();
+
     const [npmData, setNpmData] = useState<Record<string, any>>({});
     const [cargoData, setCargoData] = useState<CargoPackage[]>([]);
     const [visibleCount, setVisibleCount] = useState(10);
@@ -65,7 +70,16 @@ export function Acknowledgments() {
 
     return (
         <div className={styles.aboutContainer}>
-            <h1 className={styles.title}>Third-Party Software Notices</h1>
+            <header className={styles.pageHeader}>
+                <button
+                    className={styles.backButton}
+                    onClick={() => navigate(PATHS.Settings)}
+                >
+                    <ArrowLeft size={20} />
+                    <span>Back</span>
+                </button>
+                <h1 className={styles.title}>Third-Party Software Notices</h1>
+            </header>
 
             <section className={styles.section}>
                 <h2 className={styles.sectionHeader}>Frontend Dependencies</h2>

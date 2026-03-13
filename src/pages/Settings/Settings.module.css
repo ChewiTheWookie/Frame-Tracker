@@ -1,0 +1,90 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--color);
+}
+
+.section {
+    margin-bottom: 1rem;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.sectionHeader h2 {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.settingButton,
+.navButton {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    transition: background 0.2s;
+}
+
+.settingButton:hover,
+.navButton:hover {
+    background: var(--accent-glow);
+}
+
+.labelGroup {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.settingLabel {
+    margin: 0;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.settingDesc {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+.themeToggleIcon {
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+}
+
+.card:hover .themeToggleIcon {
+    color: var(--color-glow);
+}
+
+.chevron {
+    opacity: 0.4;
+    transition:
+        transform 0.2s,
+        opacity 0.2s;
+}
+
+.navButton:hover .chevron {
+    opacity: 1;
+    transform: translateX(4px);
+}
