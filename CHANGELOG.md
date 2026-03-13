@@ -14,6 +14,7 @@ All notable changes to this project will be logged here
 ### Bug Fixes
 
 - 🛠️ fix `Acknowledgments.tsx` style
+- 🛠️ fix Category tab switching causing stutter
 
 ### Dev Notes
 
