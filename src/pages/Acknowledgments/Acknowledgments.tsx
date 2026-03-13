@@ -3,7 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { Throbber } from "../../components/Throbber";
 import { ScrollToTop } from "../../components/ScrollToTop";
 
-import styles from "./About.module.css";
+import styles from "./Acknowledgments.module.css";
 
 interface CargoPackage {
     name: string;
@@ -13,7 +13,7 @@ interface CargoPackage {
     text: string | null;
 }
 
-export function About() {
+export function Acknowledgments() {
     const [npmData, setNpmData] = useState<Record<string, any>>({});
     const [cargoData, setCargoData] = useState<CargoPackage[]>([]);
     const [visibleCount, setVisibleCount] = useState(10);

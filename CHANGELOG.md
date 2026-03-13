@@ -21,6 +21,7 @@ All notable changes to this project will be logged here
 - ✏️ add a version check to prevent build with same version number
 - ✏️ remove nested divs in `About.tsx`
 - ✏️ move scroll to top button to `ScrollToTop.tsx` and added to `About.tsx` and `WeeklyTracker.tsx` pages
+- ✏️ rename About page and related to Acknowledgments
 
 ## 0.1.10
 
