@@ -40,7 +40,7 @@
 }
 
 .expanded .navLinks {
-    padding: 0.5rem;
+    padding: 0.25rem;
 }
 
 .navLink {
@@ -70,9 +70,12 @@
 }
 
 .icon {
-    margin-right: 0.5rem;
     display: flex;
     justify-content: center;
+}
+
+.expanded .icon {
+    margin-right: 0.5rem;
 }
 
 .label {
