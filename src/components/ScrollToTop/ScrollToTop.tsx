@@ -6,23 +6,34 @@ export function ScrollToTop() {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const toggleVisibility = () => {
-            if (window.scrollY > 500) {
+        const toggleVisibility = (e: any) => {
+            const target =
+                e.target === document ? document.documentElement : e.target;
+            const scrollTop = target.scrollTop || window.scrollY;
+
+            if (scrollTop > 150) {
                 setIsVisible(true);
             } else {
                 setIsVisible(false);
             }
         };
 
-        window.addEventListener("scroll", toggleVisibility);
-        return () => window.removeEventListener("scroll", toggleVisibility);
+        window.addEventListener("scroll", toggleVisibility, true);
+
+        return () =>
+            window.removeEventListener("scroll", toggleVisibility, true);
     }, []);
 
     const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
+        const scrollableContainer = document.querySelector(
+            `[class*="contentArea"]`,
+        );
+
+        if (scrollableContainer) {
+            scrollableContainer.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
     };
 
     return (

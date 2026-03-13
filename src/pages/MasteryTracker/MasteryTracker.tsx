@@ -8,7 +8,6 @@ import { ScrollToTop } from "../../components/ScrollToTop";
 import styles from "./MasteryTracker.module.css";
 
 export function MasteryTracker() {
-    // Optimized selection: only pull what is necessary for this view
     const items = useInventoryStore((state) => state.items);
     const loading = useInventoryStore((state) => state.loading);
     const visibleCount = useInventoryStore((state) => state.visibleCount);
@@ -17,14 +16,12 @@ export function MasteryTracker() {
 
     const loaderRef = useRef<HTMLDivElement>(null);
 
-    // Initial data fetch
     useEffect(() => {
         if (items.length === 0) {
             fetchWikiData();
         }
     }, [fetchWikiData, items.length]);
 
-    // Infinite Scroll Observer
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -45,7 +42,6 @@ export function MasteryTracker() {
         return () => observer.disconnect();
     }, [items.length, visibleCount, loadMore]);
 
-    // Slice items for display based on visibleCount
     const displayedItems = useMemo(() => {
         return items.slice(0, visibleCount);
     }, [items, visibleCount]);
@@ -72,7 +68,6 @@ export function MasteryTracker() {
                 </>
             )}
 
-            {/* Component handles its own visibility and logic */}
             <ScrollToTop />
         </div>
     );

@@ -6,8 +6,6 @@ import { useKeybind } from "./hooks/useKeybinds";
 import { ThemeButton } from "./components/ThemeButton";
 import { Navbar } from "./components/Navbar";
 import { SearchControls } from "./components/SearchControls";
-import { SaveIndicator } from "./components/SaveIndicator";
-import { ScrollToTop } from "./components/ScrollToTop";
 
 import styles from "./styles/App.module.css";
 
@@ -35,16 +33,11 @@ export function App() {
                         <ThemeButton />
                     </header>
 
-                    <nav className={styles.searchNav}>
-                        <SearchControls />
-                    </nav>
+                    <SearchControls />
                 </div>
 
                 <main className={styles.contentArea}>{useRoutes(ROUTES)}</main>
             </div>
-
-            <SaveIndicator />
-            <ScrollToTop />
         </div>
     );
 }

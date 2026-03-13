@@ -19,7 +19,7 @@ export function SearchControls() {
     if (!showAnything) return null;
 
     return (
-        <>
+        <nav className={styles.searchNav}>
             {tabs && <CategoryTabs />}
 
             {(saveIndicator || searchBar || stats) && (
@@ -29,6 +29,6 @@ export function SearchControls() {
                     {stats && <StatBar />}
                 </div>
             )}
-        </>
+        </nav>
     );
 }
