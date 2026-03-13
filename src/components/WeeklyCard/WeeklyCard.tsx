@@ -3,6 +3,7 @@ import { WeeklyTask } from "../../types/weekly";
 import { Card } from "../Card/Card";
 import { CardButton } from "../CardButton";
 import { LiveTimer } from "../LiveTimer";
+import { MapPin, Monitor, ScrollText, RefreshCw } from "lucide-react";
 
 import styles from "./WeeklyCard.module.css";
 
@@ -76,24 +77,27 @@ export const WeeklyCard = ({ task }: Props) => {
             <div className={styles.detailsList}>
                 {task.location && (
                     <div className={styles.detailRow}>
-                        <span>📍:</span>
+                        <MapPin size={16} className={styles.detailIcon} />
                         <span>{task.location}</span>
                     </div>
                 )}
                 {task.terminal && (
                     <div className={styles.detailRow}>
-                        <span>🖥️:</span>
+                        <Monitor size={16} className={styles.detailIcon} />
                         <span>{task.terminal}</span>
                     </div>
                 )}
                 {task.questRequired && (
                     <div className={styles.detailRow}>
-                        <span>📜:</span>
+                        <ScrollText size={16} className={styles.detailIcon} />
                         <span>{task.questRequired}</span>
                     </div>
                 )}
                 <div className={styles.detailRow}>
-                    <span>🔄:</span>
+                    <RefreshCw
+                        size={16}
+                        className={`${styles.detailIcon} ${styles.spinning}`}
+                    />
                     <span>
                         {task.resetInterval === "8h_world"
                             ? "8 Hours"

@@ -1,15 +1,15 @@
 {
     "name": "frametracker",
     "private": true,
-    "version": "0.1.10",
+    "version": "0.1.11",
     "type": "module",
     "license": "MIT",
     "scripts": {
         "dev": "vite",
-        "licenses:frontend": "license-checker --json --out src/assets/npm-licenses.json && node -e \"const fs=require('fs'); const path='./src/assets/npm-licenses.json'; const d=JSON.parse(fs.readFileSync(path)); Object.values(d).forEach(v=>{if(v.licenseFile) v.licenseText=fs.readFileSync(v.licenseFile,'utf8')}); fs.writeFileSync(path,JSON.stringify(d,null,2)); console.log('✅ generated: npm-licenses.json');\"",
-        "licenses:backend": "cd src-tauri && cargo about generate about.hbs > ../src/assets/cargo-licenses.json && echo ✅ generated: cargo-licenses.json",
-        "sync-cargo": "node -e \"const v = require('./package.json').version; const fs = require('fs'); const p = './src-tauri/Cargo.toml'; let c = fs.readFileSync(p, 'utf8'); fs.writeFileSync(p, c.replace(/^version = \\\".*\\\"/m, 'version = \\\"' + v + '\\\"')); console.log('✅ Cargo.toml synced to ' + v);\"",
-        "prebuild": "npm run licenses:frontend && npm run licenses:backend && npm run sync-cargo",
+        "licenses:frontend": "tsx scripts/licenses-frontend.ts",
+        "licenses:backend": "tsx scripts/licenses-backend.ts",
+        "sync-versions": "tsx scripts/sync-versions.ts",
+        "prebuild": "tsx scripts/prebuild.ts",
         "build": "tsc && vite build",
         "preview": "vite preview",
         "tauri": "tauri"
@@ -18,6 +18,7 @@
         "@tauri-apps/api": "^2.10.1",
         "@tauri-apps/plugin-opener": "^2",
         "@tauri-apps/plugin-store": "^2.4.2",
+        "lucide-react": "^0.577.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "react-router-dom": "^7.13.1",
@@ -26,9 +27,11 @@
     },
     "devDependencies": {
         "@tauri-apps/cli": "^2",
+        "@types/node": "^25.5.0",
         "@types/react": "^19.1.8",
         "@types/react-dom": "^19.1.6",
         "@vitejs/plugin-react": "^4.6.0",
+        "tsx": "^4.21.0",
         "typescript": "~5.8.3",
         "vite": "^7.0.4"
     }

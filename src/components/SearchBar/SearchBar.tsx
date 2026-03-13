@@ -1,43 +1,38 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { useInventoryStore } from "../../store/useInventoryStore";
-import { useWeeklyStore } from "../../store/useWeeklyStore";
-import { ROUTES } from "../../routes/Routes";
+import { useActiveStore } from "../../hooks/useActiveStore";
 import { getFilters } from "../../types/filters";
+import { SlidersHorizontal } from "lucide-react";
 
 import styles from "./SearchBar.module.css";
 
 export const SearchBar = () => {
-    const location = useLocation();
-    const inventoryStore = useInventoryStore();
-    const weeklyStore = useWeeklyStore();
+    const { store, currentRouteKey, pathname } = useActiveStore();
 
-    const currentRouteKey = ROUTES.find(
-        (r) => r.path === location.pathname,
-    )?.key;
-
-    const isWeekly = currentRouteKey === "weekly";
-    const activeStore = isWeekly ? weeklyStore : inventoryStore;
-
-    const [localSearch, setLocalSearch] = useState(activeStore.search);
-    const inputRef = useRef<HTMLInputElement>(null);
+    const [localSearch, setLocalSearch] = useState(store?.search || "");
     const [isOpen, setIsOpen] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        setLocalSearch(activeStore.search);
-    }, [activeStore.search, location.pathname]);
+        if (store) {
+            setLocalSearch(store.search);
+        }
+    }, [store?.search, pathname]);
 
-    const tabs = getFilters(activeStore, currentRouteKey);
+    useEffect(() => {
+        const handleFocus = () => inputRef.current?.focus();
+        window.addEventListener("focus-search", handleFocus);
+        return () => window.removeEventListener("focus-search", handleFocus);
+    }, []);
+
+    if (!store) return null;
+
+    const filters = getFilters(store, currentRouteKey);
 
     const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
         setLocalSearch(val);
-        activeStore.setSearch(val);
+        store.setSearch(val);
     };
-
-    const activeCategoryDisplay = isWeekly
-        ? weeklyStore.activeCategory
-        : inventoryStore.activeCategory;
 
     return (
         <div className={styles.searchContainer}>
@@ -46,7 +41,7 @@ export const SearchBar = () => {
                     ref={inputRef}
                     className={styles.searchInput}
                     type="text"
-                    placeholder={`SEARCH ${activeCategoryDisplay.toUpperCase()}...`}
+                    placeholder={`SEARCH ${store.activeCategory.toUpperCase()}...`}
                     value={localSearch}
                     onChange={handleTextChange}
                 />
@@ -54,7 +49,11 @@ export const SearchBar = () => {
                     className={`${styles.filterToggleButton} ${isOpen ? styles.active : ""}`}
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    <span className={styles.icon}>⛯</span>
+                    <SlidersHorizontal
+                        size={18}
+                        strokeWidth={2}
+                        className={styles.icon}
+                    />
                 </button>
             </div>
 
@@ -63,7 +62,7 @@ export const SearchBar = () => {
                     <div className={styles.dropdownHeader}>
                         ADVANCED FILTERS
                     </div>
-                    {tabs.map((tab) => (
+                    {filters.map((tab) => (
                         <div className={styles.filterOption} key={tab.key}>
                             <span>{tab.name}</span>
                             <label className={styles.switch}>

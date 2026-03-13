@@ -4,6 +4,7 @@ import { TAG_FILTER_MAP } from "../../types/weekly";
 import { WeeklyCard } from "../../components/WeeklyCard/WeeklyCard";
 import { Grid } from "../../components/Grid";
 import { Throbber } from "../../components/Throbber";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
 import styles from "./WeeklyTracker.module.css";
 
@@ -64,6 +65,8 @@ export function WeeklyTracker() {
                     <p>No tasks match your current filters or search query.</p>
                 </div>
             )}
+
+            <ScrollToTop />
         </div>
     );
 }

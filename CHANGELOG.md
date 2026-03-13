@@ -2,6 +2,35 @@
 
 All notable changes to this project will be logged here
 
+## 0.1.11
+
+### Features
+
+- ✨ add **Lucide** icons from https://lucide.dev/
+- ✨ add new Navbar
+- ✨ add a Settings page
+- ✨ add use System default for theme
+
+### Bug Fixes
+
+- 🛠️ fix `Acknowledgments.tsx` style
+- 🛠️ fix Category tab switching causing stutter
+
+### Dev Notes
+
+- ✏️ move scripts from `package.json` to `scripts/`
+- ✏️ change to `useRoutes()` in `App.tsx`
+- ✏️ move keybind handling out of `App.tsx` to `useKeybinds.ts` hook
+- ✏️ move global CSS variables from body to :root
+- ✏️ add links to `README.md` for the technologies badges
+- ✏️ move css var from `.dark` and `.light` to `:root` and `:root.light`
+- ✏️ move store selection to `useActiveStore.ts`
+- ✏️ add a version check to prevent build with same version number
+- ✏️ remove nested divs in `About.tsx`
+- ✏️ move scroll to top button to `ScrollToTop.tsx` and added to `About.tsx` and `WeeklyTracker.tsx` pages
+- ✏️ rename About page and related to Acknowledgments
+- ✏️ remove `ThemeButton.tsx` and moved theme selection to settings
+
 ## 0.1.10
 
 ### Bug Fixs

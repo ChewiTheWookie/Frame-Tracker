@@ -143,3 +143,18 @@ input:checked + .slider:before {
 input:hover + .slider {
     box-shadow: 0 0 8px var(--accent-glow);
 }
+
+.icon {
+    transition: all 0.3s ease;
+    color: var(--color);
+    pointer-events: none;
+}
+
+.filterToggleButton.active .icon {
+    color: var(--bg);
+    transform: rotate(90deg);
+}
+
+.filterToggleButton:hover .icon {
+    color: var(--accent);
+}

@@ -1,24 +1,25 @@
-import { About } from "../pages/About";
+import { RouteObject } from "react-router-dom";
+import { PATHS } from "./paths";
+import { Acknowledgments } from "../pages/Acknowledgments";
 import { MasteryTracker } from "../pages/MasteryTracker";
 import { WeeklyTracker } from "../pages/WeeklyTracker";
+import { Settings } from "../pages/Settings";
 
-export const ROUTES = [
+export const ROUTES: RouteObject[] = [
     {
-        name: "Mastery Tracker",
-        path: "/",
+        path: PATHS.Mastery,
         element: <MasteryTracker />,
-        key: "mastery",
     },
     {
-        name: "Weekly Task",
-        path: "/weekly",
+        path: PATHS.Weekly,
         element: <WeeklyTracker />,
-        key: "weekly",
     },
     {
-        name: "About",
-        path: "/about",
-        element: <About />,
-        key: "about",
+        path: PATHS.Settings,
+        element: <Settings />,
+    },
+    {
+        path: PATHS.Acknowledgments,
+        element: <Acknowledgments />,
     },
 ];

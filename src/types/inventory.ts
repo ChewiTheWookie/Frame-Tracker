@@ -8,7 +8,7 @@ export const MASTERY_CATEGORIES = [
     "Vehicles",
     "Arch Weapons",
     "Modular",
-] as const;
+];
 
 export type MasteryCategories = (typeof MASTERY_CATEGORIES)[number];
 

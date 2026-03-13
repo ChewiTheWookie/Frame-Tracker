@@ -1,38 +1,18 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import { ROUTES } from "./routes/Routes";
+import { useRoutes } from "react-router-dom";
+import { ROUTES } from "./routes/routes";
 import { useTimeStore } from "./store/useTimeStore";
-import { ThemeButton } from "./components/ThemeButton";
+import { useKeybind } from "./hooks/useKeybinds";
 import { Navbar } from "./components/Navbar";
-import { CategoryTabs } from "./components/CategoryTabs";
 import { SearchControls } from "./components/SearchControls";
 
 import styles from "./styles/App.module.css";
 
 export function App() {
     const updateTime = useTimeStore((state) => state.updateTime);
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (
-                e.target instanceof HTMLInputElement ||
-                e.target instanceof HTMLTextAreaElement
-            ) {
-                return;
-            }
-
-            if (e.key === "/" || ((e.ctrlKey || e.metaKey) && e.key === "f")) {
-                e.preventDefault();
-
-                window.dispatchEvent(new CustomEvent("focus-search"));
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, []);
+    useKeybind();
 
     useEffect(() => {
         const intervalId = setInterval(updateTime, 1000);
@@ -43,35 +23,19 @@ export function App() {
         <div className={styles.appContainer}>
             <Navbar isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
 
-            <div className={styles.topSection}>
-                <header className={styles.header}>
-                    <div
-                        className={styles.titleContainer}
-                        onMouseEnter={() => setIsMenuOpen(true)}
-                        onMouseLeave={() => setIsMenuOpen(false)}
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    >
-                        <h1 className={styles.title}>Frame Tracker</h1>
-                    </div>
-                    <ThemeButton />
-                </header>
-                <nav>
-                    <CategoryTabs />
-                    <SearchControls />
-                </nav>
-            </div>
+            <div className={styles.mainWrapper}>
+                <div className={styles.topSection}>
+                    <header className={styles.header}>
+                        <div className={styles.title}>
+                            <h1>Frame Tracker</h1>
+                        </div>
+                    </header>
 
-            <main>
-                <Routes>
-                    {ROUTES.map((route) => (
-                        <Route
-                            path={route.path}
-                            element={route.element}
-                            key={route.key}
-                        />
-                    ))}
-                </Routes>
-            </main>
+                    <SearchControls />
+                </div>
+
+                <main className={styles.contentArea}>{useRoutes(ROUTES)}</main>
+            </div>
         </div>
     );
 }

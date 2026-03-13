@@ -1,58 +1,101 @@
-.navDropdown {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 0;
+.sidebar {
+    height: 100vh;
+    width: fit-content;
     background: var(--bg);
-    backdrop-filter: blur(15px);
-    border-bottom: 2px solid var(--accent);
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.8),
-        0 0 20px var(--accent-glow);
-    z-index: 9999;
-    overflow: hidden;
-    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid var(--accent);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    transition: width 0.3s ease;
+    z-index: 100;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
 }
 
-.navDropdown.show {
-    height: 170px;
+.sidebar.expanded {
+    width: fit-content;
+    align-items: stretch;
+    transition: width 0.3s ease;
+}
+
+.hamburger {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .navLinks {
-    width: 100%;
-    padding: 0 2rem 0 3rem;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    width: auto;
+    flex: 1;
+}
+
+.expanded .navLinks {
+    padding: 0.25rem;
 }
 
 .navLink {
-    background: none;
-    border: none;
-    color: var(--color);
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.2s;
-    padding: 5px 5px;
+    display: flex;
+    align-items: center;
     text-decoration: none;
+    color: var(--color);
+    padding: 0.8rem 1.25rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    box-sizing: border-box;
 }
 
 .navLink:hover {
-    color: var(--color-glow);
+    background: rgba(var(--accent-glow), 0.1);
+    color: var(--accent);
 }
 
 .navLink.active {
-    color: var(--accent);
-    border-bottom: 2px solid var(--accent-glow);
+    background: var(--accent);
+    color: var(--bg);
 }
 
-.navLink.active:hover {
-    color: var(--color-glow);
+.bottomLinks {
+    margin: auto 0 0.5rem 0;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+}
+
+.expanded .icon {
+    margin-right: 0.5rem;
+}
+
+.label {
+    opacity: 0;
+    transition:
+        opacity 0.2s,
+        width 0.3s ease,
+        padding 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    visibility: hidden;
+    width: 0;
+
+    overflow: hidden;
+}
+
+.sidebar.expanded .label {
+    opacity: 1;
+    visibility: visible;
+    flex-grow: 1;
+    width: auto;
 }

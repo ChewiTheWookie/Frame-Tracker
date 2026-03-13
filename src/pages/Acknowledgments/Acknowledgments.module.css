@@ -1,0 +1,118 @@
+.aboutContainer {
+    padding: 1rem 1rem 1rem 1rem;
+    height: 100%;
+    scroll-behavior: smooth;
+    background-color: var(--bg);
+}
+
+.pageHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0.5rem 0;
+    width: fit-content;
+    font-weight: 600;
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s;
+}
+
+.backButton:hover {
+    opacity: 0.8;
+    transform: translateX(-4px);
+}
+
+.backButton span {
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-bottom: 1rem;
+    margin: 0;
+    color: var(--color);
+}
+
+.section {
+    margin-bottom: 2.5rem;
+}
+
+.sectionHeader {
+    font-size: 1.125rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-secondary);
+    padding: 1.25rem 0;
+    margin: 0 0 1rem 0;
+    color: var(--color);
+    position: sticky;
+    background-color: var(--bg);
+    top: 0;
+    z-index: 10;
+}
+
+.backendHeader {
+    color: var(--color);
+}
+
+.item {
+    margin-bottom: 1rem;
+    color: var(--color);
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 0.75rem;
+}
+
+.itemHeader {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.itemHeader::-webkit-details-marker {
+    display: none;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.details {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.licenseText {
+    display: block;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 0.7rem;
+    background-color: var(--card-bg);
+    color: var(--color);
+    padding: 12px;
+    margin-top: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    overscroll-behavior: contain;
+}
+
+.missingNotice {
+    font-size: 0.7rem;
+    color: var(--accent);
+}

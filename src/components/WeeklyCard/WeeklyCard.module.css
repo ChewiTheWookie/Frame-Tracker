@@ -54,6 +54,26 @@
     font-size: 0.8rem;
 }
 
+.detailIcon {
+    color: var(--accent);
+    flex-shrink: 0;
+    opacity: 0.8;
+    display: inline-block;
+}
+
+.spinning {
+    animation: slow-rotate 10s linear infinite;
+}
+
+@keyframes slow-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .mastered {
     composes: mastered from "../Card/Card.module.css";
 }
