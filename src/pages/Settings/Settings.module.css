@@ -1,0 +1,68 @@
+.main {
+    composes: main from "../../styles/Page.module.css";
+}
+
+.section {
+    margin-bottom: 1rem;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    margin-bottom: 0.25rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+}
+
+.sectionHeader h2 {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.settingButton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+    padding: 1.25rem;
+    background: transparent;
+    border-radius: 8px;
+    border: none;
+    transition: background 0.2s;
+    color: inherit;
+    cursor: pointer;
+}
+
+.settingButton:hover {
+    background: var(--accent-glow);
+}
+
+.settingLabel {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.settingDesc {
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+.themeIcon {
+    color: var(--accent);
+    margin-left: auto;
+}
+
+.settingButton:hover .themeIcon {
+    color: var(--accent-glow);
+}
+
+.chevron {
+    color: var(--accent);
+    margin-left: auto;
+}
+
+.settingButton:hover .chevron {
+    transform: translateX(4px);
+}

@@ -1,0 +1,45 @@
+.statContainer {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+
+    height: auto;
+    padding: 0.3rem 15px;
+    margin-right: 0.25rem;
+
+    background: var(--card-bg);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    gap: 15px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: var(--color);
+}
+
+.label {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.value {
+    font-size: 1rem;
+    font-family: "Mono", monospace;
+}
+
+.value span {
+    font-size: 0.7rem;
+    color: var(--color);
+    margin-left: 2px;
+}
+
+.divider {
+    width: 1px;
+    height: 25px;
+    background: var(--border);
+}

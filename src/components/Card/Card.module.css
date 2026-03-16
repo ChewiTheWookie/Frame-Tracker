@@ -1,0 +1,120 @@
+.card {
+    aspect-ratio: 3/4;
+    perspective: 1000px;
+}
+
+.isFlipped .statusWrapper {
+    transform: rotateY(180deg);
+}
+
+.statusWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.front,
+.back {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    padding: 1.25rem;
+    box-sizing: border-box;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.front {
+    z-index: 2;
+    transform: rotateY(0deg);
+}
+
+.back {
+    transform: rotateY(180deg);
+}
+
+/* ? Card Appearance */
+
+.craftable {
+    border-color: var(--craftable) !important;
+    box-shadow: 0 0 15px var(--craftable-glow);
+    background: linear-gradient(
+        135deg,
+        var(--card-bg) 0%,
+        var(--craftable-glow) 100%
+    );
+}
+
+.owned {
+    border-color: var(--owned) !important;
+    box-shadow: 0 0 15px var(--owned-glow);
+    background: linear-gradient(
+        135deg,
+        var(--card-bg) 0%,
+        var(--owned-glow) 100%
+    );
+}
+
+.helminthed {
+    border-color: var(--helminthed) !important;
+    box-shadow: 0 0 15px var(--helminthed-glow);
+    background: linear-gradient(
+        135deg,
+        var(--card-bg) 0%,
+        var(--helminthed-glow) 100%
+    );
+}
+
+.mastered {
+    border-color: var(--mastered) !important;
+    box-shadow: 0 0 15px var(--mastered-glow);
+    background: linear-gradient(
+        135deg,
+        var(--card-bg) 0%,
+        var(--mastered-glow) 100%
+    );
+}
+
+.masteredHelminthed {
+    border-color: var(--mastered) !important;
+    box-shadow: 0 0 15px var(--mastered-glow);
+    background: linear-gradient(
+        135deg,
+        var(--card-bg) 0%,
+        var(--mastered-glow) 100%
+    );
+
+    border-color: var(--mastered) !important;
+    outline: 2px solid var(--helminthed);
+}
+
+/* ? Classes for composes */
+.title {
+    margin: 10px 0 5px 0;
+    color: var(--color);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-align: center;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    flex: 1;
+}

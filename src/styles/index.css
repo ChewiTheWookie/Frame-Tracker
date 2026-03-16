@@ -1,0 +1,36 @@
+:root {
+    interpolate-size: allow-keywords;
+    font-family: "Segoe UI", sans-serif;
+
+    --bg: rgb(12, 11, 19);
+    --color: rgb(187, 187, 187);
+    --color-glow: rgb(255, 255, 255);
+    --border: rgba(255, 255, 255, 0.1);
+
+    --accent: rgb(154, 128, 255);
+    --accent-glow: rgba(154, 128, 255, 0.3);
+
+    --card-bg: rgba(15, 20, 25, 0.8);
+    --card-border: rgba(193, 172, 108, 0.3);
+
+    --craftable: #ffae00;
+    --craftable-glow: #ffae0026;
+    --owned: rgb(0, 229, 255);
+    --owned-glow: rgba(0, 229, 255, 0.15);
+    --mastered: rgb(193, 172, 108);
+    --mastered-glow: rgba(193, 172, 108, 0.15);
+    --helminthed: rgb(163, 78, 176);
+    --helminthed-glow: rgba(163, 78, 176, 0.15);
+}
+
+[data-theme="light"] {
+    /* TODO Add light Theme */
+    --bg: rgb(255, 255, 255);
+}
+
+body {
+    background: var(--bg);
+    color: var(--color);
+    margin: 0;
+    padding: 0;
+}

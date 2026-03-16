@@ -1,0 +1,40 @@
+.tabsContainer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+
+    padding: 10px 0;
+
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabsContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.button {
+    padding: 5px;
+    flex-shrink: 0;
+
+    background: none;
+    border: none;
+
+    color: var(--color);
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+}
+
+.button:hover {
+    color: var(--color-glow);
+}
+
+.active {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent-glow);
+}

@@ -1,0 +1,20 @@
+.main {
+    composes: main from "../../styles/Page.module.css";
+    overflow-y: auto;
+}
+
+.main::-webkit-scrollbar {
+    display: none;
+}
+
+.navContainer {
+    composes: navContainer from "../../styles/Page.module.css";
+}
+
+.navTop {
+    composes: navTop from "../../styles/Page.module.css";
+}
+
+.navBottom {
+    composes: navBottom from "../../styles/Page.module.css";
+}

@@ -1,0 +1,1 @@
+export { InfoContainer } from "./InfoContainer";

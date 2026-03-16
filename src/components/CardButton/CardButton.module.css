@@ -1,0 +1,40 @@
+.button {
+    flex: 1;
+    padding: 6px 0;
+
+    border: 1px solid var(--card-border);
+    border-radius: 2px;
+    background: transparent;
+
+    color: var(--color);
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    cursor: pointer;
+}
+
+.button:hover {
+    box-shadow: 0 0 8px var(--card-border);
+}
+
+.active {
+    background: var(--mastered);
+    color: var(--bg);
+    border-color: var(--mastered);
+}
+
+.actve:hover {
+    box-shadow: 0 0 20px var(--mastered);
+}
+
+.active.helminth {
+    background: var(--helminthed);
+    border-color: var(--helminthed);
+    color: var(--color);
+}
+
+.active.helminth:hover {
+    box-shadow: 0 0 10px var(--helminthed);
+}

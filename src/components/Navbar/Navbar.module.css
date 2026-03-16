@@ -1,0 +1,83 @@
+.sidebar {
+    height: 100vh;
+    width: fit-content;
+    background: var(--bg);
+    border-right: 1px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.3 ease;
+    z-index: 200;
+    overflow: hidden;
+    position: sticky;
+}
+
+.hamburger {
+    background: transparent;
+    border: none;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 20px;
+    cursor: pointer;
+    width: 100%;
+    border-bottom: 1px solid var(--border);
+}
+
+.navLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+    padding: 0.25rem;
+    flex: 1;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color);
+    padding: 0.8rem 1.25rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.navLink:hover {
+    background: var(--accent-glow);
+    color: var(--accent);
+}
+
+.navLink.active {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+.expanded .icon {
+    margin-right: 0.5rem;
+}
+
+.label {
+    opacity: 0;
+    transition:
+        opacity 0.2s,
+        width 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    visibility: hidden;
+    width: 0;
+    overflow: hidden;
+}
+
+.sidebar.expanded .label {
+    opacity: 1;
+    visibility: visible;
+    flex-grow: 1;
+    width: auto;
+}
+
+.bottomNav {
+    margin: auto 0 0.25rem 0;
+}
