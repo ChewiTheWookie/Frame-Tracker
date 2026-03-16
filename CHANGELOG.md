@@ -2,6 +2,14 @@
 
 All notable changes to this project will be logged here
 
+## 1.0.0
+
+- Improved many things and fix past bugs, improved maintanability and performance
+
+### ⚠️⚠️WARNING⚠️⚠️
+
+- To use your old save file head to the `%APPDATA%` folder under `com.chewithewookie.frametracker/frametracker.db` and rename that to `user_progress.db`
+
 ## 0.1.11
 
 ### Features
