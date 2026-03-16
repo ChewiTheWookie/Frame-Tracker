@@ -28,4 +28,4 @@ Here is what Frame Tracker can do:
 
 ## Licensing & Acknowledgments
 
-Full third-party license attributions for all dependencies can be found directly within the application under the **Acknoledgments** in settings.
+Full third-party license attributions for all dependencies can be found directly within the application under the **Acknoledgments** in settings or in the [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
