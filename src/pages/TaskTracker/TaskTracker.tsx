@@ -42,13 +42,11 @@ export function TaskTracker() {
     return (
         <main ref={scrollRef} className={styles.main}>
             <header className={styles.navContainer}>
-                <nav className={styles.navTop}>
-                    <CategoryTabs<TaskCategory>
-                        categories={TASK_CATEGORIES}
-                        activeCategory={activeCategory as TaskCategory}
-                        onCategoryChange={setCategory}
-                    />
-                </nav>
+                <CategoryTabs<TaskCategory>
+                    categories={TASK_CATEGORIES}
+                    activeCategory={activeCategory as TaskCategory}
+                    onCategoryChange={setCategory}
+                />
                 <nav className={styles.navBottom}>
                     <Searchbar
                         search={search}

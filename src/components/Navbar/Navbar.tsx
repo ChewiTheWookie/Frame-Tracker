@@ -14,10 +14,6 @@ export function Navbar() {
         ([_, meta]) => meta.showInNav,
     );
 
-    const settings = Object.entries(ROUTE_METADATA).find(
-        ([path]) => path === PATHS.Settings,
-    );
-
     const renderNavLink = (path: string, meta: any) => {
         const Icon = meta.icon;
         const isActive =
@@ -29,7 +25,7 @@ export function Navbar() {
             <Link
                 key={path}
                 to={path}
-                className={`${styles.navLink} ${isActive ? styles.active : ""}`}
+                className={`${styles.navLink} ${isActive ? styles.active : ""} ${path === PATHS.Settings ? styles.bottomNav : ""}`}
             >
                 <Icon size={20} className={styles.icon} />
                 <span className={styles.label}>{meta.label}</span>
@@ -47,9 +43,6 @@ export function Navbar() {
             </button>
             <nav className={styles.navLinks}>
                 {navEntries.map(([path, meta]) => renderNavLink(path, meta))}
-                <div className={styles.bottomNav}>
-                    {settings && renderNavLink(settings[0], settings[1])}
-                </div>
             </nav>
         </aside>
     );

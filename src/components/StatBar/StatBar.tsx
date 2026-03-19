@@ -23,7 +23,7 @@ export const StatBar = ({
             <div className={styles.item}>
                 <span className={styles.label}>{label}</span>
                 <span className={styles.value}>
-                    {current}
+                    <span>{current}</span>
                     <span>/{total}</span>
                 </span>
             </div>
@@ -34,7 +34,7 @@ export const StatBar = ({
                     <div className={styles.item}>
                         <span className={styles.label}>{hLabel}</span>
                         <span className={styles.value}>
-                            {hCurrent}
+                            <span>{hCurrent}</span>
                             <span>/{hTotal}</span>
                         </span>
                     </div>

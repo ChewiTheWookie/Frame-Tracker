@@ -28,7 +28,7 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
     [PATHS.Settings]: {
         label: "Settings",
         icon: Settings,
-        showInNav: false,
+        showInNav: true,
     },
     [PATHS.Acknowledgments]: {
         label: "Acknowledgments",

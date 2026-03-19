@@ -20,10 +20,6 @@
     top: 0;
 }
 
-.navTop {
-    border-bottom: 1px solid var(--border);
-}
-
 .navBottom {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
