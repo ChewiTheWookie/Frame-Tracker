@@ -13,6 +13,7 @@ All notable changes to this project will be logged here
 
 - 🛠️ fix part consumption when Owned is clicked
 - 🛠️ fix close button in acknowledgments page being hidden by the section header
+- 🛠️ fix filters not applying until page refreshed to items that had a state change
 
 ### Dev Notes
 

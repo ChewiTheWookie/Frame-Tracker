@@ -41,7 +41,7 @@ export const useTaskStore = create<TaskState>((set, get) => ({
     stats: { current: 0, total: 0 },
     searchQuery: "",
     filters: {
-        type: "tasks",
+        type: "tasks" as const,
         hideIncomplete: false,
         hideComplete: false,
         favoriteFirst: true,
@@ -129,6 +129,8 @@ export const useTaskStore = create<TaskState>((set, get) => ({
 
         const newFavoriteStatus = task.favorite === 1 ? 0 : 1;
 
+        const { filters } = get();
+
         set((state) => {
             let newTasks = state.tasks.map((t) =>
                 t.id === id ? { ...t, favorite: newFavoriteStatus } : t,
@@ -150,6 +152,11 @@ export const useTaskStore = create<TaskState>((set, get) => ({
                         return a.name.localeCompare(b.name);
                     });
                 }
+            }
+
+            const updatedTask = newTasks.find((t) => t.id === id);
+            if (updatedTask && shouldHideTask(updatedTask, filters)) {
+                newTasks = newTasks.filter((t) => t.id !== id);
             }
 
             return { tasks: newTasks };
@@ -178,16 +185,25 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         const wasComplete = task.current_completions === task.max_completions;
         const isComplete = count === task.max_completions;
 
+        const { filters } = get();
+
         set((state) => {
             let newCurrent = state.stats.current;
             if (!wasComplete && isComplete) newCurrent++;
             if (wasComplete && !isComplete) newCurrent--;
 
+            let nextTasks = state.tasks.map((t: Task) =>
+                t.id === id ? { ...t, current_completions: count } : t,
+            );
+
+            const taskToVerify = nextTasks.find((t: Task) => t.id === id);
+            if (taskToVerify && shouldHideTask(taskToVerify, filters)) {
+                nextTasks = nextTasks.filter((t: Task) => t.id !== id);
+            }
+
             return {
                 stats: { ...state.stats, current: newCurrent },
-                tasks: state.tasks.map((t) =>
-                    t.id === id ? { ...t, current_completions: count } : t,
-                ),
+                tasks: nextTasks,
             };
         });
 
@@ -212,3 +228,15 @@ export const useTaskStore = create<TaskState>((set, get) => ({
 listen("tasks-reset", () => {
     useTaskStore.getState().fetchTasks();
 });
+
+const shouldHideTask = (task: Task, filters: TaskFilterState): boolean => {
+    const isComplete = task.current_completions === task.max_completions;
+    const isFavorite = task.favorite === 1;
+
+    if (filters.hideComplete && isComplete) return true;
+    if (filters.hideIncomplete && !isComplete) return true;
+    if (filters.hideFavorite && isFavorite) return true;
+    if (filters.hideNonFavorite && !isFavorite) return true;
+
+    return false;
+};
