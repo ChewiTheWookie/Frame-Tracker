@@ -4,6 +4,7 @@ import { Card } from "../Card";
 import { CardButton } from "../CardButton";
 
 import styles from "./MasteryCard.module.css";
+import { Dna, DnaOff } from "lucide-react";
 
 interface Props {
     item: Item;
@@ -77,12 +78,19 @@ function InternalMasteryCard({
                         isActive={item.mastered}
                         onClick={() => handleToggle("mastered")}
                     />
-                    {/* TODO Change icons to lucide icons */}
                     {item.category === "Warframes" &&
                         !item.name.includes("Prime") && (
                             <CardButton
-                                label="🔘 Feed"
-                                activeLabel="🧬 Fed"
+                                label={
+                                    <>
+                                        <DnaOff size={10} /> {" Feed"}
+                                    </>
+                                }
+                                activeLabel={
+                                    <>
+                                        <Dna size={10} /> {" Fed"}
+                                    </>
+                                }
                                 isActive={item.helminthed}
                                 variant="helminth"
                                 onClick={() => handleToggle("helminthed")}

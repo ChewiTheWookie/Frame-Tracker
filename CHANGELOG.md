@@ -2,7 +2,7 @@
 
 All notable changes to this project will be logged here
 
-## 1.0.1
+## 1.1.0
 
 ### Features
 
@@ -15,6 +15,7 @@ All notable changes to this project will be logged here
 ### Dev Notes
 
 - ✏️ change color of 'Exclude' log from red to cyan Closes #9
+- ✏️ change from emoji to lucide icon for feed button in `MasteryCard.tsx`
 
 ## 1.0.0
 

@@ -1,8 +1,10 @@
+import { ReactNode } from "react";
+
 import styles from "./CardButton.module.css";
 
 interface Props {
-    label?: string;
-    activeLabel?: string;
+    label?: ReactNode;
+    activeLabel?: ReactNode;
     isActive?: boolean;
     onClick?: () => void;
     variant?: "default" | "helminth";
