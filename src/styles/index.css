@@ -13,8 +13,8 @@
     --card-bg: rgba(15, 20, 25, 0.8);
     --card-border: rgba(193, 172, 108, 0.3);
 
-    --craftable: #ffae00;
-    --craftable-glow: #ffae0026;
+    --craftable: rgb(255, 174, 0);
+    --craftable-glow: rgba(255, 174, 0, 0.15);
     --owned: rgb(0, 229, 255);
     --owned-glow: rgba(0, 229, 255, 0.15);
     --mastered: rgb(193, 172, 108);
@@ -24,8 +24,25 @@
 }
 
 [data-theme="light"] {
-    /* TODO Add light Theme */
-    --bg: rgb(255, 255, 255);
+    --bg: rgb(240, 236, 227);
+    --color: rgb(45, 45, 45);
+    --color-glow: rgb(19, 19, 19);
+    --border: rgba(0, 0, 0, 0.3);
+
+    --accent: rgb(190, 164, 91);
+    --accent-glow: rgba(190, 164, 91, 0.6);
+
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --card-border: rgba(184, 150, 87, 0.7);
+
+    --craftable: rgb(214, 130, 0);
+    --craftable-glow: rgba(214, 130, 0, 0.5);
+    --owned: rgb(0, 140, 158);
+    --owned-glow: rgba(0, 140, 158, 0.5);
+    --mastered: rgb(158, 143, 75);
+    --mastered-glow: rgba(158, 143, 75, 0.6);
+    --helminthed: rgb(123, 45, 135);
+    --helminthed-glow: rgba(123, 45, 135, 0.5);
 }
 
 body {

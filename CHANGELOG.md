@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - ✨ add favorites to `TaskCard.tsx`
 - ✨ add scroll to top button
+- ✨ add light theme
 
 ### Bug Fixes
 
