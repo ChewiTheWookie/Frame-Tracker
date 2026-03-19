@@ -14,5 +14,6 @@ pub mod mastery_tracker {
 pub mod task_tracker {
     pub mod get_task_stats;
     pub mod get_tasks;
+    pub mod set_favorite;
     pub mod set_task;
 }

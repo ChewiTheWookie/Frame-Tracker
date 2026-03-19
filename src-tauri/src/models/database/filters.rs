@@ -15,4 +15,8 @@ pub struct MasteryFilters {
 pub struct TaskFilters {
     pub hide_incomplete: bool,
     pub hide_complete: bool,
+
+    pub favorite_first: bool,
+    pub hide_favorite: bool,
+    pub hide_non_favorite: bool,
 }

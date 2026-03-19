@@ -15,4 +15,5 @@ pub struct Task {
     pub terminal: Option<String>,
     pub quest_required: Option<String>,
     pub icon: Option<String>,
+    pub favorite: i32,
 }

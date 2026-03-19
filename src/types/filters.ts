@@ -16,6 +16,10 @@ export type TaskFilterState = {
 
     hideIncomplete: boolean;
     hideComplete: boolean;
+
+    favoriteFirst: boolean;
+    hideFavorite: boolean;
+    hideNonFavorite: boolean;
 };
 
 export type FilterState = MasteryFilterState | TaskFilterState;
@@ -38,49 +42,49 @@ export const getFilterDefinitions = (
             return [
                 {
                     id: "hideNonPrime",
-                    label: "hide Non Primes",
+                    label: "Hide Non Primes",
                     checked: filters.hideNonPrime,
                     onChange: (val) =>
                         setFilters({ ...filters, hideNonPrime: val }),
                 },
                 {
                     id: "hidePrime",
-                    label: "hide Primes",
+                    label: "Hide Primes",
                     checked: filters.hidePrime,
                     onChange: (val) =>
                         setFilters({ ...filters, hidePrime: val }),
                 },
                 {
                     id: "hideUnowned",
-                    label: "hide Unonwed",
+                    label: "Hide Unonwed",
                     checked: filters.hideUnowned,
                     onChange: (val) =>
                         setFilters({ ...filters, hideUnowned: val }),
                 },
                 {
                     id: "hideCraftable",
-                    label: "hide Craftable",
+                    label: "Hide Craftable",
                     checked: filters.hideCraftable,
                     onChange: (val) =>
                         setFilters({ ...filters, hideCraftable: val }),
                 },
                 {
                     id: "hideOwned",
-                    label: "hide Owned",
+                    label: "Hide Owned",
                     checked: filters.hideOwned,
                     onChange: (val) =>
                         setFilters({ ...filters, hideOwned: val }),
                 },
                 {
                     id: "hideMastered",
-                    label: "hide Mastered",
+                    label: "Hide Mastered",
                     checked: filters.hideMastered,
                     onChange: (val) =>
                         setFilters({ ...filters, hideMastered: val }),
                 },
                 {
                     id: "hideHelminthed",
-                    label: "hide Helminthed",
+                    label: "Hide Helminthed",
                     checked: filters.hideHelminthed,
                     onChange: (val) =>
                         setFilters({ ...filters, hideHelminthed: val }),
@@ -90,18 +94,39 @@ export const getFilterDefinitions = (
         case "tasks":
             return [
                 {
+                    id: "favoriteFirst",
+                    label: "Favorites First",
+                    checked: filters.favoriteFirst,
+                    onChange: (val) =>
+                        setFilters({ ...filters, favoriteFirst: val }),
+                },
+                {
                     id: "hideIncomplete",
-                    label: "hide Incompleted",
+                    label: "Hide Incompleted",
                     checked: filters.hideIncomplete,
                     onChange: (val) =>
                         setFilters({ ...filters, hideIncomplete: val }),
                 },
                 {
                     id: "hideComplete",
-                    label: "hide Completed",
+                    label: "Hide Completed",
                     checked: filters.hideComplete,
                     onChange: (val) =>
                         setFilters({ ...filters, hideComplete: val }),
+                },
+                {
+                    id: "hideFavorite",
+                    label: "Hide Favorites",
+                    checked: filters.hideFavorite,
+                    onChange: (val) =>
+                        setFilters({ ...filters, hideFavorite: val }),
+                },
+                {
+                    id: "hideNonFavorite",
+                    label: "Hide Non Favorites",
+                    checked: filters.hideNonFavorite,
+                    onChange: (val) =>
+                        setFilters({ ...filters, hideNonFavorite: val }),
                 },
             ];
 

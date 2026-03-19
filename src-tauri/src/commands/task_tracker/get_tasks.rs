@@ -20,10 +20,16 @@ pub async fn get_tasks(
         SELECT * FROM task_tracker 
         WHERE (category = ? OR ? = 'All')
         AND (name LIKE ? OR tags LIKE ? OR location LIKE ?)
+        -- Completion Filters
         AND (NOT (? AND current_completions < max_completions))
         AND (NOT (? AND current_completions >= max_completions))
-        ORDER BY name ASC
-        LIMIT ? OFFSET ? -- Added pagination
+        -- Favorite Filters
+        AND (NOT (? AND favorite = 1))  -- hideFavorite
+        AND (NOT (? AND favorite = 0))  -- hideNonFavorite
+        ORDER BY 
+            CASE WHEN ? THEN favorite END DESC, -- favoriteFirst logic
+            name ASC
+        LIMIT ? OFFSET ?
         "#
         )
         .bind(&category)
@@ -33,6 +39,9 @@ pub async fn get_tasks(
         .bind(&search_pattern)
         .bind(filters.hide_incomplete)
         .bind(filters.hide_complete)
+        .bind(filters.hide_favorite)
+        .bind(filters.hide_non_favorite)
+        .bind(filters.favorite_first)
         .bind(limit)
         .bind(offset)
         .fetch_all(&*pool).await;

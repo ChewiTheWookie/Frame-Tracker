@@ -27,6 +27,7 @@ interface TaskState {
 
     setFilters: (filters: TaskFilterState) => void;
     fetchTasks: (silent?: boolean) => Promise<void>;
+    toggleFavorite: (id: string) => Promise<void>;
     setTask: (id: string, count: number) => Promise<void>;
 }
 
@@ -43,6 +44,9 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         type: "tasks",
         hideIncomplete: false,
         hideComplete: false,
+        favoriteFirst: true,
+        hideFavorite: false,
+        hideNonFavorite: false,
     },
     isLoading: false,
     error: null,
@@ -115,6 +119,55 @@ export const useTaskStore = create<TaskState>((set, get) => ({
             });
         } catch (err) {
             set({ error: err as string, isLoading: false });
+        }
+    },
+
+    toggleFavorite: async (id: string) => {
+        const state = get();
+        const task = state.tasks.find((t) => t.id === id);
+        if (!task) return;
+
+        const newFavoriteStatus = task.favorite === 1 ? 0 : 1;
+
+        set((state) => {
+            let newTasks = state.tasks.map((t) =>
+                t.id === id ? { ...t, favorite: newFavoriteStatus } : t,
+            );
+
+            if (state.filters.favoriteFirst) {
+                if (newFavoriteStatus === 1) {
+                    const favoritedTask = newTasks.find((t) => t.id === id);
+                    if (favoritedTask) {
+                        newTasks = [
+                            favoritedTask,
+                            ...newTasks.filter((t) => t.id !== id),
+                        ];
+                    }
+                } else {
+                    newTasks.sort((a, b) => {
+                        if (b.favorite !== a.favorite)
+                            return b.favorite - a.favorite;
+                        return a.name.localeCompare(b.name);
+                    });
+                }
+            }
+
+            return { tasks: newTasks };
+        });
+
+        try {
+            await invoke("set_favorite", {
+                id,
+                isFavorite: newFavoriteStatus === 1,
+            });
+
+            const updatedStats = await invoke<TaskStats>("get_task_stats", {
+                category: get().activeCategory,
+            });
+            set({ stats: updatedStats });
+        } catch (err) {
+            console.error("Failed to update favorite:", err);
+            get().fetchTasks(true);
         }
     },
 

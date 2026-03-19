@@ -9,6 +9,29 @@
     font-size: 0.9rem;
 }
 
+.favoriteBtn {
+    position: absolute;
+    top: 2.5%;
+    right: 2.5%;
+
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.favoriteIcon {
+    transition:
+        fill 0.2s ease,
+        stroke 0.2s ease,
+        color 0.2s ease;
+    color: var(--color);
+}
+
+.isFavorite svg {
+    fill: var(--mastered);
+    stroke: var(--mastered);
+}
+
 .footer {
     margin-top: auto;
 }

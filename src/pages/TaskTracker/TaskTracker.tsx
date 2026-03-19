@@ -26,6 +26,7 @@ export function TaskTracker() {
     const setSearch = useTaskStore((state) => state.setSearch);
     const filters = useTaskStore((state) => state.filters);
     const setFilters = useTaskStore((state) => state.setFilters);
+    const toggleFavorite = useTaskStore((state) => state.toggleFavorite);
     const setTask = useTaskStore((state) => state.setTask);
 
     const scrollRef = useRef<HTMLElement>(null);
@@ -72,6 +73,7 @@ export function TaskTracker() {
                                 key={task.id}
                                 task={task}
                                 set_task={setTask}
+                                toggleFavorite={toggleFavorite}
                             />
                         ))}
                     </CardGrid>
