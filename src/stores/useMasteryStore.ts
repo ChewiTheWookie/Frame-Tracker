@@ -256,13 +256,6 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
             };
         });
 
-        // set((state) => ({
-        //     items: {
-        //         ...state.items,
-        //         [itemId]: { ...currentItem, [field]: newValue },
-        //     },
-        // }));
-
         try {
             await invoke("set_mastery", { itemId, field });
 
