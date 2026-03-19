@@ -25,7 +25,6 @@ export const ScrollSentinel = ({
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting && hasMore && !isLoading) {
-                    console.log("🚀 Pre-fetching via <main> scroll!");
                     loadMore();
                 }
             },

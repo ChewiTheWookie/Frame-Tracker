@@ -1,0 +1,46 @@
+.button {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+    background: var(--card-bg);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--card-border);
+    color: var(--accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s,
+        transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        background 0.2s,
+        box-shadow 0.2s;
+
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+
+    z-index: 201;
+}
+
+.button:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--color-glow);
+    transform: translateY(-5px);
+    box-shadow:
+        0 0 20px var(--accent-glow),
+        0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.visible {
+    opacity: 1;
+    visibility: visible;
+}

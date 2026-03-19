@@ -9,6 +9,7 @@ import { Searchbar } from "../../components/Searchbar";
 import { StatBar } from "../../components/StatBar";
 import { InfoContainer } from "../../components/InfoContainer";
 import { ScrollSentinel } from "../../components/ScrollSentinel";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
 import styles from "./TaskTracker.module.css";
 
@@ -85,6 +86,7 @@ export function TaskTracker() {
                     />
                 </>
             )}
+            <ScrollToTop />
         </main>
     );
 }

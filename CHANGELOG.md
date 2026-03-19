@@ -7,10 +7,12 @@ All notable changes to this project will be logged here
 ### Features
 
 - ✨ add favorites to `TaskCard.tsx`
+- ✨ add scroll to top button
 
 ### Bug Fixes
 
 - 🛠️ fix part consumption when Owned is clicked
+- 🛠️ fix close button in acknowledgments page being hidden by the section header
 
 ### Dev Notes
 

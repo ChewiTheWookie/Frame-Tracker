@@ -9,6 +9,7 @@ import { Searchbar } from "../../components/Searchbar";
 import { StatBar } from "../../components/StatBar";
 import { ScrollSentinel } from "../../components/ScrollSentinel";
 import { InfoContainer } from "../../components/InfoContainer";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
 import styles from "./MasteryTracker.module.css";
 
@@ -95,6 +96,7 @@ export function MasteryTracker() {
                     </>
                 )}
             </div>
+            <ScrollToTop />
         </main>
     );
 }
