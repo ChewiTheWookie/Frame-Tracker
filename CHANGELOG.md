@@ -15,6 +15,7 @@ All notable changes to this project will be logged here
 - 🛠️ fix part consumption when Owned is clicked
 - 🛠️ fix close button in acknowledgments page being hidden by the section header
 - 🛠️ fix filters not applying until page refreshed to items that had a state change
+- 🛠️ fix filter button being the same color as bg when active and hovered
 
 ### Dev Notes
 

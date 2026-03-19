@@ -62,6 +62,10 @@
     color: var(--accent);
 }
 
+.filterButton.active:hover .filterIcon {
+    color: var(--color);
+}
+
 .filterDropdown {
     position: absolute;
     top: calc(100% + 10px);
