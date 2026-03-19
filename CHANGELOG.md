@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 1.0.1
+
+### Dev Notes
+
+- fix color of 'Exclude' log from red to cyan Closes #9
+
 ## 1.0.0
 
 - Improved many things and fix past bugs, improved maintanability and performance
