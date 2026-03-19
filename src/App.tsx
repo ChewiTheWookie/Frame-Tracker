@@ -4,8 +4,6 @@ import { ROUTES } from "./routes/routes";
 import { useTimeStore } from "./stores/useTimeStore";
 import { Navbar } from "./components/Navbar";
 
-import styles from "./styles/App.module.css";
-
 function App() {
     const updateTime = useTimeStore((state) => state.updateTime);
 
@@ -15,10 +13,10 @@ function App() {
     }, [updateTime]);
 
     return (
-        <div className={styles.appContainer}>
+        <>
             <Navbar />
             {useRoutes(ROUTES)}
-        </div>
+        </>
     );
 }
 
