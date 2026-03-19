@@ -1,9 +1,9 @@
 .pageContainer {
     position: fixed;
-    top: 2.5%;
-    left: 2.5%;
+    inset: 2.5% auto auto 2.5%;
     width: 95%;
     height: 95%;
+    min-height: 95%;
     z-index: 200;
     box-sizing: border-box;
 
@@ -12,12 +12,20 @@
     border: 2px solid var(--accent);
     border-radius: 8px;
 
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.scrollContainer {
+    flex: 1;
     scroll-behavior: smooth;
     overflow-y: auto;
 }
 
 .header {
     display: flex;
+    position: sticky;
 }
 
 .title {
@@ -38,7 +46,8 @@
     background: transparent;
     border: none;
     border-radius: 4px;
-    z-index: 1001;
+    z-index: 201;
+    transform: none;
 }
 
 .closeBtn:hover {
@@ -135,7 +144,7 @@
     word-break: break-all;
 }
 
-.pageContainer::-webkit-scrollbar,
+.scrollContainer::-webkit-scrollbar,
 .itemDetailsPre::-webkit-scrollbar {
     display: none;
 }

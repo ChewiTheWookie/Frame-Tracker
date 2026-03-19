@@ -28,6 +28,7 @@ pub fn run() {
                 //Task Tracker Commands
                 commands::task_tracker::get_tasks::get_tasks,
                 commands::task_tracker::get_task_stats::get_task_stats,
+                commands::task_tracker::set_favorite::set_favorite,
                 commands::task_tracker::set_task::set_task
             ]
         )

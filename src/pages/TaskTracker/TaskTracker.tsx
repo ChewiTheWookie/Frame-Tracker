@@ -9,6 +9,7 @@ import { Searchbar } from "../../components/Searchbar";
 import { StatBar } from "../../components/StatBar";
 import { InfoContainer } from "../../components/InfoContainer";
 import { ScrollSentinel } from "../../components/ScrollSentinel";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
 import styles from "./TaskTracker.module.css";
 
@@ -26,6 +27,7 @@ export function TaskTracker() {
     const setSearch = useTaskStore((state) => state.setSearch);
     const filters = useTaskStore((state) => state.filters);
     const setFilters = useTaskStore((state) => state.setFilters);
+    const toggleFavorite = useTaskStore((state) => state.toggleFavorite);
     const setTask = useTaskStore((state) => state.setTask);
 
     const scrollRef = useRef<HTMLElement>(null);
@@ -40,13 +42,11 @@ export function TaskTracker() {
     return (
         <main ref={scrollRef} className={styles.main}>
             <header className={styles.navContainer}>
-                <nav className={styles.navTop}>
-                    <CategoryTabs<TaskCategory>
-                        categories={TASK_CATEGORIES}
-                        activeCategory={activeCategory as TaskCategory}
-                        onCategoryChange={setCategory}
-                    />
-                </nav>
+                <CategoryTabs<TaskCategory>
+                    categories={TASK_CATEGORIES}
+                    activeCategory={activeCategory as TaskCategory}
+                    onCategoryChange={setCategory}
+                />
                 <nav className={styles.navBottom}>
                     <Searchbar
                         search={search}
@@ -72,6 +72,7 @@ export function TaskTracker() {
                                 key={task.id}
                                 task={task}
                                 set_task={setTask}
+                                toggleFavorite={toggleFavorite}
                             />
                         ))}
                     </CardGrid>
@@ -83,6 +84,7 @@ export function TaskTracker() {
                     />
                 </>
             )}
+            <ScrollToTop />
         </main>
     );
 }

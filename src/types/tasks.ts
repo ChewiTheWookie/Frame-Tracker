@@ -11,4 +11,5 @@ export interface Task {
     terminal: string | null;
     quest_required: string | null;
     icon: string | null;
+    favorite: number;
 }

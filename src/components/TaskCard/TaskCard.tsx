@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { MapPin, Monitor, RefreshCw, ScrollText } from "lucide-react";
+import { MapPin, Monitor, RefreshCw, ScrollText, Star } from "lucide-react";
 import { useTaskTimer } from "../../hooks/useTaskTimer";
 import { Task } from "../../types/tasks";
 import { Card } from "../Card";
@@ -10,9 +10,10 @@ import styles from "./TaskCard.module.css";
 interface Props {
     task: Task;
     set_task: (taskId: string, newValue: number) => void;
+    toggleFavorite: (taskId: string) => void;
 }
 
-export function InternalTaskCard({ task, set_task }: Props) {
+export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
     const countdown = useTaskTimer(task);
 
     const handleUpdate = (newValue: number) => {
@@ -20,8 +21,15 @@ export function InternalTaskCard({ task, set_task }: Props) {
         set_task(task.id, clamped);
     };
 
+    const handleFavorite = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        console.log(task.name + " Was marked as Fav");
+        toggleFavorite(task.id);
+    };
+
     const tags: string[] = JSON.parse(task.tags || "[]");
     const isCompleted = task.current_completions >= task.max_completions;
+    const isFavorite = task.favorite;
 
     const formatInterval = (interval: string) => {
         return interval
@@ -38,9 +46,13 @@ export function InternalTaskCard({ task, set_task }: Props) {
         <>
             <div className={styles.header}>
                 <h4 className={styles.name}>{task.name}</h4>
-                <div className={styles.timer}>
-                    {countdown && countdown}
-                </div>{" "}
+                <div className={styles.timer}>{countdown && countdown}</div>
+                <button
+                    className={`${styles.favoriteBtn} ${isFavorite ? styles.isFavorite : ""}`}
+                    onClick={handleFavorite}
+                >
+                    <Star className={styles.favoriteIcon} size={18} />
+                </button>
             </div>
 
             <div className={styles.footer}>

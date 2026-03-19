@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { FilterState, getFilterDefinitions } from "../../types/filters";
+import { useKeybind } from "../../hooks/useKeybinds";
 
 import styles from "./Searchbar.module.css";
 
@@ -42,54 +43,62 @@ export function Searchbar<T extends string>({
         setLocalValue(e.target.value);
     };
 
+    const handleFocusSearch = () => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+    };
+    useKeybind("/", handleFocusSearch);
+    useKeybind("f", handleFocusSearch, { ctrl: true });
+
+    const handleClearSearch = () => {
+        setSearch("");
+        inputRef.current?.blur();
+    };
+    useKeybind("Escape", handleClearSearch);
+
     return (
         <div className={styles.searchContainer}>
-            <div className={styles.inputContainer}>
-                <input
-                    className={styles.input}
-                    ref={inputRef}
-                    type="text"
-                    placeholder={`Search ${activeCategory || "All"}...`}
-                    value={localValue}
-                    onChange={handleChange}
+            <input
+                className={styles.input}
+                ref={inputRef}
+                type="text"
+                placeholder={`Search ${activeCategory || "All"}...`}
+                value={localValue}
+                onChange={handleChange}
+            />
+            <button
+                className={`${styles.filterButton} ${isOpen ? styles.active : ""}`}
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                <SlidersHorizontal
+                    size={18}
+                    strokeWidth={2}
+                    className={styles.filterIcon}
                 />
-                <button
-                    className={`${styles.filterButton} ${isOpen ? styles.active : ""}`}
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    <SlidersHorizontal
-                        size={18}
-                        strokeWidth={2}
-                        className={styles.filterIcon}
-                    />
-                </button>
+            </button>
 
-                {isOpen && (
-                    <div className={styles.filterDropdown}>
-                        <div className={styles.dropdownHeader}>
-                            ADVANCED FILTERS
-                        </div>
-                        {filterDefs.map((filter) => (
-                            <div
-                                className={styles.filterOption}
-                                key={filter.id}
-                            >
-                                <span>{filter.label}</span>
-                                <label className={styles.switch}>
-                                    <input
-                                        type="checkbox"
-                                        checked={filter.checked}
-                                        onChange={(e) =>
-                                            filter.onChange(e.target.checked)
-                                        }
-                                    />
-                                    <span className={styles.slider}></span>
-                                </label>
-                            </div>
-                        ))}
+            {isOpen && (
+                <div className={styles.filterDropdown}>
+                    <div className={styles.dropdownHeader}>
+                        ADVANCED FILTERS
                     </div>
-                )}
-            </div>
+                    {filterDefs.map((filter) => (
+                        <div className={styles.filterOption} key={filter.id}>
+                            <span>{filter.label}</span>
+                            <label className={styles.switch}>
+                                <input
+                                    type="checkbox"
+                                    checked={filter.checked}
+                                    onChange={(e) =>
+                                        filter.onChange(e.target.checked)
+                                    }
+                                />
+                                <span className={styles.slider}></span>
+                            </label>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

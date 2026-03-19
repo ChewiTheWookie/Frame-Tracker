@@ -19,6 +19,15 @@ export function saveLicensesToDb(licenses: any[], source: "npm" | "cargo") {
     const dir = path.dirname(DB_PATH);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
+    if (fs.existsSync(DB_PATH)) {
+        try {
+            fs.unlinkSync(DB_PATH);
+            console.log("🧹 Existing database cleared for a fresh sync.");
+        } catch (err) {
+            console.error("❌ Failed to delete old database:", err);
+        }
+    }
+
     const db = new Database(DB_PATH);
 
     if (fs.existsSync(MIGRATION_PATH)) {
@@ -55,4 +64,7 @@ export function saveLicensesToDb(licenses: any[], source: "npm" | "cargo") {
 
     insertMany(preparedItems);
     db.close();
+    console.log(
+        `✅ Successfully synced ${licenses.length} ${source} licenses.`,
+    );
 }

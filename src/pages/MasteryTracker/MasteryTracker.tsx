@@ -9,6 +9,7 @@ import { Searchbar } from "../../components/Searchbar";
 import { StatBar } from "../../components/StatBar";
 import { ScrollSentinel } from "../../components/ScrollSentinel";
 import { InfoContainer } from "../../components/InfoContainer";
+import { ScrollToTop } from "../../components/ScrollToTop";
 
 import styles from "./MasteryTracker.module.css";
 
@@ -44,13 +45,11 @@ export function MasteryTracker() {
     return (
         <main ref={scrollRef} className={styles.main}>
             <header className={styles.navContainer}>
-                <nav className={styles.navTop}>
-                    <CategoryTabs<MasteryCategory>
-                        categories={MASTERY_CATEGORIES}
-                        activeCategory={activeCategory as MasteryCategory}
-                        onCategoryChange={setCategory}
-                    />
-                </nav>
+                <CategoryTabs<MasteryCategory>
+                    categories={MASTERY_CATEGORIES}
+                    activeCategory={activeCategory as MasteryCategory}
+                    onCategoryChange={setCategory}
+                />
                 <nav className={styles.navBottom}>
                     <Searchbar
                         search={search}
@@ -95,6 +94,7 @@ export function MasteryTracker() {
                     </>
                 )}
             </div>
+            <ScrollToTop />
         </main>
     );
 }

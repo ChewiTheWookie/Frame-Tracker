@@ -50,7 +50,7 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
     stats: { current: 0, total: 0, helminthCurrent: 0, helminthTotal: 0 },
     searchQuery: "",
     filters: {
-        type: "mastery",
+        type: "mastery" as const,
         hideNonPrime: false,
         hidePrime: false,
 
@@ -174,7 +174,9 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
     },
 
     updateComponentQuantity: async (itemId, componentName, quantity) => {
-        set((state) => {
+        const { filters } = get();
+
+        set((state): Partial<MasteryState> => {
             const item = state.items[itemId];
             if (!item) return state;
 
@@ -199,8 +201,16 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
                 craftable: isNowCraftable,
             };
 
+            const needsRemoval = shouldHideItem(updatedItem, filters);
+
             return {
-                items: { ...state.items, [itemId]: updatedItem },
+                items: {
+                    ...state.items,
+                    [itemId]: updatedItem,
+                },
+                itemIds: needsRemoval
+                    ? state.itemIds.filter((id) => id !== itemId)
+                    : state.itemIds,
             };
         });
 
@@ -230,13 +240,37 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
 
         const oldValue = currentItem[field];
         const newValue = !oldValue;
+        const { filters } = get();
 
-        set((state) => ({
-            items: {
-                ...state.items,
-                [itemId]: { ...currentItem, [field]: newValue },
-            },
-        }));
+        set((state) => {
+            let updatedItem = {
+                ...currentItem,
+                [field]: newValue,
+            };
+
+            if (field === "owned" && newValue === true) {
+                updatedItem = {
+                    ...updatedItem,
+                    craftable: false,
+                    components: updatedItem.components.map((c) => ({
+                        ...c,
+                        ownedQuantity: 0,
+                    })),
+                };
+            }
+
+            const needsRemoval = shouldHideItem(updatedItem, filters);
+
+            return {
+                items: {
+                    ...state.items,
+                    [itemId]: updatedItem,
+                },
+                itemIds: needsRemoval
+                    ? state.itemIds.filter((id) => id !== itemId)
+                    : state.itemIds,
+            };
+        });
 
         try {
             await invoke("set_mastery", { itemId, field });
@@ -270,3 +304,13 @@ useMasteryStore.getState().fetchItems();
 
 export const useItemById = (id: string) =>
     useMasteryStore((state) => state.items[id]);
+
+const shouldHideItem = (item: Item, filters: MasteryFilterState): boolean => {
+    if (filters.hideOwned && item.owned) return true;
+    if (filters.hideMastered && item.mastered) return true;
+    if (filters.hideHelminthed && item.helminthed) return true;
+    if (filters.hideUnowned && !item.owned) return true;
+    if (filters.hideCraftable && item.craftable) return true;
+
+    return false;
+};

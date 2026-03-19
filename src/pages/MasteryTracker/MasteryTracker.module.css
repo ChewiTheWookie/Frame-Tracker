@@ -11,10 +11,6 @@
     composes: navContainer from "../../styles/Page.module.css";
 }
 
-.navTop {
-    composes: navTop from "../../styles/Page.module.css";
-}
-
 .navBottom {
     composes: navBottom from "../../styles/Page.module.css";
 }

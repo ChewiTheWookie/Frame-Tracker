@@ -1,3 +1,4 @@
+use owo_colors::OwoColorize;
 use crate::api::client::ApiClient;
 use crate::models::api::category_mapper::CategoryMapper;
 use crate::models::api::exclusion_mapper::ItemExclusion;
@@ -25,9 +26,8 @@ pub async fn fetch_wiki_items(
 
             if is_forced && !is_api_masterable {
                 println!(
-                    "\x1b[32m[Added] Including: {} ID: {}\x1b[0m",
-                    item.name,
-                    item.unique_name
+                    "{}",
+                    format!("[Added] Including: {} ID: {}", item.name, item.unique_name).green()
                 );
             }
 
@@ -37,9 +37,8 @@ pub async fn fetch_wiki_items(
             let excluded = ItemExclusion::should_exclude(&item.name, &item.unique_name);
             if excluded {
                 println!(
-                    "\x1b[31m[Excluded] Blocking: {} ID: {}\x1b[0m",
-                    item.name,
-                    item.unique_name
+                    "{}",
+                    format!("[Excluded] Blocking: {} ID: {}", item.name, item.unique_name).cyan()
                 );
             }
             !excluded
@@ -52,10 +51,13 @@ pub async fn fetch_wiki_items(
                 }
                 None => {
                     println!(
-                        "\x1b[33m[Skipped] No UI Category: {} (API: {}) ID: {}\x1b[0m",
-                        item.name,
-                        item.category,
-                        item.unique_name
+                        "{}",
+                        format!(
+                            "[Skipped] No UI Category: {} (API: {}) ID: {}",
+                            item.name,
+                            item.category,
+                            item.unique_name
+                        ).yellow()
                     );
                     None
                 }

@@ -2,13 +2,35 @@
 
 All notable changes to this project will be logged here
 
+## 1.1.0
+
+### Features
+
+- ✨ add favorites to `TaskCard.tsx`
+- ✨ add scroll to top button
+- ✨ add light theme
+- ✨ add keybinds for searchbar
+
+### Bug Fixes
+
+- 🛠️ fix part consumption when Owned is clicked
+- 🛠️ fix close button in acknowledgments page being hidden by the section header
+- 🛠️ fix filters not applying until page refreshed to items that had a state change
+- 🛠️ fix filter button being the same color as bg when active and hovered
+
+### Dev Notes
+
+- ✏️ change color of 'Exclude' log from red to cyan
+- ✏️ change from emoji to lucide icon for feed button in `MasteryCard.tsx`
+- ✏️ remove nested divs in `App.tsx`, `Navbar.tsx`, `MasteryTracker.tsx`, `TaskTracker.tsx`, `Searchbar.tsx`, `Statbar.tsx`
+
 ## 1.0.0
 
-- Improved many things and fix past bugs, improved maintanability and performance
+- ✨ Improved many things and fix past bugs, improved maintanability and performance
 
 ### ⚠️⚠️WARNING⚠️⚠️
 
-- To use your old save file head to the `%APPDATA%` folder under `com.chewithewookie.frametracker/frametracker.db` and rename that to `user_progress.db`
+- ⚠️ To use your old save file head to the `%APPDATA%` folder under `com.chewithewookie.frametracker/frametracker.db` and rename that to `user_progress.db`
 
 ## 0.1.11
 

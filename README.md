@@ -21,10 +21,12 @@ Here is what Frame Tracker can do:
 
 - **Tasks**: Track what daily, weekly and other tasks you have done with an automatic reset of those task when the can be done again
 - **Filtering & Search**: Filter and search through all tasks you have done to easily see what else you can do to advance you acount to help prevent being time gated
+- **Favorites**: Mark tasks as favorite to see them at the top of the list when you load the app
 
 ## Keybinds
 
 - `/` or `Ctrl + F`: Auto focus searchbar
+- `Esc`: clear searchbar
 
 ## Licensing & Acknowledgments
 

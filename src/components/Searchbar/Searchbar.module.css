@@ -1,9 +1,6 @@
 .searchContainer {
     grid-column: 2;
     height: auto;
-}
-
-.inputContainer {
     position: relative;
     display: flex;
     width: 100%;
@@ -13,7 +10,7 @@
     transition: box-shadow 0.2s ease;
 }
 
-.inputContainer:hover {
+.searchContainer:hover {
     box-shadow: 0 0 15px var(--accent-glow);
 }
 
@@ -63,6 +60,10 @@
 
 .filterButton:hover .filterIcon {
     color: var(--accent);
+}
+
+.filterButton.active:hover .filterIcon {
+    color: var(--color);
 }
 
 .filterDropdown {
