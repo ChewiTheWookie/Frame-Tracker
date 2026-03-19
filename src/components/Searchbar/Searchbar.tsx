@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { FilterState, getFilterDefinitions } from "../../types/filters";
+import { useKeybind } from "../../hooks/useKeybinds";
 
 import styles from "./Searchbar.module.css";
 
@@ -41,6 +42,19 @@ export function Searchbar<T extends string>({
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLocalValue(e.target.value);
     };
+
+    const handleFocusSearch = () => {
+        inputRef.current?.focus();
+        inputRef.current?.select();
+    };
+    useKeybind("/", handleFocusSearch);
+    useKeybind("f", handleFocusSearch, { ctrl: true });
+
+    const handleClearSearch = () => {
+        setSearch("");
+        inputRef.current?.blur();
+    };
+    useKeybind("Escape", handleClearSearch);
 
     return (
         <div className={styles.searchContainer}>

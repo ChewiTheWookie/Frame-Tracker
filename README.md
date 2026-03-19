@@ -26,6 +26,7 @@ Here is what Frame Tracker can do:
 ## Keybinds
 
 - `/` or `Ctrl + F`: Auto focus searchbar
+- `Esc`: clear searchbar
 
 ## Licensing & Acknowledgments
 
