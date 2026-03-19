@@ -47,7 +47,6 @@ export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
             <div className={styles.header}>
                 <h4 className={styles.name}>{task.name}</h4>
                 <div className={styles.timer}>{countdown && countdown}</div>
-                {/* TODO Use lucide icons */}
                 <button
                     className={`${styles.favoriteBtn} ${isFavorite ? styles.isFavorite : ""}`}
                     onClick={handleFavorite}
