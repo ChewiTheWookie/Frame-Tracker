@@ -20,7 +20,7 @@ All notable changes to this project will be logged here
 
 ### Dev Notes
 
-- ✏️ change color of 'Exclude' log from red to cyan Closes #9
+- ✏️ change color of 'Exclude' log from red to cyan
 - ✏️ change from emoji to lucide icon for feed button in `MasteryCard.tsx`
 - ✏️ remove nested divs in `App.tsx`, `Navbar.tsx`, `MasteryTracker.tsx`, `TaskTracker.tsx`, `Searchbar.tsx`, `Statbar.tsx`
 
