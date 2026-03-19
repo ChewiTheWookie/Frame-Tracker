@@ -231,12 +231,37 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
         const oldValue = currentItem[field];
         const newValue = !oldValue;
 
-        set((state) => ({
-            items: {
-                ...state.items,
-                [itemId]: { ...currentItem, [field]: newValue },
-            },
-        }));
+        set((state) => {
+            let updatedItem = {
+                ...currentItem,
+                [field]: newValue,
+            };
+
+            if (field === "owned" && newValue === true) {
+                updatedItem = {
+                    ...updatedItem,
+                    craftable: false,
+                    components: updatedItem.components.map((c) => ({
+                        ...c,
+                        ownedQuantity: 0,
+                    })),
+                };
+            }
+
+            return {
+                items: {
+                    ...state.items,
+                    [itemId]: updatedItem,
+                },
+            };
+        });
+
+        // set((state) => ({
+        //     items: {
+        //         ...state.items,
+        //         [itemId]: { ...currentItem, [field]: newValue },
+        //     },
+        // }));
 
         try {
             await invoke("set_mastery", { itemId, field });
