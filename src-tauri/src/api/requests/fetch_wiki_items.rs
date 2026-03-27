@@ -1,6 +1,7 @@
 use owo_colors::OwoColorize;
 use crate::api::client::ApiClient;
 use crate::models::api::category_mapper::CategoryMapper;
+use crate::models::api::custom_items;
 use crate::models::api::exclusion_mapper::ItemExclusion;
 use crate::models::api::wiki_item::WikiItem;
 use crate::models::resources::RESOURCES;
@@ -14,7 +15,7 @@ pub async fn fetch_wiki_items(
     let bytes = response.bytes().await?;
     let all_items: Vec<WikiItem> = serde_json::from_slice(&bytes)?;
 
-    let filtered: Vec<WikiItem> = all_items
+    let mut filtered: Vec<WikiItem> = all_items
         .into_iter()
         .filter(|item| {
             let is_api_masterable = item.masterable.unwrap_or(false);
@@ -75,6 +76,13 @@ pub async fn fetch_wiki_items(
             item
         })
         .collect();
+
+    let custom_items = custom_items::get_custom_items();
+
+    for item in &custom_items {
+        println!("{}", format!("[Added] Custom: {}", item.name).green());
+    }
+    filtered.extend(custom_items);
 
     Ok(filtered)
 }

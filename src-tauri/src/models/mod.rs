@@ -1,6 +1,7 @@
 // Dir
 pub mod api {
     pub mod category_mapper;
+    pub mod custom_items;
     pub mod exclusion_mapper;
     pub mod masterable_overrides;
     pub mod wiki_item;

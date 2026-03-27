@@ -8,12 +8,14 @@ All notable changes to this project will be logged here
 
 - 🛠️ fix license text not being correct
 - 🛠️ fix `license-frontend.ts` being impassable by github actions
+- 🛠️ add plexus
 
 ### Dev Notes
 
 - ✏️ refactor `useMasteryStore` and `useTaskStore` for improved readablility and maintainability
 - ✏️ move time store useEffect from App.tsx to AppInitializer.tsx
 - ✏️ add github actions to handle builds
+- ✏️ no longer supporting MSI installers
 
 ## 1.1.0
 
