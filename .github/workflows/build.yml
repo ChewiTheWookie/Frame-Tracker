@@ -39,4 +39,4 @@ jobs:
                   releaseBody: "Automated release by GitHub Actions."
                   releaseDraft: true
                   prerelease: false
-                  args: "-- -- -sval"
+                  args: "-- --verbose"
