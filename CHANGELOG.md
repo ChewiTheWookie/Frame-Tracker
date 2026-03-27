@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Dev Notes
 
 - ✏️ refactor `useMasteryStore` and `useTaskStore` for improved readablility and maintainability
+- ✏️ move time store useEffect from App.tsx to AppInitializer.tsx
 
 ## 1.1.0
 
