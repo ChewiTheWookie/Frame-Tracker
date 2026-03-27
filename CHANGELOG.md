@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 1.1.1
+
+### Dev Notes
+
+- ✏️ refactor `useMasteryStore` and `useTaskStore` for improved readablility and maintainability
+
 ## 1.1.0
 
 ### Features

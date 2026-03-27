@@ -34,103 +34,30 @@ export interface FilterDef {
 }
 
 export const getFilterDefinitions = (
-    filters: MasteryFilterState | TaskFilterState,
-    setFilters: (f: any) => void,
+    filters: FilterState,
+    setFilters: (f: FilterState) => void,
 ): FilterDef[] => {
-    switch (filters.type) {
-        case "mastery":
-            return [
-                {
-                    id: "hideNonPrime",
-                    label: "Hide Non Primes",
-                    checked: filters.hideNonPrime,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideNonPrime: val }),
-                },
-                {
-                    id: "hidePrime",
-                    label: "Hide Primes",
-                    checked: filters.hidePrime,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hidePrime: val }),
-                },
-                {
-                    id: "hideUnowned",
-                    label: "Hide Unonwed",
-                    checked: filters.hideUnowned,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideUnowned: val }),
-                },
-                {
-                    id: "hideCraftable",
-                    label: "Hide Craftable",
-                    checked: filters.hideCraftable,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideCraftable: val }),
-                },
-                {
-                    id: "hideOwned",
-                    label: "Hide Owned",
-                    checked: filters.hideOwned,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideOwned: val }),
-                },
-                {
-                    id: "hideMastered",
-                    label: "Hide Mastered",
-                    checked: filters.hideMastered,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideMastered: val }),
-                },
-                {
-                    id: "hideHelminthed",
-                    label: "Hide Helminthed",
-                    checked: filters.hideHelminthed,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideHelminthed: val }),
-                },
-            ];
+    const labels: Record<string, string> = {
+        hideNonPrime: "Hide Non Primes",
+        hidePrime: "Hide Primes",
+        hideUnowned: "Hide Unowned",
+        hideCraftable: "Hide Craftable",
+        hideOwned: "Hide Owned",
+        hideMastered: "Hide Mastered",
+        hideHelminthed: "Hide Helminthed",
+        favoriteFirst: "Favorites First",
+        hideIncomplete: "Hide Incomplete",
+        hideComplete: "Hide Complete",
+        hideFavorite: "Hide Favorites",
+        hideNonFavorite: "Hide Non Favorites",
+    };
 
-        case "tasks":
-            return [
-                {
-                    id: "favoriteFirst",
-                    label: "Favorites First",
-                    checked: filters.favoriteFirst,
-                    onChange: (val) =>
-                        setFilters({ ...filters, favoriteFirst: val }),
-                },
-                {
-                    id: "hideIncomplete",
-                    label: "Hide Incompleted",
-                    checked: filters.hideIncomplete,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideIncomplete: val }),
-                },
-                {
-                    id: "hideComplete",
-                    label: "Hide Completed",
-                    checked: filters.hideComplete,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideComplete: val }),
-                },
-                {
-                    id: "hideFavorite",
-                    label: "Hide Favorites",
-                    checked: filters.hideFavorite,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideFavorite: val }),
-                },
-                {
-                    id: "hideNonFavorite",
-                    label: "Hide Non Favorites",
-                    checked: filters.hideNonFavorite,
-                    onChange: (val) =>
-                        setFilters({ ...filters, hideNonFavorite: val }),
-                },
-            ];
-
-        default:
-            return [];
-    }
+    return Object.entries(filters)
+        .filter(([key]) => key !== "type")
+        .map(([key, value]) => ({
+            id: key,
+            label: labels[key] || key,
+            checked: value as boolean,
+            onChange: (val) => setFilters({ ...filters, [key]: val }),
+        }));
 };
