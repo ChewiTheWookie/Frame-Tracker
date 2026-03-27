@@ -141,7 +141,7 @@ pub fn get_current_period_start(interval: &str) -> DateTime<Utc> {
     }
 }
 
-pub fn calculate_rolling_reset_backdate(interval: &str) -> chrono::DateTime<chrono::Utc> {
+pub fn calculate_rolling_reset(interval: &str) -> chrono::DateTime<chrono::Utc> {
     let now = chrono::Utc::now();
 
     if interval.ends_with('h') {

@@ -1,22 +1,12 @@
+use tauri::State;
 use crate::database::db::UserDb;
+use crate::database::repositories::task_repo;
 
 #[tauri::command]
 pub async fn set_favorite(
     id: String,
     is_favorite: bool,
-    state: tauri::State<'_, UserDb>
+    state: State<'_, UserDb>
 ) -> Result<(), String> {
-    let pool = &state.0;
-    let favorite_val = if is_favorite { 1 } else { 0 };
-
-    sqlx
-        ::query("UPDATE task_tracker 
-         SET favorite = ? 
-         WHERE id = ?")
-        .bind(favorite_val)
-        .bind(&id)
-        .execute(&*pool).await
-        .map_err(|e| format!("Failed to update favorite status: {}", e))?;
-
-    Ok(())
+    task_repo::set_favorite_status(&state.0, &id, is_favorite).await.map_err(|e| e.to_string())
 }

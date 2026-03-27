@@ -1,5 +1,6 @@
 use tauri::State;
 use crate::database::db::UserDb;
+use crate::database::repositories::mastery_repo;
 
 #[tauri::command]
 pub async fn set_mastery(
@@ -7,22 +8,5 @@ pub async fn set_mastery(
     item_id: String,
     field: String
 ) -> Result<(), String> {
-    let pool = &state.0;
-
-    let query = match field.as_str() {
-        "mastered" => "UPDATE mastery_tracker SET mastered = NOT mastered WHERE id = ?",
-        "owned" => "UPDATE mastery_tracker SET owned = NOT owned WHERE id = ?",
-        "helminthed" => "UPDATE mastery_tracker SET helminthed = NOT helminthed WHERE id = ?",
-        _ => {
-            return Err("Invalid field name".into());
-        }
-    };
-
-    sqlx
-        ::query(query)
-        .bind(item_id)
-        .execute(pool).await
-        .map_err(|e| e.to_string())?;
-
-    Ok(())
+    mastery_repo::toggle_mastery_field(&state.0, &item_id, &field).await
 }

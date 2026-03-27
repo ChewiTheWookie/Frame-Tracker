@@ -1,22 +1,15 @@
+use tauri::State;
 use crate::database::db::UserDb;
-use crate::database::services::task_services::{
-    get_current_period_start,
-    calculate_rolling_reset_backdate,
-};
+use crate::database::repositories::task_repo;
+use crate::database::services::task_services::{ get_current_period_start, calculate_rolling_reset };
 use crate::models::database::task::Task;
 
 #[tauri::command]
-pub async fn set_task(
-    state: tauri::State<'_, UserDb>,
-    id: String,
-    count: i32
-) -> Result<Task, String> {
+pub async fn set_task(state: State<'_, UserDb>, id: String, count: i32) -> Result<Task, String> {
     let pool = &state.0;
 
-    let task = sqlx
-        ::query_as::<_, Task>("SELECT * FROM task_tracker WHERE id = ?")
-        .bind(&id)
-        .fetch_one(pool).await
+    let task = task_repo
+        ::find_by_id(pool, &id).await
         .map_err(|e| format!("Failed to find task: {}", e))?;
 
     let interval_str = task.reset_interval.as_deref().unwrap_or("daily");
@@ -27,32 +20,12 @@ pub async fn set_task(
         !interval_str.to_lowercase().ends_with("_world");
 
     let final_reset_time = if is_rolling && count == 0 {
-        calculate_rolling_reset_backdate(interval_str)
+        calculate_rolling_reset(interval_str)
     } else {
         get_current_period_start(interval_str)
     };
 
-    let updated_task = sqlx
-        ::query_as::<_, Task>(
-            r#"
-        UPDATE task_tracker 
-        SET current_completions = CASE 
-            WHEN ? > max_completions THEN max_completions 
-            WHEN ? < 0 THEN 0 
-            ELSE ? 
-        END,
-        last_reset = ?
-        WHERE id = ?
-        RETURNING *
-        "#
-        )
-        .bind(count)
-        .bind(count)
-        .bind(count)
-        .bind(final_reset_time.to_rfc3339())
-        .bind(id)
-        .fetch_one(pool).await
-        .map_err(|e| e.to_string())?;
-
-    Ok(updated_task)
+    task_repo
+        ::update_completions(pool, &id, count, final_reset_time.to_rfc3339()).await
+        .map_err(|e| e.to_string())
 }
