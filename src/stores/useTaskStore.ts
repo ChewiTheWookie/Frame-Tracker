@@ -1,9 +1,13 @@
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
-import { listen } from "@tauri-apps/api/event";
 import { TaskCategory } from "../types/categories";
 import { TaskFilterState } from "../types/filters";
 import { Task } from "../types/tasks";
+import { shouldHide } from "../utils/shouldHideObject";
+import {
+    calculateTaskToggleFavorite,
+    calculateTaskStatAdjustment,
+} from "../utils/taskLogic";
 
 interface TaskStats {
     current: number;
@@ -12,39 +16,47 @@ interface TaskStats {
 
 interface TaskState {
     tasks: Task[];
-    activeCategory: TaskCategory;
     stats: TaskStats;
-    searchQuery: string;
-    filters: TaskFilterState;
     isLoading: boolean;
+    error: string | null;
+
     page: number;
     hasMore: boolean;
     loadMore: () => void;
-    error: string | null;
 
+    activeCategory: TaskCategory;
     setCategory: (category: TaskCategory) => void;
+
+    searchQuery: string;
     setSearch: (query: string) => void;
 
+    filters: TaskFilterState;
     setFilters: (filters: TaskFilterState) => void;
+
     fetchTasks: (silent?: boolean) => Promise<void>;
-    toggleFavorite: (id: string) => Promise<void>;
     setTask: (id: string, count: number) => Promise<void>;
+    toggleFavorite: (id: string) => Promise<void>;
 }
 
 const TOTAL_VISIBLE = 50;
+let fetchVersion = 0;
 
-export const useTaskStore = create<TaskState>((set, get) => ({
+const getDefaultResultState = () => ({
     tasks: [],
     page: 0,
     hasMore: true,
+});
+
+export const useTaskStore = create<TaskState>((set, get) => ({
+    ...getDefaultResultState(),
     activeCategory: "All" as TaskCategory,
     stats: { current: 0, total: 0 },
     searchQuery: "",
     filters: {
         type: "tasks" as const,
+        favoriteFirst: true,
         hideIncomplete: false,
         hideComplete: false,
-        favoriteFirst: true,
         hideFavorite: false,
         hideNonFavorite: false,
     },
@@ -54,22 +66,21 @@ export const useTaskStore = create<TaskState>((set, get) => ({
     setCategory: (category) => {
         if (get().activeCategory === category) return;
         set({
+            ...getDefaultResultState(),
             activeCategory: category,
             searchQuery: "",
-            page: 0,
-            tasks: [],
-            hasMore: true,
+            isLoading: true,
         });
         get().fetchTasks();
     },
 
     setSearch: (query) => {
-        set({ searchQuery: query, page: 0, tasks: [], hasMore: true });
+        set({ ...getDefaultResultState(), searchQuery: query });
         get().fetchTasks(true);
     },
 
-    setFilters: (newFilters: TaskFilterState) => {
-        set({ filters: newFilters });
+    setFilters: (newFilters) => {
+        set({ ...getDefaultResultState(), filters: newFilters });
         get().fetchTasks(true);
     },
 
@@ -81,7 +92,8 @@ export const useTaskStore = create<TaskState>((set, get) => ({
     },
 
     fetchTasks: async (silent = false) => {
-        if (get().isLoading && silent) return;
+        fetchVersion++;
+        const currentVersion = fetchVersion;
 
         const {
             searchQuery,
@@ -99,7 +111,7 @@ export const useTaskStore = create<TaskState>((set, get) => ({
                 invoke<Task[]>("get_tasks", {
                     category: activeCategory,
                     search: searchQuery,
-                    filters: filters,
+                    filters,
                     limit: TOTAL_VISIBLE,
                     offset: page * TOTAL_VISIBLE,
                 }),
@@ -108,73 +120,55 @@ export const useTaskStore = create<TaskState>((set, get) => ({
                 }),
             ]);
 
-            const updatedTasks =
-                page === 0 ? newTasks : [...existingTasks, ...newTasks];
+            if (currentVersion !== fetchVersion) return;
 
             set({
-                tasks: updatedTasks,
+                tasks: page === 0 ? newTasks : [...existingTasks, ...newTasks],
                 stats,
                 isLoading: false,
                 hasMore: newTasks.length === TOTAL_VISIBLE,
             });
         } catch (err) {
-            set({ error: err as string, isLoading: false });
+            if (currentVersion === fetchVersion) {
+                set({ error: err as string, isLoading: false });
+            }
         }
     },
 
     toggleFavorite: async (id: string) => {
-        const state = get();
-        const task = state.tasks.find((t) => t.id === id);
+        const task = get().tasks.find((t) => t.id === id);
         if (!task) return;
 
+        const previousState = { tasks: get().tasks, stats: get().stats };
         const newFavoriteStatus = task.favorite === 1 ? 0 : 1;
 
-        const { filters } = get();
+        const updatedTasks = calculateTaskToggleFavorite(
+            get().tasks,
+            id,
+            newFavoriteStatus,
+            get().filters.favoriteFirst,
+        );
 
-        set((state) => {
-            let newTasks = state.tasks.map((t) =>
-                t.id === id ? { ...t, favorite: newFavoriteStatus } : t,
-            );
+        const finalTask = updatedTasks.find((t) => t.id === id);
+        const filteredTasks =
+            finalTask && shouldHide(finalTask, get().filters)
+                ? updatedTasks.filter((t) => t.id !== id)
+                : updatedTasks;
 
-            if (state.filters.favoriteFirst) {
-                if (newFavoriteStatus === 1) {
-                    const favoritedTask = newTasks.find((t) => t.id === id);
-                    if (favoritedTask) {
-                        newTasks = [
-                            favoritedTask,
-                            ...newTasks.filter((t) => t.id !== id),
-                        ];
-                    }
-                } else {
-                    newTasks.sort((a, b) => {
-                        if (b.favorite !== a.favorite)
-                            return b.favorite - a.favorite;
-                        return a.name.localeCompare(b.name);
-                    });
-                }
-            }
-
-            const updatedTask = newTasks.find((t) => t.id === id);
-            if (updatedTask && shouldHideTask(updatedTask, filters)) {
-                newTasks = newTasks.filter((t) => t.id !== id);
-            }
-
-            return { tasks: newTasks };
-        });
+        set({ tasks: filteredTasks });
 
         try {
             await invoke("set_favorite", {
                 id,
                 isFavorite: newFavoriteStatus === 1,
             });
-
             const updatedStats = await invoke<TaskStats>("get_task_stats", {
                 category: get().activeCategory,
             });
             set({ stats: updatedStats });
         } catch (err) {
-            console.error("Failed to update favorite:", err);
-            get().fetchTasks(true);
+            console.error("Rollback favorite adjustment:", err);
+            set(previousState);
         }
     },
 
@@ -182,34 +176,30 @@ export const useTaskStore = create<TaskState>((set, get) => ({
         const task = get().tasks.find((t) => t.id === id);
         if (!task) return;
 
-        const wasComplete = task.current_completions === task.max_completions;
-        const isComplete = count === task.max_completions;
+        const previousState = { tasks: get().tasks, stats: get().stats };
 
-        const { filters } = get();
+        const newCurrentCount = calculateTaskStatAdjustment(
+            task,
+            count,
+            get().stats.current,
+        );
+        const updatedTasks = get().tasks.map((t) =>
+            t.id === id ? { ...t, current_completions: count } : t,
+        );
 
-        set((state) => {
-            let newCurrent = state.stats.current;
-            if (!wasComplete && isComplete) newCurrent++;
-            if (wasComplete && !isComplete) newCurrent--;
+        const finalTask = updatedTasks.find((t) => t.id === id);
+        const filteredTasks =
+            finalTask && shouldHide(finalTask, get().filters)
+                ? updatedTasks.filter((t) => t.id !== id)
+                : updatedTasks;
 
-            let nextTasks = state.tasks.map((t: Task) =>
-                t.id === id ? { ...t, current_completions: count } : t,
-            );
-
-            const taskToVerify = nextTasks.find((t: Task) => t.id === id);
-            if (taskToVerify && shouldHideTask(taskToVerify, filters)) {
-                nextTasks = nextTasks.filter((t: Task) => t.id !== id);
-            }
-
-            return {
-                stats: { ...state.stats, current: newCurrent },
-                tasks: nextTasks,
-            };
+        set({
+            tasks: filteredTasks,
+            stats: { ...get().stats, current: newCurrentCount },
         });
 
         try {
             const updatedTask = await invoke<Task>("set_task", { id, count });
-
             const updatedStats = await invoke<TaskStats>("get_task_stats", {
                 category: get().activeCategory,
             });
@@ -219,24 +209,8 @@ export const useTaskStore = create<TaskState>((set, get) => ({
                 tasks: state.tasks.map((t) => (t.id === id ? updatedTask : t)),
             }));
         } catch (err) {
-            console.error(err);
-            get().fetchTasks(true);
+            console.error("Rollback task completion adjustment:", err);
+            set(previousState);
         }
     },
 }));
-
-listen("tasks-reset", () => {
-    useTaskStore.getState().fetchTasks();
-});
-
-const shouldHideTask = (task: Task, filters: TaskFilterState): boolean => {
-    const isComplete = task.current_completions === task.max_completions;
-    const isFavorite = task.favorite === 1;
-
-    if (filters.hideComplete && isComplete) return true;
-    if (filters.hideIncomplete && !isComplete) return true;
-    if (filters.hideFavorite && isFavorite) return true;
-    if (filters.hideNonFavorite && !isFavorite) return true;
-
-    return false;
-};

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be logged here
 
+## 1.1.1
+
+### Bug Fixes
+
+- 🛠️ fix license text not being correct
+
+### Dev Notes
+
+- ✏️ refactor `useMasteryStore` and `useTaskStore` for improved readablility and maintainability
+- ✏️ move time store useEffect from App.tsx to AppInitializer.tsx
+- ✏️ add github actions to handle builds
+
 ## 1.1.0
 
 ### Features

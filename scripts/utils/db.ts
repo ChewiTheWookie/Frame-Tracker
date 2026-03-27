@@ -19,50 +19,36 @@ export function saveLicensesToDb(licenses: any[], source: "npm" | "cargo") {
     const dir = path.dirname(DB_PATH);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    if (fs.existsSync(DB_PATH)) {
-        try {
-            fs.unlinkSync(DB_PATH);
-            console.log("🧹 Existing database cleared for a fresh sync.");
-        } catch (err) {
-            console.error("❌ Failed to delete old database:", err);
-        }
-    }
-
     const db = new Database(DB_PATH);
 
     if (fs.existsSync(MIGRATION_PATH)) {
         const files = fs
             .readdirSync(MIGRATION_PATH)
-            .filter((file) => file.endsWith(".sql"))
+            .filter((f) => f.endsWith(".sql"))
             .sort();
-
         for (const file of files) {
             const sql = fs.readFileSync(
                 path.join(MIGRATION_PATH, file),
                 "utf8",
             );
             db.exec(sql);
-            console.log(`🛠️  Applied migration: ${file}`);
         }
-    } else {
-        console.warn("⚠️  Migration directory not found!");
     }
 
-    const insert = db.prepare(`
-    INSERT OR REPLACE INTO licenses (id, name, version, author, repository, license_text, source)
-    VALUES (@id, @name, @version, @author, @repository, @license_text, @source)
-`);
+    db.prepare("DELETE FROM licenses WHERE source = ?").run(source);
 
-    const preparedItems = licenses.map((item) => ({
-        ...item,
-        source: source,
-    }));
+    const insert = db.prepare(`
+        INSERT OR REPLACE INTO licenses (id, name, version, author, repository, license_text, source)
+        VALUES (@id, @name, @version, @author, @repository, @license_text, @source)
+    `);
 
     const insertMany = db.transaction((items) => {
         for (const item of items) insert.run(item);
     });
 
+    const preparedItems = licenses.map((item) => ({ ...item, source }));
     insertMany(preparedItems);
+
     db.close();
     console.log(
         `✅ Successfully synced ${licenses.length} ${source} licenses.`,
