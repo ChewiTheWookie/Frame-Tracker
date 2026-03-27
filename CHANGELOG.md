@@ -17,6 +17,7 @@ All notable changes to this project will be logged here
 - ✏️ add github actions to handle builds
 - ✏️ no longer supporting MSI installers
 - ✏️ refactor task_tracker and mastery_tracker commands seperating logic into repo's
+- ✏️ refactor services to use the repo's
 
 ## 1.1.0
 

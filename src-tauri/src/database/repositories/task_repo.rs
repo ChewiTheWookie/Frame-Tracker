@@ -112,3 +112,21 @@ pub async fn update_completions(
         .bind(id)
         .fetch_one(pool).await
 }
+
+pub async fn find_all_raw(pool: &Pool<Sqlite>) -> Result<Vec<Task>, sqlx::Error> {
+    sqlx::query_as::<_, Task>("SELECT * FROM task_tracker").fetch_all(pool).await
+}
+
+pub async fn reset_task_progress(
+    pool: &Pool<Sqlite>,
+    id: &str,
+    reset_time: String
+) -> Result<u64, sqlx::Error> {
+    let res = sqlx
+        ::query("UPDATE task_tracker SET current_completions = 0, last_reset = ? WHERE id = ?")
+        .bind(reset_time)
+        .bind(id)
+        .execute(pool).await?;
+
+    Ok(res.rows_affected())
+}

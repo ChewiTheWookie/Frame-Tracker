@@ -1,7 +1,8 @@
-use sqlx::{ Pool, Sqlite };
-use crate::models::database::item::{ Item, ItemComponent };
+use crate::models::api::wiki_item::{ WikiComponent, WikiItem };
 use crate::models::database::filters::MasteryFilters;
+use crate::models::database::item::{ Item, ItemComponent };
 use crate::models::database::stats::MasteryStats;
+use sqlx::{ Pool, Sqlite, Transaction };
 
 pub async fn find_all_items(
     pool: &Pool<Sqlite>,
@@ -49,7 +50,6 @@ pub async fn find_all_items(
             .iter()
             .map(|i| i.id.clone())
             .collect();
-
         let placeholders = item_ids
             .iter()
             .map(|_| "?")
@@ -167,6 +167,94 @@ pub async fn toggle_mastery_field(
         .bind(item_id)
         .execute(pool).await
         .map_err(|e| e.to_string())?;
+
+    Ok(())
+}
+
+pub async fn upsert_mastery_item(
+    tx: &mut Transaction<'_, Sqlite>,
+    item: &WikiItem
+) -> Result<(), sqlx::Error> {
+    sqlx
+        ::query(
+            r#"
+        INSERT INTO mastery_tracker (id, name, category, img_path)
+        VALUES (?1, ?2, ?3, ?4)
+        ON CONFLICT(id) DO UPDATE SET 
+            name = excluded.name,
+            category = excluded.category,
+            img_path = excluded.img_path
+        "#
+        )
+        .bind(&item.unique_name)
+        .bind(&item.name)
+        .bind(&item.category)
+        .bind(&item.image_name)
+        .execute(&mut **tx).await?;
+
+    Ok(())
+}
+
+pub async fn delete_obsolete_components(
+    tx: &mut Transaction<'_, Sqlite>,
+    item_id: &str,
+    valid_components: &[WikiComponent]
+) -> Result<(), sqlx::Error> {
+    let placeholders = valid_components
+        .iter()
+        .map(|_| "?")
+        .collect::<Vec<_>>()
+        .join(",");
+    let query_str =
+        format!("DELETE FROM item_components WHERE item_id = ? AND component_name NOT IN ({})", placeholders);
+
+    let mut query = sqlx::query(&query_str).bind(item_id);
+    for comp in valid_components {
+        query = query.bind(&comp.name);
+    }
+
+    query.execute(&mut **tx).await?;
+    Ok(())
+}
+
+pub async fn upsert_item_component(
+    tx: &mut Transaction<'_, Sqlite>,
+    item_id: &str,
+    component_name: &str,
+    needed_quantity: i32
+) -> Result<(), sqlx::Error> {
+    sqlx
+        ::query(
+            r#"
+        INSERT INTO item_components (item_id, component_name, needed_quantity)
+        VALUES (?1, ?2, ?3)
+        ON CONFLICT(item_id, component_name) DO UPDATE SET 
+            needed_quantity = excluded.needed_quantity
+        "#
+        )
+        .bind(item_id)
+        .bind(component_name)
+        .bind(needed_quantity)
+        .execute(&mut **tx).await?;
+
+    Ok(())
+}
+
+pub async fn update_craftable_states(tx: &mut Transaction<'_, Sqlite>) -> Result<(), sqlx::Error> {
+    sqlx
+        ::query(
+            r#"
+        UPDATE mastery_tracker 
+        SET craftable = (
+            NOT EXISTS (
+                SELECT 1 FROM item_components 
+                WHERE item_id = mastery_tracker.id AND owned_quantity < needed_quantity
+            )
+        )
+        WHERE id IN (SELECT DISTINCT item_id FROM item_components)
+        "#
+        )
+        .execute(&mut **tx).await?;
 
     Ok(())
 }
