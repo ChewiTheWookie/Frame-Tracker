@@ -5,9 +5,10 @@ import { stdin as input, stdout as output } from "process";
 
 async function checkVersion() {
     const rl = readline.createInterface({ input, output });
+    const isCI = process.env.GITHUB_ACTIONS === "true";
 
     try {
-        console.log("🔍 Comapring version to Github releases...");
+        console.log("🔍 Comparing version to Github releases...");
         const packageJson = JSON.parse(
             fs.readFileSync("./package.json", "utf-8"),
         );
@@ -24,6 +25,13 @@ async function checkVersion() {
                 "\x1b[33m%s\x1b[0m",
                 `⚠️  WARNING: Local version (${localVersion}) matches the latest GitHub tag.`,
             );
+
+            if (isCI) {
+                console.log(
+                    "☁️  Running in GitHub Actions: Auto-approving the build.",
+                );
+                return;
+            }
 
             const answer = await rl.question(
                 "   Continue with build anyway? (y/N): ",
@@ -45,7 +53,7 @@ async function checkVersion() {
     } catch (error) {
         console.log(
             "\x1b[34m%s\x1b[0m",
-            "ℹ️  No remote tags found. Proceeding with initial build.",
+            "ℹ️  No remote tags found or error occurred. Proceeding with build.",
         );
     } finally {
         rl.close();
