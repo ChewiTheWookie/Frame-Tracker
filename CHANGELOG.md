@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Bug Fixes
 
 - 🛠️ fix license text not being correct
+- 🛠️ fix `license-frontend.ts` being impassable by github actions
 
 ### Dev Notes
 
