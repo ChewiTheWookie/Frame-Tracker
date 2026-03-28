@@ -2,9 +2,9 @@ import { execSync } from "child_process";
 import { saveLicensesToDb } from "./utils/db";
 
 try {
-    console.log("🦀 Gathering Rust licenses using raw JSON...");
+    console.log("🦀 Generating Rust licenses using about.hbs template...");
 
-    const rawOutput = execSync("cargo about generate --format json", {
+    const rawOutput = execSync("cargo about generate about.hbs", {
         cwd: "./src-tauri",
         encoding: "utf-8",
         maxBuffer: 1024 * 1024 * 50,
@@ -13,18 +13,14 @@ try {
     const data = JSON.parse(rawOutput);
     const formatted: any[] = [];
 
-    const crates = data.crates || (Array.isArray(data) ? data : []);
-
-    if (crates.length === 0) {
-        throw new Error("No crates found in the cargo-about output structure.");
+    if (!Array.isArray(data)) {
+        throw new Error("Expected a flat JSON array from about.hbs output.");
     }
 
-    for (const item of crates) {
-        const pkg = item.package || item;
-
-        const crateName = pkg.name;
-        const crateVersion = pkg.version;
-        const licenseSpdx = pkg.license || item.license || "Unknown";
+    for (const item of data) {
+        const crateName = item.name;
+        const crateVersion = item.version;
+        const licenseSpdx = item.license_id || "Unknown";
 
         const cleanedLicenseString = licenseSpdx
             .replace(/[()]/g, "")
@@ -36,7 +32,6 @@ try {
             .filter((id: string) => id.length > 0);
 
         let selectedLicenseId = "";
-
         const hasApache = licenseOptions.find((id: string) =>
             id.toLowerCase().includes("apache"),
         );
@@ -54,26 +49,13 @@ try {
             selectedLicenseId = licenseSpdx;
         }
 
-        let licenseText = "No license text provided.";
-
-        if (item.text) {
-            licenseText = item.text;
-        } else if (data.overview && Array.isArray(data.overview)) {
-            const overviewMatch = data.overview.find(
-                (o: any) => o.id === selectedLicenseId,
-            );
-            if (overviewMatch?.text) {
-                licenseText = overviewMatch.text;
-            }
-        }
-
         formatted.push({
             id: `${crateName}@${crateVersion}`,
             name: selectedLicenseId,
             version: crateVersion,
-            author: pkg.authors?.join(", ") || "",
-            repository: pkg.repository || "",
-            license_text: licenseText,
+            author: Array.isArray(item.authors) ? item.authors.join(", ") : "",
+            repository: item.repository || "",
+            license_text: item.text || "No license text provided.",
             source: "cargo",
         });
     }

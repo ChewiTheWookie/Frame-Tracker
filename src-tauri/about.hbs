@@ -1,18 +1,15 @@
 {{! prettier-ignore }}
-{
-  "licenses": [
-    {{#each licenses}}
-      {{#each used_by}}
-      {
-        "id": "{{{crate.name}}}@{{{crate.version}}}",
-        "name": {{{json ../name}}},
-        "version": {{{json crate.version}}},
-        "author": "",
-        "repository": {{{json crate.repository}}},
-        "license_text": {{{json ../text}}},
-        "source": "cargo"
-      }{{#unless (and @last @../last)}},{{/unless}}
-      {{/each}}
+[
+  {{#each licenses}}
+    {{#each used_by}}
+    {
+      "name": {{{json crate.name}}},
+      "version": {{{json crate.version}}},
+      "license_id": {{{json ../name}}},
+      "authors": {{{json crate.authors}}},
+      "repository": {{{json crate.repository}}},
+      "text": {{{json ../text}}}
+    }{{#unless (and @last @../last)}},{{/unless}}
     {{/each}}
-  ]
-}
+  {{/each}}
+]
