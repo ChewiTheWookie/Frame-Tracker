@@ -249,13 +249,17 @@ pub async fn update_craftable_states(tx: &mut Transaction<'_, Sqlite>) -> Result
             r#"
         UPDATE mastery_tracker 
         SET craftable = (
+            EXISTS (
+                SELECT 1 FROM item_components 
+                WHERE item_id = mastery_tracker.id
+            )
+            AND 
             NOT EXISTS (
                 SELECT 1 FROM item_components 
-                WHERE item_id = mastery_tracker.id AND owned_quantity < needed_quantity
+                WHERE item_id = mastery_tracker.id 
+                AND owned_quantity < needed_quantity
             )
         )
-        -- Removed the WHERE clause so that items with NO components 
-        -- (which are technically always craftable/ready) are also updated.
         "#
         )
         .execute(&mut **tx).await?;

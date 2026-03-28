@@ -1,24 +1,28 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { MapPin, Monitor, RefreshCw, ScrollText, Star } from "lucide-react";
 import { useTaskTimer } from "../../hooks/useTaskTimer";
-import { Task } from "../../types/tasks";
+import { useTaskStore, useTaskById } from "../../stores/useTaskStore";
 import { Card } from "../Card";
 import { CardButton } from "../CardButton";
 
 import styles from "./TaskCard.module.css";
 
 interface Props {
-    task: Task;
-    set_task: (taskId: string, newValue: number) => void;
-    toggleFavorite: (taskId: string) => void;
+    taskId: string;
 }
 
-export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
+function InternalTaskCard({ taskId }: Props) {
+    const task = useTaskById(taskId);
+    const setTask = useTaskStore((s) => s.setTask);
+    const toggleFavorite = useTaskStore((s) => s.toggleFavorite);
+
     const countdown = useTaskTimer(task);
+
+    if (!task) return null;
 
     const handleUpdate = (newValue: number) => {
         const clamped = Math.max(0, Math.min(newValue, task.max_completions));
-        set_task(task.id, clamped);
+        setTask(task.id, clamped);
     };
 
     const handleFavorite = (e: React.MouseEvent) => {
@@ -26,9 +30,13 @@ export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
         toggleFavorite(task.id);
     };
 
-    const tags: string[] = JSON.parse(task.tags || "[]");
+    const tags: string[] = useMemo(
+        () => JSON.parse(task.tags || "[]"),
+        [task.tags],
+    );
+
     const isCompleted = task.current_completions >= task.max_completions;
-    const isFavorite = task.favorite;
+    const isFavorite = task.favorite === 1;
 
     const formatInterval = (interval: string) => {
         return interval
@@ -45,7 +53,7 @@ export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
         <>
             <div className={styles.header}>
                 <h4 className={styles.name}>{task.name}</h4>
-                <div className={styles.timer}>{countdown && countdown}</div>
+                <div className={styles.timer}>{countdown}</div>
                 <button
                     className={`${styles.favoriteBtn} ${isFavorite ? styles.isFavorite : ""}`}
                     onClick={handleFavorite}
@@ -60,7 +68,7 @@ export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
                         {tags.map((tag) => (
                             <span
                                 key={tag}
-                                className={`${styles.statItem} ${styles.tag} ${styles[tag.toLowerCase()]}`}
+                                className={`${styles.statItem} ${styles.tag} ${styles[tag.toLowerCase()] || ""}`}
                             >
                                 {tag.toUpperCase()}
                             </span>
@@ -97,19 +105,19 @@ export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
                 {task.location && (
                     <div className={styles.infoItem}>
                         <MapPin size={16} className={styles.detailIcon} />
-                        <span>{task.location || "Unknown"}</span>
+                        <span>{task.location}</span>
                     </div>
                 )}
                 {task.terminal && (
                     <div className={styles.infoItem}>
                         <Monitor size={16} className={styles.detailIcon} />
-                        <span>{task.terminal || "N/A"}</span>
+                        <span>{task.terminal}</span>
                     </div>
                 )}
                 {task.quest_required && (
                     <div className={styles.infoItem}>
                         <ScrollText size={16} className={styles.detailIcon} />
-                        <span>{task.quest_required || "None"}</span>
+                        <span>{task.quest_required}</span>
                     </div>
                 )}
                 {task.reset_interval && (
@@ -125,13 +133,7 @@ export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
         </>
     );
 
-    return (
-        <Card
-            front={front}
-            back={back}
-            completed={task.current_completions === task.max_completions}
-        />
-    );
+    return <Card front={front} back={back} completed={isCompleted} />;
 }
 
 export const TaskCard = memo(InternalTaskCard);

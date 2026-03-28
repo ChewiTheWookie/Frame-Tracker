@@ -1,29 +1,44 @@
-import { memo } from "react";
-import { Item, ItemComponent } from "../../types/items";
+import { memo, useMemo } from "react";
+import { ItemComponent } from "../../types/items";
 import { Card } from "../Card";
 import { CardButton } from "../CardButton";
+import { useItemById, useMasteryStore } from "../../stores/useMasteryStore";
 
 import styles from "./MasteryCard.module.css";
 import { Dna, DnaOff } from "lucide-react";
 
 interface Props {
-    item: Item;
-    toggleMastery: (
-        itemId: string,
-        field: "mastered" | "owned" | "helminthed",
-    ) => void;
-    updateComponentQuantity: (
-        itemId: string,
-        compName: string,
-        qty: number,
-    ) => void;
+    itemId: string;
 }
 
-function InternalMasteryCard({
-    item,
-    toggleMastery,
-    updateComponentQuantity,
-}: Props) {
+const NO_IMAGE_URL = "https://placehold.co/200x200/0b0e12/c1ac6c?text=No+Image";
+const WARFRAME_CDN = "https://cdn.warframestat.us/img/";
+
+function InternalMasteryCard({ itemId }: Props) {
+    const item = useItemById(itemId);
+    const toggleMastery = useMasteryStore((s) => s.toggleMastery);
+    const updateComponentQuantity = useMasteryStore(
+        (s) => s.updateComponentQuantity,
+    );
+
+    const { completedStyle, isCompleted } = useMemo(() => {
+        if (!item) return { completedStyle: "unowned", isCompleted: false };
+
+        if (item.mastered && item.helminthed)
+            return { completedStyle: "masteredHelminthed", isCompleted: true };
+        if (item.mastered)
+            return { completedStyle: "mastered", isCompleted: true };
+        if (item.helminthed)
+            return { completedStyle: "helminthed", isCompleted: true };
+        if (item.owned) return { completedStyle: "owned", isCompleted: true };
+        if (item.craftable)
+            return { completedStyle: "craftable", isCompleted: true };
+
+        return { completedStyle: "unowned", isCompleted: false };
+    }, [item]);
+
+    if (!item) return null;
+
     const handleToggle = (field: "mastered" | "owned" | "helminthed") => {
         toggleMastery(item.id, field);
     };
@@ -36,36 +51,16 @@ function InternalMasteryCard({
         );
     };
 
-    let completedStyle = "unowned";
-    let isCompleted = false;
-
-    if (item.mastered && item.helminthed) {
-        completedStyle = "masteredHelminthed";
-        isCompleted = true;
-    } else if (item.mastered) {
-        completedStyle = "mastered";
-        isCompleted = true;
-    } else if (item.helminthed) {
-        completedStyle = "helminthed";
-        isCompleted = true;
-    } else if (item.owned) {
-        completedStyle = "owned";
-        isCompleted = true;
-    } else if (item.craftable) {
-        completedStyle = "craftable";
-        isCompleted = true;
-    }
+    const showHelminth =
+        item.category === "Warframes" && !item.name.includes("Prime");
 
     const front = (
         <>
             <div className={styles.imageContainer}>
                 <img
-                    src={"https://cdn.warframestat.us/img/" + item.imgPath}
+                    src={`${WARFRAME_CDN}${item.imgPath}`}
                     alt={item.name}
-                    onError={(e) =>
-                        (e.currentTarget.src =
-                            "https://placehold.co/200x200/0b0e12/c1ac6c?text=No+Image")
-                    }
+                    onError={(e) => (e.currentTarget.src = NO_IMAGE_URL)}
                 />
             </div>
 
@@ -78,24 +73,23 @@ function InternalMasteryCard({
                         isActive={item.mastered}
                         onClick={() => handleToggle("mastered")}
                     />
-                    {item.category === "Warframes" &&
-                        !item.name.includes("Prime") && (
-                            <CardButton
-                                label={
-                                    <>
-                                        <DnaOff size={10} /> {" Feed"}
-                                    </>
-                                }
-                                activeLabel={
-                                    <>
-                                        <Dna size={10} /> {" Fed"}
-                                    </>
-                                }
-                                isActive={item.helminthed}
-                                variant="helminth"
-                                onClick={() => handleToggle("helminthed")}
-                            />
-                        )}
+                    {showHelminth && (
+                        <CardButton
+                            label={
+                                <>
+                                    <DnaOff size={10} /> Feed
+                                </>
+                            }
+                            activeLabel={
+                                <>
+                                    <Dna size={10} /> Fed
+                                </>
+                            }
+                            isActive={item.helminthed}
+                            variant="helminth"
+                            onClick={() => handleToggle("helminthed")}
+                        />
+                    )}
                 </div>
             </div>
         </>

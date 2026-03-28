@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useTaskStore } from "../../stores/useTaskStore";
+import {
+    useTaskStore,
+    useTaskIds,
+    useTaskStats,
+} from "../../stores/useTaskStore";
 import { TASK_CATEGORIES, TaskCategory } from "../../types/categories";
 import { CardGrid } from "../../components/CardGrid";
 import { CategoryTabs } from "../../components/CategoryTabs";
@@ -14,21 +18,20 @@ import { ScrollToTop } from "../../components/ScrollToTop";
 import styles from "./TaskTracker.module.css";
 
 export function TaskTracker() {
-    const tasks = useTaskStore((state) => state.tasks);
-    const fetchTasks = useTaskStore((state) => state.fetchTasks);
-    const isLoading = useTaskStore((state) => state.isLoading);
+    const taskIds = useTaskIds();
+    const stats = useTaskStats();
+
+    const fetchTasks = useTaskStore((s) => s.fetchTasks);
+    const isLoading = useTaskStore((s) => s.isLoading);
     const loadMore = useTaskStore((s) => s.loadMore);
     const hasMore = useTaskStore((s) => s.hasMore);
-    const error = useTaskStore((state) => state.error);
-    const activeCategory = useTaskStore((state) => state.activeCategory);
-    const stats = useTaskStore((state) => state.stats);
-    const setCategory = useTaskStore((state) => state.setCategory);
-    const search = useTaskStore((state) => state.searchQuery);
-    const setSearch = useTaskStore((state) => state.setSearch);
-    const filters = useTaskStore((state) => state.filters);
-    const setFilters = useTaskStore((state) => state.setFilters);
-    const toggleFavorite = useTaskStore((state) => state.toggleFavorite);
-    const setTask = useTaskStore((state) => state.setTask);
+    const error = useTaskStore((s) => s.error);
+    const activeCategory = useTaskStore((s) => s.activeCategory);
+    const setCategory = useTaskStore((s) => s.setCategory);
+    const search = useTaskStore((s) => s.searchQuery);
+    const setSearch = useTaskStore((s) => s.setSearch);
+    const filters = useTaskStore((s) => s.filters);
+    const setFilters = useTaskStore((s) => s.setFilters);
 
     const scrollRef = useRef<HTMLElement>(null);
 
@@ -62,18 +65,14 @@ export function TaskTracker() {
                     />
                 </nav>
             </header>
-            {isLoading ? (
+
+            {isLoading && taskIds.length === 0 ? (
                 <Throbber label={"Loading Tasks"} />
             ) : (
                 <>
                     <CardGrid>
-                        {tasks.map((task) => (
-                            <TaskCard
-                                key={task.id}
-                                task={task}
-                                set_task={setTask}
-                                toggleFavorite={toggleFavorite}
-                            />
+                        {taskIds.map((id) => (
+                            <TaskCard key={id} taskId={id} />
                         ))}
                     </CardGrid>
                     <ScrollSentinel

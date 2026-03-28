@@ -1,5 +1,9 @@
 import { useRef } from "react";
-import { useMasteryStore } from "../../stores/useMasteryStore";
+import {
+    useMasteryStore,
+    useMasteryItemIds,
+    useMasteryStats,
+} from "../../stores/useMasteryStore";
 import { MASTERY_CATEGORIES, MasteryCategory } from "../../types/categories";
 import { CardGrid } from "../../components/CardGrid";
 import { MasteryCard } from "../../components/MasteryCard";
@@ -14,28 +18,21 @@ import { ScrollToTop } from "../../components/ScrollToTop";
 import styles from "./MasteryTracker.module.css";
 
 export function MasteryTracker() {
-    const itemIds = useMasteryStore((state) => state.itemIds);
-    const items = useMasteryStore((state) => state.items);
-    const isLoading = useMasteryStore((state) => state.isLoading);
+    const itemIds = useMasteryItemIds();
+    const isLoading = useMasteryStore((s) => s.isLoading);
     const loadMore = useMasteryStore((s) => s.loadMore);
     const hasMore = useMasteryStore((s) => s.hasMore);
-    const error = useMasteryStore((state) => state.error);
-    const activeCategory = useMasteryStore((state) => state.activeCategory);
-    const toggleMastery = useMasteryStore((state) => state.toggleMastery);
-    const updateComponentQuantity = useMasteryStore(
-        (state) => state.updateComponentQuantity,
-    );
+    const error = useMasteryStore((s) => s.error);
 
-    const current = useMasteryStore((state) => state.stats.current);
-    const total = useMasteryStore((state) => state.stats.total);
-    const hCurrent = useMasteryStore((state) => state.stats.helminthCurrent);
-    const hTotal = useMasteryStore((state) => state.stats.helminthTotal);
+    const activeCategory = useMasteryStore((s) => s.activeCategory);
+    const setCategory = useMasteryStore((s) => s.setCategory);
+    const searchQuery = useMasteryStore((s) => s.searchQuery);
+    const setSearch = useMasteryStore((s) => s.setSearch);
+    const filters = useMasteryStore((s) => s.filters);
+    const setFilters = useMasteryStore((s) => s.setFilters);
 
-    const setCategory = useMasteryStore((state) => state.setCategory);
-    const search = useMasteryStore((state) => state.searchQuery);
-    const setSearch = useMasteryStore((state) => state.setSearch);
-    const filters = useMasteryStore((state) => state.filters);
-    const setFilters = useMasteryStore((state) => state.setFilters);
+    const { current, total, helminthCurrent, helminthTotal } =
+        useMasteryStats();
 
     const scrollRef = useRef<HTMLElement>(null);
 
@@ -47,12 +44,12 @@ export function MasteryTracker() {
             <header className={styles.navContainer}>
                 <CategoryTabs<MasteryCategory>
                     categories={MASTERY_CATEGORIES}
-                    activeCategory={activeCategory as MasteryCategory}
+                    activeCategory={activeCategory}
                     onCategoryChange={setCategory}
                 />
                 <nav className={styles.navBottom}>
                     <Searchbar
-                        search={search}
+                        search={searchQuery}
                         setSearch={setSearch}
                         activeCategory={activeCategory}
                         filters={filters}
@@ -63,11 +60,12 @@ export function MasteryTracker() {
                         current={current}
                         total={total}
                         hLabel="Helminthed"
-                        hCurrent={hCurrent}
-                        hTotal={hTotal}
+                        hCurrent={helminthCurrent}
+                        hTotal={helminthTotal}
                     />
                 </nav>
             </header>
+
             <div className={styles.scrollContainer}>
                 {isLoading && itemIds.length === 0 ? (
                     <Throbber label="Loading Items" />
@@ -75,14 +73,7 @@ export function MasteryTracker() {
                     <>
                         <CardGrid>
                             {itemIds.map((id) => (
-                                <MasteryCard
-                                    key={id}
-                                    item={items[id]}
-                                    toggleMastery={toggleMastery}
-                                    updateComponentQuantity={
-                                        updateComponentQuantity
-                                    }
-                                />
+                                <MasteryCard key={id} itemId={id} />
                             ))}
                         </CardGrid>
                         <ScrollSentinel

@@ -29,28 +29,30 @@ export const useKeybind = (
                 target.tagName === "TEXTAREA" ||
                 target.isContentEditable;
 
-            const isModifierPressed =
-                event.ctrlKey || event.altKey || event.metaKey;
+            const isSpecialKey =
+                targetKey.toLowerCase() === "escape" || targetKey === "/";
 
-            const isSpecialKey = targetKey === "Escape" || targetKey === "/";
+            const hasModifier = event.ctrlKey || event.altKey || event.metaKey;
 
-            if (isInput && !isModifierPressed && !isSpecialKey) {
+            if (isInput && !hasModifier && !isSpecialKey) {
                 return;
             }
 
-            const match =
-                event.key.toLowerCase() === targetKey.toLowerCase() &&
+            const keyMatch =
+                event.key.toLowerCase() === targetKey.toLowerCase();
+
+            const modifierMatch =
                 event.ctrlKey === ctrl &&
                 event.shiftKey === shift &&
                 event.altKey === alt &&
                 event.metaKey === meta;
 
-            if (match) {
-                event.stopImmediatePropagation();
-
+            if (keyMatch && modifierMatch) {
                 if (preventDefault) {
                     event.preventDefault();
                 }
+
+                event.stopImmediatePropagation();
 
                 callback();
             }

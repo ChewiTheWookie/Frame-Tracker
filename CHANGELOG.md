@@ -6,6 +6,7 @@ All notable changes to this project will be logged here
 
 ### Dev Notes
 
+- ✏️ clean frontend to improve readability, performance
 - ✏️ clean backend to improve readability, performance
 
 ## 1.1.1

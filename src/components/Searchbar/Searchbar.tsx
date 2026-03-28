@@ -9,7 +9,6 @@ interface Props<T extends string> {
     search?: string;
     setSearch: (search: string) => void;
     activeCategory?: T;
-
     filters: FilterState;
     setFilters: (filters: any) => void;
 }
@@ -22,50 +21,72 @@ export function Searchbar<T extends string>({
     setFilters,
 }: Props<T>) {
     const [isOpen, setIsOpen] = useState(false);
+    const [localValue, setLocalValue] = useState(search);
+
+    const inputRef = useRef<HTMLInputElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+
     const filterDefs = getFilterDefinitions(filters, setFilters);
 
-    const [localValue, setLocalValue] = useState(search);
-    const inputRef = useRef<HTMLInputElement>(null);
-
     useEffect(() => {
-        setLocalValue(search);
+        if (search !== localValue) {
+            setLocalValue(search);
+        }
     }, [search]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setSearch(localValue);
+            if (localValue !== search) {
+                setSearch(localValue);
+            }
         }, 150);
-
         return () => clearTimeout(timer);
-    }, [localValue, setSearch]);
+    }, [localValue, setSearch, search]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLocalValue(e.target.value);
-    };
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+        if (isOpen) document.addEventListener("mousedown", handleClickOutside);
+        return () =>
+            document.removeEventListener("mousedown", handleClickOutside);
+    }, [isOpen]);
 
     const handleFocusSearch = () => {
         inputRef.current?.focus();
-        inputRef.current?.select();
+        requestAnimationFrame(() => inputRef.current?.select());
     };
+
+    const handleEscape = () => {
+        if (isOpen) {
+            setIsOpen(false);
+        } else {
+            setLocalValue("");
+            setSearch("");
+            inputRef.current?.blur();
+        }
+    };
+
     useKeybind("/", handleFocusSearch);
     useKeybind("f", handleFocusSearch, { ctrl: true });
-
-    const handleClearSearch = () => {
-        setSearch("");
-        inputRef.current?.blur();
-    };
-    useKeybind("Escape", handleClearSearch);
+    useKeybind("Escape", handleEscape);
 
     return (
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} ref={containerRef}>
             <input
                 className={styles.input}
                 ref={inputRef}
                 type="text"
                 placeholder={`Search ${activeCategory || "All"}...`}
                 value={localValue}
-                onChange={handleChange}
+                onChange={(e) => setLocalValue(e.target.value)}
             />
+
             <button
                 className={`${styles.filterButton} ${isOpen ? styles.active : ""}`}
                 onClick={() => setIsOpen(!isOpen)}
