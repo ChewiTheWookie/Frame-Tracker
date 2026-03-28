@@ -55,7 +55,10 @@ try {
         }
 
         let licenseText = "No license text provided.";
-        if (data.overview && Array.isArray(data.overview)) {
+
+        if (item.text) {
+            licenseText = item.text;
+        } else if (data.overview && Array.isArray(data.overview)) {
             const overviewMatch = data.overview.find(
                 (o: any) => o.id === selectedLicenseId,
             );
