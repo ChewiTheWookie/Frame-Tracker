@@ -3,27 +3,65 @@ use chrono::{ DateTime, Datelike, Duration, NaiveDateTime, TimeZone, Utc };
 use sqlx::SqlitePool;
 use tauri::{ AppHandle, Emitter };
 
+pub enum ResetType {
+    Daily(u32),
+    Weekly,
+    Baro,
+    World(Duration),
+    Custom(Duration),
+}
+
+impl ResetType {
+    pub fn from_str(s: &str) -> Self {
+        let s = s.to_lowercase();
+
+        if s.starts_with("daily") {
+            let hour = s
+                .split('_')
+                .nth(1)
+                .and_then(|h| h.parse().ok())
+                .unwrap_or(0);
+            return Self::Daily(hour);
+        }
+
+        if s.ends_with("_world") {
+            let dur = parse_duration_str(&s.replace("_world", "")).unwrap_or(Duration::zero());
+            return Self::World(dur);
+        }
+
+        match s.as_str() {
+            "weekly" => Self::Weekly,
+            "baro" => Self::Baro,
+            _ => {
+                if let Some(dur) = parse_duration_str(&s) {
+                    Self::Custom(dur)
+                } else {
+                    Self::Daily(0)
+                }
+            }
+        }
+    }
+}
+
 pub async fn check_and_apply_resets(
     pool: &SqlitePool,
     handle: &AppHandle
 ) -> Result<(), sqlx::Error> {
     let tasks = task_repo::find_all_raw(pool).await?;
-
     let mut rows_affected = 0;
+    let now = Utc::now();
 
     for task in tasks {
         let interval_str = task.reset_interval.as_deref().unwrap_or("Daily");
+        let reset_type = ResetType::from_str(interval_str);
 
         let last_reset_dt = parse_last_reset(&task.last_reset);
-        let current_period_start = get_current_period_start(interval_str);
+        let current_period_start = get_period_start(&reset_type, now);
 
-        let mut should_reset = last_reset_dt < current_period_start;
-
-        if is_custom_interval(interval_str) {
-            if let Some(duration) = parse_custom_interval(interval_str) {
-                should_reset = Utc::now() >= last_reset_dt + duration;
-            }
-        }
+        let should_reset = match reset_type {
+            ResetType::Custom(duration) => now >= last_reset_dt + duration,
+            _ => last_reset_dt < current_period_start,
+        };
 
         if should_reset {
             let affected = task_repo::reset_task_progress(
@@ -43,6 +81,42 @@ pub async fn check_and_apply_resets(
     }
 
     Ok(())
+}
+
+pub fn get_period_start(reset_type: &ResetType, now: DateTime<Utc>) -> DateTime<Utc> {
+    match reset_type {
+        ResetType::Daily(hour) => {
+            let mut reset = now.date_naive().and_hms_opt(*hour, 0, 0).unwrap().and_utc();
+
+            if now < reset {
+                reset -= Duration::days(1);
+            }
+            reset
+        }
+        ResetType::Weekly => {
+            let days_since_monday = now.weekday().num_days_from_monday();
+            (now - Duration::days(days_since_monday as i64))
+                .date_naive()
+                .and_hms_opt(0, 0, 0)
+                .unwrap()
+                .and_utc()
+        }
+        ResetType::Baro => {
+            let anchor_ts = 1772802000;
+            let interval_secs = 14 * 24 * 60 * 60;
+            let elapsed = now.timestamp() - anchor_ts;
+            let current_cycle_start = anchor_ts + (elapsed / interval_secs) * interval_secs;
+            Utc.timestamp_opt(current_cycle_start, 0).unwrap()
+        }
+        ResetType::World(duration) | ResetType::Custom(duration) => {
+            let secs = duration.num_seconds();
+            if secs == 0 {
+                return now;
+            }
+            let current_bucket = (now.timestamp() / secs) * secs;
+            Utc.timestamp_opt(current_bucket, 0).unwrap()
+        }
+    }
 }
 
 fn parse_last_reset(last_reset: &str) -> DateTime<Utc> {
@@ -66,15 +140,11 @@ fn parse_last_reset(last_reset: &str) -> DateTime<Utc> {
     Utc.timestamp_opt(0, 0).unwrap()
 }
 
-fn is_custom_interval(interval: &str) -> bool {
-    let lower = interval.to_lowercase();
-    !matches!(lower.as_str(), "daily" | "weekly" | "baro") && !lower.ends_with("_world")
-}
-
-fn parse_custom_interval(interval: &str) -> Option<Duration> {
+fn parse_duration_str(interval: &str) -> Option<Duration> {
     if interval.len() < 2 {
         return None;
     }
+
     let (value_str, suffix) = interval.split_at(interval.len() - 1);
     let value = value_str.parse::<i64>().ok()?;
 
@@ -86,68 +156,10 @@ fn parse_custom_interval(interval: &str) -> Option<Duration> {
     }
 }
 
-pub fn get_current_period_start(interval: &str) -> DateTime<Utc> {
-    let now = Utc::now();
-    let interval_lower = interval.to_lowercase();
-
-    match interval_lower.as_str() {
-        i if i.starts_with("daily") => {
-            let hour: u32 = i
-                .split('_')
-                .nth(1)
-                .and_then(|s| s.parse().ok())
-                .unwrap_or(0);
-
-            let mut reset_time = Utc.with_ymd_and_hms(
-                now.year(),
-                now.month(),
-                now.day(),
-                hour,
-                0,
-                0
-            ).unwrap();
-
-            if now < reset_time {
-                reset_time = reset_time - Duration::days(1);
-            }
-            reset_time
-        }
-        "weekly" => {
-            let days_since_monday = now.weekday().num_days_from_monday();
-            Utc.with_ymd_and_hms(now.year(), now.month(), now.day(), 0, 0, 0).unwrap() -
-                Duration::days(days_since_monday as i64)
-        }
-        "baro" => {
-            let anchor_ts = 1772802000;
-            let interval_secs = 14 * 24 * 60 * 60;
-
-            let elapsed = now.timestamp() - anchor_ts;
-            let current_cycle_start = anchor_ts + (elapsed / interval_secs) * interval_secs;
-
-            Utc.timestamp_opt(current_cycle_start, 0).unwrap()
-        }
-        i if i.ends_with("_world") => {
-            let duration_part = i.replace("_world", "");
-            if let Some(duration) = parse_custom_interval(&duration_part) {
-                let secs = duration.num_seconds();
-                let current_bucket = (now.timestamp() / secs) * secs;
-                Utc.timestamp_opt(current_bucket, 0).unwrap()
-            } else {
-                now
-            }
-        }
-        _ => now,
-    }
-}
-
 pub fn calculate_rolling_reset(interval: &str) -> DateTime<Utc> {
     let now = Utc::now();
-
-    if interval.ends_with('h') {
-        if let Ok(hours) = interval.trim_end_matches('h').parse::<i64>() {
-            return now - Duration::hours(hours);
-        }
+    if let Some(duration) = parse_duration_str(interval) {
+        return now - duration;
     }
-
     now - Duration::days(1)
 }

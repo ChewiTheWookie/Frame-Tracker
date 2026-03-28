@@ -4,6 +4,10 @@ All notable changes to this project will be logged here
 
 ## 1.2.0
 
+### Dev Notes
+
+- ✏️ clean backend to improve readability, performance
+
 ## 1.1.1
 
 ### Bug Fixes

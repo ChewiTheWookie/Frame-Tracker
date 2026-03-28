@@ -3,6 +3,7 @@ use crate::models::database::filters::MasteryFilters;
 use crate::models::database::item::{ Item, ItemComponent };
 use crate::models::database::stats::MasteryStats;
 use sqlx::{ Pool, Sqlite, Transaction };
+use std::collections::HashMap;
 
 pub async fn find_all_items(
     pool: &Pool<Sqlite>,
@@ -45,33 +46,35 @@ pub async fn find_all_items(
         .bind(offset)
         .fetch_all(pool).await?;
 
-    if !items.is_empty() {
-        let item_ids: Vec<String> = items
-            .iter()
-            .map(|i| i.id.clone())
-            .collect();
-        let placeholders = item_ids
-            .iter()
-            .map(|_| "?")
-            .collect::<Vec<_>>()
-            .join(",");
-        let query_str =
-            format!("SELECT * FROM item_components WHERE item_id IN ({})", placeholders);
+    if items.is_empty() {
+        return Ok(items);
+    }
 
-        let mut query = sqlx::query_as::<_, ItemComponent>(&query_str);
-        for id in &item_ids {
-            query = query.bind(id);
-        }
+    let item_ids: Vec<String> = items
+        .iter()
+        .map(|i| i.id.clone())
+        .collect();
+    let placeholders = item_ids
+        .iter()
+        .map(|_| "?")
+        .collect::<Vec<_>>()
+        .join(",");
+    let query_str = format!("SELECT * FROM item_components WHERE item_id IN ({})", placeholders);
 
-        let all_components = query.fetch_all(pool).await?;
+    let mut query = sqlx::query_as::<_, ItemComponent>(&query_str);
+    for id in &item_ids {
+        query = query.bind(id);
+    }
 
-        for item in &mut items {
-            item.components = all_components
-                .iter()
-                .filter(|c| c.item_id == item.id)
-                .cloned()
-                .collect();
-        }
+    let all_components = query.fetch_all(pool).await?;
+
+    let mut comp_map: HashMap<String, Vec<ItemComponent>> = HashMap::new();
+    for comp in all_components {
+        comp_map.entry(comp.item_id.clone()).or_default().push(comp);
+    }
+
+    for item in &mut items {
+        item.components = comp_map.remove(&item.id).unwrap_or_default();
     }
 
     Ok(items)
@@ -251,7 +254,8 @@ pub async fn update_craftable_states(tx: &mut Transaction<'_, Sqlite>) -> Result
                 WHERE item_id = mastery_tracker.id AND owned_quantity < needed_quantity
             )
         )
-        WHERE id IN (SELECT DISTINCT item_id FROM item_components)
+        -- Removed the WHERE clause so that items with NO components 
+        -- (which are technically always craftable/ready) are also updated.
         "#
         )
         .execute(&mut **tx).await?;

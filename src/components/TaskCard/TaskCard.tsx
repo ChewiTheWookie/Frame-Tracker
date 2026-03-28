@@ -23,7 +23,6 @@ export function InternalTaskCard({ task, set_task, toggleFavorite }: Props) {
 
     const handleFavorite = (e: React.MouseEvent) => {
         e.stopPropagation();
-        console.log(task.name + " Was marked as Fav");
         toggleFavorite(task.id);
     };
 

@@ -3,6 +3,7 @@
 pub struct MasteryFilters {
     pub hide_non_prime: bool,
     pub hide_prime: bool,
+
     pub hide_unowned: bool,
     pub hide_craftable: bool,
     pub hide_owned: bool,

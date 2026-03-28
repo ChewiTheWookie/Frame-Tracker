@@ -1,9 +1,13 @@
 use owo_colors::OwoColorize;
+use std::collections::HashSet;
 use crate::api::client::ApiClient;
-use crate::models::api::category_mapper::CategoryMapper;
-use crate::models::api::custom_items;
-use crate::models::api::exclusion_mapper::ItemExclusion;
-use crate::models::api::wiki_item::WikiItem;
+use crate::models::api::{
+    category_mapper,
+    custom_items,
+    exclusion_mapper,
+    wiki_item::WikiItem,
+    masterable_overrides,
+};
 use crate::models::resources::RESOURCES;
 
 pub async fn fetch_wiki_items(
@@ -11,78 +15,70 @@ pub async fn fetch_wiki_items(
 ) -> Result<Vec<WikiItem>, Box<dyn std::error::Error + Send + Sync>> {
     let url = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/All.json";
     let response = api_client.client.get(url).send().await?;
-
     let bytes = response.bytes().await?;
+
+    let resource_lookup: HashSet<&str> = RESOURCES.iter().copied().collect();
+
     let all_items: Vec<WikiItem> = serde_json::from_slice(&bytes)?;
 
     let mut filtered: Vec<WikiItem> = all_items
         .into_iter()
-        .filter(|item| {
+        .filter_map(|mut item| {
+            let name = &item.name;
+            let unique_name = &item.unique_name;
+
             let is_api_masterable = item.masterable.unwrap_or(false);
-            let is_forced =
-                crate::models::api::masterable_overrides::MasterableOverrides::is_force_masterable(
-                    &item.name,
-                    &item.unique_name
-                );
+            let is_forced = masterable_overrides::get_force_masterable_map(name, unique_name);
+
+            if !(is_api_masterable || is_forced) {
+                return None;
+            }
 
             if is_forced && !is_api_masterable {
-                println!(
-                    "{}",
-                    format!("[Added] Including: {} ID: {}", item.name, item.unique_name).green()
-                );
+                println!("{}", format!("[Added] Including: {} ID: {}", name, unique_name).green());
             }
 
-            is_api_masterable || is_forced
-        })
-        .filter(|item| {
-            let excluded = ItemExclusion::should_exclude(&item.name, &item.unique_name);
-            if excluded {
-                println!(
-                    "{}",
-                    format!("[Excluded] Blocking: {} ID: {}", item.name, item.unique_name).cyan()
-                );
+            if exclusion_mapper::get_exclusion_map(name, unique_name) {
+                println!("{}", format!("[Excluded] Blocking: {} ID: {}", name, unique_name).cyan());
+                return None;
             }
-            !excluded
-        })
-        .filter_map(|mut item| {
-            match CategoryMapper::get_ui_category(&item.category, &item.name, &item.unique_name) {
+
+            match category_mapper::get_category_map(&item.category, name, unique_name) {
                 Some(new_cat) => {
-                    item.category = new_cat;
-                    Some(item)
+                    item.category = new_cat.to_string();
                 }
                 None => {
                     println!(
                         "{}",
                         format!(
                             "[Skipped] No UI Category: {} (API: {}) ID: {}",
-                            item.name,
+                            name,
                             item.category,
-                            item.unique_name
+                            unique_name
                         ).yellow()
                     );
-                    None
+                    return None;
                 }
             }
-        })
-        .map(|mut item| {
+
             if let Some(comps) = item.components {
                 item.components = Some(
                     comps
                         .into_iter()
-                        .filter(|c| { !RESOURCES.contains(&c.name.as_str()) })
+                        .filter(|c| { !resource_lookup.contains(c.name.as_str()) })
                         .collect()
                 );
             }
-            item
+
+            Some(item)
         })
         .collect();
 
-    let custom_items = custom_items::get_custom_items();
-
-    for item in &custom_items {
+    let custom_list = custom_items::get_custom_items();
+    for item in &custom_list {
         println!("{}", format!("[Added] Custom: {}", item.name).green());
     }
-    filtered.extend(custom_items);
+    filtered.extend(custom_list);
 
     Ok(filtered)
 }

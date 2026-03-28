@@ -24,7 +24,6 @@ pub async fn init_user_db(handle: &AppHandle) -> Pool<Sqlite> {
         .expect("Failed to connect to User DB");
 
     sqlx::query("PRAGMA journal_mode = WAL;").execute(&pool).await.expect("Failed to set WAL mode");
-
     sqlx::query("PRAGMA foreign_keys = ON;")
         .execute(&pool).await
         .expect("Failed to enable foreign keys");
