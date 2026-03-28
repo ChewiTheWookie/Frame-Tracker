@@ -5,7 +5,7 @@ This application uses the following open-source software:
 
 ----------------------------------------------------------
 Package:    adler2@2.0.1
-License:    0BSD OR MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/oyvindln/adler2
 ----------------------------------------------------------
 
@@ -233,7 +233,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    aho-corasick@1.1.4
-License:    Unlicense OR MIT
+License:    MIT
 Repository: https://github.com/BurntSushi/aho-corasick
 ----------------------------------------------------------
 
@@ -302,7 +302,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ----------------------------------------------------------
 Package:    allocator-api2@0.2.21
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/zakarumych/allocator-api2
 ----------------------------------------------------------
 
@@ -530,7 +530,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    android_system_properties@0.1.5
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/nical/android_system_properties
 ----------------------------------------------------------
 
@@ -758,7 +758,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    anyhow@1.0.102
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/anyhow
 ----------------------------------------------------------
 
@@ -986,7 +986,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-broadcast@0.7.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/async-broadcast
 ----------------------------------------------------------
 
@@ -1214,7 +1214,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-channel@2.5.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/async-channel
 ----------------------------------------------------------
 
@@ -1442,7 +1442,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-executor@1.14.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/async-executor
 ----------------------------------------------------------
 
@@ -1670,7 +1670,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-io@2.6.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/async-io
 ----------------------------------------------------------
 
@@ -1898,7 +1898,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-lock@3.4.2
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/async-lock
 ----------------------------------------------------------
 
@@ -2126,7 +2126,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-process@2.5.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/async-process
 ----------------------------------------------------------
 
@@ -2354,7 +2354,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-recursion@1.1.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dcchut/async-recursion
 ----------------------------------------------------------
 
@@ -2582,7 +2582,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-signal@0.2.13
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/async-signal
 ----------------------------------------------------------
 
@@ -2810,7 +2810,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-task@4.7.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/async-task
 ----------------------------------------------------------
 
@@ -3038,7 +3038,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    async-trait@0.1.89
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/async-trait
 ----------------------------------------------------------
 
@@ -3353,7 +3353,7 @@ Repository: https://github.com/pacman82/atoi-rs
 
 ----------------------------------------------------------
 Package:    atomic-waker@1.1.2
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/atomic-waker
 ----------------------------------------------------------
 
@@ -3581,7 +3581,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    autocfg@1.5.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/cuviper/autocfg
 ----------------------------------------------------------
 
@@ -3809,7 +3809,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    aws-lc-rs@1.16.1
-License:    ISC AND (Apache-2.0 OR ISC)
+License:    Apache-2.0
 Repository: https://github.com/aws/aws-lc-rs
 ----------------------------------------------------------
 
@@ -4037,7 +4037,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    aws-lc-sys@0.38.0
-License:    ISC AND (Apache-2.0 OR ISC) AND OpenSSL
+License:    Apache-2.0
 Repository: https://github.com/aws/aws-lc-rs
 ----------------------------------------------------------
 
@@ -4265,7 +4265,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    base64@0.21.7
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/marshallpierce/rust-base64
 ----------------------------------------------------------
 
@@ -4493,7 +4493,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    base64@0.22.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/marshallpierce/rust-base64
 ----------------------------------------------------------
 
@@ -4721,7 +4721,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    bit-set@0.8.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/contain-rs/bit-set
 ----------------------------------------------------------
 
@@ -4949,7 +4949,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    bit-vec@0.8.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/contain-rs/bit-vec
 ----------------------------------------------------------
 
@@ -5177,7 +5177,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    bitflags@1.3.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/bitflags/bitflags
 ----------------------------------------------------------
 
@@ -5405,7 +5405,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    bitflags@2.11.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/bitflags/bitflags
 ----------------------------------------------------------
 
@@ -5633,7 +5633,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    block-buffer@0.10.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/RustCrypto/utils
 ----------------------------------------------------------
 
@@ -5890,7 +5890,7 @@ Repository: https://github.com/madsmtm/objc2
 
 ----------------------------------------------------------
 Package:    blocking@1.6.2
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/blocking
 ----------------------------------------------------------
 
@@ -6118,7 +6118,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    brotli-decompressor@5.0.0
-License:    BSD-3-Clause OR MIT
+License:    MIT
 Repository: https://github.com/dropbox/rust-brotli-decompressor
 ----------------------------------------------------------
 
@@ -6147,7 +6147,7 @@ Repository: https://github.com/dropbox/rust-brotli-decompressor
 
 ----------------------------------------------------------
 Package:    brotli@8.0.2
-License:    BSD-3-Clause AND MIT
+License:    MIT
 Repository: https://github.com/dropbox/rust-brotli
 ----------------------------------------------------------
 
@@ -6176,7 +6176,7 @@ Repository: https://github.com/dropbox/rust-brotli
 
 ----------------------------------------------------------
 Package:    bumpalo@3.20.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/fitzgen/bumpalo
 ----------------------------------------------------------
 
@@ -6404,7 +6404,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    bytemuck@1.25.0
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/Lokathor/bytemuck
 ----------------------------------------------------------
 
@@ -6632,7 +6632,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    byteorder@1.5.0
-License:    Unlicense OR MIT
+License:    MIT
 Repository: https://github.com/BurntSushi/byteorder
 ----------------------------------------------------------
 
@@ -6748,7 +6748,7 @@ Repository: https://github.com/gtk-rs/gtk-rs-core
 
 ----------------------------------------------------------
 Package:    camino@1.2.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/camino-rs/camino
 ----------------------------------------------------------
 
@@ -6976,7 +6976,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    cargo-platform@0.1.9
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/cargo
 ----------------------------------------------------------
 
@@ -7233,7 +7233,7 @@ Repository: https://github.com/oli-obk/cargo_metadata
 
 ----------------------------------------------------------
 Package:    cargo_toml@0.22.3
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://gitlab.com/lib.rs/cargo_toml
 ----------------------------------------------------------
 
@@ -7461,7 +7461,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    cc@1.2.56
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/cc-rs
 ----------------------------------------------------------
 
@@ -7689,7 +7689,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    cesu8@1.1.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/emk/cesu8-rs
 ----------------------------------------------------------
 
@@ -7946,7 +7946,7 @@ Repository: https://github.com/mdsteele/rust-cfb
 
 ----------------------------------------------------------
 Package:    cfg-expr@0.15.8
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/EmbarkStudios/cfg-expr
 ----------------------------------------------------------
 
@@ -8174,7 +8174,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    cfg-if@1.0.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/cfg-if
 ----------------------------------------------------------
 
@@ -8402,7 +8402,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    chrono@0.4.44
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/chronotope/chrono
 ----------------------------------------------------------
 
@@ -8630,7 +8630,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    cmake@0.1.57
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/cmake-rs
 ----------------------------------------------------------
 
@@ -8887,7 +8887,7 @@ Repository: https://github.com/Marwes/combine
 
 ----------------------------------------------------------
 Package:    concurrent-queue@2.5.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/concurrent-queue
 ----------------------------------------------------------
 
@@ -9144,7 +9144,7 @@ Repository: https://github.com/rutrum/convert-case
 
 ----------------------------------------------------------
 Package:    cookie@0.18.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/SergioBenitez/cookie-rs
 ----------------------------------------------------------
 
@@ -9372,7 +9372,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    core-foundation-sys@0.8.7
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/core-foundation-rs
 ----------------------------------------------------------
 
@@ -9600,7 +9600,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    core-foundation@0.10.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/core-foundation-rs
 ----------------------------------------------------------
 
@@ -9828,7 +9828,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    core-foundation@0.9.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/core-foundation-rs
 ----------------------------------------------------------
 
@@ -10056,7 +10056,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    core-graphics-types@0.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/core-foundation-rs
 ----------------------------------------------------------
 
@@ -10284,7 +10284,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    core-graphics@0.25.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/core-foundation-rs
 ----------------------------------------------------------
 
@@ -10512,7 +10512,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    cpufeatures@0.2.17
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/RustCrypto/utils
 ----------------------------------------------------------
 
@@ -10740,7 +10740,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    crc-catalog@2.4.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/akhilles/crc-catalog.git
 ----------------------------------------------------------
 
@@ -10968,7 +10968,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    crc32fast@1.5.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/srijs/rust-crc32fast
 ----------------------------------------------------------
 
@@ -11196,7 +11196,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    crc@3.4.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/mrhooray/crc-rs.git
 ----------------------------------------------------------
 
@@ -11424,7 +11424,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    crossbeam-channel@0.5.15
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/crossbeam-rs/crossbeam
 ----------------------------------------------------------
 
@@ -11652,7 +11652,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    crossbeam-queue@0.3.12
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/crossbeam-rs/crossbeam
 ----------------------------------------------------------
 
@@ -11880,7 +11880,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    crossbeam-utils@0.8.21
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/crossbeam-rs/crossbeam
 ----------------------------------------------------------
 
@@ -12108,7 +12108,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    crypto-common@0.1.7
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/RustCrypto/traits
 ----------------------------------------------------------
 
@@ -13479,7 +13479,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 ----------------------------------------------------------
 Package:    ctor@0.2.9
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/mmastrac/rust-ctor
 ----------------------------------------------------------
 
@@ -13794,7 +13794,7 @@ Repository: https://github.com/TedDriggs/darling
 
 ----------------------------------------------------------
 Package:    deranged@0.5.8
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/jhpratt/deranged
 ----------------------------------------------------------
 
@@ -14109,7 +14109,7 @@ Repository: https://github.com/JelteF/derive_more
 
 ----------------------------------------------------------
 Package:    digest@0.10.7
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/RustCrypto/traits
 ----------------------------------------------------------
 
@@ -14337,7 +14337,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    dirs-sys@0.5.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dirs-dev/dirs-sys-rs
 ----------------------------------------------------------
 
@@ -14565,7 +14565,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    dirs@6.0.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/soc/dirs-rs
 ----------------------------------------------------------
 
@@ -14793,7 +14793,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    dispatch2@0.3.1
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/madsmtm/objc2
 ----------------------------------------------------------
 
@@ -15021,7 +15021,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    displaydoc@0.2.5
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/yaahc/displaydoc
 ----------------------------------------------------------
 
@@ -15365,7 +15365,7 @@ Repository: https://github.com/allan2/dotenvy
 
 ----------------------------------------------------------
 Package:    dpi@0.1.2
-License:    Apache-2.0 AND MIT
+License:    Apache-2.0
 Repository: https://github.com/rust-windowing/winit
 ----------------------------------------------------------
 
@@ -15974,7 +15974,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 ----------------------------------------------------------
 Package:    dtoa@1.0.11
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/dtoa
 ----------------------------------------------------------
 
@@ -16202,7 +16202,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    dunce@1.0.5
-License:    CC0-1.0 OR MIT-0 OR Apache-2.0
+License:    Apache-2.0
 Repository: https://gitlab.com/kornelski/dunce
 ----------------------------------------------------------
 
@@ -16430,7 +16430,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    dyn-clone@1.0.20
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/dyn-clone
 ----------------------------------------------------------
 
@@ -16658,7 +16658,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    either@1.15.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rayon-rs/either
 ----------------------------------------------------------
 
@@ -16915,7 +16915,7 @@ Repository: https://github.com/nabijaczleweli/rust-embed-resource
 
 ----------------------------------------------------------
 Package:    embed_plist@1.2.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/nvzqz/embed-plist-rs
 ----------------------------------------------------------
 
@@ -17143,7 +17143,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    encoding_rs@0.8.35
-License:    (Apache-2.0 OR MIT) AND BSD-3-Clause
+License:    Apache-2.0
 Repository: https://github.com/hsivonen/encoding_rs
 ----------------------------------------------------------
 
@@ -17400,7 +17400,7 @@ Repository: https://github.com/zeenix/endi
 
 ----------------------------------------------------------
 Package:    enumflags2@0.7.12
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/meithecatte/enumflags2
 ----------------------------------------------------------
 
@@ -17628,7 +17628,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    enumflags2_derive@0.7.12
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/meithecatte/enumflags2
 ----------------------------------------------------------
 
@@ -17856,7 +17856,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    equivalent@1.0.2
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/indexmap-rs/equivalent
 ----------------------------------------------------------
 
@@ -18084,7 +18084,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    erased-serde@0.4.10
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/erased-serde
 ----------------------------------------------------------
 
@@ -18312,7 +18312,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    errno@0.3.14
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/lambda-fairy/rust-errno
 ----------------------------------------------------------
 
@@ -18540,7 +18540,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    event-listener-strategy@0.5.4
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/event-listener-strategy
 ----------------------------------------------------------
 
@@ -18768,7 +18768,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    event-listener@5.4.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/event-listener
 ----------------------------------------------------------
 
@@ -18996,7 +18996,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    fastrand@2.3.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/fastrand
 ----------------------------------------------------------
 
@@ -19224,7 +19224,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    fdeflate@0.3.7
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/image-rs/fdeflate
 ----------------------------------------------------------
 
@@ -19452,7 +19452,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    field-offset@0.3.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Diggsey/rust-field-offset
 ----------------------------------------------------------
 
@@ -19680,7 +19680,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    find-msvc-tools@0.1.9
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/cc-rs
 ----------------------------------------------------------
 
@@ -19908,7 +19908,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    flate2@1.1.9
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/flate2-rs
 ----------------------------------------------------------
 
@@ -20136,7 +20136,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    flume@0.11.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/zesterer/flume
 ----------------------------------------------------------
 
@@ -20364,7 +20364,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    fnv@1.0.7
-License:    Apache-2.0  OR  MIT
+License:    Apache-2.0
 Repository: https://github.com/servo/rust-fnv
 ----------------------------------------------------------
 
@@ -20644,7 +20644,7 @@ the following restrictions:
 
 ----------------------------------------------------------
 Package:    foreign-types-macros@0.2.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/sfackler/foreign-types
 ----------------------------------------------------------
 
@@ -20872,7 +20872,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    foreign-types-shared@0.3.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/sfackler/foreign-types
 ----------------------------------------------------------
 
@@ -21100,7 +21100,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    foreign-types@0.5.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/sfackler/foreign-types
 ----------------------------------------------------------
 
@@ -21328,7 +21328,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    form_urlencoded@1.2.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/rust-url
 ----------------------------------------------------------
 
@@ -21613,7 +21613,7 @@ Repository: https://github.com/webdesus/fs_extra
 
 ----------------------------------------------------------
 Package:    futf@0.1.5
-License:    MIT  OR  Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/futf
 ----------------------------------------------------------
 
@@ -21841,7 +21841,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-channel@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/futures-rs
 ----------------------------------------------------------
 
@@ -22069,7 +22069,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-core@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/futures-rs
 ----------------------------------------------------------
 
@@ -22297,7 +22297,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-executor@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/futures-rs
 ----------------------------------------------------------
 
@@ -22525,7 +22525,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-intrusive@0.5.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Matthias247/futures-intrusive
 ----------------------------------------------------------
 
@@ -22753,7 +22753,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-io@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/futures-rs
 ----------------------------------------------------------
 
@@ -22981,7 +22981,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-lite@2.6.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/futures-lite
 ----------------------------------------------------------
 
@@ -23209,7 +23209,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-macro@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/futures-rs
 ----------------------------------------------------------
 
@@ -23437,7 +23437,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-sink@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/futures-rs
 ----------------------------------------------------------
 
@@ -23665,7 +23665,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-task@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/futures-rs
 ----------------------------------------------------------
 
@@ -23893,7 +23893,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    futures-util@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/futures-rs
 ----------------------------------------------------------
 
@@ -24121,7 +24121,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    fxhash@0.2.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/cbreeden/fxhash
 ----------------------------------------------------------
 
@@ -24581,7 +24581,7 @@ Repository: https://github.com/fizyk20/generic-array.git
 
 ----------------------------------------------------------
 Package:    getrandom@0.1.16
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/getrandom
 ----------------------------------------------------------
 
@@ -24809,7 +24809,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    getrandom@0.2.17
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/getrandom
 ----------------------------------------------------------
 
@@ -25037,7 +25037,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    getrandom@0.3.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/getrandom
 ----------------------------------------------------------
 
@@ -25265,7 +25265,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    getrandom@0.4.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/getrandom
 ----------------------------------------------------------
 
@@ -25638,7 +25638,7 @@ Repository: https://github.com/gtk-rs/gtk-rs-core
 
 ----------------------------------------------------------
 Package:    glob@0.3.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/glob
 ----------------------------------------------------------
 
@@ -26011,7 +26011,7 @@ Repository: https://github.com/hyperium/h2
 
 ----------------------------------------------------------
 Package:    hashbrown@0.12.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/hashbrown
 ----------------------------------------------------------
 
@@ -26239,7 +26239,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    hashbrown@0.15.5
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/hashbrown
 ----------------------------------------------------------
 
@@ -26467,7 +26467,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    hashbrown@0.16.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/hashbrown
 ----------------------------------------------------------
 
@@ -26695,7 +26695,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    hashlink@0.10.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/kyren/hashlink
 ----------------------------------------------------------
 
@@ -26923,7 +26923,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    heck@0.4.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/withoutboats/heck
 ----------------------------------------------------------
 
@@ -27151,7 +27151,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    heck@0.5.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/withoutboats/heck
 ----------------------------------------------------------
 
@@ -27379,7 +27379,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    hermit-abi@0.5.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/hermit-os/hermit-rs
 ----------------------------------------------------------
 
@@ -27607,7 +27607,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    hex@0.4.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/KokaKiwi/rust-hex
 ----------------------------------------------------------
 
@@ -27835,7 +27835,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    html5ever@0.29.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
 
@@ -28063,7 +28063,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    html5ever@0.36.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
 
@@ -28349,7 +28349,7 @@ Repository: https://github.com/hyperium/http-body
 
 ----------------------------------------------------------
 Package:    http@1.4.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/hyperium/http
 ----------------------------------------------------------
 
@@ -28577,7 +28577,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    httparse@1.10.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/seanmonstar/httparse
 ----------------------------------------------------------
 
@@ -28805,7 +28805,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    hyper-rustls@0.27.7
-License:    Apache-2.0 OR ISC OR MIT
+License:    Apache-2.0
 Repository: https://github.com/rustls/hyper-rustls
 ----------------------------------------------------------
 
@@ -29091,7 +29091,7 @@ Repository: https://github.com/hyperium/hyper
 
 ----------------------------------------------------------
 Package:    iana-time-zone-haiku@0.1.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/strawlab/iana-time-zone
 ----------------------------------------------------------
 
@@ -29319,7 +29319,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    iana-time-zone@0.1.65
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/strawlab/iana-time-zone
 ----------------------------------------------------------
 
@@ -29905,7 +29905,7 @@ authorization of the copyright holder.
 
 ----------------------------------------------------------
 Package:    ident_case@1.0.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/TedDriggs/ident_case
 ----------------------------------------------------------
 
@@ -30133,7 +30133,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    idna@1.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/rust-url/
 ----------------------------------------------------------
 
@@ -30361,7 +30361,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    idna_adapter@1.2.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/hsivonen/idna_adapter
 ----------------------------------------------------------
 
@@ -30589,7 +30589,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    indexmap@1.9.3
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/bluss/indexmap
 ----------------------------------------------------------
 
@@ -30817,7 +30817,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    indexmap@2.13.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/indexmap-rs/indexmap
 ----------------------------------------------------------
 
@@ -31074,7 +31074,7 @@ Repository: https://github.com/bojand/infer
 
 ----------------------------------------------------------
 Package:    ipnet@2.12.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/krisprice/ipnet
 ----------------------------------------------------------
 
@@ -31302,7 +31302,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    iri-string@0.7.10
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/lo48576/iri-string
 ----------------------------------------------------------
 
@@ -31588,7 +31588,7 @@ Repository: https://github.com/TheLarkInn/is-wsl
 
 ----------------------------------------------------------
 Package:    itoa@1.0.17
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/itoa
 ----------------------------------------------------------
 
@@ -31874,7 +31874,7 @@ Repository: https://github.com/tauri-apps/javascriptcore-rs
 
 ----------------------------------------------------------
 Package:    jni-sys@0.3.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/sfackler/rust-jni-sys
 ----------------------------------------------------------
 
@@ -32102,7 +32102,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    jni@0.21.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/jni-rs/jni-rs
 ----------------------------------------------------------
 
@@ -32330,7 +32330,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    jobserver@0.1.34
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/jobserver-rs
 ----------------------------------------------------------
 
@@ -32558,7 +32558,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    js-sys@0.3.91
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys
 ----------------------------------------------------------
 
@@ -32786,7 +32786,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    json-patch@3.0.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/idubrov/json-patch
 ----------------------------------------------------------
 
@@ -33014,7 +33014,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    jsonptr@0.6.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/chanced/jsonptr
 ----------------------------------------------------------
 
@@ -33242,7 +33242,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    keyboard-types@0.7.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/pyfisch/keyboard-types
 ----------------------------------------------------------
 
@@ -33499,7 +33499,7 @@ Repository: https://github.com/brave/kuchikiki
 
 ----------------------------------------------------------
 Package:    libc@0.2.183
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/libc
 ----------------------------------------------------------
 
@@ -33785,7 +33785,7 @@ Repository: https://github.com/rusqlite/rusqlite
 
 ----------------------------------------------------------
 Package:    linux-raw-sys@0.12.1
-License:    Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/sunfishcode/linux-raw-sys
 ----------------------------------------------------------
 
@@ -34060,7 +34060,7 @@ authorization of the copyright holder.
 
 ----------------------------------------------------------
 Package:    lock_api@0.4.14
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Amanieu/parking_lot
 ----------------------------------------------------------
 
@@ -34288,7 +34288,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    log@0.4.29
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/log
 ----------------------------------------------------------
 
@@ -34516,7 +34516,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    mac@0.1.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/reem/rust-mac.git
 ----------------------------------------------------------
 
@@ -34744,7 +34744,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    markup5ever@0.14.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
 
@@ -34972,7 +34972,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    markup5ever@0.36.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
 
@@ -35200,7 +35200,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    match_token@0.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
 
@@ -35457,7 +35457,7 @@ Repository: https://github.com/SimonSapin/rust-std-candidates
 
 ----------------------------------------------------------
 Package:    memchr@2.8.0
-License:    Unlicense OR MIT
+License:    MIT
 Repository: https://github.com/BurntSushi/memchr
 ----------------------------------------------------------
 
@@ -35515,7 +35515,7 @@ Repository: https://github.com/Gilnaa/memoffset
 
 ----------------------------------------------------------
 Package:    mime@0.3.17
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/hyperium/mime
 ----------------------------------------------------------
 
@@ -35743,7 +35743,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    miniz_oxide@0.8.9
-License:    MIT OR Zlib OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Frommi/miniz_oxide/tree/master/miniz_oxide
 ----------------------------------------------------------
 
@@ -36000,7 +36000,7 @@ Repository: https://github.com/tokio-rs/mio
 
 ----------------------------------------------------------
 Package:    muda@0.17.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/amrbashir/muda
 ----------------------------------------------------------
 
@@ -36228,7 +36228,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    ndk-context@0.1.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-windowing/android-ndk-rs
 ----------------------------------------------------------
 
@@ -36456,7 +36456,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    ndk-sys@0.6.0+11769913
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-mobile/ndk
 ----------------------------------------------------------
 
@@ -36684,7 +36684,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    ndk@0.9.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-mobile/ndk
 ----------------------------------------------------------
 
@@ -36941,7 +36941,7 @@ Repository: https://github.com/mbrubeck/rust-debug-unreachable
 
 ----------------------------------------------------------
 Package:    nodrop@0.1.14
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/bluss/arrayvec
 ----------------------------------------------------------
 
@@ -37169,7 +37169,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    num-conv@0.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/jhpratt/num-conv
 ----------------------------------------------------------
 
@@ -37397,7 +37397,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    num-traits@0.2.19
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-num/num-traits
 ----------------------------------------------------------
 
@@ -37625,7 +37625,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    num_enum@0.7.5
-License:    BSD-3-Clause OR MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/illicitonion/num_enum
 ----------------------------------------------------------
 
@@ -37853,7 +37853,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    num_enum_derive@0.7.5
-License:    BSD-3-Clause OR MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/illicitonion/num_enum
 ----------------------------------------------------------
 
@@ -38081,7 +38081,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    objc2-app-kit@0.3.2
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/madsmtm/objc2
 ----------------------------------------------------------
 
@@ -38309,7 +38309,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    objc2-core-foundation@0.3.2
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/madsmtm/objc2
 ----------------------------------------------------------
 
@@ -38537,7 +38537,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    objc2-core-graphics@0.3.2
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/madsmtm/objc2
 ----------------------------------------------------------
 
@@ -38794,7 +38794,7 @@ Repository: https://github.com/madsmtm/objc2
 
 ----------------------------------------------------------
 Package:    objc2-exception-helper@0.1.1
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/madsmtm/objc2
 ----------------------------------------------------------
 
@@ -39051,7 +39051,7 @@ Repository: https://github.com/madsmtm/objc2
 
 ----------------------------------------------------------
 Package:    objc2-quartz-core@0.3.2
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/madsmtm/objc2
 ----------------------------------------------------------
 
@@ -39279,7 +39279,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    objc2-ui-kit@0.3.2
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/madsmtm/objc2
 ----------------------------------------------------------
 
@@ -39507,7 +39507,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    objc2-web-kit@0.3.2
-License:    Zlib OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/madsmtm/objc2
 ----------------------------------------------------------
 
@@ -39764,7 +39764,7 @@ Repository: https://github.com/madsmtm/objc2
 
 ----------------------------------------------------------
 Package:    once_cell@1.21.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/matklad/once_cell
 ----------------------------------------------------------
 
@@ -40021,7 +40021,7 @@ Repository: https://github.com/Byron/open-rs
 
 ----------------------------------------------------------
 Package:    openssl-probe@0.2.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rustls/openssl-probe
 ----------------------------------------------------------
 
@@ -40630,7 +40630,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 ----------------------------------------------------------
 Package:    ordered-stream@0.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/danieldg/ordered-stream
 ----------------------------------------------------------
 
@@ -40945,7 +40945,7 @@ Repository: https://github.com/gtk-rs/gtk-rs-core
 
 ----------------------------------------------------------
 Package:    parking@2.2.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/parking
 ----------------------------------------------------------
 
@@ -41173,7 +41173,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    parking_lot@0.12.5
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Amanieu/parking_lot
 ----------------------------------------------------------
 
@@ -41401,7 +41401,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    parking_lot_core@0.9.12
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Amanieu/parking_lot
 ----------------------------------------------------------
 
@@ -41629,7 +41629,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    pathdiff@0.2.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Manishearth/pathdiff
 ----------------------------------------------------------
 
@@ -41857,7 +41857,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    percent-encoding@2.3.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/rust-url/
 ----------------------------------------------------------
 
@@ -42607,7 +42607,7 @@ Repository: https://github.com/sfackler/rust-phf
 
 ----------------------------------------------------------
 Package:    pin-project-lite@0.2.17
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/taiki-e/pin-project-lite
 ----------------------------------------------------------
 
@@ -42835,7 +42835,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    pin-utils@0.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang-nursery/pin-utils
 ----------------------------------------------------------
 
@@ -43063,7 +43063,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    piper@0.2.5
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/piper
 ----------------------------------------------------------
 
@@ -43291,7 +43291,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    pkg-config@0.3.32
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/pkg-config-rs
 ----------------------------------------------------------
 
@@ -43548,7 +43548,7 @@ Repository: https://github.com/ebarnard/rust-plist/
 
 ----------------------------------------------------------
 Package:    png@0.17.16
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/image-rs/image-png
 ----------------------------------------------------------
 
@@ -43776,7 +43776,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    polling@3.11.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/smol-rs/polling
 ----------------------------------------------------------
 
@@ -44051,7 +44051,7 @@ authorization of the copyright holder.
 
 ----------------------------------------------------------
 Package:    powerfmt@0.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/jhpratt/powerfmt
 ----------------------------------------------------------
 
@@ -44279,7 +44279,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    ppv-lite86@0.2.21
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/cryptocorrosion/cryptocorrosion
 ----------------------------------------------------------
 
@@ -44536,7 +44536,7 @@ Repository: https://github.com/emilio/precomputed-hash
 
 ----------------------------------------------------------
 Package:    proc-macro-crate@1.3.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/bkchr/proc-macro-crate
 ----------------------------------------------------------
 
@@ -44764,7 +44764,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    proc-macro-crate@2.0.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/bkchr/proc-macro-crate
 ----------------------------------------------------------
 
@@ -44992,7 +44992,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    proc-macro-crate@3.5.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/bkchr/proc-macro-crate
 ----------------------------------------------------------
 
@@ -45220,7 +45220,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    proc-macro-error-attr@1.0.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://gitlab.com/CreepySkeleton/proc-macro-error
 ----------------------------------------------------------
 
@@ -45448,7 +45448,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    proc-macro-error@1.0.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://gitlab.com/CreepySkeleton/proc-macro-error
 ----------------------------------------------------------
 
@@ -45676,7 +45676,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    proc-macro-hack@0.5.20+deprecated
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/proc-macro-hack
 ----------------------------------------------------------
 
@@ -45904,7 +45904,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    proc-macro2@1.0.106
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/proc-macro2
 ----------------------------------------------------------
 
@@ -46161,7 +46161,7 @@ Repository: https://github.com/tafia/quick-xml
 
 ----------------------------------------------------------
 Package:    quote@1.0.45
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/quote
 ----------------------------------------------------------
 
@@ -46389,7 +46389,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    r-efi@5.3.0
-License:    MIT OR Apache-2.0 OR LGPL-2.1-or-later
+License:    Apache-2.0
 Repository: https://github.com/r-efi/r-efi
 ----------------------------------------------------------
 
@@ -46617,7 +46617,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    r-efi@6.0.0
-License:    MIT OR Apache-2.0 OR LGPL-2.1-or-later
+License:    Apache-2.0
 Repository: https://github.com/r-efi/r-efi
 ----------------------------------------------------------
 
@@ -46845,7 +46845,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rand@0.7.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
 
@@ -47073,7 +47073,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rand@0.8.5
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
 
@@ -47301,7 +47301,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rand_chacha@0.2.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
 
@@ -47529,7 +47529,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rand_chacha@0.3.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
 
@@ -47757,7 +47757,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rand_core@0.5.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
 
@@ -47985,7 +47985,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rand_core@0.6.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
 
@@ -48213,7 +48213,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rand_hc@0.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
 
@@ -48441,7 +48441,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rand_pcg@0.2.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
 
@@ -48669,7 +48669,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    raw-window-handle@0.6.2
-License:    MIT OR Apache-2.0 OR Zlib
+License:    Apache-2.0
 Repository: https://github.com/rust-windowing/raw-window-handle
 ----------------------------------------------------------
 
@@ -48955,7 +48955,7 @@ Repository: https://gitlab.redox-os.org/redox-os/users
 
 ----------------------------------------------------------
 Package:    regex-automata@0.4.14
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/regex
 ----------------------------------------------------------
 
@@ -49183,7 +49183,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    regex-syntax@0.8.10
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/regex
 ----------------------------------------------------------
 
@@ -49411,7 +49411,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    regex@1.12.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/regex
 ----------------------------------------------------------
 
@@ -49639,7 +49639,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    reqwest@0.13.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/seanmonstar/reqwest
 ----------------------------------------------------------
 
@@ -49867,7 +49867,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rustc-hash@2.1.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/rustc-hash
 ----------------------------------------------------------
 
@@ -50095,7 +50095,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rustc_version@0.4.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/djc/rustc-version-rs
 ----------------------------------------------------------
 
@@ -50323,7 +50323,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rustix@1.1.4
-License:    Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/bytecodealliance/rustix
 ----------------------------------------------------------
 
@@ -50551,7 +50551,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rustls-native-certs@0.8.3
-License:    Apache-2.0 OR ISC OR MIT
+License:    Apache-2.0
 Repository: https://github.com/rustls/rustls-native-certs
 ----------------------------------------------------------
 
@@ -50779,7 +50779,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rustls-pki-types@1.14.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rustls/pki-types
 ----------------------------------------------------------
 
@@ -51007,7 +51007,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rustls-platform-verifier-android@0.1.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rustls/rustls-platform-verifier
 ----------------------------------------------------------
 
@@ -51235,7 +51235,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rustls-platform-verifier@0.6.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rustls/rustls-platform-verifier
 ----------------------------------------------------------
 
@@ -51495,7 +51495,7 @@ TEST(SelfTests, KAT) {
 
 ----------------------------------------------------------
 Package:    rustls@0.23.37
-License:    Apache-2.0 OR ISC OR MIT
+License:    Apache-2.0
 Repository: https://github.com/rustls/rustls
 ----------------------------------------------------------
 
@@ -51723,7 +51723,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    rustversion@1.0.22
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/rustversion
 ----------------------------------------------------------
 
@@ -51951,7 +51951,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    ryu@1.0.23
-License:    Apache-2.0 OR BSL-1.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/ryu
 ----------------------------------------------------------
 
@@ -52179,7 +52179,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    same-file@1.0.6
-License:    Unlicense OR MIT
+License:    MIT
 Repository: https://github.com/BurntSushi/same-file
 ----------------------------------------------------------
 
@@ -52295,7 +52295,7 @@ Repository: https://github.com/GREsau/schemars
 
 ----------------------------------------------------------
 Package:    scopeguard@1.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/bluss/scopeguard
 ----------------------------------------------------------
 
@@ -52523,7 +52523,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    security-framework-sys@2.17.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/kornelski/rust-security-framework
 ----------------------------------------------------------
 
@@ -52751,7 +52751,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    security-framework@3.7.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/kornelski/rust-security-framework
 ----------------------------------------------------------
 
@@ -53741,7 +53741,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 ----------------------------------------------------------
 Package:    semver@1.0.27
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/semver
 ----------------------------------------------------------
 
@@ -53969,7 +53969,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde-untagged@0.1.9
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/serde-untagged
 ----------------------------------------------------------
 
@@ -54197,7 +54197,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde@1.0.228
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/serde-rs/serde
 ----------------------------------------------------------
 
@@ -54425,7 +54425,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_core@1.0.228
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/serde-rs/serde
 ----------------------------------------------------------
 
@@ -54653,7 +54653,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_derive@1.0.228
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/serde-rs/serde
 ----------------------------------------------------------
 
@@ -54881,7 +54881,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_derive_internals@0.29.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/serde-rs/serde
 ----------------------------------------------------------
 
@@ -55109,7 +55109,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_json@1.0.149
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/serde-rs/json
 ----------------------------------------------------------
 
@@ -55337,7 +55337,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_repr@0.1.20
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/serde-repr
 ----------------------------------------------------------
 
@@ -55565,7 +55565,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_spanned@0.6.9
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -55793,7 +55793,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_spanned@1.0.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -56021,7 +56021,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_urlencoded@0.7.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/nox/serde_urlencoded
 ----------------------------------------------------------
 
@@ -56249,7 +56249,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_with@3.17.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/jonasbb/serde_with/
 ----------------------------------------------------------
 
@@ -56477,7 +56477,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serde_with_macros@3.17.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/jonasbb/serde_with/
 ----------------------------------------------------------
 
@@ -56705,7 +56705,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serialize-to-javascript-impl@0.1.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/chippers/serialize-to-javascript
 ----------------------------------------------------------
 
@@ -56933,7 +56933,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    serialize-to-javascript@0.1.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/chippers/serialize-to-javascript
 ----------------------------------------------------------
 
@@ -57161,7 +57161,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    servo_arc@0.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/servo
 ----------------------------------------------------------
 
@@ -57389,7 +57389,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    servo_arc@0.4.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/stylo
 ----------------------------------------------------------
 
@@ -57617,7 +57617,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    sha2@0.10.9
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/RustCrypto/hashes
 ----------------------------------------------------------
 
@@ -57845,7 +57845,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    shlex@1.3.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/comex/rust-shlex
 ----------------------------------------------------------
 
@@ -58073,7 +58073,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    signal-hook-registry@1.4.8
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/vorner/signal-hook
 ----------------------------------------------------------
 
@@ -58330,7 +58330,7 @@ Repository: https://github.com/mcountryman/simd-adler32
 
 ----------------------------------------------------------
 Package:    siphasher@0.3.11
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/jedisct1/rust-siphash
 ----------------------------------------------------------
 
@@ -58558,7 +58558,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    siphasher@1.0.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/jedisct1/rust-siphash
 ----------------------------------------------------------
 
@@ -58815,7 +58815,7 @@ Repository: https://github.com/tokio-rs/slab
 
 ----------------------------------------------------------
 Package:    smallvec@1.15.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/rust-smallvec
 ----------------------------------------------------------
 
@@ -59043,7 +59043,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    socket2@0.6.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-lang/socket2
 ----------------------------------------------------------
 
@@ -59271,7 +59271,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    softbuffer@0.4.8
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rust-windowing/softbuffer
 ----------------------------------------------------------
 
@@ -59586,7 +59586,7 @@ Repository: https://github.com/mvdnes/spin-rs.git
 
 ----------------------------------------------------------
 Package:    sqlx-core@0.8.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/launchbadge/sqlx
 ----------------------------------------------------------
 
@@ -59814,7 +59814,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    sqlx-macros-core@0.8.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/launchbadge/sqlx
 ----------------------------------------------------------
 
@@ -60042,7 +60042,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    sqlx-macros@0.8.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/launchbadge/sqlx
 ----------------------------------------------------------
 
@@ -60270,7 +60270,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    sqlx-sqlite@0.8.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/launchbadge/sqlx
 ----------------------------------------------------------
 
@@ -60498,7 +60498,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    sqlx@0.8.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/launchbadge/sqlx
 ----------------------------------------------------------
 
@@ -60726,7 +60726,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    stable_deref_trait@1.2.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/storyyeller/stable_deref_trait
 ----------------------------------------------------------
 
@@ -60954,7 +60954,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    string_cache@0.8.9
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/string-cache
 ----------------------------------------------------------
 
@@ -61182,7 +61182,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    string_cache@0.9.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/string-cache
 ----------------------------------------------------------
 
@@ -61410,7 +61410,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    string_cache_codegen@0.5.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/string-cache
 ----------------------------------------------------------
 
@@ -61638,7 +61638,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    string_cache_codegen@0.6.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/string-cache
 ----------------------------------------------------------
 
@@ -61915,7 +61915,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ----------------------------------------------------------
 Package:    swift-rs@1.0.7
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Brendonovich/swift-rs
 ----------------------------------------------------------
 
@@ -62143,7 +62143,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    syn@1.0.109
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/syn
 ----------------------------------------------------------
 
@@ -62371,7 +62371,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    syn@2.0.117
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/syn
 ----------------------------------------------------------
 
@@ -62856,7 +62856,7 @@ Repository: https://github.com/mystor/synstructure
 
 ----------------------------------------------------------
 Package:    system-configuration-sys@0.6.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/mullvad/system-configuration-rs
 ----------------------------------------------------------
 
@@ -63084,7 +63084,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    system-configuration@0.7.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/mullvad/system-configuration-rs
 ----------------------------------------------------------
 
@@ -63312,7 +63312,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    system-deps@6.2.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/gdesmott/system-deps
 ----------------------------------------------------------
 
@@ -63540,7 +63540,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tao-macros@0.1.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tao
 ----------------------------------------------------------
 
@@ -63996,7 +63996,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    target-lexicon@0.12.16
-License:    Apache-2.0 WITH LLVM-exception
+License:    Apache-2.0
 Repository: https://github.com/bytecodealliance/target-lexicon
 ----------------------------------------------------------
 
@@ -64224,7 +64224,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tauri-build@2.5.6
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri
 ----------------------------------------------------------
 
@@ -64452,7 +64452,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tauri-codegen@2.5.5
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri
 ----------------------------------------------------------
 
@@ -64680,7 +64680,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tauri-macros@2.5.5
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri
 ----------------------------------------------------------
 
@@ -64908,7 +64908,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tauri-plugin-opener@2.5.3
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/plugins-workspace
 ----------------------------------------------------------
 
@@ -65136,7 +65136,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tauri-plugin@2.5.4
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri
 ----------------------------------------------------------
 
@@ -65364,7 +65364,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tauri-runtime-wry@2.10.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri
 ----------------------------------------------------------
 
@@ -65592,7 +65592,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tauri-runtime@2.10.1
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri
 ----------------------------------------------------------
 
@@ -65820,7 +65820,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tauri-utils@2.8.3
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri
 ----------------------------------------------------------
 
@@ -66077,7 +66077,7 @@ Repository: https://github.com/tauri-apps/winres
 
 ----------------------------------------------------------
 Package:    tauri@2.10.3
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri
 ----------------------------------------------------------
 
@@ -66305,7 +66305,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tempfile@3.27.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/Stebalien/tempfile
 ----------------------------------------------------------
 
@@ -66533,7 +66533,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    tendril@0.4.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/tendril
 ----------------------------------------------------------
 
@@ -66761,7 +66761,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    thiserror-impl@1.0.69
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/thiserror
 ----------------------------------------------------------
 
@@ -66989,7 +66989,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    thiserror-impl@2.0.18
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/thiserror
 ----------------------------------------------------------
 
@@ -67217,7 +67217,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    thiserror@1.0.69
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/thiserror
 ----------------------------------------------------------
 
@@ -67445,7 +67445,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    thiserror@2.0.18
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/thiserror
 ----------------------------------------------------------
 
@@ -67673,7 +67673,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    time-core@0.1.8
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/time-rs/time
 ----------------------------------------------------------
 
@@ -67901,7 +67901,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    time-macros@0.2.27
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/time-rs/time
 ----------------------------------------------------------
 
@@ -68129,7 +68129,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    time@0.3.47
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/time-rs/time
 ----------------------------------------------------------
 
@@ -68433,7 +68433,7 @@ Repository: https://github.com/tokio-rs/tokio
 
 ----------------------------------------------------------
 Package:    tokio-rustls@0.26.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/rustls/tokio-rustls
 ----------------------------------------------------------
 
@@ -68748,7 +68748,7 @@ Repository: https://github.com/tokio-rs/tokio
 
 ----------------------------------------------------------
 Package:    toml@0.8.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -68976,7 +68976,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml@0.9.12+spec-1.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -69204,7 +69204,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml_datetime@0.6.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -69432,7 +69432,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml_datetime@0.7.5+spec-1.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -69660,7 +69660,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml_datetime@1.0.0+spec-1.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -69888,7 +69888,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml_edit@0.19.15
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -70116,7 +70116,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml_edit@0.20.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -70344,7 +70344,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml_edit@0.25.4+spec-1.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -70572,7 +70572,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml_parser@1.0.9+spec-1.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -70800,7 +70800,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    toml_writer@1.0.6+spec-1.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
 
@@ -71260,7 +71260,7 @@ Repository: https://github.com/seanmonstar/try-lock
 
 ----------------------------------------------------------
 Package:    typeid@1.0.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/typeid
 ----------------------------------------------------------
 
@@ -71488,7 +71488,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    typenum@1.19.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/paholg/typenum
 ----------------------------------------------------------
 
@@ -71745,7 +71745,7 @@ Repository: https://github.com/haraldh/rust_uds_windows
 
 ----------------------------------------------------------
 Package:    unic-char-property@0.9.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/open-i18n/rust-unic/
 ----------------------------------------------------------
 
@@ -71973,7 +71973,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    unic-char-range@0.9.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/open-i18n/rust-unic/
 ----------------------------------------------------------
 
@@ -72201,7 +72201,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    unic-common@0.9.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/open-i18n/rust-unic/
 ----------------------------------------------------------
 
@@ -72429,7 +72429,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    unic-ucd-ident@0.9.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/open-i18n/rust-unic/
 ----------------------------------------------------------
 
@@ -72657,7 +72657,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    unic-ucd-version@0.9.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/open-i18n/rust-unic/
 ----------------------------------------------------------
 
@@ -72885,7 +72885,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    unicode-ident@1.0.24
-License:    (MIT OR Apache-2.0) AND Unicode-3.0
+License:    Apache-2.0
 Repository: https://github.com/dtolnay/unicode-ident
 ----------------------------------------------------------
 
@@ -73113,7 +73113,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    unicode-segmentation@1.12.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/unicode-rs/unicode-segmentation
 ----------------------------------------------------------
 
@@ -73373,7 +73373,7 @@ TEST(SelfTests, KAT) {
 
 ----------------------------------------------------------
 Package:    url@2.5.8
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/rust-url
 ----------------------------------------------------------
 
@@ -73630,7 +73630,7 @@ Repository: https://github.com/denoland/rust-urlpattern
 
 ----------------------------------------------------------
 Package:    utf-8@0.7.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/SimonSapin/rust-utf8
 ----------------------------------------------------------
 
@@ -73858,7 +73858,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    utf8_iter@1.0.4
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/hsivonen/utf8_iter
 ----------------------------------------------------------
 
@@ -74086,7 +74086,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    uuid@1.22.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/uuid-rs/uuid
 ----------------------------------------------------------
 
@@ -74314,7 +74314,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    vcpkg@0.2.15
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/mcgoo/vcpkg-rs
 ----------------------------------------------------------
 
@@ -74571,7 +74571,7 @@ Repository: https://gitlab.com/timvisee/version-compare
 
 ----------------------------------------------------------
 Package:    version_check@0.9.5
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/SergioBenitez/version_check
 ----------------------------------------------------------
 
@@ -74857,7 +74857,7 @@ Repository: https://github.com/nabijaczleweli/vswhom.rs
 
 ----------------------------------------------------------
 Package:    walkdir@2.5.0
-License:    Unlicense OR MIT
+License:    MIT
 Repository: https://github.com/BurntSushi/walkdir
 ----------------------------------------------------------
 
@@ -74915,7 +74915,7 @@ Repository: https://github.com/seanmonstar/want
 
 ----------------------------------------------------------
 Package:    wasi@0.11.1+wasi-snapshot-preview1
-License:    Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/bytecodealliance/wasi
 ----------------------------------------------------------
 
@@ -75143,7 +75143,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasi@0.9.0+wasi-snapshot-preview1
-License:    Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/bytecodealliance/wasi
 ----------------------------------------------------------
 
@@ -75371,7 +75371,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasip2@1.0.2+wasi-0.2.9
-License:    Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/bytecodealliance/wasi-rs
 ----------------------------------------------------------
 
@@ -75599,7 +75599,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasip3@0.4.0+wasi-0.3.0-rc-2026-01-06
-License:    Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/bytecodealliance/wasi-rs
 ----------------------------------------------------------
 
@@ -75827,7 +75827,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasm-bindgen-futures@0.4.64
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/futures
 ----------------------------------------------------------
 
@@ -76055,7 +76055,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasm-bindgen-macro-support@0.2.114
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/macro-support
 ----------------------------------------------------------
 
@@ -76283,7 +76283,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasm-bindgen-macro@0.2.114
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/macro
 ----------------------------------------------------------
 
@@ -76511,7 +76511,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasm-bindgen-shared@0.2.114
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared
 ----------------------------------------------------------
 
@@ -76739,7 +76739,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasm-bindgen@0.2.114
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/wasm-bindgen/wasm-bindgen
 ----------------------------------------------------------
 
@@ -76967,7 +76967,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    wasm-streams@0.5.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/MattiasBuelens/wasm-streams/
 ----------------------------------------------------------
 
@@ -77195,7 +77195,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    web-sys@0.3.91
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys
 ----------------------------------------------------------
 
@@ -77423,7 +77423,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    web_atoms@0.2.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
 
@@ -77865,7 +77865,7 @@ Repository: https://github.com/wravery/webview2-rs
 
 ----------------------------------------------------------
 Package:    winapi-i686-pc-windows-gnu@0.4.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/retep998/winapi-rs
 ----------------------------------------------------------
 
@@ -78093,7 +78093,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    winapi-util@0.1.11
-License:    Unlicense OR MIT
+License:    MIT
 Repository: https://github.com/BurntSushi/winapi-util
 ----------------------------------------------------------
 
@@ -78122,7 +78122,7 @@ Repository: https://github.com/BurntSushi/winapi-util
 
 ----------------------------------------------------------
 Package:    winapi-x86_64-pc-windows-gnu@0.4.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/retep998/winapi-rs
 ----------------------------------------------------------
 
@@ -78350,7 +78350,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    winapi@0.3.9
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/retep998/winapi-rs
 ----------------------------------------------------------
 
@@ -78578,7 +78578,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    window-vibrancy@0.6.0
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/tauri-plugin-vibrancy
 ----------------------------------------------------------
 
@@ -78806,7 +78806,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-collections@0.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -79034,7 +79034,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-core@0.61.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -79262,7 +79262,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-core@0.62.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -79490,7 +79490,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-future@0.2.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -79718,7 +79718,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-implement@0.60.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -79946,7 +79946,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-interface@0.59.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -80174,7 +80174,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-link@0.1.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -80402,7 +80402,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-link@0.2.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -80630,7 +80630,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-numerics@0.2.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -80858,7 +80858,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-registry@0.6.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -81086,7 +81086,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-result@0.3.4
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -81314,7 +81314,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-result@0.4.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -81542,7 +81542,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-strings@0.4.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -81770,7 +81770,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-strings@0.5.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -81998,7 +81998,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-sys@0.45.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -82226,7 +82226,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-sys@0.59.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -82454,7 +82454,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-sys@0.60.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -82682,7 +82682,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-sys@0.61.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -82910,7 +82910,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-targets@0.42.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -83138,7 +83138,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-targets@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -83366,7 +83366,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-targets@0.53.5
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -83594,7 +83594,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-threading@0.1.0
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -83822,7 +83822,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows-version@0.1.7
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -84050,7 +84050,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows@0.61.3
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -84278,7 +84278,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_aarch64_gnullvm@0.42.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -84506,7 +84506,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_aarch64_gnullvm@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -84734,7 +84734,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_aarch64_gnullvm@0.53.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -84962,7 +84962,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_aarch64_msvc@0.42.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -85190,7 +85190,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_aarch64_msvc@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -85418,7 +85418,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_aarch64_msvc@0.53.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -85646,7 +85646,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_i686_gnu@0.42.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -85874,7 +85874,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_i686_gnu@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -86102,7 +86102,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_i686_gnu@0.53.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -86330,7 +86330,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_i686_gnullvm@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -86558,7 +86558,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_i686_gnullvm@0.53.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -86786,7 +86786,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_i686_msvc@0.42.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -87014,7 +87014,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_i686_msvc@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -87242,7 +87242,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_i686_msvc@0.53.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -87470,7 +87470,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_gnu@0.42.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -87698,7 +87698,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_gnu@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -87926,7 +87926,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_gnu@0.53.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -88154,7 +88154,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_gnullvm@0.42.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -88382,7 +88382,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_gnullvm@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -88610,7 +88610,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_gnullvm@0.53.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -88838,7 +88838,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_msvc@0.42.2
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -89066,7 +89066,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_msvc@0.52.6
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -89294,7 +89294,7 @@ Software.
 
 ----------------------------------------------------------
 Package:    windows_x86_64_msvc@0.53.1
-License:    MIT OR Apache-2.0
+License:    Apache-2.0
 Repository: https://github.com/microsoft/windows-rs
 ----------------------------------------------------------
 
@@ -89609,7 +89609,7 @@ Repository: https://github.com/gentoo90/winreg-rs
 
 ----------------------------------------------------------
 Package:    wit-bindgen@0.51.0
-License:    Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/bytecodealliance/wit-bindgen
 ----------------------------------------------------------
 
@@ -89884,7 +89884,7 @@ authorization of the copyright holder.
 
 ----------------------------------------------------------
 Package:    wry@0.54.3
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/tauri-apps/wry
 ----------------------------------------------------------
 
@@ -90351,7 +90351,7 @@ Repository: https://github.com/z-galaxy/zbus/
 
 ----------------------------------------------------------
 Package:    zerocopy@0.8.42
-License:    BSD-2-Clause OR Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/google/zerocopy
 ----------------------------------------------------------
 
@@ -90673,7 +90673,7 @@ authorization of the copyright holder.
 
 ----------------------------------------------------------
 Package:    zeroize@1.8.2
-License:    Apache-2.0 OR MIT
+License:    Apache-2.0
 Repository: https://github.com/RustCrypto/utils
 ----------------------------------------------------------
 
