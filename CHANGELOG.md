@@ -2,6 +2,8 @@
 
 All notable changes to this project will be logged here
 
+## 1.2.0
+
 ## 1.1.1
 
 ### Bug Fixes
