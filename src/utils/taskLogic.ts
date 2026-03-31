@@ -1,30 +1,30 @@
-import { Task } from "../types/tasks";
+import { Task } from "@/types/tasks";
 
 export const calculateTaskToggleFavorite = (
-    tasks: Task[],
+    taskMap: Record<string, Task>,
+    taskIds: string[],
     id: string,
     newFavoriteStatus: number,
     favoriteFirst: boolean,
-): Task[] => {
-    let updatedTasks = tasks.map((t) =>
-        t.id === id ? { ...t, favorite: newFavoriteStatus } : t,
-    );
+): { updatedTask: Task; newTaskIds: string[] } => {
+    const updatedTask = { ...taskMap[id], favorite: newFavoriteStatus };
 
-    if (!favoriteFirst) return updatedTasks;
-
-    if (newFavoriteStatus === 1) {
-        const target = updatedTasks.find((t) => t.id === id);
-        if (target) {
-            updatedTasks = [target, ...updatedTasks.filter((t) => t.id !== id)];
-        }
-    } else {
-        updatedTasks.sort((a, b) => {
-            if (b.favorite !== a.favorite) return b.favorite - a.favorite;
-            return a.name.localeCompare(b.name);
-        });
+    if (!favoriteFirst) {
+        return { updatedTask, newTaskIds: taskIds };
     }
 
-    return updatedTasks;
+    const allTasks = taskIds.map((tid) =>
+        tid === id ? updatedTask : taskMap[tid],
+    );
+
+    const sortedIds = allTasks
+        .sort((a, b) => {
+            if (b.favorite !== a.favorite) return b.favorite - a.favorite;
+            return a.name.localeCompare(b.name);
+        })
+        .map((t) => t.id);
+
+    return { updatedTask, newTaskIds: sortedIds };
 };
 
 export const calculateTaskStatAdjustment = (
@@ -33,11 +33,12 @@ export const calculateTaskStatAdjustment = (
     currentStatCount: number,
 ): number => {
     const wasComplete = task.current_completions === task.max_completions;
-    const isComplete = newCount === task.max_completions;
+    const isNowComplete = newCount === task.max_completions;
 
     let adjustedCount = currentStatCount;
-    if (!wasComplete && isComplete) adjustedCount++;
-    if (wasComplete && !isComplete) adjustedCount--;
+
+    if (!wasComplete && isNowComplete) adjustedCount++;
+    if (wasComplete && !isNowComplete) adjustedCount--;
 
     return adjustedCount;
 };

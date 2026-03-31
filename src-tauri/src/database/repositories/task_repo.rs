@@ -9,7 +9,7 @@ pub async fn get_stats(pool: &Pool<Sqlite>, category: &str) -> Result<TaskStats,
             r#"
         SELECT 
             COUNT(*), 
-            CAST(COALESCE(SUM(CASE WHEN current_completions >= max_completions THEN 1 ELSE 0 END), 0) AS INTEGER) 
+            CAST(COALESCE(SUM(current_completions >= max_completions), 0) AS INTEGER) 
         FROM task_tracker 
         WHERE (category = ? OR ? = 'All')
         "#
@@ -42,6 +42,7 @@ pub async fn find_all(
         AND (NOT (? AND favorite = 1))
         AND (NOT (? AND favorite = 0))
         ORDER BY 
+            -- Sort by favorite if the filter is active, then by name
             CASE WHEN ? THEN favorite END DESC, 
             name ASC
         LIMIT ? OFFSET ?
@@ -74,11 +75,9 @@ pub async fn set_favorite_status(
     id: &str,
     is_favorite: bool
 ) -> Result<(), sqlx::Error> {
-    let favorite_val = if is_favorite { 1 } else { 0 };
-
     sqlx
         ::query("UPDATE task_tracker SET favorite = ? WHERE id = ?")
-        .bind(favorite_val)
+        .bind(is_favorite)
         .bind(id)
         .execute(pool).await?;
 

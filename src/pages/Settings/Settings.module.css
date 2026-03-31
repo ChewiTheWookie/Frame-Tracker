@@ -1,68 +1,75 @@
-.main {
-    composes: main from "../../styles/Page.module.css";
-}
-
 .section {
-    margin-bottom: 1rem;
+    margin: 1.5rem 0;
 }
 
 .sectionHeader {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem 0;
-    margin-bottom: 0.25rem;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
     color: var(--accent);
     border-bottom: 1px solid var(--border);
 }
 
 .sectionHeader h2 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
 }
 
 .settingButton {
     display: flex;
     align-items: center;
     width: 100%;
-    gap: 12px;
-    padding: 1.25rem;
+    gap: 16px;
+    padding: 1rem 0.75rem;
     background: transparent;
     border-radius: 8px;
     border: none;
-    transition: background 0.2s;
+    transition: background 0.2s ease;
     color: inherit;
     cursor: pointer;
+    text-align: left;
 }
 
 .settingButton:hover {
     background: var(--accent-glow);
 }
 
+.settingText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
 .settingLabel {
     font-weight: 600;
     color: var(--accent);
+    font-size: 1rem;
 }
 
 .settingDesc {
     font-size: 0.85rem;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
-.themeIcon {
-    color: var(--accent);
-    margin-left: auto;
-}
-
-.settingButton:hover .themeIcon {
-    color: var(--accent-glow);
-}
-
+.themeIcon,
 .chevron {
     color: var(--accent);
     margin-left: auto;
+    display: flex;
+    align-items: center;
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
 }
 
 .settingButton:hover .chevron {
-    transform: translateX(4px);
+    transform: translateX(6px);
+}
+
+.settingButton:not(:last-child) {
+    border-bottom: 1px solid rgba(var(--border-rgb), 0.3);
 }

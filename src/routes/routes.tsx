@@ -1,25 +1,49 @@
 import { RouteObject } from "react-router-dom";
 import { PATHS } from "./paths";
-import { MasteryTracker } from "../pages/MasteryTracker";
-import { TaskTracker } from "../pages/TaskTracker";
-import { Settings } from "../pages/Settings";
-import { Acknowledgments } from "../pages/Acknowledgments";
+import { MainLayout } from "@/layouts/MainLayout";
+import { PopUpLayout } from "@/layouts/PopUpLayout";
+import { MasteryTracker } from "@/pages/MasteryTracker";
+import { TaskTracker } from "@/pages/TaskTracker";
+import { Settings } from "@/pages/Settings";
+import { Acknowledgments } from "@/pages/Acknowledgments";
+import { Profile } from "@/pages/Profile";
 
 export const ROUTES: RouteObject[] = [
     {
-        path: PATHS.Mastery,
-        element: <MasteryTracker />,
-    },
-    {
-        path: PATHS.Tasks,
-        element: <TaskTracker />,
-    },
-    {
-        path: PATHS.Settings,
-        element: <Settings />,
-    },
-    {
-        path: PATHS.Acknowledgments,
-        element: <Acknowledgments />,
+        element: <MainLayout />,
+        children: [
+            {
+                path: PATHS.Mastery,
+                element: <MasteryTracker />,
+            },
+            {
+                path: PATHS.Tasks,
+                element: <TaskTracker />,
+            },
+            {
+                path: PATHS.Settings,
+                element: <Settings />,
+                children: [
+                    {
+                        element: <PopUpLayout />,
+                        children: [
+                            {
+                                path: PATHS.Acknowledgments,
+                                element: <Acknowledgments />,
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                element: <PopUpLayout />,
+                children: [
+                    {
+                        path: PATHS.Profile,
+                        element: <Profile />,
+                    },
+                ],
+            },
+        ],
     },
 ];

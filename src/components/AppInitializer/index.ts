@@ -1,1 +1,0 @@
-export { AppInitializer } from "./AppInitializer";

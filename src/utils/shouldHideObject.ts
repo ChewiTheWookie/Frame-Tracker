@@ -1,6 +1,6 @@
-import { Item } from "../types/items";
-import { Task } from "../types/tasks";
-import { MasteryFilterState, TaskFilterState } from "../types/filters";
+import { Item } from "@/types/items";
+import { Task } from "@/types/tasks";
+import { MasteryFilterState, TaskFilterState } from "@/types/filters";
 
 type FilterEvaluator<T> = (data: T) => boolean;
 

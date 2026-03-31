@@ -2,6 +2,26 @@
 
 All notable changes to this project will be logged here
 
+## 1.2.0
+
+### Features
+
+- ✨ add keybinds
+    - `Ctrl + Shift + f`: Open/close Searchbar filters
+    - `Ctrl + Tab`: cycle to next category tab
+    - `Tab`: cycle between pages
+
+### Dev Notes
+
+- ✏️ clean frontend to improve readability, performance
+- ✏️ clean backend to improve readability, performance
+- ✏️ refactor akgnowledgments to be a child of settings page using `Outlet`
+- ✏️ move popup page from acknowledgments to reusable layout
+- ✏️ restructure frontend components
+- ✏️ move to using layout for pages
+- ✏️ move `Searchbar`, `CategoryTabs` and `StatBar` to metadata for selection
+- ✏️ made clear distinction between smart and dumb components
+
 ## 1.1.1
 
 ### Bug Fixes

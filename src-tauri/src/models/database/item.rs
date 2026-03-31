@@ -7,11 +7,13 @@ pub struct Item {
     pub id: String,
     pub name: String,
     pub category: String,
+
+    pub img_path: Option<String>,
+
+    pub craftable: bool,
+    pub owned: bool,
     pub mastered: bool,
     pub helminthed: bool,
-    pub owned: bool,
-    pub craftable: bool,
-    pub img_path: Option<String>,
 
     #[sqlx(skip)]
     pub components: Vec<ItemComponent>,
@@ -22,7 +24,9 @@ pub struct Item {
 pub struct ItemComponent {
     pub id: i32,
     pub item_id: String,
+
     pub component_name: String,
+
     pub needed_quantity: i32,
     pub owned_quantity: i32,
 }

@@ -1,13 +1,14 @@
 import { create } from "zustand";
+import { useShallow } from "zustand/react/shallow";
 import { invoke } from "@tauri-apps/api/core";
-import { MasteryCategory } from "../types/categories";
-import { MasteryFilterState } from "../types/filters";
-import { Item } from "../types/items";
-import { shouldHide } from "../utils/shouldHideObject";
+import { MasteryCategory } from "@/types/categories";
+import { MasteryFilterState } from "@/types/filters";
+import { Item } from "@/types/items";
+import { shouldHide } from "@/utils/shouldHideObject";
 import {
     calculateComponentQuantity,
     calculateMasteryToggle,
-} from "../utils/itemLogic";
+} from "@/utils/itemLogic";
 
 export interface MasteryStats {
     current: number;
@@ -21,6 +22,7 @@ interface MasteryState {
     itemIds: string[];
     stats: MasteryStats;
     isLoading: boolean;
+    isFetchingMore: boolean;
     error: string | null;
 
     page: number;
@@ -74,6 +76,7 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
         hideHelminthed: false,
     },
     isLoading: true,
+    isFetchingMore: false,
     error: null,
 
     setCategory: (category) => {
@@ -98,21 +101,21 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
     },
 
     loadMore: async () => {
-        const { isLoading, hasMore, page, itemIds } = get();
-        if (isLoading || !hasMore || itemIds.length === 0) return;
+        const { isLoading, isFetchingMore, hasMore, page, itemIds } = get();
+        if (isLoading || isFetchingMore || !hasMore || itemIds.length === 0)
+            return;
 
-        set({ page: page + 1 });
+        set({ isFetchingMore: true, page: page + 1 });
         await get().fetchItems(true);
+        set({ isFetchingMore: false });
     },
 
     fetchItems: async (silent = false) => {
         fetchVersion++;
         const currentVersion = fetchVersion;
-
         const { searchQuery, activeCategory, filters, page } = get();
 
         if (!silent) set({ isLoading: true, error: null });
-        else set({ isLoading: true });
 
         try {
             const [itemsArray, stats] = await Promise.all([
@@ -132,11 +135,11 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
 
             set((state) => {
                 const newItemsMap = { ...state.items };
-                const newItemIds = [...state.itemIds];
+                const newItemIds = page === 0 ? [] : [...state.itemIds];
 
                 itemsArray.forEach((item) => {
-                    if (!newItemsMap[item.id]) {
-                        newItemsMap[item.id] = item;
+                    newItemsMap[item.id] = item;
+                    if (!newItemIds.includes(item.id)) {
                         newItemIds.push(item.id);
                     }
                 });
@@ -224,7 +227,13 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
     },
 }));
 
+export const useMasteryItemIds = () =>
+    useMasteryStore(useShallow((state) => state.itemIds));
+
 export const useItemById = (id: string) =>
     useMasteryStore((state) => state.items[id]);
+
+export const useMasteryStats = () =>
+    useMasteryStore(useShallow((state) => state.stats));
 
 useMasteryStore.getState().fetchItems();

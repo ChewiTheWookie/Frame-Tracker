@@ -1,4 +1,4 @@
-import { Item, ItemComponent } from "../types/items";
+import { Item, ItemComponent } from "@/types/items";
 
 export const calculateComponentQuantity = (
     item: Item,
@@ -14,9 +14,9 @@ export const calculateComponentQuantity = (
         return { ...c, ownedQuantity: clampedQuantity };
     });
 
-    const isNowCraftable = updatedComponents.every(
-        (c) => c.ownedQuantity >= c.neededQuantity,
-    );
+    const isNowCraftable =
+        updatedComponents.length > 0 &&
+        updatedComponents.every((c) => c.ownedQuantity >= c.neededQuantity);
 
     return {
         ...item,

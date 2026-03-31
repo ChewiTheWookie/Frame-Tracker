@@ -8,6 +8,8 @@ pub mod commands;
 pub mod database;
 pub mod models;
 
+use crate::commands::{ licenses, mastery_tracker, task_tracker };
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder
@@ -16,20 +18,20 @@ pub fn run() {
         .invoke_handler(
             tauri::generate_handler![
                 //License Commands
-                commands::licenses::get_license_detailed::get_license_detailed,
-                commands::licenses::get_license_summaries::get_license_summaries,
+                licenses::get_license_detailed::get_license_detailed,
+                licenses::get_license_summaries::get_license_summaries,
 
                 // Mastery Tracker Commands
-                commands::mastery_tracker::get_items::get_items,
-                commands::mastery_tracker::get_mastery_stats::get_mastery_stats,
-                commands::mastery_tracker::set_component::set_component,
-                commands::mastery_tracker::set_mastery::set_mastery,
+                mastery_tracker::get_items::get_items,
+                mastery_tracker::get_mastery_stats::get_mastery_stats,
+                mastery_tracker::set_component::set_component,
+                mastery_tracker::set_mastery::set_mastery,
 
                 //Task Tracker Commands
-                commands::task_tracker::get_tasks::get_tasks,
-                commands::task_tracker::get_task_stats::get_task_stats,
-                commands::task_tracker::set_favorite::set_favorite,
-                commands::task_tracker::set_task::set_task
+                task_tracker::get_tasks::get_tasks,
+                task_tracker::get_task_stats::get_task_stats,
+                task_tracker::set_favorite::set_favorite,
+                task_tracker::set_task::set_task
             ]
         )
         .setup(|app| {
@@ -39,12 +41,17 @@ pub fn run() {
                 let user_pool = database::db::init_user_db(&handle).await;
                 let license_pool = database::db::init_license_db(&handle).await;
 
-                let pool_for_bg = user_pool.clone();
-                let handle_for_bg = handle.clone();
+                let pool_for_reset = user_pool.clone();
+                let handle_for_reset = handle.clone();
 
                 tauri::async_runtime::spawn(async move {
                     loop {
-                        if let Err(e) = check_and_apply_resets(&pool_for_bg, &handle_for_bg).await {
+                        if
+                            let Err(e) = check_and_apply_resets(
+                                &pool_for_reset,
+                                &handle_for_reset
+                            ).await
+                        {
                             eprintln!("Error in background reset task: {}", e);
                         }
                         sleep(Duration::from_secs(15 * 60)).await;

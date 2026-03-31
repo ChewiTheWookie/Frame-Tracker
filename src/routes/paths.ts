@@ -3,4 +3,5 @@ export const PATHS = {
     Tasks: "/tasks",
     Settings: "/settings",
     Acknowledgments: "/settings/acknowledgments",
+    Profile: "/profile",
 };

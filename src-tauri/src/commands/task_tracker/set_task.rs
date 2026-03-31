@@ -1,8 +1,9 @@
 use tauri::State;
 use crate::database::db::UserDb;
 use crate::database::repositories::task_repo;
-use crate::database::services::task_services::{ get_current_period_start, calculate_rolling_reset };
+use crate::database::services::task_services::{ get_period_start, ResetType };
 use crate::models::database::task::Task;
+use chrono::Utc;
 
 #[tauri::command]
 pub async fn set_task(state: State<'_, UserDb>, id: String, count: i32) -> Result<Task, String> {
@@ -12,17 +13,16 @@ pub async fn set_task(state: State<'_, UserDb>, id: String, count: i32) -> Resul
         ::find_by_id(pool, &id).await
         .map_err(|e| format!("Failed to find task: {}", e))?;
 
-    let interval_str = task.reset_interval.as_deref().unwrap_or("daily");
+    let interval_str = task.reset_interval.as_deref().unwrap_or("Daily");
+    let reset_type = ResetType::from_str(interval_str);
+    let now = Utc::now();
 
-    let is_rolling =
-        !interval_str.to_lowercase().starts_with("daily") &&
-        !interval_str.to_lowercase().starts_with("weekly") &&
-        !interval_str.to_lowercase().ends_with("_world");
+    let final_reset_time = match reset_type {
+        ResetType::Custom(duration) if count == 0 => now - duration,
 
-    let final_reset_time = if is_rolling && count == 0 {
-        calculate_rolling_reset(interval_str)
-    } else {
-        get_current_period_start(interval_str)
+        ResetType::Custom(_) => now,
+
+        _ => get_period_start(&reset_type, now),
     };
 
     task_repo
