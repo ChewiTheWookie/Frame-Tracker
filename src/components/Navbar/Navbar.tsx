@@ -19,13 +19,13 @@ export function Navbar() {
         const isActive =
             path === "/"
                 ? location.pathname === "/"
-                : location.pathname.startsWith(path);
+                : location.pathname === path;
 
         return (
             <Link
                 key={path}
                 to={path}
-                className={`${styles.navLink} ${isActive ? styles.active : ""} ${path === PATHS.Settings ? styles.bottomNav : ""}`}
+                className={`${styles.navLink} ${isActive ? styles.active : ""} ${path === PATHS.Profile ? styles.bottomNav : ""}`}
             >
                 <Icon size={20} className={styles.icon} />
                 <span className={styles.label}>{meta.label}</span>

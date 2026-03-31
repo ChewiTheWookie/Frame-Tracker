@@ -1,6 +1,12 @@
 import { PATHS } from "./paths";
 
-import { CalendarCheck, LucideIcon, Telescope, Settings } from "lucide-react";
+import {
+    CalendarCheck,
+    LucideIcon,
+    Telescope,
+    Settings,
+    CircleUserRound,
+} from "lucide-react";
 
 interface RouteMetadata {
     label: string;
@@ -17,6 +23,11 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
     [PATHS.Tasks]: {
         label: "Task Tracker",
         icon: CalendarCheck,
+        showInNav: true,
+    },
+    [PATHS.Profile]: {
+        label: "Profile",
+        icon: CircleUserRound,
         showInNav: true,
     },
     [PATHS.Settings]: {

@@ -9,6 +9,7 @@ All notable changes to this project will be logged here
 - ✏️ clean frontend to improve readability, performance
 - ✏️ clean backend to improve readability, performance
 - ✏️ refactor akgnowledgments to be a child of settings page using `Outlet`
+- ✏️ move popup page from acknowledgments to reusable component
 
 ## 1.1.1
 

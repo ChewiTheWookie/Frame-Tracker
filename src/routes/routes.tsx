@@ -4,6 +4,7 @@ import { MasteryTracker } from "../pages/MasteryTracker";
 import { TaskTracker } from "../pages/TaskTracker";
 import { Settings } from "../pages/Settings";
 import { Acknowledgments } from "../pages/Acknowledgments";
+import { Profile } from "../pages/Profile";
 
 export const ROUTES: RouteObject[] = [
     {
@@ -23,5 +24,9 @@ export const ROUTES: RouteObject[] = [
                 element: <Acknowledgments />,
             },
         ],
+    },
+    {
+        path: PATHS.Profile,
+        element: <Profile />,
     },
 ];

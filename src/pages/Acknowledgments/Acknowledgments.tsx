@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { X, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import {
     useLicenseStore,
     useFrontendLicenses,
@@ -9,8 +8,52 @@ import {
 } from "../../stores/useLicenseStore";
 import { Throbber } from "../../components/Throbber";
 import { ScrollToTop } from "../../components/ScrollToTop";
+import { PopUpPage } from "../../components/PopUpPage";
 
 import styles from "./Acknowledgments.module.css";
+
+export function Acknowledgments() {
+    const fetchSummaries = useLicenseStore((s) => s.fetchSummaries);
+    const isLoading = useLicenseStore((s) => s.isLoading);
+
+    const frontend = useFrontendLicenses();
+    const backend = useBackendLicenses();
+
+    useEffect(() => {
+        fetchSummaries();
+    }, [fetchSummaries]);
+
+    const content = (
+        <div className={styles.scrollContainer}>
+            {isLoading ? (
+                <Throbber label="Loading summaries" />
+            ) : (
+                <>
+                    <section className={styles.section}>
+                        <h2 className={styles.sectionHeader}>
+                            Frontend Dependencies
+                        </h2>
+                        {frontend.map((item) => (
+                            <LicenseItem key={item.id} item={item} />
+                        ))}
+                    </section>
+
+                    <section className={styles.section}>
+                        <h2 className={styles.sectionHeader}>
+                            Backend Dependencies
+                        </h2>
+                        {backend.map((item) => (
+                            <LicenseItem key={item.id} item={item} />
+                        ))}
+                    </section>
+                </>
+            )}
+            <ScrollToTop />
+        </div>
+    );
+
+    return <PopUpPage label="Third-Party Software Notices" content={content} />;
+}
 
 interface SummaryProps {
     id: string;
@@ -69,59 +112,5 @@ function LicenseItem({ item }: { item: SummaryProps }) {
                 <Throbber label={"Fetching details"} />
             )}
         </details>
-    );
-}
-
-export function Acknowledgments() {
-    const navigate = useNavigate();
-    const fetchSummaries = useLicenseStore((s) => s.fetchSummaries);
-    const isLoading = useLicenseStore((s) => s.isLoading);
-
-    const frontend = useFrontendLicenses();
-    const backend = useBackendLicenses();
-
-    useEffect(() => {
-        fetchSummaries();
-    }, [fetchSummaries]);
-
-    return (
-        <div className={styles.pageContainer}>
-            <header className={styles.header}>
-                <h1 className={styles.title}>Third-Party Software Notices</h1>
-                <button
-                    className={styles.closeBtn}
-                    onClick={() => navigate(-1)}
-                >
-                    <X size={20} className={styles.closeIcon} />
-                </button>
-            </header>
-
-            <div className={styles.scrollContainer}>
-                {isLoading ? (
-                    <Throbber label="Loading summaries" />
-                ) : (
-                    <>
-                        <section className={styles.section}>
-                            <h2 className={styles.sectionHeader}>
-                                Frontend Dependencies
-                            </h2>
-                            {frontend.map((item) => (
-                                <LicenseItem key={item.id} item={item} />
-                            ))}
-                        </section>
-
-                        <section className={styles.section}>
-                            <h2 className={styles.sectionHeader}>
-                                Backend Dependencies
-                            </h2>
-                            {backend.map((item) => (
-                                <LicenseItem key={item.id} item={item} />
-                            ))}
-                        </section>
-                    </>
-                )}
-                <ScrollToTop />
-            </div>
-        </div>
     );
 }
