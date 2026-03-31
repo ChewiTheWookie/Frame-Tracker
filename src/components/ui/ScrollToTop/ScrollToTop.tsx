@@ -3,22 +3,26 @@ import { ChevronUp } from "lucide-react";
 
 import styles from "./ScrollToTop.module.css";
 
-export function ScrollToTop() {
+interface Props {
+    targetRef: React.RefObject<HTMLElement | null>;
+    threshold?: number;
+}
+
+export function ScrollToTop({ targetRef, threshold = 200 }: Props) {
     const [isVisible, setIsVisible] = useState(false);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-        const scrollContainer = buttonRef.current?.parentElement;
+        const scrollContainer = targetRef.current;
 
         if (!scrollContainer) return;
 
         const handleScroll = () => {
-            if (scrollContainer.scrollTop > 200) {
-                setIsVisible(true);
-            } else {
-                setIsVisible(false);
-            }
+            const shouldBeVisible = scrollContainer.scrollTop > threshold;
+            setIsVisible((prev) =>
+                prev !== shouldBeVisible ? shouldBeVisible : prev,
+            );
         };
 
         scrollContainer.addEventListener("scroll", handleScroll);
@@ -27,7 +31,7 @@ export function ScrollToTop() {
 
         return () =>
             scrollContainer.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [targetRef, threshold]);
 
     const scrollToTop = () => {
         const scrollContainer = buttonRef.current?.parentElement;

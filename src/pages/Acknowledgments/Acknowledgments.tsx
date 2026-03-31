@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { ChevronRight } from "lucide-react";
 import {
     useLicenseStore,
@@ -12,6 +12,8 @@ import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import styles from "./Acknowledgments.module.css";
 
 export function Acknowledgments() {
+    const scrollRef = useRef<HTMLDivElement>(null);
+
     const fetchSummaries = useLicenseStore((s) => s.fetchSummaries);
     const isLoading = useLicenseStore((s) => s.isLoading);
 
@@ -23,7 +25,7 @@ export function Acknowledgments() {
     }, [fetchSummaries]);
 
     return (
-        <div className={styles.scrollContainer}>
+        <div className={styles.scrollContainer} ref={scrollRef}>
             {isLoading ? (
                 <Throbber label="Loading summaries" />
             ) : (
@@ -47,7 +49,7 @@ export function Acknowledgments() {
                     </section>
                 </>
             )}
-            <ScrollToTop />
+            <ScrollToTop targetRef={scrollRef} />
         </div>
     );
 }

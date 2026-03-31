@@ -5,17 +5,15 @@ import { Throbber } from "@/components/ui/Throbber";
 import { TaskCard } from "@/components/modules/TaskCard";
 import { InfoContainer } from "@/components/ui/InfoContainer";
 import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
-import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 export function TaskTracker() {
     const taskIds = useTaskIds();
-
     const isLoading = useTaskStore((s) => s.isLoading);
     const loadMore = useTaskStore((s) => s.loadMore);
     const hasMore = useTaskStore((s) => s.hasMore);
     const error = useTaskStore((s) => s.error);
 
-    const scrollRef = useRef<HTMLElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     if (error)
         return <InfoContainer message={`Error loading tasks: ${error}`} />;
@@ -26,20 +24,19 @@ export function TaskTracker() {
                 <Throbber label={"Loading Tasks"} />
             ) : (
                 <>
-                    <CardGrid>
+                    <CardGrid ref={scrollRef}>
                         {taskIds.map((id) => (
                             <TaskCard key={id} taskId={id} />
                         ))}
+                        <ScrollSentinel
+                            isLoading={isLoading}
+                            hasMore={hasMore}
+                            loadMore={loadMore}
+                            targetRef={scrollRef}
+                        />
                     </CardGrid>
-                    <ScrollSentinel
-                        isLoading={isLoading}
-                        hasMore={hasMore}
-                        loadMore={loadMore}
-                        rootRef={scrollRef}
-                    />
                 </>
             )}
-            <ScrollToTop />
         </>
     );
 }

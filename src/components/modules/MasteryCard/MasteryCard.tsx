@@ -111,8 +111,7 @@ function InternalMasteryCard({ itemId }: Props) {
                         <div className={styles.componentRowControls}>
                             <button
                                 className={styles.componentButton}
-                                onClick={(e) => {
-                                    e.stopPropagation();
+                                onClick={() => {
                                     adjustQuantity(comp, -1);
                                 }}
                             >
@@ -120,8 +119,7 @@ function InternalMasteryCard({ itemId }: Props) {
                             </button>
                             <button
                                 className={styles.componentButton}
-                                onClick={(e) => {
-                                    e.stopPropagation();
+                                onClick={() => {
                                     adjustQuantity(comp, 1);
                                 }}
                             >

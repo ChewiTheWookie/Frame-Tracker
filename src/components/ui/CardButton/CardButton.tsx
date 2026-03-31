@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, MouseEvent } from "react";
 
 import styles from "./CardButton.module.css";
 
@@ -6,7 +6,7 @@ interface Props {
     label?: ReactNode;
     activeLabel?: ReactNode;
     isActive?: boolean;
-    onClick?: () => void;
+    onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
     variant?: "default" | "helminth";
 }
 
@@ -17,21 +17,22 @@ export function CardButton({
     onClick = () => {},
     variant = "default",
 }: Props) {
-    const handleClick = (e: React.MouseEvent) => {
+    const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        onClick();
+        onClick?.(e);
     };
 
     return (
         <button
+            type="button"
             className={`
-            ${styles.button}
-            ${isActive ? styles.active : ""}
-            ${variant === "default" ? "" : styles[variant.toLowerCase()]}
+                ${styles.button}
+                ${isActive ? styles.active : ""}
+                ${styles[variant]} 
             `}
             onClick={handleClick}
         >
-            {isActive ? activeLabel || label : label}
+            {isActive ? (activeLabel ?? label) : label}
         </button>
     );
 }

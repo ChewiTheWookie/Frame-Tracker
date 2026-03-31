@@ -45,6 +45,14 @@
     --helminthed-glow: rgba(123, 45, 135, 0.5);
 }
 
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
 body {
     background: var(--bg);
     color: var(--color);

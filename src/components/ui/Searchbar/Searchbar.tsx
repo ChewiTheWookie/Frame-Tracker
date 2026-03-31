@@ -34,7 +34,7 @@ export function Searchbar() {
             if (localValue !== search) {
                 setSearch(localValue);
             }
-        }, 150);
+        }, 200);
         return () => clearTimeout(timer);
     }, [localValue, setSearch, search]);
 

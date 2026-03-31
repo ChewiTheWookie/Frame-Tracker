@@ -25,29 +25,20 @@ function InternalTaskCard({ taskId }: Props) {
         setTask(task.id, clamped);
     };
 
-    const handleFavorite = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        toggleFavorite(task.id);
-    };
+    const { tags, isCompleted, isFavorite } = useMemo(() => {
+        const parsedTags: string[] = JSON.parse(task.tags || "[]");
 
-    const tags: string[] = useMemo(
-        () => JSON.parse(task.tags || "[]"),
-        [task.tags],
-    );
-
-    const isCompleted = task.current_completions >= task.max_completions;
-    const isFavorite = task.favorite === 1;
-
-    const formatInterval = (interval: string) => {
-        return interval
-            .replace(/Daily_\d+/gi, "Daily")
-            .replace(/(\d+)d/g, "$1 Days")
-            .replace(/(\d+)h/g, "$1 Hours")
-            .replace(/(\d+)m/g, "$1 Minutes")
-            .replace(/_world/g, "")
-            .replace(/baro/g, "14 Days")
-            .trim();
-    };
+        return {
+            tags: parsedTags,
+            isCompleted: task.current_completions >= task.max_completions,
+            isFavorite: task.favorite === 1,
+        };
+    }, [
+        task.tags,
+        task.current_completions,
+        task.max_completions,
+        task.favorite,
+    ]);
 
     const front = (
         <>
@@ -56,7 +47,7 @@ function InternalTaskCard({ taskId }: Props) {
                 <div className={styles.timer}>{countdown}</div>
                 <button
                     className={`${styles.favoriteBtn} ${isFavorite ? styles.isFavorite : ""}`}
-                    onClick={handleFavorite}
+                    onClick={() => toggleFavorite(task.id)}
                 >
                     <Star className={styles.favoriteIcon} size={18} />
                 </button>
@@ -137,3 +128,14 @@ function InternalTaskCard({ taskId }: Props) {
 }
 
 export const TaskCard = memo(InternalTaskCard);
+
+const formatInterval = (interval: string) => {
+    return interval
+        .replace(/Daily_\d+/gi, "Daily")
+        .replace(/(\d+)d/g, "$1 Days")
+        .replace(/(\d+)h/g, "$1 Hours")
+        .replace(/(\d+)m/g, "$1 Minutes")
+        .replace(/_world/g, "")
+        .replace(/baro/g, "14 Days")
+        .trim();
+};

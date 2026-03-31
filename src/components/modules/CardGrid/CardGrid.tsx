@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { forwardRef, ReactNode } from "react";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 import styles from "./CardGrid.module.css";
 
@@ -6,6 +7,15 @@ interface Props {
     children: ReactNode;
 }
 
-export function CardGrid({ children }: Props) {
-    return <div className={styles.cardGrid}>{children}</div>;
-}
+export const CardGrid = forwardRef<HTMLDivElement, Props>(
+    ({ children }, ref) => {
+        return (
+            <div ref={ref} className={styles.cardGrid}>
+                {children}
+                <ScrollToTop
+                    targetRef={ref as React.RefObject<HTMLDivElement>}
+                />
+            </div>
+        );
+    },
+);

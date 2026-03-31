@@ -1,18 +1,13 @@
 .mainContainer {
     flex: 1;
-
     height: 100vh;
     width: 100%;
-    overflow-x: hidden;
-
     padding: 0 1.5rem 1.5rem 1.5rem;
+    box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
-}
-
-.mainContainer::-webkit-scrollbar {
-    display: none;
+    overflow-x: hidden;
 }
 
 .navContainer {
