@@ -3,17 +3,17 @@ import {
     useMasteryStore,
     useMasteryItemIds,
     useMasteryStats,
-} from "../../stores/useMasteryStore";
-import { MASTERY_CATEGORIES, MasteryCategory } from "../../types/categories";
-import { CardGrid } from "../../components/CardGrid";
-import { MasteryCard } from "../../components/MasteryCard";
-import { Throbber } from "../../components/Throbber";
-import { CategoryTabs } from "../../components/CategoryTabs";
-import { Searchbar } from "../../components/Searchbar";
-import { StatBar } from "../../components/StatBar";
-import { ScrollSentinel } from "../../components/ScrollSentinel";
-import { InfoContainer } from "../../components/InfoContainer";
-import { ScrollToTop } from "../../components/ScrollToTop";
+} from "@/stores/useMasteryStore";
+import { MASTERY_CATEGORIES, MasteryCategory } from "@/types/categories";
+import { CardGrid } from "@/components/modules/CardGrid";
+import { MasteryCard } from "@/components/modules/MasteryCard";
+import { Throbber } from "@/components/ui/Throbber";
+import { CategoryTabs } from "@/components/ui/CategoryTabs";
+import { Searchbar } from "@/components/ui/Searchbar";
+import { StatBar } from "@/components/ui/StatBar";
+import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
+import { InfoContainer } from "@/components/ui/InfoContainer";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 import styles from "./MasteryTracker.module.css";
 

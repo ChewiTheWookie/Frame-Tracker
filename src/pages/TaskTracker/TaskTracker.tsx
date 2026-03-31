@@ -1,19 +1,15 @@
 import { useEffect, useRef } from "react";
-import {
-    useTaskStore,
-    useTaskIds,
-    useTaskStats,
-} from "../../stores/useTaskStore";
-import { TASK_CATEGORIES, TaskCategory } from "../../types/categories";
-import { CardGrid } from "../../components/CardGrid";
-import { CategoryTabs } from "../../components/CategoryTabs";
-import { Throbber } from "../../components/Throbber";
-import { TaskCard } from "../../components/TaskCard";
-import { Searchbar } from "../../components/Searchbar";
-import { StatBar } from "../../components/StatBar";
-import { InfoContainer } from "../../components/InfoContainer";
-import { ScrollSentinel } from "../../components/ScrollSentinel";
-import { ScrollToTop } from "../../components/ScrollToTop";
+import { useTaskStore, useTaskIds, useTaskStats } from "@/stores/useTaskStore";
+import { TASK_CATEGORIES, TaskCategory } from "@/types/categories";
+import { CardGrid } from "@/components/modules/CardGrid";
+import { CategoryTabs } from "@/components/ui/CategoryTabs";
+import { Throbber } from "@/components/ui/Throbber";
+import { TaskCard } from "@/components/modules/TaskCard";
+import { Searchbar } from "@/components/ui/Searchbar";
+import { StatBar } from "@/components/ui/StatBar";
+import { InfoContainer } from "@/components/ui/InfoContainer";
+import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 import styles from "./TaskTracker.module.css";
 

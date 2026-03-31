@@ -5,10 +5,10 @@ import {
     useFrontendLicenses,
     useBackendLicenses,
     useLicenseDetail,
-} from "../../stores/useLicenseStore";
-import { Throbber } from "../../components/Throbber";
-import { ScrollToTop } from "../../components/ScrollToTop";
-import { PopUpPage } from "../../components/PopUpPage";
+} from "@/stores/useLicenseStore";
+import { Throbber } from "@/components/ui/Throbber";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { PopUpPage } from "@/layouts/PopUpPage";
 
 import styles from "./Acknowledgments.module.css";
 

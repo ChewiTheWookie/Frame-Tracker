@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { useTimeStore } from "../stores/useTimeStore";
-import { Task } from "../types/tasks";
+import { useTimeStore } from "@/stores/useTimeStore";
+import { Task } from "@/types/tasks";
 
 export function useTaskTimer(task: Task) {
     const now = useTimeStore((state) => state.now);

@@ -1,5 +1,5 @@
 .main {
-    composes: main from "../../styles/Page.module.css";
+    composes: main from "@/styles/Page.module.css";
     padding-top: 2rem;
 }
 

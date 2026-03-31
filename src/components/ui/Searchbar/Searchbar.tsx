@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
-import { FilterState, getFilterDefinitions } from "../../types/filters";
-import { useKeybind } from "../../hooks/useKeybinds";
+import { FilterState, getFilterDefinitions } from "@/types/filters";
+import { useKeybind } from "@/hooks/useKeybinds";
 
 import styles from "./Searchbar.module.css";
 

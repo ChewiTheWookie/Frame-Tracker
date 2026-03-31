@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import { invoke } from "@tauri-apps/api/core";
-import { MasteryCategory } from "../types/categories";
-import { MasteryFilterState } from "../types/filters";
-import { Item } from "../types/items";
-import { shouldHide } from "../utils/shouldHideObject";
+import { MasteryCategory } from "@/types/categories";
+import { MasteryFilterState } from "@/types/filters";
+import { Item } from "@/types/items";
+import { shouldHide } from "@/utils/shouldHideObject";
 import {
     calculateComponentQuantity,
     calculateMasteryToggle,
-} from "../utils/itemLogic";
+} from "@/utils/itemLogic";
 
 export interface MasteryStats {
     current: number;

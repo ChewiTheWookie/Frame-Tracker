@@ -1,5 +1,5 @@
 .name {
-    composes: title from "../Card/Card.module.css";
+    composes: title from "@/components/ui/Card/Card.module.css";
 }
 
 .imageContainer {
@@ -33,7 +33,7 @@
 }
 
 .nameBack {
-    composes: title from "../Card/Card.module.css";
+    composes: title from "@/components/ui/Card/Card.module.css";
 }
 
 .componentList {

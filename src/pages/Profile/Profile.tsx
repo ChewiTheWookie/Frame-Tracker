@@ -1,4 +1,4 @@
-import { PopUpPage } from "../../components/PopUpPage";
+import { PopUpPage } from "@/layouts/PopUpPage";
 
 // import styles from "./Profile.module.css";
 

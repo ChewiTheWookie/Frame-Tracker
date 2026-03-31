@@ -1,9 +1,9 @@
 import { memo, useMemo } from "react";
 import { MapPin, Monitor, RefreshCw, ScrollText, Star } from "lucide-react";
-import { useTaskTimer } from "../../hooks/useTaskTimer";
-import { useTaskStore, useTaskById } from "../../stores/useTaskStore";
-import { Card } from "../Card";
-import { CardButton } from "../CardButton";
+import { useTaskTimer } from "@/hooks/useTaskTimer";
+import { useTaskStore, useTaskById } from "@/stores/useTaskStore";
+import { Card } from "@/components/ui/Card";
+import { CardButton } from "@/components/ui/CardButton";
 
 import styles from "./TaskCard.module.css";
 

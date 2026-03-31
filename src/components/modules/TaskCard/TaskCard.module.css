@@ -1,5 +1,5 @@
 .name {
-    composes: title from "../Card/Card.module.css";
+    composes: title from "@/components/ui/Card/Card.module.css";
 }
 
 .timer {
@@ -117,7 +117,7 @@
 }
 
 .infoContainer {
-    composes: list from "../Card/Card.module.css";
+    composes: list from "@/components/ui/Card/Card.module.css";
 }
 
 .infoItem {

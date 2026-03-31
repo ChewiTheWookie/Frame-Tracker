@@ -1,10 +1,10 @@
 import { RouteObject } from "react-router-dom";
 import { PATHS } from "./paths";
-import { MasteryTracker } from "../pages/MasteryTracker";
-import { TaskTracker } from "../pages/TaskTracker";
-import { Settings } from "../pages/Settings";
-import { Acknowledgments } from "../pages/Acknowledgments";
-import { Profile } from "../pages/Profile";
+import { MasteryTracker } from "@/pages/MasteryTracker";
+import { TaskTracker } from "@/pages/TaskTracker";
+import { Settings } from "@/pages/Settings";
+import { Acknowledgments } from "@/pages/Acknowledgments";
+import { Profile } from "@/pages/Profile";
 
 export const ROUTES: RouteObject[] = [
     {

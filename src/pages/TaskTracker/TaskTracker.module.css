@@ -1,5 +1,5 @@
 .main {
-    composes: main from "../../styles/Page.module.css";
+    composes: main from "@/styles/Page.module.css";
     overflow-y: auto;
 }
 
@@ -8,9 +8,9 @@
 }
 
 .navContainer {
-    composes: navContainer from "../../styles/Page.module.css";
+    composes: navContainer from "@/styles/Page.module.css";
 }
 
 .navBottom {
-    composes: navBottom from "../../styles/Page.module.css";
+    composes: navBottom from "@/styles/Page.module.css";
 }

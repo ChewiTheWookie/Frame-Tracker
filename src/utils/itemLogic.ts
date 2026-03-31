@@ -1,4 +1,4 @@
-import { Item, ItemComponent } from "../types/items";
+import { Item, ItemComponent } from "@/types/items";
 
 export const calculateComponentQuantity = (
     item: Item,

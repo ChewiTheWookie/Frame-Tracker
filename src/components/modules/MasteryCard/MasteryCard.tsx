@@ -1,8 +1,8 @@
 import { memo, useMemo } from "react";
-import { ItemComponent } from "../../types/items";
-import { Card } from "../Card";
-import { CardButton } from "../CardButton";
-import { useItemById, useMasteryStore } from "../../stores/useMasteryStore";
+import { ItemComponent } from "@/types/items";
+import { Card } from "@/components/ui/Card";
+import { CardButton } from "@/components/ui/CardButton";
+import { useItemById, useMasteryStore } from "@/stores/useMasteryStore";
 
 import styles from "./MasteryCard.module.css";
 import { Dna, DnaOff } from "lucide-react";

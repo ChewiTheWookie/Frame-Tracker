@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "@/routes/paths";
 import { ChevronRight, Info, Monitor, Moon, Palette, Sun } from "lucide-react";
-import { useTheme } from "../../contexts/ThemeContext";
+import { useTheme } from "@/context/ThemeContext";
 
 import styles from "./Settings.module.css";
 

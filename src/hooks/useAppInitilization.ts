@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
-import { useMasteryStore } from "../../stores/useMasteryStore";
-import { useTaskStore } from "../../stores/useTaskStore";
-import { useTimeStore } from "../../stores/useTimeStore";
+import { useMasteryStore } from "@/stores/useMasteryStore";
+import { useTaskStore } from "@/stores/useTaskStore";
+import { useTimeStore } from "@/stores/useTimeStore";
 
-export const AppInitializer = () => {
+export const useAppInitilization = () => {
     const updateTime = useTimeStore((state) => state.updateTime);
     const unlisteners = useRef<UnlistenFn[]>([]);
 
@@ -45,6 +45,4 @@ export const AppInitializer = () => {
             unlisteners.current = [];
         };
     }, []);
-
-    return null;
 };

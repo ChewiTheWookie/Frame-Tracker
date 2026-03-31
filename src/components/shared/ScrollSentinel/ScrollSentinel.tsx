@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
+import { InfoContainer } from "@/components/ui/InfoContainer";
 
 import styles from "./ScrollSentinel.module.css";
-import { InfoContainer } from "../InfoContainer";
 
 interface Props {
     isLoading: boolean;

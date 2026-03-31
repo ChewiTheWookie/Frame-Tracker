@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import { invoke } from "@tauri-apps/api/core";
-import { TaskCategory } from "../types/categories";
-import { TaskFilterState } from "../types/filters";
-import { Task } from "../types/tasks";
-import { shouldHide } from "../utils/shouldHideObject";
+import { TaskCategory } from "@/types/categories";
+import { TaskFilterState } from "@/types/filters";
+import { Task } from "@/types/tasks";
+import { shouldHide } from "@/utils/shouldHideObject";
 import {
     calculateTaskToggleFavorite,
     calculateTaskStatAdjustment,
-} from "../utils/taskLogic";
+} from "@/utils/taskLogic";
 
 interface TaskStats {
     current: number;

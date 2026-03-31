@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { ROUTE_METADATA } from "../../routes/metadata";
-import { PATHS } from "../../routes/paths";
+import { ROUTE_METADATA } from "@/routes/metadata";
+import { PATHS } from "@/routes/paths";
 
 import styles from "./Navbar.module.css";
 

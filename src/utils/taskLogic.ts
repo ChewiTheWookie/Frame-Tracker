@@ -1,4 +1,4 @@
-import { Task } from "../types/tasks";
+import { Task } from "@/types/tasks";
 
 export const calculateTaskToggleFavorite = (
     taskMap: Record<string, Task>,
