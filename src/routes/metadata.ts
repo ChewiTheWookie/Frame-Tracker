@@ -60,7 +60,7 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
         showInNav: true,
     },
     [PATHS.Acknowledgments]: {
-        label: "Acknowledgments",
+        label: "Third-Party Software Notices",
         showInNav: false,
     },
 };

@@ -8,7 +8,6 @@ import {
 } from "@/stores/useLicenseStore";
 import { Throbber } from "@/components/ui/Throbber";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
-import { PopUpPage } from "@/layouts/PopUpPage";
 
 import styles from "./Acknowledgments.module.css";
 
@@ -23,7 +22,7 @@ export function Acknowledgments() {
         fetchSummaries();
     }, [fetchSummaries]);
 
-    const content = (
+    return (
         <div className={styles.scrollContainer}>
             {isLoading ? (
                 <Throbber label="Loading summaries" />
@@ -51,8 +50,6 @@ export function Acknowledgments() {
             <ScrollToTop />
         </div>
     );
-
-    return <PopUpPage label="Third-Party Software Notices" content={content} />;
 }
 
 interface SummaryProps {

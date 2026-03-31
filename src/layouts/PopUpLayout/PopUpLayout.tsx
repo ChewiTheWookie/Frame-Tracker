@@ -1,21 +1,19 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
+import { ROUTE_METADATA } from "@/routes/metadata";
 
-import styles from "./PopUpPage.module.css";
+import styles from "./PopUpLayout.module.css";
 
-interface Props {
-    label: string;
-    content: React.ReactNode;
-}
-
-export function PopUpPage({ label, content }: Props) {
+export function PopUpLayout() {
     const navigate = useNavigate();
+    const { pathname } = useLocation();
+
+    const metadata = ROUTE_METADATA[pathname];
 
     return (
         <div className={styles.pageContainer}>
             <header>
-                <h1 className={styles.title}>{label}</h1>
+                <h1 className={styles.title}>{metadata.label}</h1>
                 <button
                     className={styles.closeBtn}
                     onClick={() => navigate(-1)}
@@ -23,7 +21,7 @@ export function PopUpPage({ label, content }: Props) {
                     <X size={20} className={styles.closeIcon} />
                 </button>
             </header>
-            {content}
+            <Outlet />
         </div>
     );
 }

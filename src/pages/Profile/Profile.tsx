@@ -1,9 +1,5 @@
-import { PopUpPage } from "@/layouts/PopUpPage";
-
 // import styles from "./Profile.module.css";
 
 export function Profile() {
-    const content = <>Profile</>;
-
-    return <PopUpPage label="Profile" content={content} />;
+    return <>Profile</>;
 }
