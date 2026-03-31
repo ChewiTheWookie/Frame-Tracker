@@ -4,6 +4,13 @@ All notable changes to this project will be logged here
 
 ## 1.2.0
 
+### Features
+
+- ✨ add keybinds
+    - `Ctrl + Shift + f`: Open/close Searchbar filters
+    - `Ctrl + Tab`: cycle to next category tab
+    - `Tab`: cycle between pages
+
 ### Dev Notes
 
 - ✏️ clean frontend to improve readability, performance

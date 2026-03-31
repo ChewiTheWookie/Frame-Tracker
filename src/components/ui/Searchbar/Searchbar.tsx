@@ -57,6 +57,14 @@ export function Searchbar() {
         requestAnimationFrame(() => inputRef.current?.select());
     };
 
+    const handleOpenFilter = () => {
+        if (!isOpen) {
+            setIsOpen(true);
+        } else {
+            setIsOpen(false);
+        }
+    };
+
     const handleEscape = () => {
         if (isOpen) {
             setIsOpen(false);
@@ -69,6 +77,7 @@ export function Searchbar() {
 
     useKeybind("/", handleFocusSearch);
     useKeybind("f", handleFocusSearch, { ctrl: true });
+    useKeybind("f", handleOpenFilter, { ctrl: true, shift: true });
     useKeybind("Escape", handleEscape);
 
     return (

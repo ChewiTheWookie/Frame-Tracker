@@ -12,7 +12,9 @@ import {
 interface RouteMetadata {
     label: string;
     icon?: LucideIcon;
+
     showInNav: boolean;
+    isCycleTarget?: boolean;
 
     hasSearch?: boolean;
     hasCategory?: boolean;
@@ -27,7 +29,9 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
     [PATHS.Mastery]: {
         label: "Mastery Tracker",
         icon: Telescope,
+
         showInNav: true,
+        isCycleTarget: true,
 
         hasSearch: true,
         hasCategory: true,
@@ -40,7 +44,9 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
     [PATHS.Tasks]: {
         label: "Task Tracker",
         icon: CalendarCheck,
+
         showInNav: true,
+        isCycleTarget: true,
 
         hasSearch: true,
         hasCategory: true,
