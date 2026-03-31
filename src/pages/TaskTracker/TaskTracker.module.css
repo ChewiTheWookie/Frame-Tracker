@@ -1,7 +1,0 @@
-.navContainer {
-    composes: navContainer from "@/styles/Page.module.css";
-}
-
-.navBottom {
-    composes: navBottom from "@/styles/Page.module.css";
-}

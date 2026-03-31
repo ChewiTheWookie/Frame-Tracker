@@ -1,3 +1,4 @@
+import { MASTERY_CATEGORIES, TASK_CATEGORIES } from "@/types/categories";
 import { PATHS } from "./paths";
 
 import {
@@ -12,6 +13,14 @@ interface RouteMetadata {
     label: string;
     icon?: LucideIcon;
     showInNav: boolean;
+
+    hasSearch?: boolean;
+    hasCategory?: boolean;
+    categories?: readonly string[];
+
+    hasStatBar?: boolean;
+    statLabel?: string;
+    hStatLabel?: string;
 }
 
 export const ROUTE_METADATA: Record<string, RouteMetadata> = {
@@ -19,11 +28,26 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
         label: "Mastery Tracker",
         icon: Telescope,
         showInNav: true,
+
+        hasSearch: true,
+        hasCategory: true,
+        categories: MASTERY_CATEGORIES,
+
+        hasStatBar: true,
+        statLabel: "Mastered",
+        hStatLabel: "Helminthed",
     },
     [PATHS.Tasks]: {
         label: "Task Tracker",
         icon: CalendarCheck,
         showInNav: true,
+
+        hasSearch: true,
+        hasCategory: true,
+        categories: TASK_CATEGORIES,
+
+        hasStatBar: true,
+        statLabel: "Completed",
     },
     [PATHS.Profile]: {
         label: "Profile",

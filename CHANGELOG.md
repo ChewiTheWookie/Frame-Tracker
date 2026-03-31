@@ -12,6 +12,7 @@ All notable changes to this project will be logged here
 - ✏️ move popup page from acknowledgments to reusable component
 - ✏️ restructure frontend components
 - ✏️ move to using layout for pages
+- ✏️ move `Searchbar`, `CategoryTabs` and `StatBar` to metadata for selection
 
 ## 1.1.1
 

@@ -1,41 +1,39 @@
+import { useLocation } from "react-router-dom";
 import styles from "./StatBar.module.css";
+import { useActiveStore } from "@/hooks/useActiveStore";
+import { ROUTE_METADATA } from "@/routes/metadata";
 
-interface Props {
-    label: string;
-    current: number;
-    total: number;
+export const StatBar = () => {
+    const { pathname } = useLocation();
+    const useStore = useActiveStore();
+    const metadata = ROUTE_METADATA[pathname];
 
-    hLabel?: string;
-    hCurrent?: number;
-    hTotal?: number;
-}
+    const stats = useStore((s) => s.stats);
 
-export const StatBar = ({
-    label,
-    current,
-    total,
-    hLabel,
-    hCurrent,
-    hTotal,
-}: Props) => {
+    if (!metadata?.hasStatBar || !stats) return null;
+
+    const { current, total, helminthCurrent, helminthTotal } = stats;
+
     return (
         <div className={styles.statContainer}>
             <div className={styles.item}>
-                <span className={styles.label}>{label}</span>
+                <span className={styles.label}>{metadata.statLabel}</span>
                 <span className={styles.value}>
                     <span>{current}</span>
                     <span>/{total}</span>
                 </span>
             </div>
 
-            {hTotal !== undefined && hTotal > 0 && (
+            {helminthTotal !== undefined && helminthTotal > 0 && (
                 <>
                     <div className={styles.divider} />
                     <div className={styles.item}>
-                        <span className={styles.label}>{hLabel}</span>
+                        <span className={styles.label}>
+                            {metadata.hStatLabel}
+                        </span>
                         <span className={styles.value}>
-                            <span>{hCurrent}</span>
-                            <span>/{hTotal}</span>
+                            <span>{helminthCurrent}</span>
+                            <span>/{helminthTotal}</span>
                         </span>
                     </div>
                 </>

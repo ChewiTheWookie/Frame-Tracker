@@ -238,3 +238,5 @@ export const useTaskStore = create<TaskState>((set, get) => ({
 export const useTaskIds = () => useTaskStore(useShallow((s) => s.taskIds));
 export const useTaskById = (id: string) => useTaskStore((s) => s.tasks[id]);
 export const useTaskStats = () => useTaskStore(useShallow((s) => s.stats));
+
+useTaskStore.getState().fetchTasks();

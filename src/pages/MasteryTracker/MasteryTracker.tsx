@@ -1,21 +1,11 @@
 import { useRef } from "react";
-import {
-    useMasteryStore,
-    useMasteryItemIds,
-    useMasteryStats,
-} from "@/stores/useMasteryStore";
-import { MASTERY_CATEGORIES, MasteryCategory } from "@/types/categories";
+import { useMasteryStore, useMasteryItemIds } from "@/stores/useMasteryStore";
 import { CardGrid } from "@/components/modules/CardGrid";
 import { MasteryCard } from "@/components/modules/MasteryCard";
 import { Throbber } from "@/components/ui/Throbber";
-import { CategoryTabs } from "@/components/ui/CategoryTabs";
-import { Searchbar } from "@/components/ui/Searchbar";
-import { StatBar } from "@/components/ui/StatBar";
 import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
 import { InfoContainer } from "@/components/ui/InfoContainer";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
-
-import styles from "./MasteryTracker.module.css";
 
 export function MasteryTracker() {
     const itemIds = useMasteryItemIds();
@@ -24,16 +14,6 @@ export function MasteryTracker() {
     const hasMore = useMasteryStore((s) => s.hasMore);
     const error = useMasteryStore((s) => s.error);
 
-    const activeCategory = useMasteryStore((s) => s.activeCategory);
-    const setCategory = useMasteryStore((s) => s.setCategory);
-    const searchQuery = useMasteryStore((s) => s.searchQuery);
-    const setSearch = useMasteryStore((s) => s.setSearch);
-    const filters = useMasteryStore((s) => s.filters);
-    const setFilters = useMasteryStore((s) => s.setFilters);
-
-    const { current, total, helminthCurrent, helminthTotal } =
-        useMasteryStats();
-
     const scrollRef = useRef<HTMLElement>(null);
 
     if (error)
@@ -41,50 +21,23 @@ export function MasteryTracker() {
 
     return (
         <>
-            <header className={styles.navContainer}>
-                <CategoryTabs<MasteryCategory>
-                    categories={MASTERY_CATEGORIES}
-                    activeCategory={activeCategory}
-                    onCategoryChange={setCategory}
-                />
-                <nav className={styles.navBottom}>
-                    <Searchbar
-                        search={searchQuery}
-                        setSearch={setSearch}
-                        activeCategory={activeCategory}
-                        filters={filters}
-                        setFilters={setFilters}
+            {isLoading && itemIds.length === 0 ? (
+                <Throbber label="Loading Items" />
+            ) : (
+                <>
+                    <CardGrid>
+                        {itemIds.map((id) => (
+                            <MasteryCard key={id} itemId={id} />
+                        ))}
+                    </CardGrid>
+                    <ScrollSentinel
+                        isLoading={isLoading}
+                        hasMore={hasMore}
+                        loadMore={loadMore}
+                        rootRef={scrollRef}
                     />
-                    <StatBar
-                        label="Mastered"
-                        current={current}
-                        total={total}
-                        hLabel="Helminthed"
-                        hCurrent={helminthCurrent}
-                        hTotal={helminthTotal}
-                    />
-                </nav>
-            </header>
-
-            <div className={styles.scrollContainer}>
-                {isLoading && itemIds.length === 0 ? (
-                    <Throbber label="Loading Items" />
-                ) : (
-                    <>
-                        <CardGrid>
-                            {itemIds.map((id) => (
-                                <MasteryCard key={id} itemId={id} />
-                            ))}
-                        </CardGrid>
-                        <ScrollSentinel
-                            isLoading={isLoading}
-                            hasMore={hasMore}
-                            loadMore={loadMore}
-                            rootRef={scrollRef}
-                        />
-                    </>
-                )}
-            </div>
+                </>
+            )}
             <ScrollToTop />
         </>
     );

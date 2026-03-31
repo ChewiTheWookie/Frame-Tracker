@@ -1,25 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
-import { FilterState, getFilterDefinitions } from "@/types/filters";
+import { getFilterDefinitions } from "@/types/filters";
 import { useKeybind } from "@/hooks/useKeybinds";
+import { useActiveStore } from "@/hooks/useActiveStore";
 
 import styles from "./Searchbar.module.css";
 
-interface Props<T extends string> {
-    search?: string;
-    setSearch: (search: string) => void;
-    activeCategory?: T;
-    filters: FilterState;
-    setFilters: (filters: any) => void;
-}
+export function Searchbar() {
+    const useStore = useActiveStore();
 
-export function Searchbar<T extends string>({
-    search = "",
-    setSearch,
-    activeCategory,
-    filters,
-    setFilters,
-}: Props<T>) {
+    const activeCategory = useStore((s) => s.activeCategory);
+    const search = useStore((s) => s.searchQuery);
+    const setSearch = useStore((s) => s.setSearch);
+    const filters = useStore((s) => s.filters);
+    const setFilters = useStore((s) => s.setFilters);
+
     const [isOpen, setIsOpen] = useState(false);
     const [localValue, setLocalValue] = useState(search);
 

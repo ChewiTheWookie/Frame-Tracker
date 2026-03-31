@@ -14,3 +14,22 @@
 .mainContainer::-webkit-scrollbar {
     display: none;
 }
+
+.navContainer {
+    position: sticky;
+    flex-shrink: 0;
+    padding: 1.25rem 0 0 0;
+    background: var(--bg);
+    z-index: 100;
+    top: 0;
+}
+
+.navBottom {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    padding: 10px 0;
+    gap: 20px;
+
+    border-bottom: 2px solid var(--accent);
+}

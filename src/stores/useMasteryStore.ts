@@ -113,7 +113,6 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
     fetchItems: async (silent = false) => {
         fetchVersion++;
         const currentVersion = fetchVersion;
-
         const { searchQuery, activeCategory, filters, page } = get();
 
         if (!silent) set({ isLoading: true, error: null });
