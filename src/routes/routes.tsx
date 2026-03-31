@@ -17,9 +17,11 @@ export const ROUTES: RouteObject[] = [
     {
         path: PATHS.Settings,
         element: <Settings />,
-    },
-    {
-        path: PATHS.Acknowledgments,
-        element: <Acknowledgments />,
+        children: [
+            {
+                path: PATHS.Acknowledgments,
+                element: <Acknowledgments />,
+            },
+        ],
     },
 ];

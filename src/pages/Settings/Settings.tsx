@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { ChevronRight, Info, Monitor, Moon, Palette, Sun } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -55,6 +55,7 @@ export function Settings() {
                     <ChevronRight size={20} className={styles.chevron} />
                 </button>
             </section>
+            <Outlet />
         </main>
     );
 }
