@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Dev Notes
 
 - ✏️ made settings page more scalable
+- ✏️ move to action based keybinds
 
 ## 1.2.0
 

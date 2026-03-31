@@ -1,6 +1,6 @@
-use tauri::State;
 use crate::database::db::UserDb;
 use crate::database::repositories::mastery_repo;
+use tauri::State;
 
 #[tauri::command]
 pub async fn set_component(

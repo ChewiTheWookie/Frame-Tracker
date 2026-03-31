@@ -7,6 +7,9 @@
         "core:default",
         "opener:default",
         "core:path:default",
+        "global-shortcut:allow-register",
+        "global-shortcut:allow-unregister",
+        "global-shortcut:allow-is-registered",
         {
             "identifier": "core:event:allow-listen",
             "allow": [{ "event": "tasks-reset" }]

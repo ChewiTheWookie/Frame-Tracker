@@ -1,14 +1,14 @@
-use owo_colors::OwoColorize;
-use std::collections::HashSet;
 use crate::api::client::ApiClient;
 use crate::models::api::{
     category_mapper,
     custom_items,
     exclusion_mapper,
-    wiki_item::WikiItem,
     masterable_overrides,
+    wiki_item::WikiItem,
 };
 use crate::models::resources::RESOURCES;
+use owo_colors::OwoColorize;
+use std::collections::HashSet;
 
 pub async fn fetch_wiki_items(
     api_client: &ApiClient
@@ -65,7 +65,7 @@ pub async fn fetch_wiki_items(
                 item.components = Some(
                     comps
                         .into_iter()
-                        .filter(|c| { !resource_lookup.contains(c.name.as_str()) })
+                        .filter(|c| !resource_lookup.contains(c.name.as_str()))
                         .collect()
                 );
             }

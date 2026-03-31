@@ -1,4 +1,4 @@
-use reqwest::{ Client, header };
+use reqwest::{ header, Client };
 use std::time::Duration;
 
 pub struct ApiClient {

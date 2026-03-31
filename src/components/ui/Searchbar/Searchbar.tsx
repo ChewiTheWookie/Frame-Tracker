@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { getFilterDefinitions } from "@/types/filters";
-import { useKeybind } from "@/hooks/useKeybinds";
+import { useActionKeybind } from "@/hooks/useKeybinds";
 import { useActiveStore } from "@/hooks/useActiveStore";
 
 import styles from "./Searchbar.module.css";
@@ -57,7 +57,7 @@ export function Searchbar() {
         requestAnimationFrame(() => inputRef.current?.select());
     };
 
-    const handleOpenFilter = () => {
+    const handleFilterWindow = () => {
         if (!isOpen) {
             setIsOpen(true);
         } else {
@@ -75,10 +75,9 @@ export function Searchbar() {
         }
     };
 
-    useKeybind("/", handleFocusSearch);
-    useKeybind("f", handleFocusSearch, { ctrl: true });
-    useKeybind("f", handleOpenFilter, { ctrl: true, shift: true });
-    useKeybind("Escape", handleEscape);
+    useActionKeybind("FOCUS_SEARCH", handleFocusSearch);
+    useActionKeybind("CLEAR_SEARCH", handleEscape);
+    useActionKeybind("TOGGLE_FILTERS_WINDOW", handleFilterWindow);
 
     return (
         <div className={styles.searchContainer} ref={containerRef}>

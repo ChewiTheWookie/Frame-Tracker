@@ -1,7 +1,7 @@
-use tauri::Manager;
-use std::time::Duration;
-use tokio::time::sleep;
 use crate::database::services::task_services::check_and_apply_resets;
+use std::time::Duration;
+use tauri::Manager;
+use tokio::time::sleep;
 
 pub mod api;
 pub mod commands;
@@ -14,6 +14,7 @@ use crate::commands::{ licenses, mastery_tracker, task_tracker };
 pub fn run() {
     tauri::Builder
         ::default()
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(
             tauri::generate_handler![

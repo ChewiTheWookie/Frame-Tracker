@@ -1,12 +1,12 @@
-use sqlx::{ sqlite::SqlitePoolOptions, Pool, Sqlite, migrate };
-use tauri::{ AppHandle, Manager, path::BaseDirectory };
-use std::fs;
 use crate::api::client::ApiClient;
 use crate::api::requests::fetch_wiki_items::fetch_wiki_items;
 use crate::database::services::{
     item_services::sync_wiki_items,
     migration_services::run_relational_migration,
 };
+use sqlx::{ migrate, sqlite::SqlitePoolOptions, Pool, Sqlite };
+use std::fs;
+use tauri::{ path::BaseDirectory, AppHandle, Manager };
 
 pub struct UserDb(pub Pool<Sqlite>);
 pub struct LicenseDb(pub Pool<Sqlite>);

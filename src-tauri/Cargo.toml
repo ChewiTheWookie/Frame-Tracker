@@ -30,3 +30,6 @@ chrono = { version = "0.4.44", features = ["serde"] }
 reqwest = "0.13.2"
 owo-colors = "4.3.0"
 
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-global-shortcut = "2"
+

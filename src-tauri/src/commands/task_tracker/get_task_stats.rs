@@ -1,7 +1,7 @@
-use tauri::State;
 use crate::database::db::UserDb;
 use crate::database::repositories::task_repo;
 use crate::models::database::stats::TaskStats;
+use tauri::State;
 
 #[tauri::command]
 pub async fn get_task_stats(

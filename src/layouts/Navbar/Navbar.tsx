@@ -3,9 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { ROUTE_METADATA } from "@/routes/metadata";
 import { PATHS } from "@/routes/paths";
+import { useActionKeybind } from "@/hooks/useKeybinds";
 
 import styles from "./Navbar.module.css";
-import { useKeybind } from "@/hooks/useKeybinds";
 
 export function Navbar() {
     const location = useLocation();
@@ -19,7 +19,7 @@ export function Navbar() {
     const cyclePaths = Object.entries(ROUTE_METADATA)
         .filter(([_, meta]) => meta.showInNav && meta.isCycleTarget)
         .map(([path]) => path);
-    const handleTab = () => {
+    const handlePageCycle = () => {
         if (cyclePaths.length <= 1) return;
 
         const currentIndex = cyclePaths.indexOf(location.pathname);
@@ -27,8 +27,16 @@ export function Navbar() {
 
         navigate(cyclePaths[nextIndex]);
     };
+    const handlePageBackCycle = () => {
+        const currentIndex = cyclePaths.indexOf(location.pathname);
+        const prevIndex =
+            currentIndex <= 0 ? cyclePaths.length - 1 : currentIndex - 1;
 
-    useKeybind("Tab", handleTab);
+        navigate(cyclePaths[prevIndex]);
+    };
+
+    useActionKeybind("CYCLE_PAGE", handlePageCycle);
+    useActionKeybind("BACK_CYCLE_PAGE", handlePageBackCycle);
 
     const renderNavLink = (path: string, meta: any) => {
         const Icon = meta.icon;
