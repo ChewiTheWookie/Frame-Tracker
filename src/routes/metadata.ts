@@ -1,16 +1,10 @@
 import { PATHS } from "./paths";
 
-import {
-    CalendarCheck,
-    LucideIcon,
-    Telescope,
-    Settings,
-    Info,
-} from "lucide-react";
+import { CalendarCheck, LucideIcon, Telescope, Settings } from "lucide-react";
 
 interface RouteMetadata {
     label: string;
-    icon: LucideIcon;
+    icon?: LucideIcon;
     showInNav: boolean;
 }
 
@@ -32,7 +26,6 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
     },
     [PATHS.Acknowledgments]: {
         label: "Acknowledgments",
-        icon: Info,
         showInNav: false,
     },
 };
