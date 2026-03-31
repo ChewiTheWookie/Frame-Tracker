@@ -69,4 +69,8 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
         label: "Third-Party Software Notices",
         showInNav: false,
     },
+    [PATHS.Keybinds]: {
+        label: "Keybinds",
+        showInNav: false,
+    },
 };

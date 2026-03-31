@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 1.3.0
+
+### Dev Notes
+
+- ✏️ made settings page more scalable
+
 ## 1.2.0
 
 ### Features
