@@ -25,13 +25,7 @@ Here is what Frame Tracker can do:
 
 ## Keybinds
 
-- `Ctrl + F`: Auto focus searchbar
-- `Esc`: Clear searchbar or close filters window if its open
-- `Ctrl + Shift + f`: Open/close Searchbar filters
-- `Tab`: Cycle to next page
-- `Shift + Tab`: Cycle to previous page
-- `Ctrl + Tab`: Cycle to next category tab
-- `Ctrl + Shift + Tab`: Cycle to previous category tab
+- Customizable keybinds! Just visit the settings → keybinds
 
 ## Licensing & Acknowledgments
 

@@ -4,6 +4,10 @@ All notable changes to this project will be logged here
 
 ## 1.3.0
 
+### Features
+
+- ✨ add customizable keybinds
+
 ### Dev Notes
 
 - ✏️ made settings page more scalable

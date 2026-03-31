@@ -1,4 +1,7 @@
 .scrollContainer {
+    width: 98%;
+    margin: 0 auto;
+
     flex: 1;
     scroll-behavior: smooth;
     overflow-y: auto;
@@ -22,7 +25,8 @@
 }
 
 .item {
-    margin: 1rem 0 0 0.25rem;
+    width: 98%;
+    margin: 1rem auto 0 auto;
     padding: 0.35rem 0;
     cursor: pointer;
 }

@@ -1,12 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { register, unregisterAll } from "@tauri-apps/plugin-global-shortcut";
-import {
-    DEFAULT_BINDS,
-    KeybindAction,
-    KeyConfig,
-    KeyMapping,
-} from "@/types/keybinds";
+import { DEFAULT_BINDS, KeybindAction, KeyConfig } from "@/types/keybinds";
+
+type KeyMapping = Record<KeybindAction, KeyConfig>;
 
 interface KeybindState {
     mapping: KeyMapping;
