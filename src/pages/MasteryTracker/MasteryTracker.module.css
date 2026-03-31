@@ -1,12 +1,3 @@
-.main {
-    composes: main from "@/styles/Page.module.css";
-    overflow-y: auto;
-}
-
-.main::-webkit-scrollbar {
-    display: none;
-}
-
 .navContainer {
     composes: navContainer from "@/styles/Page.module.css";
 }

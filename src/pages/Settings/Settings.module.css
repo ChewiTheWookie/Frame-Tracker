@@ -1,10 +1,5 @@
-.main {
-    composes: main from "@/styles/Page.module.css";
-    padding-top: 2rem;
-}
-
 .section {
-    margin-bottom: 1.5rem;
+    margin: 1.5rem 0;
 }
 
 .sectionHeader {

@@ -5,28 +5,34 @@ import { TaskTracker } from "@/pages/TaskTracker";
 import { Settings } from "@/pages/Settings";
 import { Acknowledgments } from "@/pages/Acknowledgments";
 import { Profile } from "@/pages/Profile";
+import { MainLayout } from "@/layouts/MainLayout";
 
 export const ROUTES: RouteObject[] = [
     {
-        path: PATHS.Mastery,
-        element: <MasteryTracker />,
-    },
-    {
-        path: PATHS.Tasks,
-        element: <TaskTracker />,
-    },
-    {
-        path: PATHS.Settings,
-        element: <Settings />,
+        element: <MainLayout />,
         children: [
             {
-                path: PATHS.Acknowledgments,
-                element: <Acknowledgments />,
+                path: PATHS.Mastery,
+                element: <MasteryTracker />,
+            },
+            {
+                path: PATHS.Tasks,
+                element: <TaskTracker />,
+            },
+            {
+                path: PATHS.Settings,
+                element: <Settings />,
+                children: [
+                    {
+                        path: PATHS.Acknowledgments,
+                        element: <Acknowledgments />,
+                    },
+                ],
+            },
+            {
+                path: PATHS.Profile,
+                element: <Profile />,
             },
         ],
-    },
-    {
-        path: PATHS.Profile,
-        element: <Profile />,
     },
 ];

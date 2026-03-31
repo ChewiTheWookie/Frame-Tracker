@@ -16,7 +16,7 @@ export function Settings() {
     const { theme, cycleTheme } = useTheme();
 
     return (
-        <main className={styles.main}>
+        <>
             <section className={styles.section}>
                 <div className={styles.sectionHeader}>
                     <Palette size={20} /> <h2>Appearance</h2>
@@ -56,6 +56,6 @@ export function Settings() {
                 </button>
             </section>
             <Outlet />
-        </main>
+        </>
     );
 }

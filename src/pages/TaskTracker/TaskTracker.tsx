@@ -39,7 +39,7 @@ export function TaskTracker() {
         return <InfoContainer message={`Error loading tasks: ${error}`} />;
 
     return (
-        <main ref={scrollRef} className={styles.main}>
+        <>
             <header className={styles.navContainer}>
                 <CategoryTabs<TaskCategory>
                     categories={TASK_CATEGORIES}
@@ -80,6 +80,6 @@ export function TaskTracker() {
                 </>
             )}
             <ScrollToTop />
-        </main>
+        </>
     );
 }

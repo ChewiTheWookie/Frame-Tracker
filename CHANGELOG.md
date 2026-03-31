@@ -11,6 +11,7 @@ All notable changes to this project will be logged here
 - ✏️ refactor akgnowledgments to be a child of settings page using `Outlet`
 - ✏️ move popup page from acknowledgments to reusable component
 - ✏️ restructure frontend components
+- ✏️ move to using layout for pages
 
 ## 1.1.1
 

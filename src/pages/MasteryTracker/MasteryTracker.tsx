@@ -40,7 +40,7 @@ export function MasteryTracker() {
         return <InfoContainer message={`Error loading Items: ${error}`} />;
 
     return (
-        <main ref={scrollRef} className={styles.main}>
+        <>
             <header className={styles.navContainer}>
                 <CategoryTabs<MasteryCategory>
                     categories={MASTERY_CATEGORIES}
@@ -86,6 +86,6 @@ export function MasteryTracker() {
                 )}
             </div>
             <ScrollToTop />
-        </main>
+        </>
     );
 }
