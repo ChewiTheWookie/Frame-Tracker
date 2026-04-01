@@ -12,7 +12,7 @@ export function PopUpLayout() {
 
     return (
         <div className={styles.pageContainer}>
-            <header>
+            <header className={styles.header}>
                 <h1 className={styles.title}>{metadata.label}</h1>
                 <button
                     className={styles.closeBtn}
