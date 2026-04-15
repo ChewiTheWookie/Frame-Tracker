@@ -1,6 +1,7 @@
-use sqlx::migrate;
+use sqlx::migrate; // Keep this for the macro
 use sqlx::{ sqlite::SqlitePoolOptions, Pool, Sqlite };
 use std::fs;
+use std::path::{ Path, PathBuf };
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tauri::{ path::BaseDirectory, AppHandle, Manager };
@@ -14,14 +15,41 @@ use crate::database::services::{
 pub struct UserDb(pub Arc<Mutex<Pool<Sqlite>>>);
 pub struct LicenseDb(pub Pool<Sqlite>);
 
-pub fn get_profile_db_path(handle: &AppHandle, profile_name: &str) -> std::path::PathBuf {
+/// Internal helper to move legacy root database to profiles/Default
+fn migrate_legacy_db(app_dir: &Path) {
+    let legacy_db_path = app_dir.join("user_profile.db");
+    let default_profile_dir = app_dir.join("profiles").join("Default");
+    let new_db_path = default_profile_dir.join("user_profile.db");
+
+    // Only migrate if the old file exists AND the new one doesn't
+    if legacy_db_path.exists() && !new_db_path.exists() {
+        // Ensure the destination directory exists
+        if let Err(e) = fs::create_dir_all(&default_profile_dir) {
+            eprintln!("Migration: Failed to create Default directory: {}", e);
+            return;
+        }
+
+        // Attempt to move the file
+        if let Err(e) = fs::rename(&legacy_db_path, &new_db_path) {
+            eprintln!("Migration: Failed to move legacy database: {}", e);
+        } else {
+            println!("Migration: Successfully moved legacy database to profiles/Default");
+        }
+    }
+}
+
+pub fn get_profile_db_path(handle: &AppHandle, profile_name: &str) -> PathBuf {
     let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
+
+    // Check for old files before defining the new path
+    migrate_legacy_db(&app_dir);
+
     let profile_dir = app_dir.join("profiles").join(profile_name);
     fs::create_dir_all(&profile_dir).expect("Failed to create profile directory");
     profile_dir.join("user_profile.db")
 }
 
-pub async fn create_user_pool(handle: &AppHandle, db_path: std::path::PathBuf) -> Pool<Sqlite> {
+pub async fn create_user_pool(handle: &AppHandle, db_path: PathBuf) -> Pool<Sqlite> {
     let db_url = format!("sqlite:{}?mode=rwc", db_path.to_string_lossy()).replace("\\", "/");
 
     let pool = SqlitePoolOptions::new()
@@ -34,13 +62,13 @@ pub async fn create_user_pool(handle: &AppHandle, db_path: std::path::PathBuf) -
         .execute(&pool).await
         .expect("Failed to enable foreign keys");
 
+    // Run migrations
     migrate!("./migrations/user").run(&pool).await.expect("Failed to run user DB migrations");
 
     if let Err(e) = run_relational_migration(&pool).await {
         eprintln!("Migration logic failed: {}", e);
     }
 
-    // Trigger background sync for the new pool
     let sync_pool = pool.clone();
     let api_client = ApiClient::new();
     let handle_clone = handle.clone();
