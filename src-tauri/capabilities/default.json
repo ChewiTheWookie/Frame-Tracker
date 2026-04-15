@@ -11,6 +11,8 @@
         "global-shortcut:allow-unregister",
         "global-shortcut:allow-unregister-all",
         "global-shortcut:allow-is-registered",
+        "clipboard-manager:allow-write-text",
+        "clipboard-manager:allow-read-text",
         {
             "identifier": "core:event:allow-listen",
             "allow": [{ "event": "tasks-reset" }]

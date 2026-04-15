@@ -7,6 +7,7 @@ import {
     Telescope,
     Settings,
     CircleUserRound,
+    Guitar,
 } from "lucide-react";
 
 interface RouteMetadata {
@@ -54,6 +55,13 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
 
         hasStatBar: true,
         statLabel: "Completed",
+    },
+    [PATHS.Music]: {
+        label: "Task Tracker",
+        icon: Guitar,
+
+        showInNav: true,
+        isCycleTarget: true,
     },
     [PATHS.Profile]: {
         label: "Profile",

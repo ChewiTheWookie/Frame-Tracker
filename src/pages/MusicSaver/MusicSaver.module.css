@@ -1,0 +1,192 @@
+.header {
+    display: flex;
+
+    align-items: center;
+
+    border-bottom: 1px solid var(--accent);
+    margin-bottom: 0.75rem;
+}
+
+.scrollContainer {
+    width: 98%;
+    margin: 0 1% 0 1%;
+}
+
+.openModalBtn {
+    margin-left: auto;
+    padding: 0.5rem;
+
+    height: fit-content;
+    width: fit-content;
+
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.openModalBtn:hover {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.addIcon {
+    display: block;
+    color: var(--accent);
+    transition: color 0.2s ease;
+}
+
+.openModalBtn:hover .addIcon {
+    color: var(--bg);
+}
+
+.closeButton {
+    background: transparent;
+    border: none;
+    color: var(--color);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    transition: all 0.2s;
+}
+
+.closeButton:hover {
+    background: var(--border);
+    color: var(--accent);
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.item:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.itemName {
+    font-size: 1.1rem;
+    color: var(--color-glow);
+    font-weight: 500;
+}
+
+.copyButton {
+    display: flex;
+    width: 5rem;
+    height: 2rem;
+}
+
+.checkIcon {
+    color: var(--owned);
+}
+
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    padding: 2rem;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+.modalHeader h3 {
+    margin: 0;
+    color: var(--accent);
+}
+
+.modalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.modalInput,
+.modalTextarea {
+    color: var(--mastered);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+}
+
+.modalInput,
+.modalTextarea {
+    padding: 0.75rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--color-glow);
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.modalInput:focus,
+.modalTextarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 5px var(--accent-glow);
+}
+
+.modalTextarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.submitButton {
+    padding: 0.8rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+    background: var(--color-glow);
+}
+
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

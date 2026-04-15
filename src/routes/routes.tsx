@@ -8,6 +8,7 @@ import { Settings } from "@/pages/Settings";
 import { Acknowledgments } from "@/pages/Settings/popups/Acknowledgments";
 import { Profile } from "@/pages/Profile";
 import { Keybinds } from "@/pages/Settings/popups/Keybinds";
+import { MusicSaver } from "@/pages/MusicSaver";
 
 export const ROUTES: RouteObject[] = [
     {
@@ -20,6 +21,10 @@ export const ROUTES: RouteObject[] = [
             {
                 path: PATHS.Tasks,
                 element: <TaskTracker />,
+            },
+            {
+                path: PATHS.Music,
+                element: <MusicSaver />,
             },
             {
                 path: PATHS.Settings,

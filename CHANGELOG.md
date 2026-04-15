@@ -7,11 +7,13 @@ All notable changes to this project will be logged here
 ### Features
 
 - ✨ add customizable keybinds
+- ✨ add a Shawzin song saver
 
 ### Dev Notes
 
 - ✏️ made settings page more scalable
 - ✏️ move to action based keybinds
+- ✏️ move to modern relative path setting removing baseUrl from `tsconfig.json`
 
 ## 1.2.0
 

@@ -8,13 +8,14 @@ pub mod commands;
 pub mod database;
 pub mod models;
 
-use crate::commands::{ licenses, mastery_tracker, task_tracker };
+use crate::commands::{ licenses, mastery_tracker, saved_songs, task_tracker };
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder
         ::default()
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
+        .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(
             tauri::generate_handler![
@@ -27,6 +28,11 @@ pub fn run() {
                 mastery_tracker::get_mastery_stats::get_mastery_stats,
                 mastery_tracker::set_component::set_component,
                 mastery_tracker::set_mastery::set_mastery,
+
+                // Saved Songs Commands
+                saved_songs::get_song_details::get_song_details,
+                saved_songs::get_song_names::get_song_names,
+                saved_songs::set_song::set_song,
 
                 //Task Tracker Commands
                 task_tracker::get_tasks::get_tasks,

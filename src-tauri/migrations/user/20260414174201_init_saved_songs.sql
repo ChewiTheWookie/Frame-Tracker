@@ -1,0 +1,5 @@
+CREATE TABLE saved_songs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    string TEXT NOT NULL
+);
