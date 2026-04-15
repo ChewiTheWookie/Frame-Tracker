@@ -1,19 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-    Plus,
-    User,
-    X,
-    Check,
-    MoreVertical,
-    Edit2,
-    Trash2,
-} from "lucide-react";
+import { Plus, User, Check, MoreVertical, Edit2, Trash2 } from "lucide-react";
 import { profileService } from "@/api/profiles";
 import { Throbber } from "@/components/ui/Throbber";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { CardButton } from "@/components/ui/CardButton";
 
 import styles from "./Profile.module.css";
+import { Modal } from "@/components/ui/Modal";
+import { ConfirmModal } from "@/components/ui/ConfirmModal";
 
 export const Profile: React.FC = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -201,130 +195,61 @@ export const Profile: React.FC = () => {
                 <ScrollToTop targetRef={scrollRef} />
             </div>
 
-            {isCreateOpen && (
-                <div
-                    className={styles.modalOverlay}
-                    onClick={() => setIsCreateOpen(false)}
-                >
-                    <div
-                        className={styles.modalContent}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className={styles.modalHeader}>
-                            <h3>New Profile</h3>
-                            <button
-                                className={styles.closeButton}
-                                onClick={() => setIsCreateOpen(false)}
-                            >
-                                <X size={20} />
-                            </button>
-                        </div>
-                        <form
-                            onSubmit={handleCreate}
-                            className={styles.modalForm}
-                        >
-                            <div className={styles.inputGroup}>
-                                <label>Profile Name</label>
-                                <input
-                                    autoFocus
-                                    value={newProfileName}
-                                    onChange={(e) =>
-                                        setNewProfileName(e.target.value)
-                                    }
-                                    className={styles.modalInput}
-                                    placeholder="Enter name..."
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className={styles.submitButton}
-                            >
-                                Create Profile
-                            </button>
-                        </form>
+            <Modal
+                isOpen={isCreateOpen}
+                onClose={() => setIsCreateOpen(false)}
+                title="New Profile"
+            >
+                <form onSubmit={handleCreate} className={styles.modalForm}>
+                    <div className={styles.inputGroup}>
+                        <label>Profile Name</label>
+                        <input
+                            autoFocus
+                            value={newProfileName}
+                            onChange={(e) => setNewProfileName(e.target.value)}
+                            className={styles.modalInput}
+                            placeholder="Enter name..."
+                        />
                     </div>
-                </div>
-            )}
+                    <button type="submit" className={styles.submitButton}>
+                        Create Profile
+                    </button>
+                </form>
+            </Modal>
 
-            {isEditOpen && (
-                <div
-                    className={styles.modalOverlay}
-                    onClick={() => setIsEditOpen(false)}
-                >
-                    <div
-                        className={styles.modalContent}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className={styles.modalHeader}>
-                            <h3>Rename "{targetProfile}"</h3>
-                            <button
-                                className={styles.closeButton}
-                                onClick={() => setIsEditOpen(false)}
-                            >
-                                <X size={20} />
-                            </button>
-                        </div>
-                        <form
-                            onSubmit={handleRename}
-                            className={styles.modalForm}
-                        >
-                            <div className={styles.inputGroup}>
-                                <label>New Name</label>
-                                <input
-                                    autoFocus
-                                    value={editName}
-                                    onChange={(e) =>
-                                        setEditName(e.target.value)
-                                    }
-                                    className={styles.modalInput}
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className={styles.submitButton}
-                            >
-                                Save Changes
-                            </button>
-                        </form>
+            <Modal
+                isOpen={isEditOpen}
+                onClose={() => setIsEditOpen(false)}
+                title="Rename Profile"
+            >
+                <form onSubmit={handleRename} className={styles.modalForm}>
+                    <div className={styles.inputGroup}>
+                        <label>New Name</label>
+                        <input
+                            autoFocus
+                            value={editName}
+                            onChange={(e) => setEditName(e.target.value)}
+                            className={styles.modalInput}
+                        />
                     </div>
-                </div>
-            )}
+                    <button type="submit" className={styles.submitButton}>
+                        Save Changes
+                    </button>
+                </form>
+            </Modal>
 
-            {isDeleteOpen && (
-                <div
-                    className={styles.modalOverlay}
-                    onClick={() => setIsDeleteOpen(false)}
-                >
-                    <div
-                        className={styles.modalContent}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className={styles.modalHeader}>
-                            <h3>Delete Profile</h3>
-                            <button
-                                className={styles.closeButton}
-                                onClick={() => setIsDeleteOpen(false)}
-                            >
-                                <X size={20} />
-                            </button>
-                        </div>
-                        <p>
-                            Are you sure you want to delete{" "}
-                            <strong>{targetProfile}</strong>? This action cannot
-                            be undone.
-                        </p>
-                        <div className={styles.modalForm}>
-                            <button
-                                onClick={handleDelete}
-                                className={styles.submitButton}
-                                style={{ background: "var(--error, #ef4444)" }}
-                            >
-                                Delete Permanently
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <ConfirmModal
+                isOpen={isDeleteOpen}
+                onClose={() => setIsDeleteOpen(false)}
+                onConfirm={handleDelete}
+                title="Delete Profile"
+                message={
+                    <>
+                        Are you sure you want to delete{" "}
+                        <strong>{targetProfile}</strong>?
+                    </>
+                }
+            />
         </>
     );
 };

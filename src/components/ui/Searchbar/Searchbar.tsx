@@ -11,9 +11,10 @@ export function Searchbar() {
 
     const activeCategory = useStore((s) => s.activeCategory);
     const search = useStore((s) => s.searchQuery);
-    const setSearch = useStore((s) => s.setSearch);
     const filters = useStore((s) => s.filters);
-    const setFilters = useStore((s) => s.setFilters);
+
+    const setSearch = useStore((s) => s.actions.setSearch);
+    const setFilters = useStore((s) => s.actions.setFilters);
 
     const [isOpen, setIsOpen] = useState(false);
     const [localValue, setLocalValue] = useState(search);
@@ -34,7 +35,7 @@ export function Searchbar() {
             if (localValue !== search) {
                 setSearch(localValue);
             }
-        }, 200);
+        }, 175);
         return () => clearTimeout(timer);
     }, [localValue, setSearch, search]);
 
@@ -58,11 +59,7 @@ export function Searchbar() {
     };
 
     const handleFilterWindow = () => {
-        if (!isOpen) {
-            setIsOpen(true);
-        } else {
-            setIsOpen(false);
-        }
+        setIsOpen((prev) => !prev);
     };
 
     const handleEscape = () => {
@@ -92,7 +89,7 @@ export function Searchbar() {
 
             <button
                 className={`${styles.filterButton} ${isOpen ? styles.active : ""}`}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={handleFilterWindow}
             >
                 <SlidersHorizontal
                     size={18}

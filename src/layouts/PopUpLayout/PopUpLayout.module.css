@@ -1,3 +1,14 @@
+.blurContainer {
+    position: fixed;
+    inset: 0;
+    background: var(--blur);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 199;
+}
+
 .pageContainer {
     position: fixed;
     inset: 2.5% auto auto 2.5%;

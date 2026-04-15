@@ -1,21 +1,14 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import { invoke } from "@tauri-apps/api/core";
-import { MasteryCategory } from "@/types/categories";
-import { MasteryFilterState } from "@/types/filters";
-import { Item } from "@/types/items";
+import { masteryService, type MasteryStats } from "@/api/mastery";
+import { type MasteryCategory } from "@/types/categories";
+import { type MasteryFilterState } from "@/types/filters";
+import { type Item } from "@/types/items";
 import { shouldHide } from "@/utils/shouldHideObject";
 import {
     calculateComponentQuantity,
     calculateMasteryToggle,
 } from "@/utils/itemLogic";
-
-export interface MasteryStats {
-    current: number;
-    total: number;
-    helminthCurrent: number;
-    helminthTotal: number;
-}
 
 interface MasteryState {
     items: Record<string, Item>;
@@ -24,30 +17,28 @@ interface MasteryState {
     isLoading: boolean;
     isFetchingMore: boolean;
     error: string | null;
-
     page: number;
     hasMore: boolean;
-    loadMore: () => Promise<void>;
-
     activeCategory: MasteryCategory;
-    setCategory: (category: MasteryCategory) => void;
-
     searchQuery: string;
-    setSearch: (query: string) => void;
-
     filters: MasteryFilterState;
-    setFilters: (filters: MasteryFilterState) => void;
 
-    fetchItems: (silent?: boolean) => Promise<void>;
-    updateComponentQuantity: (
-        itemId: string,
-        componentName: string,
-        quantity: number,
-    ) => Promise<void>;
-    toggleMastery: (
-        itemId: string,
-        field: "mastered" | "owned" | "helminthed",
-    ) => Promise<void>;
+    actions: {
+        setCategory: (category: MasteryCategory) => void;
+        setSearch: (query: string) => void;
+        setFilters: (filters: MasteryFilterState) => void;
+        loadMore: () => Promise<void>;
+        fetchItems: (silent?: boolean) => Promise<void>;
+        updateComponentQuantity: (
+            itemId: string,
+            componentName: string,
+            quantity: number,
+        ) => Promise<void>;
+        toggleMastery: (
+            itemId: string,
+            field: "mastered" | "owned" | "helminthed",
+        ) => Promise<void>;
+    };
 }
 
 const TOTAL_VISIBLE = 50;
@@ -79,153 +70,162 @@ export const useMasteryStore = create<MasteryState>((set, get) => ({
     isFetchingMore: false,
     error: null,
 
-    setCategory: (category) => {
-        if (get().activeCategory === category) return;
-        set({
-            ...getDefaultResultState(),
-            activeCategory: category,
-            searchQuery: "",
-            isLoading: true,
-        });
-        get().fetchItems();
-    },
+    actions: {
+        setCategory: (category) => {
+            if (get().activeCategory === category) return;
+            set({
+                ...getDefaultResultState(),
+                activeCategory: category,
+                searchQuery: "",
+                isLoading: true,
+            });
+            get().actions.fetchItems();
+        },
 
-    setSearch: (query) => {
-        set({ ...getDefaultResultState(), searchQuery: query });
-        get().fetchItems(true);
-    },
+        setSearch: (query) => {
+            set({ ...getDefaultResultState(), searchQuery: query });
+            get().actions.fetchItems(true);
+        },
 
-    setFilters: (newFilters) => {
-        set({ ...getDefaultResultState(), filters: newFilters });
-        get().fetchItems(true);
-    },
+        setFilters: (newFilters) => {
+            set({ ...getDefaultResultState(), filters: newFilters });
+            get().actions.fetchItems(true);
+        },
 
-    loadMore: async () => {
-        const { isLoading, isFetchingMore, hasMore, page, itemIds } = get();
-        if (isLoading || isFetchingMore || !hasMore || itemIds.length === 0)
-            return;
+        loadMore: async () => {
+            const { isLoading, isFetchingMore, hasMore, page, itemIds } = get();
+            if (isLoading || isFetchingMore || !hasMore || itemIds.length === 0)
+                return;
 
-        set({ isFetchingMore: true, page: page + 1 });
-        await get().fetchItems(true);
-        set({ isFetchingMore: false });
-    },
+            set({ isFetchingMore: true, page: page + 1 });
+            await get().actions.fetchItems(true);
+            set({ isFetchingMore: false });
+        },
 
-    fetchItems: async (silent = false) => {
-        fetchVersion++;
-        const currentVersion = fetchVersion;
-        const { searchQuery, activeCategory, filters, page } = get();
+        fetchItems: async (silent = false) => {
+            fetchVersion++;
+            const currentVersion = fetchVersion;
+            const { searchQuery, activeCategory, filters, page } = get();
 
-        if (!silent) set({ isLoading: true, error: null });
+            if (!silent) set({ isLoading: true, error: null });
 
-        try {
-            const [itemsArray, stats] = await Promise.all([
-                invoke<Item[]>("get_items", {
-                    category: activeCategory,
-                    search: searchQuery,
-                    filters,
-                    limit: TOTAL_VISIBLE,
-                    offset: page * TOTAL_VISIBLE,
-                }),
-                invoke<MasteryStats>("get_mastery_stats", {
-                    category: activeCategory,
-                }),
-            ]);
+            try {
+                const [itemsArray, stats] = await Promise.all([
+                    masteryService.getItems(
+                        activeCategory,
+                        searchQuery,
+                        filters,
+                        TOTAL_VISIBLE,
+                        page * TOTAL_VISIBLE,
+                    ),
+                    masteryService.getMasteryStats(activeCategory),
+                ]);
 
-            if (currentVersion !== fetchVersion) return;
+                if (currentVersion !== fetchVersion) return;
 
-            set((state) => {
-                const newItemsMap = { ...state.items };
-                const newItemIds = page === 0 ? [] : [...state.itemIds];
+                set((state) => {
+                    const newItemsMap = { ...state.items };
+                    const newItemIds = page === 0 ? [] : [...state.itemIds];
 
-                itemsArray.forEach((item) => {
-                    newItemsMap[item.id] = item;
-                    if (!newItemIds.includes(item.id)) {
-                        newItemIds.push(item.id);
-                    }
+                    itemsArray.forEach((item) => {
+                        newItemsMap[item.id] = item;
+                        if (!newItemIds.includes(item.id)) {
+                            newItemIds.push(item.id);
+                        }
+                    });
+
+                    return {
+                        items: newItemsMap,
+                        itemIds: newItemIds,
+                        stats,
+                        isLoading: false,
+                        hasMore: itemsArray.length === TOTAL_VISIBLE,
+                    };
                 });
-
-                return {
-                    items: newItemsMap,
-                    itemIds: newItemIds,
-                    stats,
-                    isLoading: false,
-                    hasMore: itemsArray.length === TOTAL_VISIBLE,
-                };
-            });
-        } catch (err) {
-            if (currentVersion === fetchVersion) {
-                set({ error: String(err), isLoading: false });
+            } catch (err) {
+                if (currentVersion === fetchVersion) {
+                    set({ error: String(err), isLoading: false });
+                }
             }
-        }
-    },
+        },
 
-    updateComponentQuantity: async (itemId, componentName, quantity) => {
-        const item = get().items[itemId];
-        if (!item) return;
+        updateComponentQuantity: async (itemId, componentName, quantity) => {
+            const item = get().items[itemId];
+            if (!item) return;
 
-        const previousState = { items: get().items, itemIds: get().itemIds };
+            const previousState = {
+                items: get().items,
+                itemIds: get().itemIds,
+            };
 
-        const updatedItem = calculateComponentQuantity(
-            item,
-            componentName,
-            quantity,
-        );
-        const needsRemoval = shouldHide(updatedItem, get().filters);
-
-        set((state) => ({
-            items: { ...state.items, [itemId]: updatedItem },
-            itemIds: needsRemoval
-                ? state.itemIds.filter((id) => id !== itemId)
-                : state.itemIds,
-        }));
-
-        try {
-            await invoke("set_component", {
-                itemId,
+            const updatedItem = calculateComponentQuantity(
+                item,
                 componentName,
-                quantity: updatedItem.components.find(
+                quantity,
+            );
+            const needsRemoval = shouldHide(updatedItem, get().filters);
+
+            set((state) => ({
+                items: { ...state.items, [itemId]: updatedItem },
+                itemIds: needsRemoval
+                    ? state.itemIds.filter((id) => id !== itemId)
+                    : state.itemIds,
+            }));
+
+            try {
+                const component = updatedItem.components.find(
                     (c) => c.componentName === componentName,
-                )!.ownedQuantity,
-            });
-        } catch (err) {
-            console.error("Component update failed, rolling back", err);
-            set(previousState);
-        }
-    },
+                );
+                await masteryService.setComponent(
+                    itemId,
+                    componentName,
+                    component!.ownedQuantity,
+                );
+            } catch (err) {
+                console.error("Component update failed, rolling back", err);
+                set(previousState);
+            }
+        },
 
-    toggleMastery: async (itemId, field) => {
-        const item = get().items[itemId];
-        if (!item) return;
+        toggleMastery: async (itemId, field) => {
+            const item = get().items[itemId];
+            if (!item) return;
 
-        const previousState = {
-            items: get().items,
-            itemIds: get().itemIds,
-            stats: get().stats,
-        };
+            const previousState = {
+                items: get().items,
+                itemIds: get().itemIds,
+                stats: get().stats,
+            };
 
-        const updatedItem = calculateMasteryToggle(item, field, !item[field]);
-        const needsRemoval = shouldHide(updatedItem, get().filters);
+            const updatedItem = calculateMasteryToggle(
+                item,
+                field,
+                !item[field],
+            );
+            const needsRemoval = shouldHide(updatedItem, get().filters);
 
-        set((state) => ({
-            items: { ...state.items, [itemId]: updatedItem },
-            itemIds: needsRemoval
-                ? state.itemIds.filter((id) => id !== itemId)
-                : state.itemIds,
-        }));
+            set((state) => ({
+                items: { ...state.items, [itemId]: updatedItem },
+                itemIds: needsRemoval
+                    ? state.itemIds.filter((id) => id !== itemId)
+                    : state.itemIds,
+            }));
 
-        try {
-            await invoke("set_mastery", { itemId, field });
-
-            const finalStats = await invoke<MasteryStats>("get_mastery_stats", {
-                category: get().activeCategory,
-            });
-            set({ stats: finalStats });
-        } catch (err) {
-            console.error("Mastery update failed, rolling back", err);
-            set(previousState);
-        }
+            try {
+                await masteryService.setMastery(itemId, field);
+                const finalStats = await masteryService.getMasteryStats(
+                    get().activeCategory,
+                );
+                set({ stats: finalStats });
+            } catch (err) {
+                console.error("Mastery update failed, rolling back", err);
+                set(previousState);
+            }
+        },
     },
 }));
+
+export const useMasteryActions = () => useMasteryStore((s) => s.actions);
 
 export const useMasteryItemIds = () =>
     useMasteryStore(useShallow((state) => state.itemIds));
@@ -236,4 +236,4 @@ export const useItemById = (id: string) =>
 export const useMasteryStats = () =>
     useMasteryStore(useShallow((state) => state.stats));
 
-useMasteryStore.getState().fetchItems();
+useMasteryStore.getState().actions.fetchItems();

@@ -21,8 +21,10 @@ pub mod profiles {
 }
 
 pub mod saved_songs {
+    pub mod delete_song;
     pub mod get_song_details;
     pub mod get_song_names;
+    pub mod set_song_name;
     pub mod set_song;
 }
 

@@ -1,0 +1,35 @@
+import { invoke } from "@tauri-apps/api/core";
+import { Task } from "@/types/tasks";
+import { TaskCategory } from "@/types/categories";
+import { TaskFilterState } from "@/types/filters";
+
+export interface TaskStats {
+    current: number;
+    total: number;
+}
+
+export const taskService = {
+    getTasks: (
+        category: TaskCategory,
+        search: string,
+        filters: TaskFilterState,
+        limit: number,
+        offset: number,
+    ): Promise<Task[]> =>
+        invoke<Task[]>("get_tasks", {
+            category,
+            search,
+            filters,
+            limit,
+            offset,
+        }),
+
+    getTaskStats: (category: TaskCategory): Promise<TaskStats> =>
+        invoke<TaskStats>("get_task_stats", { category }),
+
+    setFavorite: (id: string, isFavorite: boolean): Promise<void> =>
+        invoke("set_favorite", { id, isFavorite }),
+
+    setTask: (id: string, count: number): Promise<Task> =>
+        invoke<Task>("set_task", { id, count }),
+};

@@ -24,3 +24,19 @@ pub async fn fetch_song_string(pool: &SqlitePool, name: &str) -> Result<Option<S
 
     Ok(song_string)
 }
+
+pub async fn rename_song(pool: &SqlitePool, old_name: &str, new_name: &str) -> Result<()> {
+    sqlx
+        ::query("UPDATE saved_songs SET name = ? WHERE name = ?")
+        .bind(new_name)
+        .bind(old_name)
+        .execute(pool).await?;
+
+    Ok(())
+}
+
+pub async fn delete_song(pool: &SqlitePool, name: &str) -> Result<()> {
+    sqlx::query("DELETE FROM saved_songs WHERE name = ?").bind(name).execute(pool).await?;
+
+    Ok(())
+}

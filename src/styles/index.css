@@ -2,7 +2,10 @@
     interpolate-size: allow-keywords;
     font-family: "Segoe UI", sans-serif;
 
+    --error: rgb(239, 68, 68);
+
     --bg: rgb(12, 11, 19);
+    --blur: rgba(0, 0, 0, 0.8);
     --color: rgb(187, 187, 187);
     --color-glow: rgb(255, 255, 255);
     --border: rgba(255, 255, 255, 0.1);

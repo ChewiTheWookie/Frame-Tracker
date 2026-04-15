@@ -40,8 +40,10 @@ pub fn run() {
                 profiles::switch_profile::switch_profile,
 
                 // Saved Songs Commands
+                saved_songs::delete_song::delete_song,
                 saved_songs::get_song_details::get_song_details,
                 saved_songs::get_song_names::get_song_names,
+                saved_songs::set_song_name::set_song_name,
                 saved_songs::set_song::set_song,
 
                 //Task Tracker Commands

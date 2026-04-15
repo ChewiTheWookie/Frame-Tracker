@@ -11,17 +11,19 @@ export function PopUpLayout() {
     const metadata = ROUTE_METADATA[pathname];
 
     return (
-        <div className={styles.pageContainer}>
-            <header className={styles.header}>
-                <h1 className={styles.title}>{metadata.label}</h1>
-                <button
-                    className={styles.closeBtn}
-                    onClick={() => navigate(-1)}
-                >
-                    <X size={20} className={styles.closeIcon} />
-                </button>
-            </header>
-            <Outlet />
+        <div className={styles.blurContainer}>
+            <div className={styles.pageContainer}>
+                <header className={styles.header}>
+                    <h1 className={styles.title}>{metadata.label}</h1>
+                    <button
+                        className={styles.closeBtn}
+                        onClick={() => navigate(-1)}
+                    >
+                        <X size={20} className={styles.closeIcon} />
+                    </button>
+                </header>
+                <Outlet />
+            </div>
         </div>
     );
 }

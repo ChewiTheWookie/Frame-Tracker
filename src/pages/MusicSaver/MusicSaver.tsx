@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Copy, Plus, X } from "lucide-react";
+import { Copy, Plus, MoreVertical, Edit2, Trash2 } from "lucide-react";
 import {
     useSavedSongStore,
     useSongNames,
@@ -9,19 +9,28 @@ import {
 import { Throbber } from "@/components/ui/Throbber";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
+import { CardButton } from "@/components/ui/CardButton";
 
 import styles from "./MusicSaver.module.css";
-import { CardButton } from "@/components/ui/CardButton";
+import { Modal } from "@/components/ui/Modal";
+import { ConfirmModal } from "@/components/ui/ConfirmModal";
 
 export function MusicSaver() {
     const scrollRef = useRef<HTMLDivElement>(null);
-    const { fetchSongNames, addSong } = useSongActions();
+    const { fetchSongNames, addSong, renameSong, deleteSong } =
+        useSongActions();
     const isLoading = useSavedSongStore((s) => s.isLoading);
     const songNames = useSongNames();
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAddOpen, setIsAddOpen] = useState(false);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [menuOpenFor, setMenuOpenFor] = useState<string | null>(null);
+
+    const [targetSong, setTargetSong] = useState("");
     const [newName, setNewName] = useState("");
     const [newString, setNewString] = useState("");
+    const [editName, setEditName] = useState("");
 
     useEffect(() => {
         fetchSongNames();
@@ -30,11 +39,25 @@ export function MusicSaver() {
     const handleAdd = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newName.trim() || !newString.trim()) return;
-
         await addSong(newName, newString);
         setNewName("");
         setNewString("");
-        setIsModalOpen(false);
+        setIsAddOpen(false);
+    };
+
+    const handleRename = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editName.trim() || editName === targetSong) {
+            setIsEditOpen(false);
+            return;
+        }
+        await renameSong(targetSong, editName.trim());
+        setIsEditOpen(false);
+    };
+
+    const handleDelete = async () => {
+        await deleteSong(targetSong);
+        setIsDeleteOpen(false);
     };
 
     return (
@@ -43,102 +66,131 @@ export function MusicSaver() {
                 <h2 className={styles.title}>Songs</h2>
                 <button
                     className={styles.openModalBtn}
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => setIsAddOpen(true)}
                 >
-                    <Plus className={styles.addIcon} size={24} />
+                    <Plus size={24} className={styles.addIcon} />
                 </button>
             </header>
-
-            <div className={styles.scrollContainer} ref={scrollRef}>
+            <div
+                className={styles.scrollContainer}
+                ref={scrollRef}
+                onClick={() => setMenuOpenFor(null)}
+            >
                 {isLoading && songNames.length === 0 ? (
                     <Throbber label="Loading..." />
                 ) : (
                     <div className={styles.list}>
                         {songNames.map((name) => (
-                            <SongItem key={name} name={name} />
+                            <SongItem
+                                key={name}
+                                name={name}
+                                isMenuOpen={menuOpenFor === name}
+                                onMenuToggle={(e) => {
+                                    e.stopPropagation();
+                                    setMenuOpenFor(
+                                        menuOpenFor === name ? null : name,
+                                    );
+                                }}
+                                onEditOpen={() => {
+                                    setTargetSong(name);
+                                    setEditName(name);
+                                    setIsEditOpen(true);
+                                }}
+                                onDeleteOpen={() => {
+                                    setTargetSong(name);
+                                    setIsDeleteOpen(true);
+                                }}
+                            />
                         ))}
                     </div>
                 )}
                 <ScrollToTop targetRef={scrollRef} />
             </div>
 
-            {isModalOpen && (
-                <div
-                    className={styles.modalOverlay}
-                    onClick={() => setIsModalOpen(false)}
-                >
-                    <div
-                        className={styles.modalContent}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className={styles.modalHeader}>
-                            <h3>Add New Song</h3>
-                            <button
-                                className={styles.closeButton}
-                                onClick={() => setIsModalOpen(false)}
-                            >
-                                <X size={20} />
-                            </button>
-                        </div>
+            <Modal
+                isOpen={isAddOpen}
+                onClose={() => setIsAddOpen(false)}
+                title="Add New Song"
+            >
+                <form onSubmit={handleAdd} className={styles.modalForm}>
+                    <input
+                        autoFocus
+                        value={newName}
+                        onChange={(e) => setNewName(e.target.value)}
+                        placeholder="Song Title"
+                        className={styles.modalInput}
+                    />
+                    <textarea
+                        value={newString}
+                        onChange={(e) => setNewString(e.target.value)}
+                        placeholder="Paste code here..."
+                        className={styles.modalTextarea}
+                    />
+                    <button type="submit" className={styles.submitButton}>
+                        Save Song
+                    </button>
+                </form>
+            </Modal>
+            <Modal
+                isOpen={isEditOpen}
+                onClose={() => setIsEditOpen(false)}
+                title={`Rename ${targetSong}`}
+            >
+                <form onSubmit={handleRename} className={styles.modalForm}>
+                    <input
+                        autoFocus
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className={styles.modalInput}
+                    />
+                    <button type="submit" className={styles.submitButton}>
+                        Save Changes
+                    </button>
+                </form>
+            </Modal>
 
-                        <form onSubmit={handleAdd} className={styles.modalForm}>
-                            <div className={styles.inputGroup}>
-                                <label>Name</label>
-                                <input
-                                    autoFocus
-                                    type="text"
-                                    value={newName}
-                                    onChange={(e) => setNewName(e.target.value)}
-                                    placeholder="Song Title"
-                                    className={styles.modalInput}
-                                />
-                            </div>
-                            <div className={styles.inputGroup}>
-                                <label>Song String</label>
-                                <textarea
-                                    value={newString}
-                                    onChange={(e) =>
-                                        setNewString(e.target.value)
-                                    }
-                                    placeholder="Paste code here..."
-                                    className={styles.modalTextarea}
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className={styles.submitButton}
-                                disabled={isLoading}
-                            >
-                                {isLoading ? <Throbber /> : "Save Song"}
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            )}
+            <ConfirmModal
+                isOpen={isDeleteOpen}
+                onClose={() => setIsDeleteOpen(false)}
+                onConfirm={handleDelete}
+                title="Delete Profile"
+                message={
+                    <>
+                        Are you sure you want to delete{" "}
+                        <strong>{targetSong}</strong>?
+                    </>
+                }
+            />
         </>
     );
 }
 
-function SongItem({ name }: { name: string }) {
+interface SongItemProps {
+    name: string;
+    isMenuOpen: boolean;
+    onMenuToggle: (e: React.MouseEvent) => void;
+    onEditOpen: () => void;
+    onDeleteOpen: () => void;
+}
+
+function SongItem({
+    name,
+    isMenuOpen,
+    onMenuToggle,
+    onEditOpen,
+    onDeleteOpen,
+}: SongItemProps) {
     const { fetchSongDetails } = useSongActions();
     const songString = useSongDetail(name);
     const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
-        try {
-            if (!songString) {
-                await fetchSongDetails(name);
-            }
-
-            const currentString = useSavedSongStore.getState().songCache[name];
-
-            if (currentString) {
-                await writeText(currentString);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-            }
-        } catch (err) {
-            console.error("Failed to copy:", err);
+        if (!songString) await fetchSongDetails(name);
+        const currentString = useSavedSongStore.getState().songCache[name];
+        if (currentString) {
+            await writeText(currentString);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
         }
     };
 
@@ -146,18 +198,43 @@ function SongItem({ name }: { name: string }) {
         <div className={styles.item}>
             <span className={styles.itemName}>{name}</span>
 
-            <span className={styles.copyButton}>
-                <CardButton
-                    isActive={copied}
-                    onClick={handleCopy}
-                    label={
-                        <>
-                            <Copy size={10} /> Copy
-                        </>
-                    }
-                    activeLabel="Copied"
-                />
-            </span>
+            <div className={styles.rightActions}>
+                <span className={styles.activeButton}>
+                    <CardButton
+                        isActive={copied}
+                        onClick={handleCopy}
+                        label={
+                            <>
+                                <Copy size={10} /> Copy
+                            </>
+                        }
+                        activeLabel="Copied"
+                    />
+                </span>
+
+                <div className={styles.menuContainer}>
+                    <button
+                        className={styles.iconButton}
+                        onClick={onMenuToggle}
+                    >
+                        <MoreVertical size={16} />
+                    </button>
+
+                    {isMenuOpen && (
+                        <div className={styles.dropdownMenu}>
+                            <button onClick={onEditOpen}>
+                                <Edit2 size={12} /> Rename
+                            </button>
+                            <button
+                                className={styles.deleteAction}
+                                onClick={onDeleteOpen}
+                            >
+                                <Trash2 size={12} /> Delete
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
