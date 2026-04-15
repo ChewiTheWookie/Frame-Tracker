@@ -7,6 +7,8 @@ export interface ProfileService {
     switch: (name: string) => Promise<void>;
     onSwitch: (callback: (name: string) => void) => Promise<UnlistenFn>;
     getCurrent: () => Promise<string>;
+    rename: (oldName: string, newName: string) => Promise<void>;
+    delete: (name: string) => Promise<void>;
 }
 
 export const profileService: ProfileService = {
@@ -20,4 +22,7 @@ export const profileService: ProfileService = {
         );
     },
     getCurrent: () => invoke("get_current_profile"),
+    rename: (oldName, newName) =>
+        invoke("set_profile_name", { oldName, newName }),
+    delete: (name) => invoke("delete_profile", { name }),
 };

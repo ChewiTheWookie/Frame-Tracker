@@ -33,8 +33,10 @@ pub fn run() {
 
                 // Profile Commands
                 profiles::create_profile::create_profile,
+                profiles::delete_profile::delete_profile,
                 profiles::get_current_profile::get_current_profile,
                 profiles::get_profile_list::get_profile_list,
+                profiles::set_profile_name::set_profile_name,
                 profiles::switch_profile::switch_profile,
 
                 // Saved Songs Commands

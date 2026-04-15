@@ -145,12 +145,7 @@
 .modalTextarea {
     color: var(--mastered);
     font-size: 0.85rem;
-    text-transform: uppercase;
     letter-spacing: 0.05rem;
-}
-
-.modalInput,
-.modalTextarea {
     padding: 0.75rem;
     background: var(--card-bg);
     border: 1px solid var(--border);
@@ -189,4 +184,87 @@
 .submitButton:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.iconButton {
+    height: 2rem;
+    width: 2rem;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.iconButton:hover {
+    background: #334155;
+    color: white;
+}
+
+.dropdownMenu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    padding: 4px;
+    z-index: 50;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    min-width: 120px;
+}
+
+.dropdownMenu button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 4px;
+}
+
+.dropdownMenu button:hover {
+    background: #334155;
+    color: white;
+}
+
+.dropdownMenu .deleteAction:hover {
+    background: #7f1d1d;
+    color: #fca5a5;
+}
+
+.dropdownMenu button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.rightActions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.menuContainer {
+    position: relative;
+}
+
+.userIcon {
+    margin-right: 8px;
+    opacity: 0.6;
+}
+
+.activeButton {
+    display: flex;
+    width: 5rem;
+    height: 2rem;
 }

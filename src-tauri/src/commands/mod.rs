@@ -13,8 +13,10 @@ pub mod mastery_tracker {
 
 pub mod profiles {
     pub mod create_profile;
+    pub mod delete_profile;
     pub mod get_current_profile;
     pub mod get_profile_list;
+    pub mod set_profile_name;
     pub mod switch_profile;
 }
 
