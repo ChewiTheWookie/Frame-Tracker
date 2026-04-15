@@ -1,20 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/routes/paths";
+import { ListLayoutContext } from "@/layouts/ListLayout/ListLayout";
 import { Plus, User, Check, MoreVertical, Edit2, Trash2 } from "lucide-react";
 import { profileService } from "@/api/profiles";
 import { Throbber } from "@/components/ui/Throbber";
-import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { CardButton } from "@/components/ui/CardButton";
-
-import styles from "./Profile.module.css";
 import { Modal } from "@/components/ui/Modal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 
+import styles from "./Profile.module.css";
+
 export const Profile: React.FC = () => {
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
+    const { setHeaderAction } = useOutletContext<ListLayoutContext>();
+
     const [profiles, setProfiles] = useState<string[]>([]);
     const [currentProfile, setCurrentProfile] = useState("Default");
     const [isLoading, setIsLoading] = useState(false);
-
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -23,6 +27,18 @@ export const Profile: React.FC = () => {
     const [newProfileName, setNewProfileName] = useState("");
     const [targetProfile, setTargetProfile] = useState("");
     const [editName, setEditName] = useState("");
+
+    useEffect(() => {
+        setHeaderAction(
+            <button
+                className={styles.openModalBtn}
+                onClick={() => setIsCreateOpen(true)}
+            >
+                <Plus size={24} className={styles.addIcon} />
+            </button>,
+        );
+        return () => setHeaderAction(null);
+    }, [setHeaderAction]);
 
     useEffect(() => {
         let unlistenFn: (() => void) | undefined;
@@ -92,108 +108,90 @@ export const Profile: React.FC = () => {
 
     return (
         <>
-            <header className={styles.header}>
-                <h2 className={styles.title}>Profiles</h2>
-                <button
-                    className={styles.openModalBtn}
-                    onClick={() => setIsCreateOpen(true)}
-                >
-                    <Plus className={styles.addIcon} size={24} />
-                </button>
-            </header>
+            {isLoading && profiles.length === 0 ? (
+                <Throbber label="Loading profiles..." />
+            ) : (
+                <div className={styles.list}>
+                    {profiles.map((name) => (
+                        <div key={name} className={styles.item}>
+                            <span className={styles.itemName}>
+                                <User size={14} className={styles.userIcon} />
+                                {name}
+                            </span>
 
-            <div
-                className={styles.scrollContainer}
-                ref={scrollRef}
-                onClick={() => setMenuOpenFor(null)}
-            >
-                {isLoading && profiles.length === 0 ? (
-                    <Throbber label="Loading profiles..." />
-                ) : (
-                    <div className={styles.list}>
-                        {profiles.map((name) => (
-                            <div key={name} className={styles.item}>
-                                <span className={styles.itemName}>
-                                    <User
-                                        size={14}
-                                        className={styles.userIcon}
+                            <div className={styles.rightActions}>
+                                <span className={styles.activeButton}>
+                                    <CardButton
+                                        isActive={currentProfile === name}
+                                        onClick={async () => {
+                                            try {
+                                                await profileService.switch(
+                                                    name,
+                                                );
+                                                navigate(PATHS.Mastery);
+                                            } catch (err) {
+                                                console.error(
+                                                    "Failed to switch profile:",
+                                                    err,
+                                                );
+                                            }
+                                        }}
+                                        label="Switch"
+                                        activeLabel={
+                                            <>
+                                                <Check size={10} /> Active
+                                            </>
+                                        }
                                     />
-                                    {name}
                                 </span>
 
-                                <div className={styles.rightActions}>
-                                    <span className={styles.activeButton}>
-                                        <CardButton
-                                            isActive={currentProfile === name}
-                                            onClick={() =>
-                                                profileService
-                                                    .switch(name)
-                                                    .then(() =>
-                                                        window.location.reload(),
-                                                    )
-                                            }
-                                            label="Switch"
-                                            activeLabel={
-                                                <>
-                                                    <Check size={10} /> Active
-                                                </>
-                                            }
-                                        />
-                                    </span>
+                                <div className={styles.menuContainer}>
+                                    <button
+                                        className={styles.iconButton}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setMenuOpenFor(
+                                                menuOpenFor === name
+                                                    ? null
+                                                    : name,
+                                            );
+                                        }}
+                                    >
+                                        <MoreVertical size={16} />
+                                    </button>
 
-                                    <div className={styles.menuContainer}>
-                                        <button
-                                            className={styles.iconButton}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setMenuOpenFor(
-                                                    menuOpenFor === name
-                                                        ? null
-                                                        : name,
-                                                );
-                                            }}
-                                        >
-                                            <MoreVertical size={16} />
-                                        </button>
-
-                                        {menuOpenFor === name && (
-                                            <div
-                                                className={styles.dropdownMenu}
+                                    {menuOpenFor === name && (
+                                        <div className={styles.dropdownMenu}>
+                                            <button
+                                                onClick={() => {
+                                                    setTargetProfile(name);
+                                                    setEditName(name);
+                                                    setIsEditOpen(true);
+                                                }}
                                             >
-                                                <button
-                                                    onClick={() => {
-                                                        setTargetProfile(name);
-                                                        setEditName(name);
-                                                        setIsEditOpen(true);
-                                                    }}
-                                                >
-                                                    <Edit2 size={12} /> Rename
-                                                </button>
-                                                <button
-                                                    className={
-                                                        styles.deleteAction
-                                                    }
-                                                    disabled={
-                                                        name === "Default" ||
-                                                        name === currentProfile
-                                                    }
-                                                    onClick={() => {
-                                                        setTargetProfile(name);
-                                                        setIsDeleteOpen(true);
-                                                    }}
-                                                >
-                                                    <Trash2 size={12} /> Delete
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
+                                                <Edit2 size={12} /> Rename
+                                            </button>
+                                            <button
+                                                className={styles.deleteAction}
+                                                disabled={
+                                                    name === "Default" ||
+                                                    name === currentProfile
+                                                }
+                                                onClick={() => {
+                                                    setTargetProfile(name);
+                                                    setIsDeleteOpen(true);
+                                                }}
+                                            >
+                                                <Trash2 size={12} /> Delete
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                )}
-                <ScrollToTop targetRef={scrollRef} />
-            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             <Modal
                 isOpen={isCreateOpen}

@@ -13,3 +13,8 @@ export interface Task {
     icon: string | null;
     favorite: number;
 }
+
+export interface TaskStats {
+    current: number;
+    total: number;
+}

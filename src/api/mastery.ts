@@ -1,14 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
-import { Item } from "@/types/items";
+import { Item, MasteryStats } from "@/types/items";
 import { MasteryCategory } from "@/types/categories";
 import { MasteryFilterState } from "@/types/filters";
-
-export interface MasteryStats {
-    current: number;
-    total: number;
-    helminthCurrent: number;
-    helminthTotal: number;
-}
 
 export const masteryService = {
     getItems: (

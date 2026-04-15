@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import { taskService, type TaskStats } from "@/api/tasks";
+import { taskService } from "@/api/tasks";
 import { TaskCategory } from "@/types/categories";
 import { TaskFilterState } from "@/types/filters";
-import { Task } from "@/types/tasks";
+import { Task, TaskStats } from "@/types/tasks";
 import { shouldHide } from "@/utils/shouldHideObject";
 import {
     calculateTaskToggleFavorite,

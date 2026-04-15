@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
-import { masteryService, type MasteryStats } from "@/api/mastery";
+import { masteryService } from "@/api/mastery";
 import { type MasteryCategory } from "@/types/categories";
 import { type MasteryFilterState } from "@/types/filters";
-import { type Item } from "@/types/items";
+import { MasteryStats, type Item } from "@/types/items";
 import { shouldHide } from "@/utils/shouldHideObject";
 import {
     calculateComponentQuantity,

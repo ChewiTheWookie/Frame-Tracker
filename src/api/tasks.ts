@@ -1,12 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
-import { Task } from "@/types/tasks";
+import { Task, TaskStats } from "@/types/tasks";
 import { TaskCategory } from "@/types/categories";
 import { TaskFilterState } from "@/types/filters";
-
-export interface TaskStats {
-    current: number;
-    total: number;
-}
 
 export const taskService = {
     getTasks: (

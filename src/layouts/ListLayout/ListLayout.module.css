@@ -1,0 +1,27 @@
+.profile {
+    margin: 0 1rem 1rem 1rem;
+}
+
+.contentContainer {
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+
+    align-items: center;
+
+    border-bottom: 1px solid var(--accent);
+    margin-bottom: 0.75rem;
+}
+
+.actionSlot {
+    margin-left: auto;
+}
+
+.scrollContainer {
+    width: 98%;
+    margin: 0 1% 0 1%;
+}

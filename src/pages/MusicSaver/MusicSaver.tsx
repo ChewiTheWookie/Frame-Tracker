@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import { ListLayoutContext } from "@/layouts/ListLayout/ListLayout";
 import { Copy, Plus, MoreVertical, Edit2, Trash2 } from "lucide-react";
 import {
     useSavedSongStore,
@@ -7,7 +9,6 @@ import {
     useSongActions,
 } from "@/stores/useSavedSongStore";
 import { Throbber } from "@/components/ui/Throbber";
-import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { CardButton } from "@/components/ui/CardButton";
 
@@ -16,7 +17,7 @@ import { Modal } from "@/components/ui/Modal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 
 export function MusicSaver() {
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const { setHeaderAction } = useOutletContext<ListLayoutContext>();
     const { fetchSongNames, addSong, renameSong, deleteSong } =
         useSongActions();
     const isLoading = useSavedSongStore((s) => s.isLoading);
@@ -31,6 +32,18 @@ export function MusicSaver() {
     const [newName, setNewName] = useState("");
     const [newString, setNewString] = useState("");
     const [editName, setEditName] = useState("");
+
+    useEffect(() => {
+        setHeaderAction(
+            <button
+                className={styles.openModalBtn}
+                onClick={() => setIsAddOpen(true)}
+            >
+                <Plus size={24} className={styles.addIcon} />
+            </button>,
+        );
+        return () => setHeaderAction(null);
+    }, [setHeaderAction]);
 
     useEffect(() => {
         fetchSongNames();
@@ -62,50 +75,34 @@ export function MusicSaver() {
 
     return (
         <>
-            <header className={styles.header}>
-                <h2 className={styles.title}>Songs</h2>
-                <button
-                    className={styles.openModalBtn}
-                    onClick={() => setIsAddOpen(true)}
-                >
-                    <Plus size={24} className={styles.addIcon} />
-                </button>
-            </header>
-            <div
-                className={styles.scrollContainer}
-                ref={scrollRef}
-                onClick={() => setMenuOpenFor(null)}
-            >
-                {isLoading && songNames.length === 0 ? (
-                    <Throbber label="Loading..." />
-                ) : (
-                    <div className={styles.list}>
-                        {songNames.map((name) => (
-                            <SongItem
-                                key={name}
-                                name={name}
-                                isMenuOpen={menuOpenFor === name}
-                                onMenuToggle={(e) => {
-                                    e.stopPropagation();
-                                    setMenuOpenFor(
-                                        menuOpenFor === name ? null : name,
-                                    );
-                                }}
-                                onEditOpen={() => {
-                                    setTargetSong(name);
-                                    setEditName(name);
-                                    setIsEditOpen(true);
-                                }}
-                                onDeleteOpen={() => {
-                                    setTargetSong(name);
-                                    setIsDeleteOpen(true);
-                                }}
-                            />
-                        ))}
-                    </div>
-                )}
-                <ScrollToTop targetRef={scrollRef} />
-            </div>
+            {isLoading && songNames.length === 0 ? (
+                <Throbber label="Loading..." />
+            ) : (
+                <div className={styles.list}>
+                    {songNames.map((name) => (
+                        <SongItem
+                            key={name}
+                            name={name}
+                            isMenuOpen={menuOpenFor === name}
+                            onMenuToggle={(e) => {
+                                e.stopPropagation();
+                                setMenuOpenFor(
+                                    menuOpenFor === name ? null : name,
+                                );
+                            }}
+                            onEditOpen={() => {
+                                setTargetSong(name);
+                                setEditName(name);
+                                setIsEditOpen(true);
+                            }}
+                            onDeleteOpen={() => {
+                                setTargetSong(name);
+                                setIsDeleteOpen(true);
+                            }}
+                        />
+                    ))}
+                </div>
+            )}
 
             <Modal
                 isOpen={isAddOpen}

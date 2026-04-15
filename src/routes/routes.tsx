@@ -9,6 +9,7 @@ import { Acknowledgments } from "@/pages/Settings/popups/Acknowledgments";
 import { Profile } from "@/pages/Profile";
 import { Keybinds } from "@/pages/Settings/popups/Keybinds";
 import { MusicSaver } from "@/pages/MusicSaver";
+import { ListLayout } from "@/layouts/ListLayout";
 
 export const ROUTES: RouteObject[] = [
     {
@@ -23,9 +24,15 @@ export const ROUTES: RouteObject[] = [
                 element: <TaskTracker />,
             },
             {
-                path: PATHS.Music,
-                element: <MusicSaver />,
+                element: <ListLayout />,
+                children: [
+                    {
+                        path: PATHS.Music,
+                        element: <MusicSaver />,
+                    },
+                ],
             },
+
             {
                 path: PATHS.Settings,
                 element: <Settings />,
@@ -45,6 +52,11 @@ export const ROUTES: RouteObject[] = [
                     },
                 ],
             },
+        ],
+    },
+    {
+        element: <ListLayout />,
+        children: [
             {
                 path: PATHS.Profile,
                 element: <Profile />,

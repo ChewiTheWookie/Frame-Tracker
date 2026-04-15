@@ -21,11 +21,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 }) => (
     <Modal isOpen={isOpen} onClose={onClose} title={title}>
         <p>{message}</p>
-        <button
-            onClick={onConfirm}
-            className={styles.submitButton}
-            style={{ background: "var(--error)" }}
-        >
+        <button onClick={onConfirm} className={styles.submitButton}>
             {confirmLabel}
         </button>
     </Modal>

@@ -57,7 +57,7 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
         statLabel: "Completed",
     },
     [PATHS.Music]: {
-        label: "Task Tracker",
+        label: "Shawzin Saver",
         icon: Guitar,
 
         showInNav: true,

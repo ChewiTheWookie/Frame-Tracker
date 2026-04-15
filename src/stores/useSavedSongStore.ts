@@ -9,7 +9,7 @@ interface SongState {
     error: string | null;
 
     actions: {
-        fetchSongNames: () => Promise<void>;
+        fetchSongNames: (force?: boolean) => Promise<void>;
         fetchSongDetails: (name: string) => Promise<void>;
         addSong: (name: string, songString: string) => Promise<void>;
         renameSong: (oldName: string, newName: string) => Promise<void>;
@@ -24,9 +24,10 @@ export const useSavedSongStore = create<SongState>((set, get) => ({
     error: null,
 
     actions: {
-        fetchSongNames: async () => {
+        fetchSongNames: async (force = false) => {
             const { songNames, isLoading } = get();
-            if (songNames.length > 0 || isLoading) return;
+
+            if (!force && (songNames.length > 0 || isLoading)) return;
 
             set({ isLoading: true, error: null });
             try {
