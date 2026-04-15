@@ -1,7 +1,7 @@
 export const PATHS = {
-    Mastery: "/",
+    Mastery: "/mastery",
     Tasks: "/tasks",
-    Profile: "/profile",
+    Profile: "/",
     Music: "/music",
 
     Settings: "/settings",
