@@ -8,7 +8,7 @@ pub async fn switch_profile(
     handle: tauri::AppHandle,
     user_db: tauri::State<'_, UserDb>
 ) -> Result<(), String> {
-    let new_path = get_profile_db_path(&handle, &new_profile_name);
+    let new_path = get_profile_db_path(&handle, Some(&new_profile_name));
 
     let new_pool = create_user_pool(&handle, new_path).await;
 

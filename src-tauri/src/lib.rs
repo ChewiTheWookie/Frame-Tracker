@@ -57,7 +57,7 @@ pub fn run() {
             let handle = app.handle().clone();
 
             tauri::async_runtime::block_on(async move {
-                let default_path = database::db::get_profile_db_path(&handle, "Default");
+                let default_path = database::db::get_profile_db_path(&handle, None);
 
                 let user_pool = database::db::create_user_pool(&handle, default_path).await;
                 let license_pool = database::db::init_license_db(&handle).await;

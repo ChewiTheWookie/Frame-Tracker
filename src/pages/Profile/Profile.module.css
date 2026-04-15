@@ -126,7 +126,7 @@
     width: 2rem;
     background: transparent;
     border: none;
-    color: #94a3b8;
+    color: var(--color);
     cursor: pointer;
     padding: 4px;
     display: flex;
@@ -136,16 +136,17 @@
 }
 
 .iconButton:hover {
-    background: #334155;
-    color: white;
+    background: var(--accent);
+    color: var(--bg);
 }
 
 .dropdownMenu {
     position: absolute;
     right: 0;
     top: 100%;
-    background: #1e293b;
-    border: 1px solid #334155;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(10px);
     border-radius: 6px;
     padding: 4px;
     z-index: 50;
@@ -158,7 +159,7 @@
     text-align: left;
     background: transparent;
     border: none;
-    color: #cbd5e1;
+    color: var(--color);
     padding: 8px 12px;
     font-size: 0.8rem;
     cursor: pointer;
@@ -169,13 +170,13 @@
 }
 
 .dropdownMenu button:hover {
-    background: #334155;
-    color: white;
+    background: var(--accent);
+    color: var(--bg);
 }
 
 .dropdownMenu .deleteAction:hover {
-    background: #7f1d1d;
-    color: #fca5a5;
+    background: var(--error);
+    color: var(--bg);
 }
 
 .dropdownMenu button:disabled {

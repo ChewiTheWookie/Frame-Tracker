@@ -6,7 +6,7 @@ pub async fn create_profile(name: String, handle: tauri::AppHandle) -> Result<()
         return Err("Invalid profile name".into());
     }
 
-    let path = get_profile_db_path(&handle, &name);
+    let path = get_profile_db_path(&handle, Some(&name));
     if path.exists() {
         return Err("Profile already exists".into());
     }
