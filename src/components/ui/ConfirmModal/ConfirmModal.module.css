@@ -1,0 +1,20 @@
+.submitButton {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--error);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.submitButton:hover {
+    background: var(--error);
+}
+
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

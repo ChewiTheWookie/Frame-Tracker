@@ -1,7 +1,7 @@
-use sqlx::{ Pool, Sqlite };
-use crate::models::database::task::Task;
 use crate::models::database::filters::TaskFilters;
 use crate::models::database::stats::TaskStats;
+use crate::models::database::task::Task;
+use sqlx::{ Pool, Sqlite };
 
 pub async fn get_stats(pool: &Pool<Sqlite>, category: &str) -> Result<TaskStats, sqlx::Error> {
     let row = sqlx
@@ -18,7 +18,10 @@ pub async fn get_stats(pool: &Pool<Sqlite>, category: &str) -> Result<TaskStats,
         .bind(category)
         .fetch_one(pool).await?;
 
-    Ok(TaskStats { current: row.1, total: row.0 })
+    Ok(TaskStats {
+        current: row.1,
+        total: row.0,
+    })
 }
 
 pub async fn find_all(

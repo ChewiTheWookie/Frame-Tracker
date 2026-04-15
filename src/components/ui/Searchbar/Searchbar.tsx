@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { getFilterDefinitions } from "@/types/filters";
-import { useKeybind } from "@/hooks/useKeybinds";
+import { useActionKeybind } from "@/hooks/useKeybinds";
 import { useActiveStore } from "@/hooks/useActiveStore";
 
 import styles from "./Searchbar.module.css";
@@ -11,9 +11,10 @@ export function Searchbar() {
 
     const activeCategory = useStore((s) => s.activeCategory);
     const search = useStore((s) => s.searchQuery);
-    const setSearch = useStore((s) => s.setSearch);
     const filters = useStore((s) => s.filters);
-    const setFilters = useStore((s) => s.setFilters);
+
+    const setSearch = useStore((s) => s.actions.setSearch);
+    const setFilters = useStore((s) => s.actions.setFilters);
 
     const [isOpen, setIsOpen] = useState(false);
     const [localValue, setLocalValue] = useState(search);
@@ -34,7 +35,7 @@ export function Searchbar() {
             if (localValue !== search) {
                 setSearch(localValue);
             }
-        }, 200);
+        }, 175);
         return () => clearTimeout(timer);
     }, [localValue, setSearch, search]);
 
@@ -57,12 +58,8 @@ export function Searchbar() {
         requestAnimationFrame(() => inputRef.current?.select());
     };
 
-    const handleOpenFilter = () => {
-        if (!isOpen) {
-            setIsOpen(true);
-        } else {
-            setIsOpen(false);
-        }
+    const handleFilterWindow = () => {
+        setIsOpen((prev) => !prev);
     };
 
     const handleEscape = () => {
@@ -75,10 +72,9 @@ export function Searchbar() {
         }
     };
 
-    useKeybind("/", handleFocusSearch);
-    useKeybind("f", handleFocusSearch, { ctrl: true });
-    useKeybind("f", handleOpenFilter, { ctrl: true, shift: true });
-    useKeybind("Escape", handleEscape);
+    useActionKeybind("FOCUS_SEARCH", handleFocusSearch);
+    useActionKeybind("CLEAR_SEARCH", handleEscape);
+    useActionKeybind("TOGGLE_FILTERS_WINDOW", handleFilterWindow);
 
     return (
         <div className={styles.searchContainer} ref={containerRef}>
@@ -93,7 +89,7 @@ export function Searchbar() {
 
             <button
                 className={`${styles.filterButton} ${isOpen ? styles.active : ""}`}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={handleFilterWindow}
             >
                 <SlidersHorizontal
                     size={18}

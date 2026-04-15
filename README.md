@@ -12,6 +12,10 @@ Third-party companion app for Warframe built in Tauri with React, TypeScript and
 
 Here is what Frame Tracker can do:
 
+### Profiles
+
+- **Profile Switching**: Keep track of your progress on multiple different warframe accounts with the Profiles feature
+
 ### Mastery Tracking
 
 - **Track Parts**: Remember what components you have for each weapon
@@ -23,13 +27,13 @@ Here is what Frame Tracker can do:
 - **Filtering & Search**: Filter and search through all tasks you have done to easily see what else you can do to advance you acount to help prevent being time gated
 - **Favorites**: Mark tasks as favorite to see them at the top of the list when you load the app
 
+### Shawzin Song Saver
+
+- **Song**: Save your shawzin song strings with the song saver
+
 ## Keybinds
 
-- `/` or `Ctrl + F`: Auto focus searchbar
-- `Esc`: Clear searchbar
-- `Ctrl + Shift + f`: Open/close Searchbar filters
-- `Tab`: Cycle between pages
-- `Ctrl + Tab`: Cycle to next category tab
+- Customizable keybinds! Just visit the settings → keybinds
 
 ## Licensing & Acknowledgments
 

@@ -5,8 +5,11 @@ import { PopUpLayout } from "@/layouts/PopUpLayout";
 import { MasteryTracker } from "@/pages/MasteryTracker";
 import { TaskTracker } from "@/pages/TaskTracker";
 import { Settings } from "@/pages/Settings";
-import { Acknowledgments } from "@/pages/Acknowledgments";
+import { Acknowledgments } from "@/pages/Settings/popups/Acknowledgments";
 import { Profile } from "@/pages/Profile";
+import { Keybinds } from "@/pages/Settings/popups/Keybinds";
+import { MusicSaver } from "@/pages/MusicSaver";
+import { ListLayout } from "@/layouts/ListLayout";
 
 export const ROUTES: RouteObject[] = [
     {
@@ -21,6 +24,16 @@ export const ROUTES: RouteObject[] = [
                 element: <TaskTracker />,
             },
             {
+                element: <ListLayout />,
+                children: [
+                    {
+                        path: PATHS.Music,
+                        element: <MusicSaver />,
+                    },
+                ],
+            },
+
+            {
                 path: PATHS.Settings,
                 element: <Settings />,
                 children: [
@@ -31,18 +44,22 @@ export const ROUTES: RouteObject[] = [
                                 path: PATHS.Acknowledgments,
                                 element: <Acknowledgments />,
                             },
+                            {
+                                path: PATHS.Keybinds,
+                                element: <Keybinds />,
+                            },
                         ],
                     },
                 ],
             },
+        ],
+    },
+    {
+        element: <ListLayout />,
+        children: [
             {
-                element: <PopUpLayout />,
-                children: [
-                    {
-                        path: PATHS.Profile,
-                        element: <Profile />,
-                    },
-                ],
+                path: PATHS.Profile,
+                element: <Profile />,
             },
         ],
     },

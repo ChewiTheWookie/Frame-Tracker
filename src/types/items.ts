@@ -16,3 +16,10 @@ export interface Item {
     imgPath: string;
     components: ItemComponent[];
 }
+
+export interface MasteryStats {
+    current: number;
+    total: number;
+    helminthCurrent: number;
+    helminthTotal: number;
+}

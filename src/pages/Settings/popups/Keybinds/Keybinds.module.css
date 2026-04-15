@@ -1,0 +1,25 @@
+.scrollContainer {
+    width: 98%;
+    margin: 0 auto;
+
+    flex: 1;
+    scroll-behavior: smooth;
+    overflow-y: auto;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.section {
+    width: 98%;
+    margin: 0 auto;
+}
+
+.title {
+    margin: 0 0 0.5rem 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--accent);
+
+    color: var(--accent);
+}

@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { MapPin, Monitor, RefreshCw, ScrollText, Star } from "lucide-react";
 import { useTaskTimer } from "@/hooks/useTaskTimer";
-import { useTaskStore, useTaskById } from "@/stores/useTaskStore";
+import { useTaskById, useTaskActions } from "@/stores/useTaskStore";
 import { Card } from "@/components/ui/Card";
 import { CardButton } from "@/components/ui/CardButton";
 
@@ -13,8 +13,7 @@ interface Props {
 
 function InternalTaskCard({ taskId }: Props) {
     const task = useTaskById(taskId);
-    const setTask = useTaskStore((s) => s.setTask);
-    const toggleFavorite = useTaskStore((s) => s.toggleFavorite);
+    const { setTask, toggleFavorite } = useTaskActions();
 
     const countdown = useTaskTimer(task);
 

@@ -2,7 +2,7 @@ import { memo, useMemo } from "react";
 import { ItemComponent } from "@/types/items";
 import { Card } from "@/components/ui/Card";
 import { CardButton } from "@/components/ui/CardButton";
-import { useItemById, useMasteryStore } from "@/stores/useMasteryStore";
+import { useItemById, useMasteryActions } from "@/stores/useMasteryStore";
 
 import styles from "./MasteryCard.module.css";
 import { Dna, DnaOff } from "lucide-react";
@@ -16,10 +16,8 @@ const WARFRAME_CDN = "https://cdn.warframestat.us/img/";
 
 function InternalMasteryCard({ itemId }: Props) {
     const item = useItemById(itemId);
-    const toggleMastery = useMasteryStore((s) => s.toggleMastery);
-    const updateComponentQuantity = useMasteryStore(
-        (s) => s.updateComponentQuantity,
-    );
+
+    const { toggleMastery, updateComponentQuantity } = useMasteryActions();
 
     const { completedStyle, isCompleted } = useMemo(() => {
         if (!item) return { completedStyle: "unowned", isCompleted: false };
@@ -111,17 +109,13 @@ function InternalMasteryCard({ itemId }: Props) {
                         <div className={styles.componentRowControls}>
                             <button
                                 className={styles.componentButton}
-                                onClick={() => {
-                                    adjustQuantity(comp, -1);
-                                }}
+                                onClick={() => adjustQuantity(comp, -1)}
                             >
                                 -
                             </button>
                             <button
                                 className={styles.componentButton}
-                                onClick={() => {
-                                    adjustQuantity(comp, 1);
-                                }}
+                                onClick={() => adjustQuantity(comp, 1)}
                             >
                                 +
                             </button>

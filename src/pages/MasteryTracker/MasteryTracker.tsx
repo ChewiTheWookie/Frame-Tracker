@@ -1,5 +1,9 @@
 import { useRef } from "react";
-import { useMasteryStore, useMasteryItemIds } from "@/stores/useMasteryStore";
+import {
+    useMasteryStore,
+    useMasteryItemIds,
+    useMasteryActions,
+} from "@/stores/useMasteryStore";
 import { CardGrid } from "@/components/modules/CardGrid";
 import { MasteryCard } from "@/components/modules/MasteryCard";
 import { Throbber } from "@/components/ui/Throbber";
@@ -8,8 +12,9 @@ import { InfoContainer } from "@/components/ui/InfoContainer";
 
 export function MasteryTracker() {
     const itemIds = useMasteryItemIds();
+    const { loadMore } = useMasteryActions();
+
     const isLoading = useMasteryStore((s) => s.isLoading);
-    const loadMore = useMasteryStore((s) => s.loadMore);
     const hasMore = useMasteryStore((s) => s.hasMore);
     const error = useMasteryStore((s) => s.error);
 

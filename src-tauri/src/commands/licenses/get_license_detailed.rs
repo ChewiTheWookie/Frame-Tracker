@@ -1,6 +1,6 @@
-use tauri::State;
 use crate::database::db::LicenseDb;
 use crate::models::database::license::LicenseDetails;
+use tauri::State;
 
 #[tauri::command]
 pub async fn get_license_detailed(

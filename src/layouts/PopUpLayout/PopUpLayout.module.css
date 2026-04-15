@@ -1,3 +1,14 @@
+.blurContainer {
+    position: fixed;
+    inset: 0;
+    background: var(--blur);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 199;
+}
+
 .pageContainer {
     position: fixed;
     inset: 2.5% auto auto 2.5%;
@@ -20,13 +31,16 @@
 .header {
     display: flex;
     position: sticky;
+
+    margin-bottom: 0.5rem;
+
+    border-bottom: 1px solid var(--border);
 }
 
 .title {
     font-size: 1.5rem;
-    margin: 0;
-    margin-top: 1.5rem;
-    padding-bottom: 1rem;
+    margin: 1.5rem 0 0 0;
+    padding-bottom: 0.5rem;
     width: fit-content;
 }
 

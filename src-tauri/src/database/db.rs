@@ -1,6 +1,10 @@
-use sqlx::{ sqlite::SqlitePoolOptions, Pool, Sqlite, migrate };
-use tauri::{ AppHandle, Manager, path::BaseDirectory };
+use sqlx::migrate;
+use sqlx::{ sqlite::SqlitePoolOptions, Pool, Sqlite };
 use std::fs;
+use std::path::{ Path, PathBuf };
+use std::sync::Arc;
+use tokio::sync::Mutex;
+use tauri::{ path::BaseDirectory, AppHandle, Manager };
 use crate::api::client::ApiClient;
 use crate::api::requests::fetch_wiki_items::fetch_wiki_items;
 use crate::database::services::{
@@ -8,14 +12,39 @@ use crate::database::services::{
     migration_services::run_relational_migration,
 };
 
-pub struct UserDb(pub Pool<Sqlite>);
+pub struct UserDb(pub Arc<Mutex<Pool<Sqlite>>>);
 pub struct LicenseDb(pub Pool<Sqlite>);
 
-pub async fn init_user_db(handle: &AppHandle) -> Pool<Sqlite> {
-    let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
-    fs::create_dir_all(&app_dir).unwrap();
+fn migrate_legacy_db(app_dir: &Path) {
+    let legacy_db_path = app_dir.join("user_profile.db");
+    let default_profile_dir = app_dir.join("profiles").join("Default");
+    let new_db_path = default_profile_dir.join("user_profile.db");
 
-    let db_path = app_dir.join("user_profile.db"); //TODO fix file name when profiles are setup
+    if legacy_db_path.exists() && !new_db_path.exists() {
+        if let Err(e) = fs::create_dir_all(&default_profile_dir) {
+            eprintln!("Migration: Failed to create Default directory: {}", e);
+            return;
+        }
+
+        if let Err(e) = fs::rename(&legacy_db_path, &new_db_path) {
+            eprintln!("Migration: Failed to move legacy database: {}", e);
+        } else {
+            println!("Migration: Successfully moved legacy database to profiles/Default");
+        }
+    }
+}
+
+pub fn get_profile_db_path(handle: &AppHandle, profile_name: &str) -> PathBuf {
+    let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
+
+    migrate_legacy_db(&app_dir);
+
+    let profile_dir = app_dir.join("profiles").join(profile_name);
+    fs::create_dir_all(&profile_dir).expect("Failed to create profile directory");
+    profile_dir.join("user_profile.db")
+}
+
+pub async fn create_user_pool(handle: &AppHandle, db_path: PathBuf) -> Pool<Sqlite> {
     let db_url = format!("sqlite:{}?mode=rwc", db_path.to_string_lossy()).replace("\\", "/");
 
     let pool = SqlitePoolOptions::new()
@@ -60,10 +89,8 @@ pub async fn init_license_db(handle: &AppHandle) -> Pool<Sqlite> {
     let path_str = resource_path.to_string_lossy().replace("\\\\?\\", "");
     let db_url = sqlx::sqlite::SqliteConnectOptions::new().filename(path_str).read_only(true);
 
-    let pool = SqlitePoolOptions::new()
+    SqlitePoolOptions::new()
         .max_connections(2)
         .connect_with(db_url).await
-        .expect("Failed to connect to License DB");
-
-    pool
+        .expect("Failed to connect to License DB")
 }

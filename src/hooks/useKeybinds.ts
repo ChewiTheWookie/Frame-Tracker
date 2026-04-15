@@ -1,28 +1,18 @@
 import { useEffect, useCallback } from "react";
+import { register, unregister } from "@tauri-apps/plugin-global-shortcut";
+import { useKeybindStore } from "@/stores/useKeybindStore";
+import { KeybindAction } from "@/types/keybinds";
 
-type KeybindOptions = {
-    ctrl?: boolean;
-    shift?: boolean;
-    alt?: boolean;
-    meta?: boolean;
-    preventDefault?: boolean;
-};
-
-export const useKeybind = (
-    targetKey: string,
+export const useActionKeybind = (
+    action: KeybindAction,
     callback: () => void,
-    options: KeybindOptions = {},
 ) => {
-    const {
-        ctrl = false,
-        shift = false,
-        alt = false,
-        meta = false,
-        preventDefault = true,
-    } = options;
+    const config = useKeybindStore((s) => s.mapping[action]);
 
-    const handleKeyDown = useCallback(
+    const handleLocalKeyDown = useCallback(
         (event: KeyboardEvent) => {
+            if (config.isGlobal) return;
+
             const target = event.target as HTMLElement;
             const isInput =
                 target.tagName === "INPUT" ||
@@ -30,43 +20,55 @@ export const useKeybind = (
                 target.isContentEditable;
 
             const isSpecialKey =
-                targetKey.toLowerCase() === "escape" || targetKey === "/";
-
+                config.key.toLowerCase() === "escape" || config.key === "/";
             const hasModifier = event.ctrlKey || event.altKey || event.metaKey;
 
-            if (isInput && !hasModifier && !isSpecialKey) {
-                return;
-            }
+            if (isInput && !hasModifier && !isSpecialKey) return;
 
             const keyMatch =
-                event.key.toLowerCase() === targetKey.toLowerCase();
-
+                event.key.toLowerCase() === config.key.toLowerCase();
             const modifierMatch =
-                event.ctrlKey === ctrl &&
-                event.shiftKey === shift &&
-                event.altKey === alt &&
-                event.metaKey === meta;
+                event.ctrlKey === config.ctrl &&
+                event.shiftKey === config.shift &&
+                event.altKey === config.alt;
 
             if (keyMatch && modifierMatch) {
-                if (preventDefault) {
-                    event.preventDefault();
-                }
-
+                event.preventDefault();
                 event.stopImmediatePropagation();
-
                 callback();
             }
         },
-        [targetKey, callback, ctrl, shift, alt, meta, preventDefault],
+        [config, callback],
     );
 
     useEffect(() => {
-        window.addEventListener("keydown", handleKeyDown, { capture: true });
+        if (config.isGlobal) {
+            const shortcut = [
+                config.ctrl && "Control",
+                config.shift && "Shift",
+                config.alt && "Alt",
+                config.key.toUpperCase(),
+            ]
+                .filter(Boolean)
+                .join("+");
 
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown, {
+            register(shortcut, (event) => {
+                if (event.state === "Pressed") {
+                    callback();
+                }
+            }).catch(console.error);
+
+            return () => {
+                unregister(shortcut).catch(console.error);
+            };
+        } else {
+            window.addEventListener("keydown", handleLocalKeyDown, {
                 capture: true,
             });
-        };
-    }, [handleKeyDown]);
+            return () =>
+                window.removeEventListener("keydown", handleLocalKeyDown, {
+                    capture: true,
+                });
+        }
+    }, [config, callback, handleLocalKeyDown]);
 };

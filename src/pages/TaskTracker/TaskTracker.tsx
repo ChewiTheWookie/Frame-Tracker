@@ -1,15 +1,20 @@
 import { useRef } from "react";
-import { useTaskStore, useTaskIds } from "@/stores/useTaskStore";
 import { CardGrid } from "@/components/modules/CardGrid";
-import { Throbber } from "@/components/ui/Throbber";
 import { TaskCard } from "@/components/modules/TaskCard";
-import { InfoContainer } from "@/components/ui/InfoContainer";
 import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
+import { InfoContainer } from "@/components/ui/InfoContainer";
+import { Throbber } from "@/components/ui/Throbber";
+import {
+    useTaskActions,
+    useTaskIds,
+    useTaskStore,
+} from "@/stores/useTaskStore";
 
 export function TaskTracker() {
     const taskIds = useTaskIds();
+    const { loadMore } = useTaskActions();
+
     const isLoading = useTaskStore((s) => s.isLoading);
-    const loadMore = useTaskStore((s) => s.loadMore);
     const hasMore = useTaskStore((s) => s.hasMore);
     const error = useTaskStore((s) => s.error);
 
@@ -23,19 +28,17 @@ export function TaskTracker() {
             {isLoading && taskIds.length === 0 ? (
                 <Throbber label={"Loading Tasks"} />
             ) : (
-                <>
-                    <CardGrid ref={scrollRef}>
-                        {taskIds.map((id) => (
-                            <TaskCard key={id} taskId={id} />
-                        ))}
-                        <ScrollSentinel
-                            isLoading={isLoading}
-                            hasMore={hasMore}
-                            loadMore={loadMore}
-                            targetRef={scrollRef}
-                        />
-                    </CardGrid>
-                </>
+                <CardGrid ref={scrollRef}>
+                    {taskIds.map((id) => (
+                        <TaskCard key={id} taskId={id} />
+                    ))}
+                    <ScrollSentinel
+                        isLoading={isLoading}
+                        hasMore={hasMore}
+                        loadMore={loadMore}
+                        targetRef={scrollRef}
+                    />
+                </CardGrid>
             )}
         </>
     );

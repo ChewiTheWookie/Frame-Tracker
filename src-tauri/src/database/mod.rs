@@ -1,6 +1,7 @@
 // Dir
 pub mod repositories {
     pub mod mastery_repo;
+    pub mod song_repo;
     pub mod task_repo;
 }
 

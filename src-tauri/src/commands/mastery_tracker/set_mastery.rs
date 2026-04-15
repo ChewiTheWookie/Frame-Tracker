@@ -1,6 +1,6 @@
-use tauri::State;
 use crate::database::db::UserDb;
 use crate::database::repositories::mastery_repo;
+use tauri::State;
 
 #[tauri::command]
 pub async fn set_mastery(
@@ -8,5 +8,9 @@ pub async fn set_mastery(
     item_id: String,
     field: String
 ) -> Result<(), String> {
-    mastery_repo::toggle_mastery_field(&state.0, &item_id, &field).await
+    let pool_guard = state.0.lock().await;
+
+    let _ = mastery_repo::toggle_mastery_field(&*pool_guard, &item_id, &field).await?;
+
+    Ok(())
 }

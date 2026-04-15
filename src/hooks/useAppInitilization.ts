@@ -3,9 +3,14 @@ import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { useMasteryStore } from "@/stores/useMasteryStore";
 import { useTaskStore } from "@/stores/useTaskStore";
 import { useTimeStore } from "@/stores/useTimeStore";
+import { useKeybindStore } from "@/stores/useKeybindStore";
+import { useSavedSongStore } from "@/stores/useSavedSongStore";
 
-export const useAppInitilization = () => {
+export const useAppInitialization = () => {
     const updateTime = useTimeStore((state) => state.updateTime);
+    const mapping = useKeybindStore((s) => s.mapping);
+    const refreshGlobals = useKeybindStore((s) => s.refreshGlobalShortcuts);
+
     const unlisteners = useRef<UnlistenFn[]>([]);
 
     useEffect(() => {
@@ -14,26 +19,88 @@ export const useAppInitilization = () => {
     }, [updateTime]);
 
     useEffect(() => {
+        const globalCallbacks = {};
+        refreshGlobals(globalCallbacks).catch(console.error);
+    }, [mapping, refreshGlobals]);
+
+    useEffect(() => {
         let isMounted = true;
 
         const setupListeners = async () => {
-            const unlistenSync = await listen(
-                "db-initial-sync-complete",
-                () => {
-                    const state = useMasteryStore.getState();
-                    state.fetchItems(state.itemIds.length > 0);
+            const eventSubs = [
+                {
+                    name: "db-initial-sync-complete",
+                    handler: () => {
+                        const state = useMasteryStore.getState();
+                        if ("fetchItems" in state)
+                            (state as any).fetchItems(state.itemIds.length > 0);
+                    },
                 },
-            );
+                {
+                    name: "tasks-reset",
+                    handler: () => {
+                        const state = useTaskStore.getState();
+                        if ("fetchTasks" in state)
+                            (state as any).fetchTasks(true);
+                    },
+                },
+                {
+                    name: "profile-switched",
+                    handler: async () => {
+                        console.log(
+                            "Profile switched: Refreshing Mastery, Tasks, and Songs...",
+                        );
 
-            const unlistenReset = await listen("tasks-reset", () => {
-                useTaskStore.getState().fetchTasks(true);
-            });
+                        useMasteryStore.setState({
+                            page: 0,
+                            items: {},
+                            itemIds: [],
+                        });
+                        useTaskStore.setState({
+                            page: 0,
+                            tasks: {},
+                            taskIds: [],
+                        });
+
+                        useSavedSongStore.setState({
+                            songNames: [],
+                            songCache: {},
+                            isLoading: false,
+                        });
+
+                        const masteryActions =
+                            useMasteryStore.getState().actions;
+                        const taskActions = (useTaskStore.getState() as any)
+                            .actions;
+                        const songActions =
+                            useSavedSongStore.getState().actions;
+
+                        try {
+                            await Promise.all([
+                                masteryActions.fetchItems(true),
+                                taskActions?.fetchTasks?.(true),
+                                songActions.fetchSongNames(true),
+                            ]);
+                        } catch (err) {
+                            console.error(
+                                "Failed to refresh data after profile switch:",
+                                err,
+                            );
+                        }
+                    },
+                },
+            ];
+
+            const settledUnlisteners: UnlistenFn[] = [];
+            for (const sub of eventSubs) {
+                const unlisten = await listen(sub.name, sub.handler);
+                settledUnlisteners.push(unlisten);
+            }
 
             if (isMounted) {
-                unlisteners.current.push(unlistenSync, unlistenReset);
+                unlisteners.current.push(...settledUnlisteners);
             } else {
-                unlistenSync();
-                unlistenReset();
+                settledUnlisteners.forEach((fn) => fn());
             }
         };
 
