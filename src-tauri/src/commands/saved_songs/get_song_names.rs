@@ -4,5 +4,9 @@ use tauri::State;
 
 #[tauri::command]
 pub async fn get_song_names(state: State<'_, UserDb>) -> Result<Vec<String>, String> {
-    song_repo::fetch_song_names(&state.0).await.map_err(|e| e.to_string())
+    let pool_guard = state.0.lock().await;
+
+    let songs = song_repo::fetch_song_names(&*&pool_guard).await.map_err(|e| e.to_string())?;
+
+    Ok(songs)
 }

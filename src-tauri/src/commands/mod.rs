@@ -11,6 +11,13 @@ pub mod mastery_tracker {
     pub mod set_mastery;
 }
 
+pub mod profiles {
+    pub mod create_profile;
+    pub mod get_current_profile;
+    pub mod get_profile_list;
+    pub mod switch_profile;
+}
+
 pub mod saved_songs {
     pub mod get_song_details;
     pub mod get_song_names;

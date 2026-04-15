@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - ✨ add customizable keybinds
 - ✨ add a Shawzin song saver
+- ✨ add profiles
 
 ### Dev Notes
 

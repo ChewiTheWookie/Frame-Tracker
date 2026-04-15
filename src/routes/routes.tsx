@@ -46,13 +46,8 @@ export const ROUTES: RouteObject[] = [
                 ],
             },
             {
-                element: <PopUpLayout />,
-                children: [
-                    {
-                        path: PATHS.Profile,
-                        element: <Profile />,
-                    },
-                ],
+                path: PATHS.Profile,
+                element: <Profile />,
             },
         ],
     },

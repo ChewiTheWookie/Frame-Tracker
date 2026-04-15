@@ -13,7 +13,11 @@ pub async fn get_items(
     limit: i64,
     offset: i64
 ) -> Result<Vec<Item>, String> {
-    mastery_repo
-        ::find_all_items(&state.0, &category, &search, &filters, limit, offset).await
-        .map_err(|e| e.to_string())
+    let pool_guard = state.0.lock().await;
+
+    let items = mastery_repo
+        ::find_all_items(&*pool_guard, &category, &search, &filters, limit, offset).await
+        .map_err(|e| e.to_string())?;
+
+    Ok(items)
 }

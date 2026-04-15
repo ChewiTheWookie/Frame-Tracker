@@ -7,6 +7,12 @@ pub async fn set_song(
     state: State<'_, UserDb>,
     name: String,
     song_string: String
-) -> Result<i64, String> {
-    song_repo::add_song(&state.0, &name, &song_string).await.map_err(|e| e.to_string())
+) -> Result<(), String> {
+    let pool_guard = state.0.lock().await;
+
+    let _ = song_repo
+        ::add_song(&*&pool_guard, &name, &song_string).await
+        .map_err(|e| e.to_string())?;
+
+    Ok(())
 }
