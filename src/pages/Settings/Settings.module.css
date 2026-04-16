@@ -43,7 +43,3 @@
 [class*="card"]:hover .chevron {
     transform: translateX(6px);
 }
-
-[class*="card"]:not(:last-child) {
-    border-bottom: 1px solid rgba(var(--border-rgb), 0.3);
-}

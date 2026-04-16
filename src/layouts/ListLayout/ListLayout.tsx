@@ -29,7 +29,7 @@ export function ListLayout() {
         >
             <header className={styles.header}>
                 <h2 className={styles.title}>{metadata?.label}</h2>
-                <div className={styles.actionSlot}>{headerAction}</div>
+                {headerAction}
             </header>
             <div className={styles.scrollContainer} ref={scrollRef}>
                 <Outlet

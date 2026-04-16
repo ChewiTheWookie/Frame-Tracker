@@ -42,10 +42,10 @@ export function MusicSaver() {
     useEffect(() => {
         setHeaderAction(
             <button
-                className={styles.openModalBtn}
+                className="layoutListHeaderAction"
                 onClick={() => setIsAddOpen(true)}
             >
-                <Plus size={24} className={styles.addIcon} />
+                <Plus size={24} className="layoutListHeaderIcon" />
             </button>,
         );
         return () => setHeaderAction(null);

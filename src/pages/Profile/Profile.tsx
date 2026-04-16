@@ -31,10 +31,10 @@ export const Profile: React.FC = () => {
     useEffect(() => {
         setHeaderAction(
             <button
-                className={styles.openModalBtn}
+                className="layoutListHeaderAction"
                 onClick={() => setIsCreateOpen(true)}
             >
-                <Plus size={24} className={styles.addIcon} />
+                <Plus size={24} className="layoutListHeaderIcon" />
             </button>,
         );
         return () => setHeaderAction(null);
