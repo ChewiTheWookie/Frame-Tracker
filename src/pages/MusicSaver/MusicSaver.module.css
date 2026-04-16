@@ -52,29 +52,6 @@
     cursor: not-allowed;
 }
 
-.item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-    background-color: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-
-.item:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 10px var(--accent-glow);
-}
-
-.itemName {
-    font-size: 1.1rem;
-    color: var(--color-glow);
-    font-weight: 500;
-}
-
 .copyButton {
     display: flex;
     width: 5rem;
@@ -120,10 +97,6 @@
 .modalTextarea {
     min-height: 100px;
     resize: vertical;
-}
-
-.menuContainer {
-    position: relative;
 }
 
 .iconButton {
@@ -187,10 +160,4 @@
 .dropdownMenu button:disabled {
     opacity: 0.3;
     cursor: not-allowed;
-}
-
-.rightActions {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
 }

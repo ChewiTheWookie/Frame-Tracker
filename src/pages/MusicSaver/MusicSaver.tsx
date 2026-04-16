@@ -1,37 +1,43 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { ListLayoutContext } from "@/layouts/ListLayout/ListLayout";
-import { Copy, Plus, MoreVertical, Edit2, Trash2 } from "lucide-react";
+import { Copy, Plus, Edit2, Trash2 } from "lucide-react";
 import {
     useSavedSongStore,
     useSongNames,
-    useSongDetail,
     useSongActions,
 } from "@/stores/useSavedSongStore";
 import { Throbber } from "@/components/ui/Throbber";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { CardButton } from "@/components/ui/CardButton";
-
-import styles from "./MusicSaver.module.css";
 import { Modal } from "@/components/ui/Modal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { ListItem } from "@/components/ui/ListItem";
+
+import styles from "./MusicSaver.module.css";
 
 export function MusicSaver() {
     const { setHeaderAction } = useOutletContext<ListLayoutContext>();
-    const { fetchSongNames, addSong, renameSong, deleteSong } =
-        useSongActions();
+    const {
+        fetchSongNames,
+        addSong,
+        fetchSongDetails,
+        renameSong,
+        deleteSong,
+    } = useSongActions();
     const isLoading = useSavedSongStore((s) => s.isLoading);
     const songNames = useSongNames();
 
     const [isAddOpen, setIsAddOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-    const [menuOpenFor, setMenuOpenFor] = useState<string | null>(null);
 
     const [targetSong, setTargetSong] = useState("");
     const [newName, setNewName] = useState("");
     const [newString, setNewString] = useState("");
     const [editName, setEditName] = useState("");
+
+    const [copiedSong, setCopiedSong] = useState<string | null>(null);
 
     useEffect(() => {
         setHeaderAction(
@@ -58,6 +64,22 @@ export function MusicSaver() {
         setIsAddOpen(false);
     };
 
+    const handleCopy = async (name: string) => {
+        const state = useSavedSongStore.getState();
+        let songData = state.songCache[name];
+
+        if (!songData) {
+            await fetchSongDetails(name);
+            songData = useSavedSongStore.getState().songCache[name];
+        }
+
+        if (songData) {
+            await writeText(songData);
+            setCopiedSong(name);
+            setTimeout(() => setCopiedSong(null), 2000);
+        }
+    };
+
     const handleRename = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editName.trim() || editName === targetSong) {
@@ -80,25 +102,45 @@ export function MusicSaver() {
             ) : (
                 <div className={styles.list}>
                     {songNames.map((name) => (
-                        <SongItem
+                        <ListItem
                             key={name}
-                            name={name}
-                            isMenuOpen={menuOpenFor === name}
-                            onMenuToggle={(e) => {
-                                e.stopPropagation();
-                                setMenuOpenFor(
-                                    menuOpenFor === name ? null : name,
-                                );
-                            }}
-                            onEditOpen={() => {
-                                setTargetSong(name);
-                                setEditName(name);
-                                setIsEditOpen(true);
-                            }}
-                            onDeleteOpen={() => {
-                                setTargetSong(name);
-                                setIsDeleteOpen(true);
-                            }}
+                            title={name}
+                            button={
+                                <CardButton
+                                    isActive={copiedSong === name}
+                                    onClick={() => handleCopy(name)}
+                                    label={
+                                        <>
+                                            <Copy size={10} /> Copy
+                                        </>
+                                    }
+                                    activeLabel="Copied"
+                                    width="5rem"
+                                    height="2rem"
+                                />
+                            }
+                            dropdown={
+                                <div className={styles.dropdownMenu}>
+                                    <button
+                                        onClick={() => {
+                                            setTargetSong(name);
+                                            setEditName(name);
+                                            setIsEditOpen(true);
+                                        }}
+                                    >
+                                        <Edit2 size={12} /> Rename
+                                    </button>
+                                    <button
+                                        className={styles.deleteAction}
+                                        onClick={() => {
+                                            setTargetSong(name);
+                                            setIsDeleteOpen(true);
+                                        }}
+                                    >
+                                        <Trash2 size={12} /> Delete
+                                    </button>
+                                </div>
+                            }
                         />
                     ))}
                 </div>
@@ -159,79 +201,5 @@ export function MusicSaver() {
                 }
             />
         </>
-    );
-}
-
-interface SongItemProps {
-    name: string;
-    isMenuOpen: boolean;
-    onMenuToggle: (e: React.MouseEvent) => void;
-    onEditOpen: () => void;
-    onDeleteOpen: () => void;
-}
-
-function SongItem({
-    name,
-    isMenuOpen,
-    onMenuToggle,
-    onEditOpen,
-    onDeleteOpen,
-}: SongItemProps) {
-    const { fetchSongDetails } = useSongActions();
-    const songString = useSongDetail(name);
-    const [copied, setCopied] = useState(false);
-
-    const handleCopy = async () => {
-        if (!songString) await fetchSongDetails(name);
-        const currentString = useSavedSongStore.getState().songCache[name];
-        if (currentString) {
-            await writeText(currentString);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        }
-    };
-
-    return (
-        <div className={styles.item}>
-            <span className={styles.itemName}>{name}</span>
-
-            <div className={styles.rightActions}>
-                <CardButton
-                    isActive={copied}
-                    onClick={handleCopy}
-                    label={
-                        <>
-                            <Copy size={10} /> Copy
-                        </>
-                    }
-                    activeLabel="Copied"
-                    width="5rem"
-                    height="2rem"
-                />
-
-                <div className={styles.menuContainer}>
-                    <button
-                        className={styles.iconButton}
-                        onClick={onMenuToggle}
-                    >
-                        <MoreVertical size={16} />
-                    </button>
-
-                    {isMenuOpen && (
-                        <div className={styles.dropdownMenu}>
-                            <button onClick={onEditOpen}>
-                                <Edit2 size={12} /> Rename
-                            </button>
-                            <button
-                                className={styles.deleteAction}
-                                onClick={onDeleteOpen}
-                            >
-                                <Trash2 size={12} /> Delete
-                            </button>
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
     );
 }

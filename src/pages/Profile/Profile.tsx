@@ -3,12 +3,13 @@ import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/routes/paths";
 import { ListLayoutContext } from "@/layouts/ListLayout/ListLayout";
-import { Plus, User, Check, MoreVertical, Edit2, Trash2 } from "lucide-react";
+import { Plus, User, Check, Edit2, Trash2 } from "lucide-react";
 import { profileService } from "@/api/profiles";
 import { Throbber } from "@/components/ui/Throbber";
 import { CardButton } from "@/components/ui/CardButton";
 import { Modal } from "@/components/ui/Modal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { ListItem } from "@/components/ui/ListItem";
 
 import styles from "./Profile.module.css";
 
@@ -22,7 +23,6 @@ export const Profile: React.FC = () => {
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-    const [menuOpenFor, setMenuOpenFor] = useState<string | null>(null);
 
     const [newProfileName, setNewProfileName] = useState("");
     const [targetProfile, setTargetProfile] = useState("");
@@ -113,84 +113,62 @@ export const Profile: React.FC = () => {
             ) : (
                 <div className={styles.list}>
                     {profiles.map((name) => (
-                        <div key={name} className={styles.item}>
-                            <span className={styles.itemName}>
+                        <ListItem
+                            icon={
                                 <User size={14} className={styles.userIcon} />
-                                {name}
-                            </span>
-
-                            <div className={styles.rightActions}>
-                                <span className={styles.activeButton}>
-                                    <CardButton
-                                        isActive={currentProfile === name}
-                                        onClick={async () => {
-                                            try {
-                                                await profileService.switch(
-                                                    name,
-                                                );
-                                                navigate(PATHS.Mastery);
-                                            } catch (err) {
-                                                console.error(
-                                                    "Failed to switch profile:",
-                                                    err,
-                                                );
-                                            }
-                                        }}
-                                        label="Switch"
-                                        activeLabel={
-                                            <>
-                                                <Check size={10} /> Active
-                                            </>
-                                        }
-                                        width="5rem"
-                                        height="2rem"
-                                    />
-                                </span>
-
-                                <div className={styles.menuContainer}>
-                                    <button
-                                        className={styles.iconButton}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setMenuOpenFor(
-                                                menuOpenFor === name
-                                                    ? null
-                                                    : name,
+                            }
+                            title={name}
+                            button={
+                                <CardButton
+                                    isActive={currentProfile === name}
+                                    onClick={async () => {
+                                        try {
+                                            await profileService.switch(name);
+                                            navigate(PATHS.Mastery);
+                                        } catch (err) {
+                                            console.error(
+                                                "Failed to switch profile:",
+                                                err,
                                             );
+                                        }
+                                    }}
+                                    label="Switch"
+                                    activeLabel={
+                                        <>
+                                            <Check size={10} /> Active
+                                        </>
+                                    }
+                                    width="5rem"
+                                    height="2rem"
+                                />
+                            }
+                            dropdown={
+                                <div className={styles.dropdownMenu}>
+                                    <button
+                                        onClick={() => {
+                                            setTargetProfile(name);
+                                            setEditName(name);
+                                            setIsEditOpen(true);
                                         }}
                                     >
-                                        <MoreVertical size={16} />
+                                        <Edit2 size={12} /> Rename
                                     </button>
-
-                                    {menuOpenFor === name && (
-                                        <div className={styles.dropdownMenu}>
-                                            <button
-                                                onClick={() => {
-                                                    setTargetProfile(name);
-                                                    setEditName(name);
-                                                    setIsEditOpen(true);
-                                                }}
-                                            >
-                                                <Edit2 size={12} /> Rename
-                                            </button>
-                                            <button
-                                                className={styles.deleteAction}
-                                                disabled={
-                                                    name === "Default" ||
-                                                    name === currentProfile
-                                                }
-                                                onClick={() => {
-                                                    setTargetProfile(name);
-                                                    setIsDeleteOpen(true);
-                                                }}
-                                            >
-                                                <Trash2 size={12} /> Delete
-                                            </button>
-                                        </div>
-                                    )}
+                                    <button
+                                        className={styles.deleteAction}
+                                        disabled={
+                                            name === "Default" ||
+                                            name === currentProfile
+                                        }
+                                        onClick={() => {
+                                            setTargetProfile(name);
+                                            setIsDeleteOpen(true);
+                                        }}
+                                    >
+                                        <Trash2 size={12} /> Delete
+                                    </button>
                                 </div>
-                            </div>
-                        </div>
+                            }
+                        />
                     ))}
                 </div>
             )}
