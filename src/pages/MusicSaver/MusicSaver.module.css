@@ -194,9 +194,3 @@
     gap: 0.5rem;
     align-items: center;
 }
-
-.activeButton {
-    display: flex;
-    width: 5rem;
-    height: 2rem;
-}

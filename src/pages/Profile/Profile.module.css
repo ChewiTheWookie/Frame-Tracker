@@ -198,9 +198,3 @@
     margin-right: 8px;
     opacity: 0.6;
 }
-
-.activeButton {
-    display: flex;
-    width: 5rem;
-    height: 2rem;
-}

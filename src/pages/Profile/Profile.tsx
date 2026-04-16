@@ -142,6 +142,8 @@ export const Profile: React.FC = () => {
                                                 <Check size={10} /> Active
                                             </>
                                         }
+                                        width="5rem"
+                                        height="2rem"
                                     />
                                 </span>
 

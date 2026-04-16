@@ -8,6 +8,8 @@ interface Props {
     isActive?: boolean;
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
     variant?: "default" | "helminth";
+    width?: string;
+    height?: string;
 }
 
 export function CardButton({
@@ -16,6 +18,8 @@ export function CardButton({
     isActive = false,
     onClick = () => {},
     variant = "default",
+    width,
+    height,
 }: Props) {
     const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
@@ -31,6 +35,10 @@ export function CardButton({
                 ${styles[variant]} 
             `}
             onClick={handleClick}
+            style={{
+                width: width,
+                height: height,
+            }}
         >
             {isActive ? (activeLabel ?? label) : label}
         </button>

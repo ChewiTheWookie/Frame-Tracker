@@ -196,18 +196,18 @@ function SongItem({
             <span className={styles.itemName}>{name}</span>
 
             <div className={styles.rightActions}>
-                <span className={styles.activeButton}>
-                    <CardButton
-                        isActive={copied}
-                        onClick={handleCopy}
-                        label={
-                            <>
-                                <Copy size={10} /> Copy
-                            </>
-                        }
-                        activeLabel="Copied"
-                    />
-                </span>
+                <CardButton
+                    isActive={copied}
+                    onClick={handleCopy}
+                    label={
+                        <>
+                            <Copy size={10} /> Copy
+                        </>
+                    }
+                    activeLabel="Copied"
+                    width="5rem"
+                    height="2rem"
+                />
 
                 <div className={styles.menuContainer}>
                     <button
