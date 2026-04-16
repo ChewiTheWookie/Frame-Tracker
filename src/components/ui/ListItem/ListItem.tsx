@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, MouseEvent } from "react";
 
 import styles from "./ListItem.module.css";
 import { MoreVertical } from "lucide-react";
@@ -8,13 +8,20 @@ interface Props {
     title: React.ReactNode;
     button?: React.ReactNode;
     dropdown?: React.ReactNode;
+
+    onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
-export function ListItem({ icon, title, button, dropdown }: Props) {
+export function ListItem({ icon, title, button, dropdown, onClick }: Props) {
     const [dropdownState, setDropdownState] = useState(false);
 
+    const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        onClick?.(e);
+    };
+
     return (
-        <div className={styles.card}>
+        <div className={styles.card} onClick={handleClick}>
             <span className={styles.title}>
                 {icon}
                 {title}

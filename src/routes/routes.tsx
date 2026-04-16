@@ -30,23 +30,22 @@ export const ROUTES: RouteObject[] = [
                         path: PATHS.Music,
                         element: <MusicSaver />,
                     },
-                ],
-            },
-
-            {
-                path: PATHS.Settings,
-                element: <Settings />,
-                children: [
                     {
-                        element: <PopUpLayout />,
+                        path: PATHS.Settings,
+                        element: <Settings />,
                         children: [
                             {
-                                path: PATHS.Acknowledgments,
-                                element: <Acknowledgments />,
-                            },
-                            {
-                                path: PATHS.Keybinds,
-                                element: <Keybinds />,
+                                element: <PopUpLayout />,
+                                children: [
+                                    {
+                                        path: PATHS.Acknowledgments,
+                                        element: <Acknowledgments />,
+                                    },
+                                    {
+                                        path: PATHS.Keybinds,
+                                        element: <Keybinds />,
+                                    },
+                                ],
                             },
                         ],
                     },
