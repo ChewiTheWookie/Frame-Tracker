@@ -4,14 +4,15 @@ import { useKeybindStore } from "@/stores/useKeybindStore";
 import { KeybindAction } from "@/types/keybinds";
 
 export const useActionKeybind = (
-    action: KeybindAction,
+    action: KeybindAction | string,
     callback: () => void,
 ) => {
-    const config = useKeybindStore((s) => s.mapping[action]);
+    const definition = useKeybindStore((s) => s.registry[action]);
+    const config = definition?.config;
 
     const handleLocalKeyDown = useCallback(
         (event: KeyboardEvent) => {
-            if (config.isGlobal) return;
+            if (!config || config.isGlobal) return;
 
             const target = event.target as HTMLElement;
             const isInput =
@@ -42,6 +43,8 @@ export const useActionKeybind = (
     );
 
     useEffect(() => {
+        if (!config) return;
+
         if (config.isGlobal) {
             const shortcut = [
                 config.ctrl && "Control",

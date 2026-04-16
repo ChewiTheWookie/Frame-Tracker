@@ -43,6 +43,7 @@ export function Card({
 
     return (
         <div
+            key={title}
             className={`${styles.card} ${isFlipped ? styles.isFlipped : ""} `}
             onClick={handleFlip}
         >

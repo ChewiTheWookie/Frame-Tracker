@@ -6,10 +6,11 @@ use tokio::time::sleep;
 
 pub mod api;
 pub mod commands;
+pub mod config;
 pub mod database;
 pub mod models;
 
-use crate::commands::{ licenses, mastery_tracker, profiles, saved_songs, task_tracker };
+use crate::commands::{ keybinds, licenses, mastery_tracker, profiles, saved_songs, task_tracker };
 use crate::database::services::task_services::check_and_apply_resets;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -21,7 +22,11 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(
             tauri::generate_handler![
-                //License Commands
+                // Keybind Commands
+                keybinds::get_keybinds::get_keybinds,
+                keybinds::set_keybind::set_keybind,
+
+                // License Commands
                 licenses::get_license_detailed::get_license_detailed,
                 licenses::get_license_summaries::get_license_summaries,
 

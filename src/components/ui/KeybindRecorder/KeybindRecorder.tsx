@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
-import { KeyConfig, KeybindAction } from "@/types/keybinds";
+import { KeyConfig } from "@/types/keybinds";
 import { useKeybindStore } from "@/stores/useKeybindStore";
 import styles from "./KeybindRecorder.module.css";
 
 interface Props {
-    action: KeybindAction;
+    action: string;
     label: string;
 }
 
 export function KeybindRecorder({ action, label }: Props) {
     const [isRecording, setIsRecording] = useState(false);
-    const config = useKeybindStore((s) => s.mapping[action]);
-    const setKeybind = useKeybindStore((s) => s.setKeybind);
+
+    const definition = useKeybindStore((s) => s.registry[action]);
+    const updateKeybind = useKeybindStore((s) => s.updateKeybind);
+
+    if (!definition) return null;
+    const { config } = definition;
 
     useEffect(() => {
         if (!isRecording) return;
@@ -30,7 +34,7 @@ export function KeybindRecorder({ action, label }: Props) {
                 isGlobal: config.isGlobal,
             };
 
-            setKeybind(action, newConfig);
+            updateKeybind(action, newConfig);
             setIsRecording(false);
         };
 
@@ -39,14 +43,14 @@ export function KeybindRecorder({ action, label }: Props) {
             window.removeEventListener("keydown", handleKeyDown, {
                 capture: true,
             });
-    }, [isRecording, action, config.isGlobal, setKeybind]);
+    }, [isRecording, action, config.isGlobal, updateKeybind]);
 
-    const displayKey = (config: KeyConfig) => {
+    const displayKey = (conf: KeyConfig) => {
         const parts = [];
-        if (config.ctrl) parts.push("Ctrl");
-        if (config.shift) parts.push("Shift");
-        if (config.alt) parts.push("Alt");
-        parts.push(config.key === " " ? "Space" : config.key.toUpperCase());
+        if (conf.ctrl) parts.push("Ctrl");
+        if (conf.shift) parts.push("Shift");
+        if (conf.alt) parts.push("Alt");
+        parts.push(conf.key === " " ? "Space" : conf.key.toUpperCase());
         return parts.join(" + ");
     };
 
@@ -57,7 +61,7 @@ export function KeybindRecorder({ action, label }: Props) {
                 type="button"
                 className={`${styles.globalButton} ${config.isGlobal ? styles.active : ""}`}
                 onClick={() =>
-                    setKeybind(action, {
+                    updateKeybind(action, {
                         ...config,
                         isGlobal: !config.isGlobal,
                     })

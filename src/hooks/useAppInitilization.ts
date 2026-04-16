@@ -8,10 +8,16 @@ import { useSavedSongStore } from "@/stores/useSavedSongStore";
 
 export const useAppInitialization = () => {
     const updateTime = useTimeStore((state) => state.updateTime);
-    const mapping = useKeybindStore((s) => s.mapping);
+
+    const registry = useKeybindStore((s) => s.registry);
+    const initializeKeybinds = useKeybindStore((s) => s.initialize);
     const refreshGlobals = useKeybindStore((s) => s.refreshGlobalShortcuts);
 
     const unlisteners = useRef<UnlistenFn[]>([]);
+
+    useEffect(() => {
+        initializeKeybinds().catch(console.error);
+    }, [initializeKeybinds]);
 
     useEffect(() => {
         const intervalId = setInterval(updateTime, 1000);
@@ -21,7 +27,7 @@ export const useAppInitialization = () => {
     useEffect(() => {
         const globalCallbacks = {};
         refreshGlobals(globalCallbacks).catch(console.error);
-    }, [mapping, refreshGlobals]);
+    }, [registry, refreshGlobals]);
 
     useEffect(() => {
         let isMounted = true;
@@ -48,7 +54,7 @@ export const useAppInitialization = () => {
                     name: "profile-switched",
                     handler: async () => {
                         console.log(
-                            "Profile switched: Refreshing Mastery, Tasks, and Songs...",
+                            "Profile switched: Refreshing all stores...",
                         );
 
                         useMasteryStore.setState({
@@ -61,7 +67,6 @@ export const useAppInitialization = () => {
                             tasks: {},
                             taskIds: [],
                         });
-
                         useSavedSongStore.setState({
                             songNames: [],
                             songCache: {},
@@ -77,6 +82,7 @@ export const useAppInitialization = () => {
 
                         try {
                             await Promise.all([
+                                initializeKeybinds(),
                                 masteryActions.fetchItems(true),
                                 taskActions?.fetchTasks?.(true),
                                 songActions.fetchSongNames(true),
@@ -111,5 +117,5 @@ export const useAppInitialization = () => {
             unlisteners.current.forEach((unlisten) => unlisten());
             unlisteners.current = [];
         };
-    }, []);
+    }, [initializeKeybinds]);
 };

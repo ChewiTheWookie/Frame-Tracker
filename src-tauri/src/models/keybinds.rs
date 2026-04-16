@@ -1,0 +1,22 @@
+use serde::{ Deserialize, Serialize };
+use std::collections::HashMap;
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct KeyConfig {
+    pub key: String,
+    pub ctrl: bool,
+    pub shift: bool,
+    pub alt: bool,
+    pub is_global: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct KeybindDefinition {
+    pub label: String,
+    pub group: String,
+    pub config: KeyConfig,
+}
+
+pub type KeybindRegistry = HashMap<String, KeybindDefinition>;
