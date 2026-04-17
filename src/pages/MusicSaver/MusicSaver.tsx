@@ -14,8 +14,6 @@ import { Modal } from "@/components/ui/Modal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import { ListItem } from "@/components/ui/ListItem";
 
-import styles from "./MusicSaver.module.css";
-
 export function MusicSaver() {
     const { setHeaderAction } = useOutletContext<ListLayoutContext>();
     const {
@@ -100,7 +98,7 @@ export function MusicSaver() {
             {isLoading && songNames.length === 0 ? (
                 <Throbber label="Loading..." />
             ) : (
-                <div className={styles.list}>
+                <div>
                     {songNames.map((name) => (
                         <ListItem
                             key={name}
@@ -131,7 +129,7 @@ export function MusicSaver() {
                                         <Edit2 size={12} /> Rename
                                     </button>
                                     <button
-                                        className={styles.deleteAction}
+                                        className="ModalDeleteAction"
                                         onClick={() => {
                                             setTargetSong(name);
                                             setIsDeleteOpen(true);
@@ -151,21 +149,21 @@ export function MusicSaver() {
                 onClose={() => setIsAddOpen(false)}
                 title="Add New Song"
             >
-                <form onSubmit={handleAdd} className={styles.modalForm}>
+                <form onSubmit={handleAdd} className="ModalForm">
                     <input
                         autoFocus
                         value={newName}
                         onChange={(e) => setNewName(e.target.value)}
                         placeholder="Song Title"
-                        className={styles.modalInput}
+                        className="ModalInput"
                     />
                     <textarea
                         value={newString}
                         onChange={(e) => setNewString(e.target.value)}
                         placeholder="Paste code here..."
-                        className={styles.modalTextarea}
+                        className="ModalTextarea"
                     />
-                    <button type="submit" className={styles.submitButton}>
+                    <button type="submit" className="ModalSubmitButton">
                         Save Song
                     </button>
                 </form>
@@ -175,14 +173,14 @@ export function MusicSaver() {
                 onClose={() => setIsEditOpen(false)}
                 title={`Rename ${targetSong}`}
             >
-                <form onSubmit={handleRename} className={styles.modalForm}>
+                <form onSubmit={handleRename} className="ModalForm">
                     <input
                         autoFocus
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
-                        className={styles.modalInput}
+                        className="ModalInput"
                     />
-                    <button type="submit" className={styles.submitButton}>
+                    <button type="submit" className="ModalSubmitButton">
                         Save Changes
                     </button>
                 </form>
@@ -192,13 +190,8 @@ export function MusicSaver() {
                 isOpen={isDeleteOpen}
                 onClose={() => setIsDeleteOpen(false)}
                 onConfirm={handleDelete}
-                title="Delete Profile"
-                message={
-                    <>
-                        Are you sure you want to delete{" "}
-                        <strong>{targetSong}</strong>?
-                    </>
-                }
+                title="Song"
+                toDelete={targetSong}
             />
         </>
     );

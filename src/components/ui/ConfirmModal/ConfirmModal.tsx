@@ -7,7 +7,7 @@ interface ConfirmModalProps {
     onClose: () => void;
     onConfirm: () => void;
     title: string;
-    message: React.ReactNode;
+    toDelete: React.ReactNode;
     confirmLabel?: string;
 }
 
@@ -16,12 +16,17 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
     onClose,
     onConfirm,
     title,
-    message,
+    toDelete: message,
     confirmLabel = "Delete Permanently",
 }) => (
-    <Modal isOpen={isOpen} onClose={onClose} title={title}>
-        <p>{message}</p>
-        <button onClick={onConfirm} className={styles.submitButton}>
+    <Modal isOpen={isOpen} onClose={onClose} title={`Delete ${title}`}>
+        <p>
+            Are you sure you want to delete <strong>{message}</strong>?
+        </p>
+        <button
+            onClick={onConfirm}
+            className={`ModalSubmitButton ${styles.ConfirmModalSubmitButton}`}
+        >
             {confirmLabel}
         </button>
     </Modal>

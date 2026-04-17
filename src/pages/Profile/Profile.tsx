@@ -111,7 +111,7 @@ export const Profile: React.FC = () => {
             {isLoading && profiles.length === 0 ? (
                 <Throbber label="Loading profiles..." />
             ) : (
-                <div className={styles.list}>
+                <div>
                     {profiles.map((name) => (
                         <ListItem
                             key={name}
@@ -155,7 +155,7 @@ export const Profile: React.FC = () => {
                                         <Edit2 size={12} /> Rename
                                     </button>
                                     <button
-                                        className={styles.deleteAction}
+                                        className="ModalDeleteAction"
                                         disabled={
                                             name === "Default" ||
                                             name === currentProfile
@@ -179,18 +179,15 @@ export const Profile: React.FC = () => {
                 onClose={() => setIsCreateOpen(false)}
                 title="New Profile"
             >
-                <form onSubmit={handleCreate} className={styles.modalForm}>
-                    <div className={styles.inputGroup}>
-                        <label>Profile Name</label>
-                        <input
-                            autoFocus
-                            value={newProfileName}
-                            onChange={(e) => setNewProfileName(e.target.value)}
-                            className={styles.modalInput}
-                            placeholder="Enter name..."
-                        />
-                    </div>
-                    <button type="submit" className={styles.submitButton}>
+                <form onSubmit={handleCreate} className="ModalForm">
+                    <input
+                        autoFocus
+                        value={newProfileName}
+                        onChange={(e) => setNewProfileName(e.target.value)}
+                        className="ModalInput"
+                        placeholder="Enter name..."
+                    />
+                    <button type="submit" className="ModalSubmitButton">
                         Create Profile
                     </button>
                 </form>
@@ -201,17 +198,14 @@ export const Profile: React.FC = () => {
                 onClose={() => setIsEditOpen(false)}
                 title="Rename Profile"
             >
-                <form onSubmit={handleRename} className={styles.modalForm}>
-                    <div className={styles.inputGroup}>
-                        <label>New Name</label>
-                        <input
-                            autoFocus
-                            value={editName}
-                            onChange={(e) => setEditName(e.target.value)}
-                            className={styles.modalInput}
-                        />
-                    </div>
-                    <button type="submit" className={styles.submitButton}>
+                <form onSubmit={handleRename} className="ModalForm">
+                    <input
+                        autoFocus
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="ModalInput"
+                    />
+                    <button type="submit" className="ModalSubmitButton">
                         Save Changes
                     </button>
                 </form>
@@ -221,13 +215,8 @@ export const Profile: React.FC = () => {
                 isOpen={isDeleteOpen}
                 onClose={() => setIsDeleteOpen(false)}
                 onConfirm={handleDelete}
-                title="Delete Profile"
-                message={
-                    <>
-                        Are you sure you want to delete{" "}
-                        <strong>{targetProfile}</strong>?
-                    </>
-                }
+                title="Profile"
+                toDelete={targetProfile}
             />
         </>
     );
