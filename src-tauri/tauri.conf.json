@@ -24,6 +24,7 @@
     "bundle": {
         "active": true,
         "targets": "nsis",
+        "createUpdaterArtifacts": true,
         "publisher": "ChewiTheWookie",
         "icon": [
             "icons/32x32.png",
@@ -32,7 +33,13 @@
             "icons/icon.icns",
             "icons/icon.ico"
         ],
-        "resources": ["resources/licenses.db"]
+        "resources": ["resources/licenses.db"],
+        "windows": {
+            "nsis": {
+                "installMode": "currentUser",
+                "compression": "lzma"
+            }
+        }
     },
     "plugins": {
         "updater": {
