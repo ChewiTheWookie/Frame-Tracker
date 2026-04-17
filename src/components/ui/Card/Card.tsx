@@ -3,16 +3,24 @@ import { useState } from "react";
 import styles from "./Card.module.css";
 
 interface Props {
-    front: React.ReactNode;
-    back: React.ReactNode;
+    title: string;
+    frontHeader?: React.ReactNode;
+    frontControls?: React.ReactNode;
+
+    backList?: React.ReactNode;
+    backControls?: React.ReactNode;
+
     isFlipped?: boolean;
     completedStyle?: string;
     completed: boolean;
 }
 
 export function Card({
-    front,
-    back,
+    title,
+    frontHeader,
+    frontControls,
+    backList,
+    backControls,
     isFlipped: externalIsFlipped,
     completedStyle = "mastered",
     completed = false,
@@ -35,14 +43,32 @@ export function Card({
 
     return (
         <div
+            key={title}
             className={`${styles.card} ${isFlipped ? styles.isFlipped : ""} `}
             onClick={handleFlip}
         >
             <div
                 className={`${styles.statusWrapper} ${completed ? styles[completedStyle] : ""}`}
             >
-                <div className={styles.front}>{front}</div>
-                <div className={styles.back}>{back}</div>
+                <div className={styles.front}>
+                    {frontHeader && frontHeader}
+                    {frontControls && (
+                        <div className={styles.frontControls}>
+                            {frontControls}
+                        </div>
+                    )}
+                </div>
+                <div className={styles.back}>
+                    <h4 className={styles.title}>{title}</h4>
+                    {backList && (
+                        <div className={styles.backList}>{backList}</div>
+                    )}
+                    {backControls && (
+                        <div className={styles.backControls}>
+                            {backControls}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

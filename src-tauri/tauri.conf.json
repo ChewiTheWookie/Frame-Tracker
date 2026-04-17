@@ -24,6 +24,7 @@
     "bundle": {
         "active": true,
         "targets": "nsis",
+        "createUpdaterArtifacts": true,
         "publisher": "ChewiTheWookie",
         "icon": [
             "icons/32x32.png",
@@ -32,6 +33,21 @@
             "icons/icon.icns",
             "icons/icon.ico"
         ],
-        "resources": ["resources/licenses.db"]
+        "resources": ["resources/licenses.db"],
+        "windows": {
+            "nsis": {
+                "installMode": "currentUser",
+                "compression": "lzma"
+            }
+        }
+    },
+    "plugins": {
+        "updater": {
+            "active": true,
+            "endpoints": [
+                "https://github.com/ChewiTheWookie/Frame-Tracker/releases/latest/download/latest.json"
+            ],
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFCRDJEODAwQTJBRDExQTUKUldTbEVhMmlBTmpTRzlkeTRtQ1M4ZnNCcTVsZi96TmoxT3JGK05TaWdocUhxalo1OVJLU281dmkK"
+        }
     }
 }

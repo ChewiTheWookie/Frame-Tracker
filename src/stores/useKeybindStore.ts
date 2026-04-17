@@ -1,53 +1,74 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 import { register, unregisterAll } from "@tauri-apps/plugin-global-shortcut";
-import { DEFAULT_BINDS, KeybindAction, KeyConfig } from "@/types/keybinds";
-
-type KeyMapping = Record<KeybindAction, KeyConfig>;
+import { KeyConfig, KeybindRegistry, KeybindAction } from "@/types/keybinds";
+import { loadKeybindsApi, saveKeybindApi } from "@/api/keybinds";
 
 interface KeybindState {
-    mapping: KeyMapping;
-    setKeybind: (action: KeybindAction, config: KeyConfig) => void;
+    registry: KeybindRegistry;
+    initialize: () => Promise<void>;
+    updateKeybind: (id: string, config: KeyConfig) => Promise<void>;
     refreshGlobalShortcuts: (
-        callbackMap: Record<string, () => void>,
+        callbackMap: Partial<Record<KeybindAction, () => void>>,
     ) => Promise<void>;
+    isRecording: boolean;
+    setIsRecording: (val: boolean) => void;
 }
 
-export const useKeybindStore = create<KeybindState>()(
-    persist(
-        (set, get) => ({
-            mapping: DEFAULT_BINDS,
+export const useKeybindStore = create<KeybindState>()((set, get) => ({
+    registry: [] as KeybindRegistry,
+    isRecording: false,
+    setIsRecording: (val) => set({ isRecording: val }),
 
-            setKeybind: (action, config) => {
-                set((state) => ({
-                    mapping: { ...state.mapping, [action]: config },
-                }));
-            },
+    initialize: async () => {
+        try {
+            const registry = await loadKeybindsApi();
+            set({ registry });
+        } catch (err) {
+            console.error("Failed to initialize keybinds:", err);
+        }
+    },
 
-            refreshGlobalShortcuts: async (callbackMap) => {
-                await unregisterAll();
+    updateKeybind: async (id, newConfig) => {
+        const { registry } = get();
 
-                const { mapping } = get();
+        const updatedRegistry = registry.map((item) =>
+            item.id === id ? { ...item, config: newConfig } : item,
+        );
+        set({ registry: updatedRegistry });
 
-                for (const [action, config] of Object.entries(mapping)) {
-                    if (config.isGlobal) {
-                        const shortcut = formatShortcut(config);
-                        const callback = callbackMap[action];
+        try {
+            await saveKeybindApi(id, newConfig);
+        } catch (err) {
+            console.error("Failed to save keybind update:", err);
+        }
+    },
 
-                        if (callback) {
-                            await register(shortcut, (event) => {
-                                if (event.state === "Pressed") callback();
-                            });
-                        }
+    refreshGlobalShortcuts: async (callbackMap) => {
+        try {
+            await unregisterAll();
+            const { registry } = get();
+
+            for (const definition of registry) {
+                const { id, config } = definition;
+
+                if (config.isGlobal) {
+                    const shortcut = formatShortcut(config);
+                    const callback = callbackMap[id as KeybindAction];
+
+                    if (callback) {
+                        await register(shortcut, (event) => {
+                            if (event.state === "Pressed") callback();
+                        });
                     }
                 }
-            },
-        }),
-        { name: "keybind-storage" },
-    ),
-);
+            }
+        } catch (err) {
+            console.error("Global shortcut registration failed:", err);
+        }
+    },
+}));
 
-function formatShortcut(config: KeyConfig) {
+export function formatShortcut(config: KeyConfig): string {
     return [
         config.ctrl && "Control",
         config.shift && "Shift",

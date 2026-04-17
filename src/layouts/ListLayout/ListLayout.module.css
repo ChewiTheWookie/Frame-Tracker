@@ -15,6 +15,8 @@
 
     border-bottom: 1px solid var(--accent);
     margin-bottom: 0.75rem;
+
+    justify-content: space-between;
 }
 
 .actionSlot {
@@ -24,4 +26,37 @@
 .scrollContainer {
     width: 98%;
     margin: 0 1% 0 1%;
+}
+
+[class*="layoutListHeaderAction"] {
+    padding: 0.5rem;
+
+    height: fit-content;
+    width: fit-content;
+
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+[class*="layoutListHeaderAction"]:hover {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+[class*="layoutListHeaderIcon"] {
+    padding: 0;
+    display: block;
+    color: var(--accent);
+    transition: color 0.2s ease;
+}
+
+[class*="layoutListHeaderAction"]:hover [class*="layoutListHeaderIcon"] {
+    color: var(--bg);
 }

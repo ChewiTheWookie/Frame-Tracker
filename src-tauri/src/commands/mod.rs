@@ -1,4 +1,9 @@
 // Dir
+pub mod keybinds {
+    pub mod get_keybinds;
+    pub mod set_keybind;
+}
+
 pub mod licenses {
     pub mod get_license_detailed;
     pub mod get_license_summaries;

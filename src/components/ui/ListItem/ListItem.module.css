@@ -1,0 +1,84 @@
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.title {
+    font-size: 1.1rem;
+    color: var(--color-glow);
+    font-weight: 500;
+}
+
+.controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dropdownContainer {
+    position: relative;
+}
+
+.dropdownButton {
+    height: 2rem;
+    width: 2rem;
+    background: transparent;
+    border: none;
+    color: var(--color);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.dropdownButton:hover {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+[class*="ListItemDropdown"] {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(10px);
+    border-radius: 6px;
+    padding: 4px;
+    z-index: 50;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    min-width: 120px;
+}
+
+[class*="ListItemDropdown"] button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--color);
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 4px;
+}
+
+[class*="ListItemDropdown"] button:hover {
+    background: var(--accent);
+    color: var(--bg);
+}

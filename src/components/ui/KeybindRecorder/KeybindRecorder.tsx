@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
-import { KeyConfig, KeybindAction } from "@/types/keybinds";
+import { KeyConfig } from "@/types/keybinds";
 import { useKeybindStore } from "@/stores/useKeybindStore";
+import { ListItem } from "../ListItem";
+import { CardButton } from "../CardButton";
+import { CircleX, Earth } from "lucide-react";
+
 import styles from "./KeybindRecorder.module.css";
 
 interface Props {
-    action: KeybindAction;
+    action: string;
     label: string;
 }
 
 export function KeybindRecorder({ action, label }: Props) {
     const [isRecording, setIsRecording] = useState(false);
-    const config = useKeybindStore((s) => s.mapping[action]);
-    const setKeybind = useKeybindStore((s) => s.setKeybind);
+    const setGlobalRecording = useKeybindStore((s) => s.setIsRecording);
+
+    const definition = useKeybindStore((s) =>
+        s.registry.find((item) => item.id === action),
+    );
+    const updateKeybind = useKeybindStore((s) => s.updateKeybind);
+
+    if (!definition) return null;
+    const { config } = definition;
 
     useEffect(() => {
         if (!isRecording) return;
@@ -30,52 +41,83 @@ export function KeybindRecorder({ action, label }: Props) {
                 isGlobal: config.isGlobal,
             };
 
-            setKeybind(action, newConfig);
+            updateKeybind(action, newConfig);
             setIsRecording(false);
+            setGlobalRecording(false);
         };
 
         window.addEventListener("keydown", handleKeyDown, { capture: true });
-        return () =>
+        return () => {
             window.removeEventListener("keydown", handleKeyDown, {
                 capture: true,
             });
-    }, [isRecording, action, config.isGlobal, setKeybind]);
+        };
+    }, [
+        isRecording,
+        action,
+        config.isGlobal,
+        updateKeybind,
+        setGlobalRecording,
+    ]);
 
-    const displayKey = (config: KeyConfig) => {
+    const displayKey = (conf: KeyConfig) => {
+        if (!conf.key || conf.key === "") return "Unassigned";
+
         const parts = [];
-        if (config.ctrl) parts.push("Ctrl");
-        if (config.shift) parts.push("Shift");
-        if (config.alt) parts.push("Alt");
-        parts.push(config.key === " " ? "Space" : config.key.toUpperCase());
+        if (conf.ctrl) parts.push("Ctrl");
+        if (conf.shift) parts.push("Shift");
+        if (conf.alt) parts.push("Alt");
+
+        const keyName = conf.key === " " ? "Space" : conf.key.toUpperCase();
+        parts.push(keyName);
+
         return parts.join(" + ");
     };
 
     return (
-        <div className={styles.row}>
-            <span className={styles.label}>{label}</span>
-            <button
-                type="button"
-                className={`${styles.globalButton} ${config.isGlobal ? styles.active : ""}`}
-                onClick={() =>
-                    setKeybind(action, {
-                        ...config,
-                        isGlobal: !config.isGlobal,
-                    })
-                }
-                title={
-                    config.isGlobal
-                        ? "Global Shortcut (Works anywhere)"
-                        : "Local Shortcut (App only)"
-                }
-            >
-                Global
-            </button>
-            <button
-                className={`${styles.recordButton} ${isRecording ? styles.recording : ""}`}
-                onClick={() => setIsRecording(true)}
-            >
-                {isRecording ? "Press any key..." : displayKey(config)}
-            </button>
-        </div>
+        <ListItem
+            title={label}
+            fontSize="1rem"
+            button={
+                <CardButton
+                    label={
+                        isRecording ? "Press any key..." : displayKey(config)
+                    }
+                    onClick={() => {
+                        setIsRecording(true);
+                        setGlobalRecording(true);
+                    }}
+                    width="10rem"
+                />
+            }
+            dropdown={
+                <div className="ListItemDropdown">
+                    <button
+                        onClick={() =>
+                            updateKeybind(action, {
+                                ...config,
+                                isGlobal: !config.isGlobal,
+                            })
+                        }
+                        className={config.isGlobal ? styles.active : ""}
+                    >
+                        <Earth size={12} /> Global
+                    </button>
+                    <button
+                        onClick={() =>
+                            updateKeybind(action, {
+                                key: "",
+                                ctrl: false,
+                                shift: false,
+                                alt: false,
+                                isGlobal: false,
+                            })
+                        }
+                    >
+                        <CircleX size={12} /> Clear bind
+                    </button>
+                </div>
+            }
+        />
     );
 }

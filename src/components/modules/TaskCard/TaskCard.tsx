@@ -39,91 +39,94 @@ function InternalTaskCard({ taskId }: Props) {
         task.favorite,
     ]);
 
-    const front = (
-        <>
-            <div className={styles.header}>
-                <h4 className={styles.name}>{task.name}</h4>
-                <div className={styles.timer}>{countdown}</div>
-                <button
-                    className={`${styles.favoriteBtn} ${isFavorite ? styles.isFavorite : ""}`}
-                    onClick={() => toggleFavorite(task.id)}
-                >
-                    <Star className={styles.favoriteIcon} size={18} />
-                </button>
-            </div>
-
-            <div className={styles.footer}>
-                <div className={styles.statContainer}>
-                    <div className={styles.tagContainer}>
-                        {tags.map((tag) => (
-                            <span
-                                key={tag}
-                                className={`${styles.statItem} ${styles.tag} ${styles[tag.toLowerCase()] || ""}`}
-                            >
-                                {tag.toUpperCase()}
-                            </span>
-                        ))}
-                    </div>
-                    <span className={styles.statItem}>
-                        {task.current_completions} / {task.max_completions}
-                    </span>
-                </div>
-                <div className={styles.controls}>
-                    {task.current_completions !== 0 && (
-                        <CardButton
-                            label="Undo"
-                            onClick={() =>
-                                handleUpdate(task.current_completions - 1)
-                            }
-                        />
-                    )}
-                    <CardButton
-                        isActive={isCompleted}
-                        onClick={() =>
-                            handleUpdate(task.current_completions + 1)
-                        }
-                    />
-                </div>
-            </div>
-        </>
-    );
-
-    const back = (
+    const frontHeader = (
         <>
             <h4 className={styles.name}>{task.name}</h4>
-            <div className={styles.infoContainer}>
-                {task.location && (
-                    <div className={styles.infoItem}>
-                        <MapPin size={16} className={styles.detailIcon} />
-                        <span>{task.location}</span>
-                    </div>
+            <div className={styles.timer}>{countdown}</div>
+            <button
+                className={`${styles.favoriteBtn} ${isFavorite ? styles.isFavorite : ""}`}
+                onClick={() => toggleFavorite(task.id)}
+            >
+                <Star className={styles.favoriteIcon} size={18} />
+            </button>
+        </>
+    );
+
+    const frontControls = (
+        <>
+            <div className={styles.statContainer}>
+                <div className={styles.tagContainer}>
+                    {tags.map((tag) => (
+                        <span
+                            key={tag}
+                            className={`${styles.statItem} ${styles.tag} ${styles[tag.toLowerCase()] || ""}`}
+                        >
+                            {tag.toUpperCase()}
+                        </span>
+                    ))}
+                </div>
+                <span className={styles.statItem}>
+                    {task.current_completions} / {task.max_completions}
+                </span>
+            </div>
+            <div className={styles.controls}>
+                {task.current_completions !== 0 && (
+                    <CardButton
+                        label="Undo"
+                        onClick={() =>
+                            handleUpdate(task.current_completions - 1)
+                        }
+                    />
                 )}
-                {task.terminal && (
-                    <div className={styles.infoItem}>
-                        <Monitor size={16} className={styles.detailIcon} />
-                        <span>{task.terminal}</span>
-                    </div>
-                )}
-                {task.quest_required && (
-                    <div className={styles.infoItem}>
-                        <ScrollText size={16} className={styles.detailIcon} />
-                        <span>{task.quest_required}</span>
-                    </div>
-                )}
-                {task.reset_interval && (
-                    <div className={styles.infoItem}>
-                        <RefreshCw
-                            size={16}
-                            className={`${styles.detailIcon} ${styles.spin}`}
-                        />
-                        <span>{formatInterval(task.reset_interval)}</span>
-                    </div>
-                )}
+                <CardButton
+                    isActive={isCompleted}
+                    onClick={() => handleUpdate(task.current_completions + 1)}
+                />
             </div>
         </>
     );
 
-    return <Card front={front} back={back} completed={isCompleted} />;
+    const backList = (
+        <>
+            {task.location && (
+                <div className={styles.listRow}>
+                    <MapPin size={16} className={styles.listItemIcon} />
+                    <span> {task.location}</span>
+                </div>
+            )}
+            {task.terminal && (
+                <div className={styles.listRow}>
+                    <Monitor size={16} className={styles.listItemIcon} />
+                    <span> {task.terminal}</span>
+                </div>
+            )}
+            {task.quest_required && (
+                <div className={styles.listRow}>
+                    <ScrollText size={16} className={styles.listItemIcon} />
+                    <span> {task.quest_required}</span>
+                </div>
+            )}
+            {task.reset_interval && (
+                <div className={styles.listRow}>
+                    <RefreshCw
+                        size={16}
+                        className={`${styles.listItemIcon} ${styles.spin}`}
+                    />
+                    <span> {formatInterval(task.reset_interval)}</span>
+                </div>
+            )}
+        </>
+    );
+
+    return (
+        <Card
+            title={task.name}
+            frontHeader={frontHeader}
+            frontControls={frontControls}
+            backList={backList}
+            completed={isCompleted}
+        />
+    );
 }
 
 export const TaskCard = memo(InternalTaskCard);

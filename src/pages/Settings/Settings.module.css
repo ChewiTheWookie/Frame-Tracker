@@ -1,8 +1,5 @@
-.section:first-of-type {
-    margin-top: 2rem;
-}
-
 .section {
+    width: 100%;
     margin: 1rem 0;
 }
 
@@ -12,8 +9,12 @@
     gap: 0.75rem;
     padding: 0.5rem 0;
     margin-bottom: 0.5rem;
+    color: var(--color);
+    border-bottom: 1px solid var(--accent);
+}
+
+.sectionIcon {
     color: var(--accent);
-    border-bottom: 1px solid var(--border);
 }
 
 .sectionHeader h2 {
@@ -23,40 +24,9 @@
     letter-spacing: 0.05rem;
 }
 
-.settingButton {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    gap: 16px;
-    padding: 1rem 0.75rem;
-    background: transparent;
-    border-radius: 8px;
-    border: none;
-    transition: background 0.2s ease;
-    color: inherit;
-    cursor: pointer;
-    text-align: left;
-}
-
-.settingButton:hover {
-    background: var(--accent-glow);
-}
-
-.settingText {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.settingLabel {
-    font-weight: 600;
-    color: var(--accent);
-    font-size: 1rem;
-}
-
-.settingDesc {
-    font-size: 0.85rem;
-    opacity: 0.7;
+.section [class*="card"] {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .rightElement,
@@ -70,10 +40,6 @@
         color 0.2s ease;
 }
 
-.settingButton:hover .chevron {
+[class*="card"]:hover .chevron {
     transform: translateX(6px);
-}
-
-.settingButton:not(:last-child) {
-    border-bottom: 1px solid rgba(var(--border-rgb), 0.3);
 }

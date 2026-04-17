@@ -16,4 +16,5 @@ pub mod database {
 }
 
 // Files
+pub mod keybinds;
 pub mod resources;

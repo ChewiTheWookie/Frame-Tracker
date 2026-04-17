@@ -52,92 +52,90 @@ function InternalMasteryCard({ itemId }: Props) {
     const showHelminth =
         item.category === "Warframes" && !item.name.includes("Prime");
 
-    const front = (
-        <>
-            <div className={styles.imageContainer}>
-                <img
-                    src={`${WARFRAME_CDN}${item.imgPath}`}
-                    alt={item.name}
-                    onError={(e) => (e.currentTarget.src = NO_IMAGE_URL)}
-                />
-            </div>
+    const frontHeader = (
+        <div className={styles.imageContainer}>
+            <img
+                src={`${WARFRAME_CDN}${item.imgPath}`}
+                alt={item.name}
+                onError={(e) => (e.currentTarget.src = NO_IMAGE_URL)}
+            />
+        </div>
+    );
 
-            <div className={styles.footer}>
-                <h4 className={styles.name}>{item.name}</h4>
-                <div className={styles.controls}>
+    const frontControls = (
+        <>
+            <h4 className={styles.name}>{item.name}</h4>
+            <div className={styles.controls}>
+                <CardButton
+                    label="Master"
+                    activeLabel="Mastered"
+                    isActive={item.mastered}
+                    onClick={() => handleToggle("mastered")}
+                />
+                {showHelminth && (
                     <CardButton
-                        label="Master"
-                        activeLabel="Mastered"
-                        isActive={item.mastered}
-                        onClick={() => handleToggle("mastered")}
+                        label={
+                            <>
+                                <DnaOff size={10} /> Feed
+                            </>
+                        }
+                        activeLabel={
+                            <>
+                                <Dna size={10} /> Fed
+                            </>
+                        }
+                        isActive={item.helminthed}
+                        variant="helminth"
+                        onClick={() => handleToggle("helminthed")}
                     />
-                    {showHelminth && (
-                        <CardButton
-                            label={
-                                <>
-                                    <DnaOff size={10} /> Feed
-                                </>
-                            }
-                            activeLabel={
-                                <>
-                                    <Dna size={10} /> Fed
-                                </>
-                            }
-                            isActive={item.helminthed}
-                            variant="helminth"
-                            onClick={() => handleToggle("helminthed")}
-                        />
-                    )}
-                </div>
+                )}
             </div>
         </>
     );
 
-    const back = (
+    const backList = (
         <>
-            <h4 className={styles.nameBack}>{item.name}</h4>
-            <div className={styles.componentList}>
-                {item.components.map((comp) => (
-                    <div
-                        key={comp.componentName}
-                        className={styles.componentRow}
-                    >
-                        <span className={styles.componentName}>
-                            {comp.componentName}: {comp.ownedQuantity}/
-                            {comp.neededQuantity}
-                        </span>
-                        <div className={styles.componentRowControls}>
-                            <button
-                                className={styles.componentButton}
-                                onClick={() => adjustQuantity(comp, -1)}
-                            >
-                                -
-                            </button>
-                            <button
-                                className={styles.componentButton}
-                                onClick={() => adjustQuantity(comp, 1)}
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className={styles.backControls}>
-                <CardButton
-                    label="Unowned"
-                    activeLabel="Owned"
-                    isActive={item.owned}
-                    onClick={() => handleToggle("owned")}
-                />
-            </div>
+            {item.components.map((comp) => (
+                <div key={comp.componentName} className={styles.listRow}>
+                    <span>
+                        {comp.componentName}: {comp.ownedQuantity}/
+                        {comp.neededQuantity}
+                    </span>
+                    <span className={styles.listItemControls}>
+                        <button
+                            className={styles.listItemButton}
+                            onClick={() => adjustQuantity(comp, -1)}
+                        >
+                            -
+                        </button>
+                        <button
+                            className={styles.listItemButton}
+                            onClick={() => adjustQuantity(comp, 1)}
+                        >
+                            +
+                        </button>
+                    </span>
+                </div>
+            ))}
         </>
+    );
+
+    const backControls = (
+        <CardButton
+            label="Unowned"
+            activeLabel="Owned"
+            isActive={item.owned}
+            onClick={() => handleToggle("owned")}
+        />
     );
 
     return (
         <Card
-            front={front}
-            back={back}
+            title={item.name}
+            frontHeader={frontHeader}
+            frontControls={frontControls}
+            backList={backList}
+            backControls={backControls}
             completed={isCompleted}
             completedStyle={completedStyle}
         />

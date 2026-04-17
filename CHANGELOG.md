@@ -2,6 +2,23 @@
 
 All notable changes to this project will be logged here
 
+## 1.4.0
+
+### Features
+
+- ✨ add Per profile keybinds
+- ✨ add new Keybinds
+- ✨ add Auto updates
+
+### Bug Fixes
+
+- 🛠️ fix keybind ordering
+
+### Dev Notes
+
+- ✏️ reduce boilerplate code with `Card.tsx` and `ListItem.tsx`
+- ✏️ reduce redudant styling for `ListItem` dropdowns
+
 ## 1.3.0
 
 ### Features

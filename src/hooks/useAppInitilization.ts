@@ -1,5 +1,8 @@
 import { useEffect, useRef } from "react";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
+import { check } from "@tauri-apps/plugin-updater";
+import { ask } from "@tauri-apps/plugin-dialog";
+import { relaunch } from "@tauri-apps/plugin-process";
 import { useMasteryStore } from "@/stores/useMasteryStore";
 import { useTaskStore } from "@/stores/useTaskStore";
 import { useTimeStore } from "@/stores/useTimeStore";
@@ -8,10 +11,41 @@ import { useSavedSongStore } from "@/stores/useSavedSongStore";
 
 export const useAppInitialization = () => {
     const updateTime = useTimeStore((state) => state.updateTime);
-    const mapping = useKeybindStore((s) => s.mapping);
+
+    const registry = useKeybindStore((s) => s.registry);
+    const initializeKeybinds = useKeybindStore((s) => s.initialize);
     const refreshGlobals = useKeybindStore((s) => s.refreshGlobalShortcuts);
 
     const unlisteners = useRef<UnlistenFn[]>([]);
+
+    useEffect(() => {
+        const handleUpdate = async () => {
+            if (import.meta.env.DEV) return;
+
+            try {
+                const update = await check();
+                if (update?.available) {
+                    const confirmed = await ask(
+                        `Version ${update.version} is available. Install and restart?`,
+                        { title: "Update Available", kind: "info" },
+                    );
+
+                    if (confirmed) {
+                        await update.downloadAndInstall();
+                        await relaunch();
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to check for updates:", error);
+            }
+        };
+
+        handleUpdate();
+    }, []);
+
+    useEffect(() => {
+        initializeKeybinds().catch(console.error);
+    }, [initializeKeybinds]);
 
     useEffect(() => {
         const intervalId = setInterval(updateTime, 1000);
@@ -21,7 +55,7 @@ export const useAppInitialization = () => {
     useEffect(() => {
         const globalCallbacks = {};
         refreshGlobals(globalCallbacks).catch(console.error);
-    }, [mapping, refreshGlobals]);
+    }, [registry, refreshGlobals]);
 
     useEffect(() => {
         let isMounted = true;
@@ -48,7 +82,7 @@ export const useAppInitialization = () => {
                     name: "profile-switched",
                     handler: async () => {
                         console.log(
-                            "Profile switched: Refreshing Mastery, Tasks, and Songs...",
+                            "Profile switched: Refreshing Keybinds and Data...",
                         );
 
                         useMasteryStore.setState({
@@ -61,7 +95,6 @@ export const useAppInitialization = () => {
                             tasks: {},
                             taskIds: [],
                         });
-
                         useSavedSongStore.setState({
                             songNames: [],
                             songCache: {},
@@ -77,6 +110,7 @@ export const useAppInitialization = () => {
 
                         try {
                             await Promise.all([
+                                initializeKeybinds(),
                                 masteryActions.fetchItems(true),
                                 taskActions?.fetchTasks?.(true),
                                 songActions.fetchSongNames(true),
@@ -111,5 +145,5 @@ export const useAppInitialization = () => {
             unlisteners.current.forEach((unlisten) => unlisten());
             unlisteners.current = [];
         };
-    }, []);
+    }, [initializeKeybinds]);
 };

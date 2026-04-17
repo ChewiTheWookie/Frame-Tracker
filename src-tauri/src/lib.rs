@@ -1,27 +1,37 @@
 use std::time::Duration;
 use std::sync::Arc;
-use tokio::sync::Mutex;
 use tauri::Manager;
 use tokio::time::sleep;
 
 pub mod api;
 pub mod commands;
+pub mod config;
 pub mod database;
 pub mod models;
+pub mod utils;
 
-use crate::commands::{ licenses, mastery_tracker, profiles, saved_songs, task_tracker };
+use crate::commands::{ keybinds, licenses, mastery_tracker, profiles, saved_songs, task_tracker };
 use crate::database::services::task_services::check_and_apply_resets;
+
+pub struct ActiveProfile(pub std::sync::Mutex<Option<String>>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder
         ::default()
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init())
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(
             tauri::generate_handler![
-                //License Commands
+                // Keybind Commands
+                keybinds::get_keybinds::get_keybinds,
+                keybinds::set_keybind::set_keybind,
+
+                // License Commands
                 licenses::get_license_detailed::get_license_detailed,
                 licenses::get_license_summaries::get_license_summaries,
 
@@ -53,16 +63,31 @@ pub fn run() {
                 task_tracker::set_task::set_task
             ]
         )
+        .manage(ActiveProfile(std::sync::Mutex::new(None)))
         .setup(|app| {
             let handle = app.handle().clone();
 
             tauri::async_runtime::block_on(async move {
-                let default_path = database::db::get_profile_db_path(&handle, None);
+                let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
+                let profiles_dir = app_dir.join("profiles");
+
+                let resolved_name = crate::utils::paths::resolve_profile_name(&profiles_dir);
+
+                {
+                    let state = handle.state::<ActiveProfile>();
+                    let mut profile = state.0.lock().expect("Lock failed");
+                    *profile = Some(resolved_name);
+                }
+
+                let default_path = database::db::get_profile_db_path(
+                    &handle,
+                    &handle.state::<ActiveProfile>()
+                );
 
                 let user_pool = database::db::create_user_pool(&handle, default_path).await;
                 let license_pool = database::db::init_license_db(&handle).await;
 
-                let shared_user_db = Arc::new(Mutex::new(user_pool));
+                let shared_user_db = Arc::new(tokio::sync::Mutex::new(user_pool));
 
                 let pool_for_reset = shared_user_db.clone();
                 let handle_for_reset = handle.clone();
