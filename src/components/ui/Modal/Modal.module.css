@@ -91,3 +91,22 @@
     cursor: pointer;
     transition: background 0.2s ease;
 }
+
+[class*="ModalSubmitButton"]:hover:not(:disabled) {
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+[class*="ModalSubmitButton"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+[class*="ListItemDropdown"] [class*="ModalDeleteAction"]:hover {
+    background: var(--error);
+    color: var(--bg);
+}
+
+[class*="ListItemDropdown"] button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}

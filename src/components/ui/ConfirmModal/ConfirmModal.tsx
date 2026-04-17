@@ -23,7 +23,10 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <p>
             Are you sure you want to delete <strong>{message}</strong>?
         </p>
-        <button onClick={onConfirm} className={styles.submitButton}>
+        <button
+            onClick={onConfirm}
+            className={`ModalSubmitButton ${styles.ConfirmModalSubmitButton}`}
+        >
             {confirmLabel}
         </button>
     </Modal>

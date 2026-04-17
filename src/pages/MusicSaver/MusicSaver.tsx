@@ -14,8 +14,6 @@ import { Modal } from "@/components/ui/Modal";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import { ListItem } from "@/components/ui/ListItem";
 
-import styles from "./MusicSaver.module.css";
-
 export function MusicSaver() {
     const { setHeaderAction } = useOutletContext<ListLayoutContext>();
     const {
@@ -100,7 +98,7 @@ export function MusicSaver() {
             {isLoading && songNames.length === 0 ? (
                 <Throbber label="Loading..." />
             ) : (
-                <div className={styles.list}>
+                <div>
                     {songNames.map((name) => (
                         <ListItem
                             key={name}
@@ -131,7 +129,7 @@ export function MusicSaver() {
                                         <Edit2 size={12} /> Rename
                                     </button>
                                     <button
-                                        className={styles.deleteAction}
+                                        className="ModalDeleteAction"
                                         onClick={() => {
                                             setTargetSong(name);
                                             setIsDeleteOpen(true);

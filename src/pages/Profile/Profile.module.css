@@ -1,28 +1,3 @@
-[class*="ModalSubmitButton"]:hover:not(:disabled) {
-    box-shadow: 0 0 8px var(--accent-glow);
-}
-
-[class*="ModalSubmitButton"]:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.inputGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-[class*="ListItemDropdown"] .deleteAction:hover {
-    background: var(--error);
-    color: var(--bg);
-}
-
-[class*="ListItemDropdown"] button:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
 .userIcon {
     margin-right: 8px;
     opacity: 0.6;
