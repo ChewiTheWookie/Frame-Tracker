@@ -4,10 +4,12 @@ import { formatShortcut, useKeybindStore } from "@/stores/useKeybindStore";
 import { KeybindAction } from "@/types/keybinds";
 
 export const useActionKeybind = (
-    action: KeybindAction | string,
+    action: KeybindAction,
     callback: () => void,
 ) => {
-    const definition = useKeybindStore((s) => s.registry[action]);
+    const definition = useKeybindStore((s) =>
+        s.registry.find((item) => item.id === action),
+    );
     const isGlobalRecording = useKeybindStore((s) => s.isRecording);
     const config = definition?.config;
 
