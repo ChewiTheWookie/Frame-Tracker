@@ -42,6 +42,7 @@
     transform: rotateY(0deg);
 }
 
+[class*="CardTitle"],
 .title {
     margin: 10px 0 5px 0;
     color: var(--color);

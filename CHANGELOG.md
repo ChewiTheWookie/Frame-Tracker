@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Dev Notes
 
 - ✏️ replace InfoContainer references with Modals
+- ✏️ move to global css for `CardTitle`
 
 ## 1.4.1
 

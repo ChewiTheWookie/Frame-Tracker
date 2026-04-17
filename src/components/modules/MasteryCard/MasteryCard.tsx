@@ -64,7 +64,7 @@ function InternalMasteryCard({ itemId }: Props) {
 
     const frontControls = (
         <>
-            <h4 className={styles.name}>{item.name}</h4>
+            <h4 className="CardTitle">{item.name}</h4>
             <div className={styles.controls}>
                 <CardButton
                     label="Master"
