@@ -179,18 +179,18 @@ export const Profile: React.FC = () => {
                 onClose={() => setIsCreateOpen(false)}
                 title="New Profile"
             >
-                <form onSubmit={handleCreate} className={styles.modalForm}>
+                <form onSubmit={handleCreate} className="ModalForm">
                     <div className={styles.inputGroup}>
                         <label>Profile Name</label>
                         <input
                             autoFocus
                             value={newProfileName}
                             onChange={(e) => setNewProfileName(e.target.value)}
-                            className={styles.modalInput}
+                            className="ModalInput"
                             placeholder="Enter name..."
                         />
                     </div>
-                    <button type="submit" className={styles.submitButton}>
+                    <button type="submit" className="ModalSubmitButton">
                         Create Profile
                     </button>
                 </form>
@@ -201,17 +201,17 @@ export const Profile: React.FC = () => {
                 onClose={() => setIsEditOpen(false)}
                 title="Rename Profile"
             >
-                <form onSubmit={handleRename} className={styles.modalForm}>
+                <form onSubmit={handleRename} className="ModalForm">
                     <div className={styles.inputGroup}>
                         <label>New Name</label>
                         <input
                             autoFocus
                             value={editName}
                             onChange={(e) => setEditName(e.target.value)}
-                            className={styles.modalInput}
+                            className="ModalInput"
                         />
                     </div>
-                    <button type="submit" className={styles.submitButton}>
+                    <button type="submit" className="ModalSubmitButton">
                         Save Changes
                     </button>
                 </form>
@@ -221,13 +221,8 @@ export const Profile: React.FC = () => {
                 isOpen={isDeleteOpen}
                 onClose={() => setIsDeleteOpen(false)}
                 onConfirm={handleDelete}
-                title="Delete Profile"
-                message={
-                    <>
-                        Are you sure you want to delete{" "}
-                        <strong>{targetProfile}</strong>?
-                    </>
-                }
+                title="Profile"
+                toDelete={targetProfile}
             />
         </>
     );

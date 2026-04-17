@@ -2,6 +2,18 @@
 
 All notable changes to this project will be logged here
 
+## 1.4.1
+
+### Bug Fixes
+
+- 🛠️ fix title of Delete Modal in `MusicSaver.tsx`
+- 🛠️ remove unused css from `Project.module.css` and from `MusicSaver.module.css`
+
+### Dev Notes
+
+- ✏️ globalize css variables for Modals
+- ✏️ remove boilerplate for `ConfirmModal.tsx`
+
 ## 1.4.0
 
 ### Features
