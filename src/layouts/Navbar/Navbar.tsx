@@ -27,6 +27,7 @@ export function Navbar() {
 
         navigate(cyclePaths[nextIndex]);
     };
+
     const handlePageBackCycle = () => {
         const currentIndex = cyclePaths.indexOf(location.pathname);
         const prevIndex =
@@ -35,8 +36,19 @@ export function Navbar() {
         navigate(cyclePaths[prevIndex]);
     };
 
+    const handlePageNavigation = (path: (typeof PATHS)[keyof typeof PATHS]) => {
+        navigate(path);
+    };
+
     useActionKeybind("CYCLE_PAGE", handlePageCycle);
     useActionKeybind("BACK_CYCLE_PAGE", handlePageBackCycle);
+    useActionKeybind("MASTERY_PAGE", () => handlePageNavigation(PATHS.Mastery));
+    useActionKeybind("TASK_PAGE", () => handlePageNavigation(PATHS.Tasks));
+    useActionKeybind("MUSIC_PAGE", () => handlePageNavigation(PATHS.Music));
+    useActionKeybind("PROFILE_PAGE", () => handlePageNavigation(PATHS.Profile));
+    useActionKeybind("SETTINGS_PAGE", () =>
+        handlePageNavigation(PATHS.Settings),
+    );
 
     const renderNavLink = (path: string, meta: any) => {
         const Icon = meta.icon;

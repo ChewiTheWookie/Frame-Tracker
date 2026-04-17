@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - 🛠️ fix title of Delete Modal in `MusicSaver.tsx`
 - 🛠️ remove unused css from `Project.module.css` and from `MusicSaver.module.css`
+- 🛠️ fix new keybinds not saving
 
 ### Dev Notes
 

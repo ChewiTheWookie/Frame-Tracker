@@ -5,7 +5,12 @@ export type KeybindAction =
     | "CYCLE_CATEGORY_TAB"
     | "BACK_CYCLE_CATEGORY_TAB"
     | "CYCLE_PAGE"
-    | "BACK_CYCLE_PAGE";
+    | "BACK_CYCLE_PAGE"
+    | "MASTERY_PAGE"
+    | "TASK_PAGE"
+    | "MUSIC_PAGE"
+    | "PROFILE_PAGE"
+    | "SETTINGS_PAGE";
 
 export interface KeyConfig {
     key: string;
