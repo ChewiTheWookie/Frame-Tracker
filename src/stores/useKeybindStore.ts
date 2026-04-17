@@ -10,10 +10,14 @@ interface KeybindState {
     refreshGlobalShortcuts: (
         callbackMap: Partial<Record<KeybindAction, () => void>>,
     ) => Promise<void>;
+    isRecording: boolean;
+    setIsRecording: (val: boolean) => void;
 }
 
 export const useKeybindStore = create<KeybindState>()((set, get) => ({
     registry: {} as KeybindRegistry,
+    isRecording: false,
+    setIsRecording: (val) => set({ isRecording: val }),
 
     initialize: async () => {
         try {
@@ -67,7 +71,7 @@ export const useKeybindStore = create<KeybindState>()((set, get) => ({
     },
 }));
 
-function formatShortcut(config: KeyConfig): string {
+export function formatShortcut(config: KeyConfig): string {
     return [
         config.ctrl && "Control",
         config.shift && "Shift",

@@ -25,8 +25,8 @@
 }
 
 .section [class*="card"] {
-    margin-left: 1%;
-    margin-right: 1%;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .rightElement,

@@ -1,26 +1,20 @@
-use std::fs;
-use tauri::{ AppHandle, Manager, Runtime };
-use crate::models::keybinds::KeybindRegistry;
+use tauri::{ AppHandle, State };
+use crate::{ models::keybinds::KeybindRegistry, utils::paths::get_profile_dir };
+use crate::ActiveProfile;
 
 #[tauri::command]
-pub async fn set_keybind<R: Runtime>(
-    app: AppHandle<R>,
-    mapping: KeybindRegistry
+pub async fn set_keybind(
+    app: AppHandle,
+    mapping: KeybindRegistry,
+    active_profile: State<'_, ActiveProfile>
 ) -> Result<(), String> {
-    let config_dir = app
-        .path()
-        .app_config_dir()
-        .map_err(|e| e.to_string())?;
+    let profile_dir = get_profile_dir(&app, &active_profile);
+    let path = profile_dir.join("keybinds.json");
 
-    if !config_dir.exists() {
-        fs::create_dir_all(&config_dir).map_err(|e| e.to_string())?;
-    }
-
-    let config_path = config_dir.join("keybinds.json");
+    println!("Saving keybinds to active profile: {:?}", path);
 
     let json = serde_json::to_string_pretty(&mapping).map_err(|e| e.to_string())?;
-
-    fs::write(config_path, json).map_err(|e| e.to_string())?;
+    std::fs::write(path, json).map_err(|e| e.to_string())?;
 
     Ok(())
 }

@@ -54,7 +54,7 @@ export const useAppInitialization = () => {
                     name: "profile-switched",
                     handler: async () => {
                         console.log(
-                            "Profile switched: Refreshing all stores...",
+                            "Profile switched: Refreshing Keybinds and Data...",
                         );
 
                         useMasteryStore.setState({

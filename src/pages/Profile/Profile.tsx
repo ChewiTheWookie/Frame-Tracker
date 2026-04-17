@@ -114,6 +114,7 @@ export const Profile: React.FC = () => {
                 <div className={styles.list}>
                     {profiles.map((name) => (
                         <ListItem
+                            key={name}
                             icon={
                                 <User size={14} className={styles.userIcon} />
                             }
@@ -143,7 +144,7 @@ export const Profile: React.FC = () => {
                                 />
                             }
                             dropdown={
-                                <div className={styles.dropdownMenu}>
+                                <div className="ListItemDropdown">
                                     <button
                                         onClick={() => {
                                             setTargetProfile(name);

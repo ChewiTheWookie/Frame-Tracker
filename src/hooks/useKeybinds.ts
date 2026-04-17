@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { register, unregister } from "@tauri-apps/plugin-global-shortcut";
-import { useKeybindStore } from "@/stores/useKeybindStore";
+import { formatShortcut, useKeybindStore } from "@/stores/useKeybindStore";
 import { KeybindAction } from "@/types/keybinds";
 
 export const useActionKeybind = (
@@ -8,11 +8,12 @@ export const useActionKeybind = (
     callback: () => void,
 ) => {
     const definition = useKeybindStore((s) => s.registry[action]);
+    const isGlobalRecording = useKeybindStore((s) => s.isRecording);
     const config = definition?.config;
 
     const handleLocalKeyDown = useCallback(
         (event: KeyboardEvent) => {
-            if (!config || config.isGlobal) return;
+            if (!config || config.isGlobal || isGlobalRecording) return;
 
             const target = event.target as HTMLElement;
             const isInput =
@@ -39,23 +40,20 @@ export const useActionKeybind = (
                 callback();
             }
         },
-        [config, callback],
+        [config, callback, isGlobalRecording],
     );
 
     useEffect(() => {
         if (!config) return;
 
         if (config.isGlobal) {
-            const shortcut = [
-                config.ctrl && "Control",
-                config.shift && "Shift",
-                config.alt && "Alt",
-                config.key.toUpperCase(),
-            ]
-                .filter(Boolean)
-                .join("+");
+            const shortcut = formatShortcut(config);
 
             register(shortcut, (event) => {
+                const currentlyRecording =
+                    useKeybindStore.getState().isRecording;
+                if (currentlyRecording) return;
+
                 if (event.state === "Pressed") {
                     callback();
                 }

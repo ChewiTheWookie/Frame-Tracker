@@ -5,12 +5,14 @@ use std::path::{ Path, PathBuf };
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tauri::{ path::BaseDirectory, AppHandle, Manager };
+use crate::ActiveProfile;
 use crate::api::client::ApiClient;
 use crate::api::requests::fetch_wiki_items::fetch_wiki_items;
 use crate::database::services::{
     item_services::sync_wiki_items,
     migration_services::run_relational_migration,
 };
+use crate::utils::paths::get_profile_dir;
 
 pub struct UserDb(pub Arc<Mutex<Pool<Sqlite>>>);
 pub struct LicenseDb(pub Pool<Sqlite>);
@@ -34,54 +36,21 @@ fn migrate_legacy_db(app_dir: &Path) {
     }
 }
 
-fn resolve_profile_name(profiles_dir: &Path) -> String {
-    if let Ok(entries) = fs::read_dir(profiles_dir) {
-        let mut first_folder = None;
-
-        for entry in entries.flatten() {
-            if let Ok(file_type) = entry.file_type() {
-                if file_type.is_dir() {
-                    let name = entry.file_name().to_string_lossy().into_owned();
-                    if name == "Default" {
-                        return name;
-                    }
-                    if first_folder.is_none() {
-                        first_folder = Some(name);
-                    }
-                }
-            }
-        }
-
-        if let Some(folder) = first_folder {
-            return folder;
-        }
-    }
-
-    "Default".to_string()
-}
-
-pub fn get_profile_db_path(handle: &AppHandle, profile_name: Option<&str>) -> PathBuf {
+pub fn get_profile_db_path(handle: &AppHandle, active_profile: &ActiveProfile) -> PathBuf {
     let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
-    let profiles_dir = app_dir.join("profiles");
-
     migrate_legacy_db(&app_dir);
 
-    let target_name = match profile_name {
-        Some(name) => name.to_string(),
-        None => resolve_profile_name(&profiles_dir),
-    };
-
-    let profile_dir = profiles_dir.join(&target_name);
-
-    if !profile_dir.exists() {
-        fs::create_dir_all(&profile_dir).expect("Failed to create profile directory");
-    }
-
-    profile_dir.join("user_profile.db")
+    get_profile_dir(handle, active_profile).join("user_profile.db")
 }
 
 pub async fn create_user_pool(handle: &AppHandle, db_path: PathBuf) -> Pool<Sqlite> {
-    let db_url = format!("sqlite:{}?mode=rwc", db_path.to_string_lossy()).replace("\\", "/");
+    if let Some(parent) = db_path.parent() {
+        let _ = fs::create_dir_all(parent);
+    }
+
+    let path_str = db_path.to_string_lossy().replace("\\", "/");
+
+    let db_url = format!("sqlite:///{}?mode=rwc", path_str);
 
     let pool = SqlitePoolOptions::new()
         .max_connections(5)

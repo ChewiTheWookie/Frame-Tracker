@@ -1,18 +1,27 @@
-use tauri::Manager;
-
-use crate::models::keybinds::KeybindRegistry;
+use tauri::{ AppHandle, State };
+use crate::{
+    config::keybinds::get_default_keybinds,
+    models::keybinds::KeybindRegistry,
+    utils::paths::get_profile_dir,
+    ActiveProfile,
+};
 
 #[tauri::command]
-pub async fn get_keybinds(app: tauri::AppHandle) -> Result<KeybindRegistry, String> {
-    let defaults = crate::config::keybinds::get_default_keybinds();
+pub async fn get_keybinds(
+    app: AppHandle,
+    active_profile: State<'_, ActiveProfile>
+) -> Result<KeybindRegistry, String> {
+    let defaults = get_default_keybinds();
 
-    let path = app.path().app_config_dir().unwrap().join("keybinds.json");
+    let profile_dir = get_profile_dir(&app, &active_profile);
+    let path = profile_dir.join("keybinds.json");
 
     if !path.exists() {
         return Ok(defaults);
     }
 
-    let file_data = std::fs::read_to_string(path).map_err(|e| e.to_string())?;
+    let file_data = std::fs::read_to_string(&path).map_err(|e| e.to_string())?;
+
     let mut user_registry: KeybindRegistry = serde_json
         ::from_str(&file_data)
         .map_err(|e| e.to_string())?;

@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { KeyConfig } from "@/types/keybinds";
 import { useKeybindStore } from "@/stores/useKeybindStore";
+import { ListItem } from "../ListItem";
+import { CardButton } from "../CardButton";
+import { Earth } from "lucide-react";
+
 import styles from "./KeybindRecorder.module.css";
 
 interface Props {
@@ -10,6 +14,7 @@ interface Props {
 
 export function KeybindRecorder({ action, label }: Props) {
     const [isRecording, setIsRecording] = useState(false);
+    const setGlobalRecording = useKeybindStore((s) => s.setIsRecording);
 
     const definition = useKeybindStore((s) => s.registry[action]);
     const updateKeybind = useKeybindStore((s) => s.updateKeybind);
@@ -36,14 +41,22 @@ export function KeybindRecorder({ action, label }: Props) {
 
             updateKeybind(action, newConfig);
             setIsRecording(false);
+            setGlobalRecording(false);
         };
 
         window.addEventListener("keydown", handleKeyDown, { capture: true });
-        return () =>
+        return () => {
             window.removeEventListener("keydown", handleKeyDown, {
                 capture: true,
             });
-    }, [isRecording, action, config.isGlobal, updateKeybind]);
+        };
+    }, [
+        isRecording,
+        action,
+        config.isGlobal,
+        updateKeybind,
+        setGlobalRecording,
+    ]);
 
     const displayKey = (conf: KeyConfig) => {
         const parts = [];
@@ -55,31 +68,36 @@ export function KeybindRecorder({ action, label }: Props) {
     };
 
     return (
-        <div className={styles.row}>
-            <span className={styles.label}>{label}</span>
-            <button
-                type="button"
-                className={`${styles.globalButton} ${config.isGlobal ? styles.active : ""}`}
-                onClick={() =>
-                    updateKeybind(action, {
-                        ...config,
-                        isGlobal: !config.isGlobal,
-                    })
-                }
-                title={
-                    config.isGlobal
-                        ? "Global Shortcut (Works anywhere)"
-                        : "Local Shortcut (App only)"
-                }
-            >
-                Global
-            </button>
-            <button
-                className={`${styles.recordButton} ${isRecording ? styles.recording : ""}`}
-                onClick={() => setIsRecording(true)}
-            >
-                {isRecording ? "Press any key..." : displayKey(config)}
-            </button>
-        </div>
+        <ListItem
+            title={label}
+            fontSize="1rem"
+            button={
+                <CardButton
+                    label={
+                        isRecording ? "Press any key..." : displayKey(config)
+                    }
+                    onClick={() => {
+                        setIsRecording(true);
+                        setGlobalRecording(true);
+                    }}
+                    width="10rem"
+                />
+            }
+            dropdown={
+                <div className="ListItemDropdown">
+                    <button
+                        onClick={() =>
+                            updateKeybind(action, {
+                                ...config,
+                                isGlobal: !config.isGlobal,
+                            })
+                        }
+                        className={config.isGlobal ? styles.active : ""}
+                    >
+                        <Earth size={12} /> Global
+                    </button>
+                </div>
+            }
+        />
     );
 }

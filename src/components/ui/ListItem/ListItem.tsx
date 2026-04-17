@@ -9,10 +9,19 @@ interface Props {
     button?: React.ReactNode;
     dropdown?: React.ReactNode;
 
+    fontSize?: string;
+
     onClick?: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
-export function ListItem({ icon, title, button, dropdown, onClick }: Props) {
+export function ListItem({
+    icon,
+    title,
+    button,
+    dropdown,
+    onClick,
+    fontSize,
+}: Props) {
     const [dropdownState, setDropdownState] = useState(false);
 
     const handleClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -22,7 +31,12 @@ export function ListItem({ icon, title, button, dropdown, onClick }: Props) {
 
     return (
         <div className={styles.card} onClick={handleClick}>
-            <span className={styles.title}>
+            <span
+                className={styles.title}
+                style={{
+                    fontSize: fontSize,
+                }}
+            >
                 {icon}
                 {title}
             </span>

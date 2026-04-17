@@ -1,21 +1,27 @@
-use tauri::Emitter;
-
+use tauri::{ Emitter, State };
 use crate::database::db::{ UserDb, create_user_pool, get_profile_db_path };
+use crate::ActiveProfile;
 
 #[tauri::command]
 pub async fn switch_profile(
     new_profile_name: String,
     handle: tauri::AppHandle,
-    user_db: tauri::State<'_, UserDb>
+    user_db: State<'_, UserDb>,
+    active_profile: State<'_, ActiveProfile>
 ) -> Result<(), String> {
-    let new_path = get_profile_db_path(&handle, Some(&new_profile_name));
+    {
+        let mut profile_guard = active_profile.0.lock().expect("Failed to lock ActiveProfile");
+        *profile_guard = Some(new_profile_name.clone());
+    }
+
+    let new_path = get_profile_db_path(&handle, &active_profile);
 
     let new_pool = create_user_pool(&handle, new_path).await;
 
-    let mut pool_guard = user_db.0.lock().await;
-    *pool_guard = new_pool;
-
-    drop(pool_guard);
+    {
+        let mut pool_guard = user_db.0.lock().await;
+        *pool_guard = new_pool;
+    }
 
     handle.emit("profile-switched", &new_profile_name).map_err(|e| e.to_string())?;
 

@@ -7,8 +7,6 @@ export async function loadKeybindsApi(): Promise<KeybindRegistry> {
     return await invoke<KeybindRegistry>("get_keybinds");
 }
 
-export async function saveKeybindsApi(
-    registry: KeybindRegistry,
-): Promise<void> {
-    await invoke("set_keybind", { mapping: registry });
+export async function saveKeybindsApi(mapping: KeybindRegistry): Promise<void> {
+    await invoke("set_keybind", { mapping });
 }
