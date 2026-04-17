@@ -1,16 +1,18 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { CardGrid } from "@/components/modules/CardGrid";
 import { TaskCard } from "@/components/modules/TaskCard";
 import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
-import { InfoContainer } from "@/components/ui/InfoContainer";
 import { Throbber } from "@/components/ui/Throbber";
 import {
     useTaskActions,
     useTaskIds,
     useTaskStore,
 } from "@/stores/useTaskStore";
+import { Modal } from "@/components/ui/Modal";
 
 export function TaskTracker() {
+    const [isDismissed, setIsDismissed] = useState(false);
+
     const taskIds = useTaskIds();
     const { loadMore } = useTaskActions();
 
@@ -18,13 +20,19 @@ export function TaskTracker() {
     const hasMore = useTaskStore((s) => s.hasMore);
     const error = useTaskStore((s) => s.error);
 
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const showErrorModal = error !== null && !isDismissed;
 
-    if (error)
-        return <InfoContainer message={`Error loading tasks: ${error}`} />;
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     return (
         <>
+            <Modal
+                isOpen={showErrorModal}
+                onClose={() => setIsDismissed(true)}
+                title="Error"
+            >
+                <p>Error loading tasks: {error}</p>
+            </Modal>
             {isLoading && taskIds.length === 0 ? (
                 <Throbber label={"Loading Tasks"} />
             ) : (

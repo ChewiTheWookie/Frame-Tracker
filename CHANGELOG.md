@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 1.4.2
+
+### Dev Notes
+
+- ✏️ replace InfoContainer references with Modals
+
 ## 1.4.1
 
 ### Bug Fixes
