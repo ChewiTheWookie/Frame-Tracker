@@ -33,7 +33,7 @@ jobs:
               id: extract_changelog
               shell: bash
               run: |
-                  VERSION=$(echo "${{ github.ref_name }}" | grep -oP '\d+\.\d+\.\d+')
+                  VERSION=$(echo "${{ github.ref_name }}" | sed 's/[^0-9.]//g')
 
                   echo "Extracting notes for version: $VERSION"
 
