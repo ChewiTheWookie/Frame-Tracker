@@ -1,5 +1,8 @@
 import { useEffect, useRef } from "react";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
+import { check } from "@tauri-apps/plugin-updater";
+import { ask } from "@tauri-apps/plugin-dialog";
+import { relaunch } from "@tauri-apps/plugin-process";
 import { useMasteryStore } from "@/stores/useMasteryStore";
 import { useTaskStore } from "@/stores/useTaskStore";
 import { useTimeStore } from "@/stores/useTimeStore";
@@ -14,6 +17,31 @@ export const useAppInitialization = () => {
     const refreshGlobals = useKeybindStore((s) => s.refreshGlobalShortcuts);
 
     const unlisteners = useRef<UnlistenFn[]>([]);
+
+    useEffect(() => {
+        const handleUpdate = async () => {
+            if (import.meta.env.DEV) return;
+
+            try {
+                const update = await check();
+                if (update?.available) {
+                    const confirmed = await ask(
+                        `Version ${update.version} is available. Install and restart?`,
+                        { title: "Update Available", kind: "info" },
+                    );
+
+                    if (confirmed) {
+                        await update.downloadAndInstall();
+                        await relaunch();
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to check for updates:", error);
+            }
+        };
+
+        handleUpdate();
+    }, []);
 
     useEffect(() => {
         initializeKeybinds().catch(console.error);

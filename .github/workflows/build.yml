@@ -29,13 +29,35 @@ jobs:
             - name: Install Frontend Dependencies
               run: npm ci
 
+            - name: Extract Release Notes
+              id: extract_changelog
+              shell: bash
+              run: |
+                  VERSION=$(echo "${{ github.ref_name }}" | grep -oP '\d+\.\d+\.\d+')
+
+                  echo "Extracting notes for version: $VERSION"
+
+                  CHANGELOG=$(sed -n "/^## $VERSION/,/^## /p" CHANGELOG.md | sed '$d')
+
+                  CHANGELOG_CLEANED=$(echo "$CHANGELOG" | tail -n +2)
+
+                  if [ -z "$CHANGELOG_CLEANED" ]; then
+                    CHANGELOG_CLEANED=$(sed -n "/^## $VERSION/,\$p" CHANGELOG.md | tail -n +2)
+                  fi
+
+                  echo "notes<<EOF" >> $GITHUB_OUTPUT
+                  echo "$CHANGELOG_CLEANED" >> $GITHUB_OUTPUT
+                  echo "EOF" >> $GITHUB_OUTPUT
+
             - name: Build Tauri App & Publish
               uses: tauri-apps/tauri-action@v0
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+                  TAURI_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PASSWORD }}
               with:
                   tagName: ${{ github.ref_name }}
-                  releaseName: "FrameTracker ${{ github.ref_name }}"
-                  releaseBody: "Automated release by GitHub Actions."
-                  releaseDraft: true
+                  releaseName: "${{ github.ref_name }}"
+                  releaseBody: ${{ steps.extract_changelog.outputs.notes }}
+                  releaseDraft: false
                   prerelease: false
