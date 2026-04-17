@@ -16,9 +16,10 @@ export interface KeyConfig {
 }
 
 export interface KeybindDefinition {
+    id: KeybindAction;
     label: string;
     group: string;
     config: KeyConfig;
 }
 
-export type KeybindRegistry = Record<string, KeybindDefinition>;
+export type KeybindRegistry = KeybindDefinition[];

@@ -16,7 +16,9 @@ export function KeybindRecorder({ action, label }: Props) {
     const [isRecording, setIsRecording] = useState(false);
     const setGlobalRecording = useKeybindStore((s) => s.setIsRecording);
 
-    const definition = useKeybindStore((s) => s.registry[action]);
+    const definition = useKeybindStore((s) =>
+        s.registry.find((item) => item.id === action),
+    );
     const updateKeybind = useKeybindStore((s) => s.updateKeybind);
 
     if (!definition) return null;

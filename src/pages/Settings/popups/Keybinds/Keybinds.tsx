@@ -9,11 +9,11 @@ export function Keybinds() {
     const scrollRef = useRef<HTMLDivElement>(null);
     const registry = useKeybindStore((s) => s.registry);
 
-    const groupedBinds = Object.entries(registry).reduce(
-        (acc, [id, definition]) => {
-            const { group } = definition;
+    const groupedBinds = registry.reduce(
+        (acc, definition) => {
+            const { group, id, label } = definition;
             if (!acc[group]) acc[group] = [];
-            acc[group].push({ id, label: definition.label });
+            acc[group].push({ id, label });
             return acc;
         },
         {} as Record<string, { id: string; label: string }[]>,

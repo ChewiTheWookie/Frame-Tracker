@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { register, unregisterAll } from "@tauri-apps/plugin-global-shortcut";
 import { KeyConfig, KeybindRegistry, KeybindAction } from "@/types/keybinds";
-import { loadKeybindsApi, saveKeybindsApi } from "@/api/keybinds";
+import { loadKeybindsApi, saveKeybindApi } from "@/api/keybinds";
 
 interface KeybindState {
     registry: KeybindRegistry;
@@ -15,7 +15,7 @@ interface KeybindState {
 }
 
 export const useKeybindStore = create<KeybindState>()((set, get) => ({
-    registry: {} as KeybindRegistry,
+    registry: [] as KeybindRegistry,
     isRecording: false,
     setIsRecording: (val) => set({ isRecording: val }),
 
@@ -30,17 +30,14 @@ export const useKeybindStore = create<KeybindState>()((set, get) => ({
 
     updateKeybind: async (id, newConfig) => {
         const { registry } = get();
-        if (!registry[id]) return;
 
-        const updatedRegistry = {
-            ...registry,
-            [id]: { ...registry[id], config: newConfig },
-        };
-
+        const updatedRegistry = registry.map((item) =>
+            item.id === id ? { ...item, config: newConfig } : item,
+        );
         set({ registry: updatedRegistry });
 
         try {
-            await saveKeybindsApi(updatedRegistry);
+            await saveKeybindApi(id, newConfig);
         } catch (err) {
             console.error("Failed to save keybind update:", err);
         }
@@ -51,8 +48,8 @@ export const useKeybindStore = create<KeybindState>()((set, get) => ({
             await unregisterAll();
             const { registry } = get();
 
-            for (const [id, definition] of Object.entries(registry)) {
-                const { config } = definition;
+            for (const definition of registry) {
+                const { id, config } = definition;
 
                 if (config.isGlobal) {
                     const shortcut = formatShortcut(config);
