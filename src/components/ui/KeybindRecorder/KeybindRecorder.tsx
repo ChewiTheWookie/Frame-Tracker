@@ -3,7 +3,7 @@ import { KeyConfig } from "@/types/keybinds";
 import { useKeybindStore } from "@/stores/useKeybindStore";
 import { ListItem } from "../ListItem";
 import { CardButton } from "../CardButton";
-import { Earth } from "lucide-react";
+import { CircleX, Earth } from "lucide-react";
 
 import styles from "./KeybindRecorder.module.css";
 
@@ -61,11 +61,16 @@ export function KeybindRecorder({ action, label }: Props) {
     ]);
 
     const displayKey = (conf: KeyConfig) => {
+        if (!conf.key || conf.key === "") return "Unassigned";
+
         const parts = [];
         if (conf.ctrl) parts.push("Ctrl");
         if (conf.shift) parts.push("Shift");
         if (conf.alt) parts.push("Alt");
-        parts.push(conf.key === " " ? "Space" : conf.key.toUpperCase());
+
+        const keyName = conf.key === " " ? "Space" : conf.key.toUpperCase();
+        parts.push(keyName);
+
         return parts.join(" + ");
     };
 
@@ -97,6 +102,19 @@ export function KeybindRecorder({ action, label }: Props) {
                         className={config.isGlobal ? styles.active : ""}
                     >
                         <Earth size={12} /> Global
+                    </button>
+                    <button
+                        onClick={() =>
+                            updateKeybind(action, {
+                                key: "",
+                                ctrl: false,
+                                shift: false,
+                                alt: false,
+                                isGlobal: false,
+                            })
+                        }
+                    >
+                        <CircleX size={12} /> Clear bind
                     </button>
                 </div>
             }

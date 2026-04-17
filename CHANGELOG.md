@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Features
 
 - ✨ add Per profile keybinds
+- ✨ add new Keybinds
 
 ### Bug Fixes
 
