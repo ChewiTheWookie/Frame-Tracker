@@ -3,7 +3,7 @@ use tauri::ipc::Invoke;
 use crate::commands::{
     keybinds,
     licenses,
-    logs,
+    log,
     mastery_tracker,
     profiles,
     saved_songs,
@@ -19,7 +19,7 @@ pub fn generate_handler() -> impl Fn(Invoke<tauri::Wry>) -> bool {
         licenses::get_license_details::get_license_details,
         licenses::get_license_names::get_license_names,
         //Logs
-        logs::get_logs::get_logs,
+        log::get_logs::get_logs,
         // Mastery Tracker Commands
         mastery_tracker::get_items::get_items,
         mastery_tracker::get_mastery_stats::get_mastery_stats,

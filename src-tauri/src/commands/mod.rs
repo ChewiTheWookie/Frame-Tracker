@@ -9,7 +9,7 @@ pub mod licenses {
     pub mod get_license_names;
 }
 
-pub mod logs {
+pub mod log {
     pub mod get_logs;
 }
 
