@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 1.4.4
+
+### Dev Notes
+
+- ✏️ refactor stores to reduce duplicate code
+
 ## 1.4.3
 
 ### Bug Fixes

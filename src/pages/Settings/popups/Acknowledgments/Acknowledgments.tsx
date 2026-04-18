@@ -7,11 +7,12 @@ import {
     useLicenseActions,
 } from "@/stores/useLicenseStore";
 import { Throbber } from "@/components/ui/Throbber";
-
-import styles from "./Acknowledgments.module.css";
 import { ListItem } from "@/components/ui/ListItem";
 import { CardButton } from "@/components/ui/CardButton";
 import { Modal } from "@/components/ui/Modal";
+
+import styles from "./Acknowledgments.module.css";
+import { ListSection } from "@/components/ui/ListSection";
 
 export function Acknowledgments() {
     const { fetchSummaries } = useLicenseActions();
@@ -30,23 +31,23 @@ export function Acknowledgments() {
                 <Throbber label="Loading summaries" />
             ) : (
                 <>
-                    <section className={styles.section}>
-                        <h2 className={styles.sectionHeader}>
-                            Frontend Dependencies
-                        </h2>
-                        {frontend.map((item) => (
-                            <LicenseItem key={item.id} item={item} />
-                        ))}
-                    </section>
-
-                    <section className={styles.section}>
-                        <h2 className={styles.sectionHeader}>
-                            Backend Dependencies
-                        </h2>
-                        {backend.map((item) => (
-                            <LicenseItem key={item.id} item={item} />
-                        ))}
-                    </section>
+                    <ListSection
+                        title="Frontend Dependencies"
+                        list={
+                            <>
+                                {frontend.map((item) => (
+                                    <LicenseItem key={item.id} item={item} />
+                                ))}
+                            </>
+                        }
+                    />
+                    <ListSection title="Backend Dependencies" list={
+                        <>
+                            {backend.map((item) => (
+                                <LicenseItem key={item.id} item={item} />
+                            ))}
+                        </>
+                    } />
                 </>
             )}
         </>

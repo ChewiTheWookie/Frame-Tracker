@@ -27,12 +27,12 @@ export const useAppInitialization = () => {
                 if (update?.available) {
                     const confirmed = await ask(
                         `Version ${update.version} is available. Install and restart?`,
-                        { title: "Update Available", kind: "info" },
+                        { title: "Update Available", kind: "info" }
                     );
 
                     if (confirmed) {
                         await update.downloadAndInstall();
-                        await exit(0)
+                        await exit(0);
                     }
                 }
             } catch (error) {
@@ -66,55 +66,49 @@ export const useAppInitialization = () => {
                     name: "db-initial-sync-complete",
                     handler: () => {
                         const state = useMasteryStore.getState();
-                        if ("fetchItems" in state)
-                            (state as any).fetchItems(state.itemIds.length > 0);
+                        state.actions.fetchData(state.itemIds.length > 0);
                     },
                 },
                 {
                     name: "tasks-reset",
                     handler: () => {
-                        const state = useTaskStore.getState();
-                        if ("fetchTasks" in state)
-                            (state as any).fetchTasks(true);
+                        useTaskStore.getState().actions.fetchData(true);
                     },
                 },
                 {
                     name: "profile-switched",
                     handler: async () => {
-                        useMasteryStore.setState({
+                        const resetObj = {
                             page: 0,
                             items: {},
                             itemIds: [],
-                        });
-                        useTaskStore.setState({
-                            page: 0,
-                            tasks: {},
-                            taskIds: [],
-                        });
+                            hasMore: true,
+                            isLoading: false,
+                        };
+
+                        useMasteryStore.setState(resetObj);
+                        useTaskStore.setState(resetObj);
                         useSavedSongStore.setState({
                             songNames: [],
                             songCache: {},
                             isLoading: false,
                         });
 
-                        const masteryActions =
-                            useMasteryStore.getState().actions;
-                        const taskActions = (useTaskStore.getState() as any)
-                            .actions;
-                        const songActions =
-                            useSavedSongStore.getState().actions;
-
                         try {
                             await Promise.all([
                                 initializeKeybinds(),
-                                masteryActions.fetchItems(true),
-                                taskActions?.fetchTasks?.(true),
-                                songActions.fetchSongNames(true),
+                                useMasteryStore
+                                    .getState()
+                                    .actions.fetchData(true),
+                                useTaskStore.getState().actions.fetchData(true),
+                                useSavedSongStore
+                                    .getState()
+                                    .actions.fetchSongNames(true),
                             ]);
                         } catch (err) {
                             console.error(
-                                "Failed to refresh data after profile switch:",
-                                err,
+                                "Profile switch refresh failed:",
+                                err
                             );
                         }
                     },

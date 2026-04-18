@@ -1,7 +1,6 @@
 import { KeybindRecorder } from "@/components/ui/KeybindRecorder";
 import { useKeybindStore } from "@/stores/useKeybindStore";
-
-import styles from "./Keybinds.module.css";
+import { ListSection } from "@/components/ui/ListSection";
 
 export function Keybinds() {
     const registry = useKeybindStore((s) => s.registry);
@@ -27,9 +26,8 @@ export function Keybinds() {
     return (
         <>
             {sortedGroups.map(([group, binds]) => (
-                <section key={group} className={styles.section}>
-                    <h3 className={styles.title}>{group}</h3>
-                    <div className={styles.grid}>
+                <ListSection title={group} list={
+                    <>
                         {binds.map((bind) => (
                             <KeybindRecorder
                                 key={bind.id}
@@ -37,8 +35,8 @@ export function Keybinds() {
                                 label={bind.label}
                             />
                         ))}
-                    </div>
-                </section>
+                    </>
+                } />
             ))}
         </>
     );
