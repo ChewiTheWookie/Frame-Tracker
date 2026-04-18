@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Features
 
 - ✨ add search to `Acknowledgments.tsx`
+- ✨ add search to `MusicSaver.tsx`
 
 ### Dev Notes
 
@@ -14,6 +15,7 @@ All notable changes to this project will be logged here
 - ✏️ move profile logic to `useProfileStore.ts`
 - ✏️ change license command names to match structure of song commands
 - ✏️ add pagination to `Acknowledgments.tsx`
+- ✏️ add pagination to `MusicSaver.tsx`
 
 ## 1.4.3
 

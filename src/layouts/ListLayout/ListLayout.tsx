@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { ROUTE_METADATA } from "@/routes/metadata";
 import { PATHS } from "@/routes/paths";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { Searchbar } from "@/components/ui/Searchbar";
 
 import styles from "./ListLayout.module.css";
 
@@ -29,7 +30,13 @@ export function ListLayout() {
         >
             <header className={styles.header}>
                 <h2 className={styles.title}>{metadata?.label}</h2>
-                {headerAction}
+                <span className={styles.actionSlot}>{headerAction}</span>
+                {metadata?.hasSearch && (
+                    <nav className={styles.navBottom}>
+                        {metadata?.hasSearch && <Searchbar />}
+                    </nav>
+                )}
+
             </header>
             <div className={styles.scrollContainer} ref={scrollRef}>
                 <Outlet

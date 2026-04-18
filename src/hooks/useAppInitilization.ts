@@ -27,7 +27,7 @@ export const useAppInitialization = () => {
                 if (update?.available) {
                     const confirmed = await ask(
                         `Version ${update.version} is available. Install and restart?`,
-                        { title: "Update Available", kind: "info" }
+                        { title: "Update Available", kind: "info" },
                     );
 
                     if (confirmed) {
@@ -78,7 +78,7 @@ export const useAppInitialization = () => {
                 {
                     name: "profile-switched",
                     handler: async () => {
-                        const resetObj = {
+                        const resetState = {
                             page: 0,
                             items: {},
                             itemIds: [],
@@ -86,13 +86,12 @@ export const useAppInitialization = () => {
                             isLoading: false,
                         };
 
-                        useMasteryStore.setState(resetObj);
-                        useTaskStore.setState(resetObj);
+                        useMasteryStore.setState(resetState);
+                        useTaskStore.setState(resetState);
                         useSavedSongStore.setState({
-                            songNames: [],
+                            ...resetState,
                             songCache: {},
-                            isLoading: false,
-                        });
+                        } as any);
 
                         try {
                             await Promise.all([
@@ -103,12 +102,12 @@ export const useAppInitialization = () => {
                                 useTaskStore.getState().actions.fetchData(true),
                                 useSavedSongStore
                                     .getState()
-                                    .actions.fetchSongNames(true),
+                                    .actions.fetchData(true),
                             ]);
                         } catch (err) {
                             console.error(
                                 "Profile switch refresh failed:",
-                                err
+                                err,
                             );
                         }
                     },

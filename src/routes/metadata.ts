@@ -25,6 +25,7 @@ interface RouteMetadata {
     isCycleTarget?: boolean;
 
     hasSearch?: boolean;
+    useInternalSearch?: boolean;
     hasCategory?: boolean;
     categories?: readonly string[];
 
@@ -75,6 +76,8 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
 
         showInNav: true,
         isCycleTarget: true,
+        hasSearch: true,
+        useInternalSearch: true,
     },
     [PATHS.Profile]: {
         label: "Profile",

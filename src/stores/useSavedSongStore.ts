@@ -1,49 +1,73 @@
-import { create } from "zustand";
-import { useShallow } from "zustand/react/shallow";
 import { songService } from "@/api/songs";
+import { createDataStore } from "@/stores/createDataStore";
+import { useShallow } from "zustand/react/shallow";
+import { BaseState } from "@/types/store";
 
-interface SongState {
-    songNames: string[];
-    songCache: Record<string, string>;
-    isLoading: boolean;
-    error: string | null;
-
-    actions: {
-        fetchSongNames: (force?: boolean) => Promise<void>;
-        fetchSongDetails: (name: string) => Promise<void>;
-        addSong: (name: string, songString: string) => Promise<void>;
-        renameSong: (oldName: string, newName: string) => Promise<void>;
-        deleteSong: (name: string) => Promise<void>;
-    };
+export interface SongItem {
+    id: string;
+    name: string;
 }
 
-export const useSavedSongStore = create<SongState>((set, get) => ({
-    songNames: [],
-    songCache: {},
-    isLoading: false,
-    error: null,
+type SongFilters = {};
+type SongStats = { total: number };
+type SongCategory = "All";
 
-    actions: {
-        fetchSongNames: async (silent = false) => {
-            const { songNames, isLoading } = get();
+interface ExtraSongState {
+    songCache: Record<string, string>;
+}
 
-            if (!silent && (songNames.length > 0 || isLoading)) return;
+const songDataStore = createDataStore<
+    SongItem,
+    SongFilters,
+    SongStats,
+    SongCategory
+>({
+    initialFilters: {},
+    initialStats: { total: 0 },
+    fetchItems: async ({ query, limit, offset }) => {
+        const names = await songService.getSongNames({
+            query,
+            limit,
+            offset,
+        });
 
-            set({ isLoading: true, error: null });
-            try {
-                const names = await songService.getSongNames();
-                set({ songNames: names, isLoading: false });
-            } catch (err) {
-                set({ error: String(err), isLoading: false });
-            }
-        },
+        const items = names.map((name) => ({ id: name, name }));
+        return [items, { total: names.length }];
+    },
+});
+
+export const useSavedSongStore =
+    songDataStore.useStore as unknown as import("zustand").UseBoundStore<
+        import("zustand").StoreApi<
+            BaseState<SongItem, SongFilters, SongStats, SongCategory> & {
+                actions: any;
+            } & ExtraSongState
+        >
+    >;
+
+useSavedSongStore.setState((state) => ({
+    ...state,
+    songCache: state.songCache || {},
+}));
+
+export const useSongNames = () =>
+    useSavedSongStore(useShallow((s) => s.itemIds));
+
+export const useSongStats = () => useSavedSongStore(useShallow((s) => s.stats));
+
+export const useSongActions = () => {
+    const baseActions = useSavedSongStore((s) => s.actions);
+    const songCache = useSavedSongStore((s) => s.songCache);
+
+    return {
+        ...baseActions,
 
         fetchSongDetails: async (name: string) => {
-            if (get().songCache[name]) return;
+            if (songCache[name]) return;
             try {
                 const songString = await songService.getSongDetails(name);
                 if (songString) {
-                    set((state) => ({
+                    useSavedSongStore.setState((state) => ({
                         songCache: { ...state.songCache, [name]: songString },
                     }));
                 }
@@ -53,32 +77,28 @@ export const useSavedSongStore = create<SongState>((set, get) => ({
         },
 
         addSong: async (name: string, songString: string) => {
-            set({ isLoading: true, error: null });
             try {
                 await songService.setSong(name, songString);
-                set((state) => ({
-                    songNames: [...state.songNames, name],
+                await baseActions.fetchData(true);
+                useSavedSongStore.setState((state) => ({
                     songCache: { ...state.songCache, [name]: songString },
-                    isLoading: false,
                 }));
             } catch (err) {
-                set({ error: String(err), isLoading: false });
+                console.error("Add song error:", err);
             }
         },
 
         renameSong: async (oldName: string, newName: string) => {
             try {
                 await songService.renameSong(oldName, newName);
-                set((state) => {
-                    const newNames = state.songNames.map((n) =>
-                        n === oldName ? newName : n
-                    );
+                await baseActions.fetchData(true);
+                useSavedSongStore.setState((state) => {
                     const newCache = { ...state.songCache };
                     if (newCache[oldName]) {
                         newCache[newName] = newCache[oldName];
                         delete newCache[oldName];
                     }
-                    return { songNames: newNames, songCache: newCache };
+                    return { songCache: newCache };
                 });
             } catch (err) {
                 console.error("Rename error:", err);
@@ -88,22 +108,17 @@ export const useSavedSongStore = create<SongState>((set, get) => ({
         deleteSong: async (name: string) => {
             try {
                 await songService.deleteSong(name);
-                set((state) => {
+                await baseActions.fetchData(true);
+                useSavedSongStore.setState((state) => {
                     const { [name]: _, ...remainingCache } = state.songCache;
-                    return {
-                        songNames: state.songNames.filter((n) => n !== name),
-                        songCache: remainingCache,
-                    };
+                    return { songCache: remainingCache };
                 });
             } catch (err) {
                 console.error("Delete error:", err);
             }
         },
-    },
-}));
+    };
+};
 
-export const useSongNames = () =>
-    useSavedSongStore(useShallow((state) => state.songNames));
 export const useSongDetail = (name: string) =>
     useSavedSongStore((state) => state.songCache[name]);
-export const useSongActions = () => useSavedSongStore((state) => state.actions);

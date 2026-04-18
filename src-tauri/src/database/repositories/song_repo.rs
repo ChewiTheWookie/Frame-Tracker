@@ -10,8 +10,25 @@ pub async fn add_song(pool: &SqlitePool, name: &str, song_string: &str) -> Resul
     Ok(result.last_insert_rowid())
 }
 
-pub async fn fetch_song_names(pool: &SqlitePool) -> Result<Vec<String>> {
-    let names = sqlx::query_scalar("SELECT name FROM saved_songs").fetch_all(pool).await?;
+pub async fn fetch_song_names(
+    pool: &SqlitePool,
+    search: &str,
+    limit: i64,
+    offset: i64
+) -> Result<Vec<String>> {
+    let search_pattern = format!("%{}%", search);
+
+    let names: Vec<String> = sqlx
+        ::query_scalar(
+            "SELECT name FROM saved_songs 
+         WHERE name LIKE ? 
+         ORDER BY name ASC 
+         LIMIT ? OFFSET ?"
+        )
+        .bind(&search_pattern)
+        .bind(limit)
+        .bind(offset)
+        .fetch_all(pool).await?;
 
     Ok(names)
 }
