@@ -41,7 +41,7 @@ function InternalTaskCard({ taskId }: Props) {
 
     const frontHeader = (
         <>
-            <h4 className={styles.name}>{task.name}</h4>
+            <h4 className="CardTitle">{task.name}</h4>
             <div className={styles.timer}>{countdown}</div>
             <button
                 className={`${styles.favoriteBtn} ${isFavorite ? styles.isFavorite : ""}`}

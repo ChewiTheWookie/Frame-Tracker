@@ -2,6 +2,17 @@
 
 All notable changes to this project will be logged here
 
+## 1.4.2
+
+### Bug Fixes
+
+- 🛠️ fix autoupdater
+
+### Dev Notes
+
+- ✏️ replace InfoContainer references with Modals
+- ✏️ move to global css for `CardTitle`
+
 ## 1.4.1
 
 ### Bug Fixes
