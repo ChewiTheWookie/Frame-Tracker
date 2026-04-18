@@ -75,7 +75,7 @@ export const getSettingsConfig = ({
                         }}
                         label={<><Copy size={10} /> Copy</>}
                         width="5rem"
-                        height="2rem"
+                        height="1.5rem"
                     />,
                 },
             ],
