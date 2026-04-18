@@ -1,12 +1,9 @@
-import { useRef } from "react";
 import { KeybindRecorder } from "@/components/ui/KeybindRecorder";
 import { useKeybindStore } from "@/stores/useKeybindStore";
-import { ScrollToTop } from "@/components/ui/ScrollToTop";
 
 import styles from "./Keybinds.module.css";
 
 export function Keybinds() {
-    const scrollRef = useRef<HTMLDivElement>(null);
     const registry = useKeybindStore((s) => s.registry);
 
     const groupedBinds = registry.reduce(
@@ -28,7 +25,7 @@ export function Keybinds() {
     );
 
     return (
-        <div className={styles.scrollContainer} ref={scrollRef}>
+        <>
             {sortedGroups.map(([group, binds]) => (
                 <section key={group} className={styles.section}>
                     <h3 className={styles.title}>{group}</h3>
@@ -43,7 +40,6 @@ export function Keybinds() {
                     </div>
                 </section>
             ))}
-            <ScrollToTop targetRef={scrollRef} />
-        </div>
+        </>
     );
 }

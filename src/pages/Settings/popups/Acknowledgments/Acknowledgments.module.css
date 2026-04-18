@@ -1,95 +1,16 @@
-.scrollContainer {
-    width: 98%;
-    margin: 0 auto;
-
-    flex: 1;
-    scroll-behavior: smooth;
-    overflow-y: auto;
-}
-
 .section {
+    width: 98%;
     margin-bottom: 0.5rem;
 }
 
 .sectionHeader {
-    font-size: 1.25rem;
-    font-weight: 600;
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 0;
-    margin: 0;
-    color: var(--accent);
-    background: var(--bg);
-    position: sticky;
-    z-index: 1000;
-    top: 0;
-}
+    margin: 0 0 0.5rem 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--accent);
 
-.item {
-    width: 98%;
-    margin: 1rem auto 0 auto;
-    padding: 0.35rem 0;
-    cursor: pointer;
-}
-
-.itemHeader {
-    list-style: none;
-    align-items: center;
-}
-
-.chevronIcon {
-    color: var(--accent);
-    transition: transform 0.2s ease;
-    flex-shrink: 0;
-    transform: translateY(2px);
-    margin-right: 0.25rem;
-}
-
-.item[open] .chevronIcon {
-    transform: rotate(90deg);
-}
-
-.itemHeader:hover .chevronIcon {
     color: var(--color);
 }
 
-.itemDetailsContent {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 0.75rem;
-}
-
-.itemDetailsSpan {
-    display: flex;
-    font-size: 0.75rem;
-    padding: 0.5rem;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 4px;
-    align-items: center;
-    gap: 6px;
-}
-
-.itemDetailsPre {
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 0.5rem;
-    padding: 1rem;
-    font-family: monospace;
-    font-size: 0.7rem;
-    background-color: var(--card-bg);
-    overflow-y: auto;
-    max-height: 300px;
-    border: 1px solid var(--card-border);
-    border-radius: 4px;
-    overscroll-behavior: contain;
-    white-space: pre-wrap;
-    word-break: break-all;
-}
-
-.scrollContainer::-webkit-scrollbar,
 .itemDetailsPre::-webkit-scrollbar {
     display: none;
 }
