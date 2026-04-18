@@ -24,7 +24,7 @@
     },
     "bundle": {
         "active": true,
-        "targets": "nsis",
+        "targets": "all",
         "createUpdaterArtifacts": true,
         "publisher": "ChewiTheWookie",
         "copyright": "Copyright © 2026",
