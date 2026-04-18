@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 1.4.3
+
+### Dev Notes
+
+- ✏️ move to `ListItem.tsx` for `Acknowledgments.tsx`
+
 ## 1.4.2
 
 ### Bug Fixes

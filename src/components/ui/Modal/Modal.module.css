@@ -33,6 +33,10 @@
     color: var(--accent);
 }
 
+[class*="ModalTitleSecondary"] {
+    font-size: 13px;
+}
+
 .closeButton {
     background: transparent;
     border: none;
@@ -57,7 +61,14 @@
 
 [class*="ModalTextarea"] {
     min-height: 100px;
+    max-height: 300px;
     resize: vertical;
+    overflow-x: hidden;
+    white-space: wrap;
+}
+
+[class*="ModalTextarea"]::-webkit-scrollbar {
+    display: none;
 }
 
 [class*="ModalInput"],

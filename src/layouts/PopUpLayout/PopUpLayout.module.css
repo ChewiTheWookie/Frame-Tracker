@@ -70,3 +70,16 @@
 .closeBtn:hover .closeIcon {
     color: var(--bg);
 }
+
+.scrollContainer {
+    width: 98%;
+    margin: 0 auto;
+
+    flex: 1;
+    scroll-behavior: smooth;
+    overflow-y: auto;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none;
+}
