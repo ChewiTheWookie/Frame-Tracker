@@ -41,7 +41,8 @@
             "nsis": {
                 "installMode": "currentUser",
                 "compression": "lzma"
-            }
+            },
+            "wix": {}
         }
     },
     "plugins": {
