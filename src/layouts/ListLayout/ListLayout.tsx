@@ -33,7 +33,7 @@ export function ListLayout() {
                 <span className={styles.actionSlot}>{headerAction}</span>
                 {metadata?.hasSearch && (
                     <nav className={styles.navBottom}>
-                        {metadata?.hasSearch && <Searchbar />}
+                        {metadata?.useInternalSearch && <Searchbar />}
                     </nav>
                 )}
 
