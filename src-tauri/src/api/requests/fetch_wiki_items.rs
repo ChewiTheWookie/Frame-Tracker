@@ -8,6 +8,7 @@ use crate::models::api::{
 };
 use crate::models::resources::RESOURCES;
 use owo_colors::OwoColorize;
+use tauri_plugin_log::log::info;
 use std::collections::HashSet;
 
 pub async fn fetch_wiki_items(
@@ -35,11 +36,11 @@ pub async fn fetch_wiki_items(
             }
 
             if is_forced && !is_api_masterable {
-                println!("{}", format!("[Added] Including: {} ID: {}", name, unique_name).green());
+                info!("{}", format!("[Added] Including: {} ID: {}", name, unique_name).green());
             }
 
             if exclusion_mapper::get_exclusion_map(name, unique_name) {
-                println!("{}", format!("[Excluded] Blocking: {} ID: {}", name, unique_name).cyan());
+                info!("{}", format!("[Excluded] Blocking: {} ID: {}", name, unique_name).cyan());
                 return None;
             }
 
@@ -48,7 +49,7 @@ pub async fn fetch_wiki_items(
                     item.category = new_cat.to_string();
                 }
                 None => {
-                    println!(
+                    info!(
                         "{}",
                         format!(
                             "[Skipped] No UI Category: {} (API: {}) ID: {}",
@@ -76,7 +77,7 @@ pub async fn fetch_wiki_items(
 
     let custom_list = custom_items::get_custom_items();
     for item in &custom_list {
-        println!("{}", format!("[Added] Custom: {}", item.name).green());
+        info!("{}", format!("[Added] Custom: {}", item.name).green());
     }
     filtered.extend(custom_list);
 

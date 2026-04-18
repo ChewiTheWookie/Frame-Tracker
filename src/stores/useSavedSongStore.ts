@@ -2,6 +2,7 @@ import { songService } from "@/api/songs";
 import { createDataStore } from "@/stores/createDataStore";
 import { useShallow } from "zustand/react/shallow";
 import { BaseState } from "@/types/store";
+import { error } from "@tauri-apps/plugin-log";
 
 export interface SongItem {
     id: string;
@@ -72,7 +73,7 @@ export const useSongActions = () => {
                     }));
                 }
             } catch (err) {
-                console.error(`[Songs] Detail fetch failed for ${name}:`, err);
+                error(`[Songs] Detail fetch failed for ${name}: ${err}`);
             }
         },
 
@@ -84,7 +85,7 @@ export const useSongActions = () => {
                     songCache: { ...state.songCache, [name]: songString },
                 }));
             } catch (err) {
-                console.error("Add song error:", err);
+                error(`Add song error: ${err}`);
             }
         },
 
@@ -101,7 +102,7 @@ export const useSongActions = () => {
                     return { songCache: newCache };
                 });
             } catch (err) {
-                console.error("Rename error:", err);
+                error(`Rename error: ${err}`);
             }
         },
 
@@ -114,7 +115,7 @@ export const useSongActions = () => {
                     return { songCache: remainingCache };
                 });
             } catch (err) {
-                console.error("Delete error:", err);
+                error(`Delete error: ${err}`);
             }
         },
     };

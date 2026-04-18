@@ -2,6 +2,7 @@ import { useEffect, useCallback } from "react";
 import { register, unregister } from "@tauri-apps/plugin-global-shortcut";
 import { formatShortcut, useKeybindStore } from "@/stores/useKeybindStore";
 import { KeybindAction } from "@/types/keybinds";
+import { logFailure } from "@/utils/logger";
 
 export const useActionKeybind = (
     action: KeybindAction,
@@ -59,10 +60,10 @@ export const useActionKeybind = (
                 if (event.state === "Pressed") {
                     callback();
                 }
-            }).catch(console.error);
+            }).catch(logFailure("Register Keybind"));
 
             return () => {
-                unregister(shortcut).catch(console.error);
+                unregister(shortcut).catch(logFailure("Unregister Keybind"));
             };
         } else {
             window.addEventListener("keydown", handleLocalKeyDown, {

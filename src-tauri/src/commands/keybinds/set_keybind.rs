@@ -1,14 +1,17 @@
-use tauri::{ AppHandle, State };
-use crate::{ models::keybinds::{ KeyConfig, KeybindRegistry }, utils::paths::get_profile_dir };
-use crate::ActiveProfile;
 use crate::config::keybinds::get_default_keybinds;
+use crate::ActiveProfile;
+use crate::{
+    models::keybinds::{KeyConfig, KeybindRegistry},
+    utils::paths::get_profile_dir,
+};
+use tauri::{AppHandle, State};
 
 #[tauri::command]
 pub async fn set_keybind(
     app: AppHandle,
     id: String,
     config: KeyConfig,
-    active_profile: State<'_, ActiveProfile>
+    active_profile: State<'_, ActiveProfile>,
 ) -> Result<(), String> {
     let profile_dir = get_profile_dir(&app, &active_profile);
     let path = profile_dir.join("keybinds.json");

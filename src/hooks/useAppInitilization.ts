@@ -3,11 +3,13 @@ import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { check } from "@tauri-apps/plugin-updater";
 import { ask } from "@tauri-apps/plugin-dialog";
 import { exit } from "@tauri-apps/plugin-process";
+import { error } from "@tauri-apps/plugin-log";
 import { useMasteryStore } from "@/stores/useMasteryStore";
 import { useTaskStore } from "@/stores/useTaskStore";
 import { useTimeStore } from "@/stores/useTimeStore";
 import { useKeybindStore } from "@/stores/useKeybindStore";
 import { useSavedSongStore } from "@/stores/useSavedSongStore";
+import { logFailure } from "@/utils/logger";
 
 export const useAppInitialization = () => {
     const updateTime = useTimeStore((state) => state.updateTime);
@@ -35,8 +37,8 @@ export const useAppInitialization = () => {
                         await exit(0);
                     }
                 }
-            } catch (error) {
-                console.error("Failed to check for updates:", error);
+            } catch (err) {
+                error(`Failed to check for updates: ${err}`);
             }
         };
 
@@ -44,7 +46,7 @@ export const useAppInitialization = () => {
     }, []);
 
     useEffect(() => {
-        initializeKeybinds().catch(console.error);
+        initializeKeybinds().catch(logFailure("Keybind Initialization"));
     }, [initializeKeybinds]);
 
     useEffect(() => {
@@ -54,7 +56,9 @@ export const useAppInitialization = () => {
 
     useEffect(() => {
         const globalCallbacks = {};
-        refreshGlobals(globalCallbacks).catch(console.error);
+        refreshGlobals(globalCallbacks).catch(
+            logFailure("Refresh Global Keybinds"),
+        );
     }, [registry, refreshGlobals]);
 
     useEffect(() => {
@@ -105,10 +109,7 @@ export const useAppInitialization = () => {
                                     .actions.fetchData(true),
                             ]);
                         } catch (err) {
-                            console.error(
-                                "Profile switch refresh failed:",
-                                err,
-                            );
+                            error(`Profile switch refresh failed: ${err}`);
                         }
                     },
                 },

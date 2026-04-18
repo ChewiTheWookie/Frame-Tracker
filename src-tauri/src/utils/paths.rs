@@ -1,7 +1,7 @@
-use std::path::{ Path, PathBuf };
-use std::fs;
-use tauri::{ AppHandle, Manager };
 use crate::ActiveProfile;
+use std::fs;
+use std::path::{Path, PathBuf};
+use tauri::{AppHandle, Manager};
 
 pub fn resolve_profile_name(profiles_dir: &Path) -> String {
     if let Ok(entries) = fs::read_dir(profiles_dir) {
@@ -28,7 +28,10 @@ pub fn resolve_profile_name(profiles_dir: &Path) -> String {
 }
 
 pub fn get_profile_dir(handle: &AppHandle, active_profile: &ActiveProfile) -> PathBuf {
-    let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
+    let app_dir = handle
+        .path()
+        .app_data_dir()
+        .expect("Failed to get AppData dir");
     let profiles_dir = app_dir.join("profiles");
 
     let profile_guard = active_profile.0.lock().expect("Failed to lock profile");

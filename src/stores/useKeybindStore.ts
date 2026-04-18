@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { register, unregisterAll } from "@tauri-apps/plugin-global-shortcut";
 import { KeyConfig, KeybindRegistry, KeybindAction } from "@/types/keybinds";
 import { loadKeybindsApi, saveKeybindApi } from "@/api/keybinds";
+import { error } from "@tauri-apps/plugin-log";
 
 interface KeybindState {
     registry: KeybindRegistry;
@@ -24,7 +25,7 @@ export const useKeybindStore = create<KeybindState>()((set, get) => ({
             const registry = await loadKeybindsApi();
             set({ registry });
         } catch (err) {
-            console.error("Failed to initialize keybinds:", err);
+            error(`Failed to initialize keybinds: ${err}`);
         }
     },
 
@@ -39,7 +40,7 @@ export const useKeybindStore = create<KeybindState>()((set, get) => ({
         try {
             await saveKeybindApi(id, newConfig);
         } catch (err) {
-            console.error("Failed to save keybind update:", err);
+            error(`Failed to save keybind update: ${err}`);
         }
     },
 
@@ -63,7 +64,7 @@ export const useKeybindStore = create<KeybindState>()((set, get) => ({
                 }
             }
         } catch (err) {
-            console.error("Global shortcut registration failed:", err);
+            error(`Global shortcut registration failed: ${err}`);
         }
     },
 }));

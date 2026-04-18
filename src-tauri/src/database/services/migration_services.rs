@@ -1,7 +1,7 @@
-use sqlx::{ Pool, Sqlite };
+use sqlx::{Pool, Sqlite};
 
 pub async fn run_relational_migration(
-    pool: &Pool<Sqlite>
+    pool: &Pool<Sqlite>,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let source_table = if check_column(pool, "mastery_tracker_backup", "parts_json").await {
         "mastery_tracker_backup"
@@ -39,17 +39,17 @@ pub async fn run_relational_migration(
         }
     }
 
-    sqlx::query("DROP TABLE IF EXISTS mastery_tracker_backup").execute(pool).await?;
+    sqlx::query("DROP TABLE IF EXISTS mastery_tracker_backup")
+        .execute(pool)
+        .await?;
 
     Ok(())
 }
 
 async fn check_column(pool: &Pool<Sqlite>, table: &str, col: &str) -> bool {
     let q = format!("PRAGMA table_info({})", table);
-    let rows: Vec<(i64, String, String, i64, Option<String>, i64)> = sqlx
-        ::query_as(&q)
-        .fetch_all(pool).await
-        .unwrap_or_default();
+    let rows: Vec<(i64, String, String, i64, Option<String>, i64)> =
+        sqlx::query_as(&q).fetch_all(pool).await.unwrap_or_default();
 
     rows.iter().any(|r| r.1 == col)
 }

@@ -17,6 +17,7 @@
         "updater:allow-download-and-install",
         "dialog:allow-ask",
         "process:allow-restart",
+        "log:default",
         {
             "identifier": "core:event:allow-listen",
             "allow": [{ "event": "tasks-reset" }]

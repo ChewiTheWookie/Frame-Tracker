@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
+import { error } from "@tauri-apps/plugin-log";
 import { PATHS } from "@/routes/paths";
 import { ListLayoutContext } from "@/layouts/ListLayout/ListLayout";
 import { Plus, User, Check, Edit2, Trash2 } from "lucide-react";
@@ -78,7 +79,7 @@ export const Profile: React.FC = () => {
             setNewProfileName("");
             setIsCreateOpen(false);
         } catch (err) {
-            console.error(err);
+            error(`Failed to create Profile: ${err}`);
         }
     };
 
@@ -111,7 +112,7 @@ export const Profile: React.FC = () => {
             await switchProfile(name);
             navigate(PATHS.Mastery);
         } catch (err) {
-            console.error("Failed to switch profile:", err);
+            error(`Failed to switch profile: ${err}`);
         }
     };
 

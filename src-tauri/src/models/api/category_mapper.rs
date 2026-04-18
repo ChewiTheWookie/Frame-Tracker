@@ -10,11 +10,10 @@ pub fn get_category_map(api_cat: &str, item_name: &str, item_id: &str) -> Option
     }
 
     match item_id {
-        id if
-            id.contains("/SentinelWeapons/") ||
-            id.contains("/MoaPetComponents/") ||
-            id.contains("/ZanukaPetMelee")
-        => {
+        id if id.contains("/SentinelWeapons/")
+            || id.contains("/MoaPetComponents/")
+            || id.contains("/ZanukaPetMelee") =>
+        {
             return Some("Companions");
         }
 
@@ -22,12 +21,11 @@ pub fn get_category_map(api_cat: &str, item_name: &str, item_id: &str) -> Option
             return Some("Vehicles");
         }
 
-        id if
-            id.contains("/ModularMelee") ||
-            id.contains("/DrifterPistol/") ||
-            id.contains("ModularSecondary") ||
-            id.contains("/OperatorAmplifiers/")
-        => {
+        id if id.contains("/ModularMelee")
+            || id.contains("/DrifterPistol/")
+            || id.contains("ModularSecondary")
+            || id.contains("/OperatorAmplifiers/") =>
+        {
             return Some("Modular");
         }
 

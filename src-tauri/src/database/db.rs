@@ -1,11 +1,3 @@
-use sqlx::migrate;
-use sqlx::{ sqlite::SqlitePoolOptions, Pool, Sqlite };
-use std::fs;
-use std::path::{ Path, PathBuf };
-use std::sync::Arc;
-use tokio::sync::Mutex;
-use tauri::{ path::BaseDirectory, AppHandle, Manager };
-use crate::ActiveProfile;
 use crate::api::client::ApiClient;
 use crate::api::requests::fetch_wiki_items::fetch_wiki_items;
 use crate::database::services::{
@@ -13,6 +5,15 @@ use crate::database::services::{
     migration_services::run_relational_migration,
 };
 use crate::utils::paths::get_profile_dir;
+use crate::ActiveProfile;
+use sqlx::migrate;
+use sqlx::{ sqlite::SqlitePoolOptions, Pool, Sqlite };
+use tauri_plugin_log::log::{ error, info };
+use std::fs;
+use std::path::{ Path, PathBuf };
+use std::sync::Arc;
+use tauri::{ path::BaseDirectory, AppHandle, Manager };
+use tokio::sync::Mutex;
 
 pub struct UserDb(pub Arc<Mutex<Pool<Sqlite>>>);
 pub struct LicenseDb(pub Pool<Sqlite>);
@@ -24,14 +25,14 @@ fn migrate_legacy_db(app_dir: &Path) {
 
     if legacy_db_path.exists() && !new_db_path.exists() {
         if let Err(e) = fs::create_dir_all(&default_profile_dir) {
-            eprintln!("Migration: Failed to create Default directory: {}", e);
+            error!("Migration: Failed to create Default directory: {}", e);
             return;
         }
 
         if let Err(e) = fs::rename(&legacy_db_path, &new_db_path) {
-            eprintln!("Migration: Failed to move legacy database: {}", e);
+            error!("Migration: Failed to move legacy database: {}", e);
         } else {
-            println!("Migration: Successfully moved legacy database to profiles/Default");
+            info!("Migration: Successfully moved legacy database to profiles/Default");
         }
     }
 }
@@ -65,7 +66,7 @@ pub async fn create_user_pool(handle: &AppHandle, db_path: PathBuf) -> Pool<Sqli
     migrate!("./migrations/user").run(&pool).await.expect("Failed to run user DB migrations");
 
     if let Err(e) = run_relational_migration(&pool).await {
-        eprintln!("Migration logic failed: {}", e);
+        error!("Migration logic failed: {}", e);
     }
 
     let sync_pool = pool.clone();
@@ -76,7 +77,7 @@ pub async fn create_user_pool(handle: &AppHandle, db_path: PathBuf) -> Pool<Sqli
         if let Ok(items) = fetch_wiki_items(&api_client).await {
             if !items.is_empty() {
                 let _ = sync_wiki_items(&sync_pool, items, handle_clone).await.map_err(|e| {
-                    eprintln!("Wiki sync error: {}", e);
+                    error!("Wiki sync error: {}", e);
                 });
             }
         }

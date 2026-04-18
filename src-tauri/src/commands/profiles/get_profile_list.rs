@@ -2,7 +2,10 @@ use tauri::Manager;
 
 #[tauri::command]
 pub async fn get_profile_list(handle: tauri::AppHandle) -> Result<Vec<String>, String> {
-    let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
+    let app_dir = handle
+        .path()
+        .app_data_dir()
+        .expect("Failed to get AppData dir");
     let profiles_dir = app_dir.join("profiles");
 
     if !profiles_dir.exists() {

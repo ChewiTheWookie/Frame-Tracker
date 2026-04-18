@@ -7,6 +7,7 @@ import {
     type LicenseSummary,
     type LicenseDetails,
 } from "@/api/licenses";
+import { error } from "@tauri-apps/plugin-log";
 
 type LicenseCategory = string;
 interface LicenseFilters {}
@@ -64,7 +65,7 @@ useLicenseStore.setState((state) => ({
                     },
                 }));
             } catch (err) {
-                console.error(`[License] Detail fetch failed for ${id}:`, err);
+                error(`[License] Detail fetch failed for ${id}: ${err}`);
             }
         },
     },

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { profileService } from "@/api/profiles";
+import { error } from "@tauri-apps/plugin-log";
 
 interface ProfileState {
     profiles: string[];
@@ -39,7 +40,7 @@ export const useProfileStore = create<ProfileState>((set, get) => ({
                     isLoading: false,
                 });
             } catch (err) {
-                console.error("[ProfileStore] Refresh failed:", err);
+                error(`[ProfileStore] Refresh failed: ${err}`);
                 set({ error: String(err), isLoading: false });
             }
         },
@@ -49,7 +50,7 @@ export const useProfileStore = create<ProfileState>((set, get) => ({
                 await profileService.switch(name);
                 set({ currentProfile: name });
             } catch (err) {
-                console.error("[ProfileStore] Switch failed:", err);
+                error(`[ProfileStore] Switch failed: ${err}`);
                 throw err;
             }
         },
@@ -70,7 +71,7 @@ export const useProfileStore = create<ProfileState>((set, get) => ({
                 await profileService.rename(oldName, newName);
                 await get().actions.refresh();
             } catch (err) {
-                console.error("[ProfileStore] Rename failed:", err);
+                error(`[ProfileStore] Rename failed: ${err}`);
                 throw err;
             }
         },
@@ -80,7 +81,7 @@ export const useProfileStore = create<ProfileState>((set, get) => ({
                 await profileService.delete(name);
                 await get().actions.refresh();
             } catch (err) {
-                console.error("[ProfileStore] Delete failed:", err);
+                error(`[ProfileStore] Delete failed: ${err}`);
                 throw err;
             }
         },

@@ -8,6 +8,20 @@ import {
     calculateComponentQuantity,
     calculateMasteryToggle,
 } from "@/utils/itemLogic";
+import { error } from "@tauri-apps/plugin-log";
+import { StoreApi, UseBoundStore } from "zustand";
+
+interface MasteryExtraActions {
+    updateComponentQuantity: (
+        itemId: string,
+        componentName: string,
+        quantity: number,
+    ) => Promise<void>;
+    toggleMastery: (
+        itemId: string,
+        field: "mastered" | "owned" | "helminthed",
+    ) => Promise<void>;
+}
 
 const masteryBundle = createDataStore<
     Item,
@@ -40,17 +54,19 @@ const masteryBundle = createDataStore<
     },
 });
 
-export const useMasteryStore = masteryBundle.useStore;
+type FullMasteryState = ReturnType<typeof masteryBundle.useStore.getState> & {
+    actions: MasteryExtraActions;
+};
+
+export const useMasteryStore =
+    masteryBundle.useStore as unknown as UseBoundStore<
+        StoreApi<FullMasteryState>
+    >;
 
 useMasteryStore.setState((state) => ({
     actions: {
         ...state.actions,
-
-        updateComponentQuantity: async (
-            itemId: string,
-            componentName: string,
-            quantity: number
-        ) => {
+        updateComponentQuantity: async (itemId, componentName, quantity) => {
             const { items, filters, itemIds } = useMasteryStore.getState();
             const item = items[itemId];
             if (!item) return;
@@ -59,11 +75,10 @@ useMasteryStore.setState((state) => ({
                 items: { ...items },
                 itemIds: [...itemIds],
             };
-
             const updatedItem = calculateComponentQuantity(
                 item,
                 componentName,
-                quantity
+                quantity,
             );
             const needsRemoval = shouldHide(updatedItem, filters);
 
@@ -76,23 +91,19 @@ useMasteryStore.setState((state) => ({
 
             try {
                 const component = updatedItem.components.find(
-                    (c) => c.componentName === componentName
+                    (c) => c.componentName === componentName,
                 );
                 await masteryService.setComponent(
                     itemId,
                     componentName,
-                    component!.ownedQuantity
+                    component!.ownedQuantity,
                 );
             } catch (err) {
-                console.error("Rollback:", err);
+                error(`Rollback: ${err}`);
                 useMasteryStore.setState(previousState);
             }
         },
-
-        toggleMastery: async (
-            itemId: string,
-            field: "mastered" | "owned" | "helminthed"
-        ) => {
+        toggleMastery: async (itemId, field) => {
             const { items, filters, activeCategory, stats, itemIds } =
                 useMasteryStore.getState();
             const item = items[itemId];
@@ -103,11 +114,10 @@ useMasteryStore.setState((state) => ({
                 itemIds: [...itemIds],
                 stats,
             };
-
             const updatedItem = calculateMasteryToggle(
                 item,
                 field,
-                !item[field]
+                !item[field],
             );
             const needsRemoval = shouldHide(updatedItem, filters);
 
@@ -124,14 +134,14 @@ useMasteryStore.setState((state) => ({
                     await masteryService.getMasteryStats(activeCategory);
                 useMasteryStore.setState({ stats: finalStats });
             } catch (err) {
-                console.error("Rollback:", err);
+                error(`Rollback: ${err}`);
                 useMasteryStore.setState(previousState);
             }
         },
     },
 }));
 
-export const useMasteryActions = masteryBundle.useActions;
+export const useMasteryActions = () => useMasteryStore((s) => s.actions);
 export const useMasteryItemIds = masteryBundle.useItemIds;
 export const useItemById = masteryBundle.useItemById;
 export const useMasteryStats = masteryBundle.useStats;

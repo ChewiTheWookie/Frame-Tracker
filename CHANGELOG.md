@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - ✨ add search to `Acknowledgments.tsx`
 - ✨ add search to `MusicSaver.tsx`
+- ✨ add logging for better bug reporting
 
 ### Dev Notes
 
