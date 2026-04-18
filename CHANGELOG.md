@@ -6,6 +6,7 @@ All notable changes to this project will be logged here
 
 ### Dev Notes
 
+- ⚠️ AutoUpdater test
 - ✏️ move to `ListItem.tsx` for `Acknowledgments.tsx`
 
 ## 1.4.2
