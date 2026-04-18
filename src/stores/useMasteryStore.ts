@@ -1,4 +1,3 @@
-import { useShallow } from "zustand/react/shallow";
 import { createDataStore } from "@/stores/createDataStore";
 import { masteryService } from "@/api/mastery";
 import { type MasteryCategory } from "@/types/categories";
@@ -10,7 +9,7 @@ import {
     calculateMasteryToggle,
 } from "@/utils/itemLogic";
 
-export const useMasteryStore = createDataStore<
+const masteryBundle = createDataStore<
     Item,
     MasteryFilterState,
     MasteryStats,
@@ -41,6 +40,8 @@ export const useMasteryStore = createDataStore<
     },
 });
 
+export const useMasteryStore = masteryBundle.useStore;
+
 useMasteryStore.setState((state) => ({
     actions: {
         ...state.actions,
@@ -50,13 +51,13 @@ useMasteryStore.setState((state) => ({
             componentName: string,
             quantity: number
         ) => {
-            const { items, filters } = useMasteryStore.getState();
+            const { items, filters, itemIds } = useMasteryStore.getState();
             const item = items[itemId];
             if (!item) return;
 
             const previousState = {
                 items: { ...items },
-                itemIds: [...useMasteryStore.getState().itemIds],
+                itemIds: [...itemIds],
             };
 
             const updatedItem = calculateComponentQuantity(
@@ -83,7 +84,7 @@ useMasteryStore.setState((state) => ({
                     component!.ownedQuantity
                 );
             } catch (err) {
-                console.error("Component update failed, rolling back", err);
+                console.error("Rollback:", err);
                 useMasteryStore.setState(previousState);
             }
         },
@@ -92,14 +93,14 @@ useMasteryStore.setState((state) => ({
             itemId: string,
             field: "mastered" | "owned" | "helminthed"
         ) => {
-            const { items, filters, activeCategory, stats } =
+            const { items, filters, activeCategory, stats, itemIds } =
                 useMasteryStore.getState();
             const item = items[itemId];
             if (!item) return;
 
             const previousState = {
                 items: { ...items },
-                itemIds: [...useMasteryStore.getState().itemIds],
+                itemIds: [...itemIds],
                 stats,
             };
 
@@ -123,19 +124,16 @@ useMasteryStore.setState((state) => ({
                     await masteryService.getMasteryStats(activeCategory);
                 useMasteryStore.setState({ stats: finalStats });
             } catch (err) {
-                console.error("Mastery update failed, rolling back", err);
+                console.error("Rollback:", err);
                 useMasteryStore.setState(previousState);
             }
         },
     },
 }));
 
-export const useMasteryActions = () => useMasteryStore((s) => s.actions);
-export const useMasteryItemIds = () =>
-    useMasteryStore(useShallow((state) => state.itemIds));
-export const useItemById = (id: string) =>
-    useMasteryStore((state) => state.items[id]);
-export const useMasteryStats = () =>
-    useMasteryStore(useShallow((state) => state.stats));
+export const useMasteryActions = masteryBundle.useActions;
+export const useMasteryItemIds = masteryBundle.useItemIds;
+export const useItemById = masteryBundle.useItemById;
+export const useMasteryStats = masteryBundle.useStats;
 
 useMasteryStore.getState().actions.fetchData();

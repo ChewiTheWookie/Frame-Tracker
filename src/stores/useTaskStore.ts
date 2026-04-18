@@ -1,4 +1,3 @@
-import { useShallow } from "zustand/react/shallow";
 import { createDataStore } from "@/stores/createDataStore";
 import { taskService } from "@/api/tasks";
 import { type TaskCategory } from "@/types/categories";
@@ -10,7 +9,7 @@ import {
     calculateTaskStatAdjustment,
 } from "@/utils/taskLogic";
 
-export const useTaskStore = createDataStore<
+const taskBundle = createDataStore<
     Task,
     TaskFilterState,
     TaskStats,
@@ -34,6 +33,8 @@ export const useTaskStore = createDataStore<
     },
 });
 
+export const useTaskStore = taskBundle.useStore;
+
 useTaskStore.setState((state) => ({
     actions: {
         ...state.actions,
@@ -49,8 +50,8 @@ useTaskStore.setState((state) => ({
                 itemIds: [...itemIds],
                 stats,
             };
-            const newFavoriteStatus = task.favorite === 1 ? 0 : 1;
 
+            const newFavoriteStatus = task.favorite === 1 ? 0 : 1;
             const { updatedTask, newTaskIds } = calculateTaskToggleFavorite(
                 items,
                 itemIds,
@@ -125,9 +126,9 @@ useTaskStore.setState((state) => ({
     },
 }));
 
-export const useTaskActions = () => useTaskStore((s) => s.actions);
-export const useTaskIds = () => useTaskStore(useShallow((s) => s.itemIds));
-export const useTaskById = (id: string) => useTaskStore((s) => s.items[id]);
-export const useTaskStats = () => useTaskStore(useShallow((s) => s.stats));
+export const useTaskActions = taskBundle.useActions;
+export const useTaskIds = taskBundle.useItemIds;
+export const useTaskById = taskBundle.useItemById;
+export const useTaskStats = taskBundle.useStats;
 
 useTaskStore.getState().actions.fetchData();
