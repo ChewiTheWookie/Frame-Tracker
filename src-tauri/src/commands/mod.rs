@@ -9,6 +9,10 @@ pub mod licenses {
     pub mod get_license_names;
 }
 
+pub mod logs {
+    pub mod get_logs;
+}
+
 pub mod mastery_tracker {
     pub mod get_items;
     pub mod get_mastery_stats;

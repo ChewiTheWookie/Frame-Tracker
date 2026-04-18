@@ -1,6 +1,14 @@
 use tauri::ipc::Invoke;
 
-use crate::commands::{keybinds, licenses, mastery_tracker, profiles, saved_songs, task_tracker};
+use crate::commands::{
+    keybinds,
+    licenses,
+    logs,
+    mastery_tracker,
+    profiles,
+    saved_songs,
+    task_tracker,
+};
 
 pub fn generate_handler() -> impl Fn(Invoke<tauri::Wry>) -> bool {
     tauri::generate_handler![
@@ -10,6 +18,8 @@ pub fn generate_handler() -> impl Fn(Invoke<tauri::Wry>) -> bool {
         // License Commands
         licenses::get_license_details::get_license_details,
         licenses::get_license_names::get_license_names,
+        //Logs
+        logs::get_logs::get_logs,
         // Mastery Tracker Commands
         mastery_tracker::get_items::get_items,
         mastery_tracker::get_mastery_stats::get_mastery_stats,
