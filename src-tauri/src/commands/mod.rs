@@ -39,3 +39,6 @@ pub mod task_tracker {
     pub mod set_favorite;
     pub mod set_task;
 }
+
+// Files
+pub mod command_handler;

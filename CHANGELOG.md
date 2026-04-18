@@ -12,6 +12,7 @@ All notable changes to this project will be logged here
 
 - ✏️ replace InfoContainer references with Modals
 - ✏️ move to global css for `CardTitle`
+- ✏️ move command handler to `command_handler.rs`
 
 ## 1.4.1
 
