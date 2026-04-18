@@ -9,8 +9,8 @@ pub fn generate_handler() -> impl Fn(Invoke<tauri::Wry>) -> bool {
         keybinds::set_keybind::set_keybind,
 
         // License Commands
-        licenses::get_license_detailed::get_license_detailed,
-        licenses::get_license_summaries::get_license_summaries,
+        licenses::get_license_details::get_license_details,
+        licenses::get_license_names::get_license_names,
 
         // Mastery Tracker Commands
         mastery_tracker::get_items::get_items,

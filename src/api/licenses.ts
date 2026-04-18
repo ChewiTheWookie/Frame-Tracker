@@ -16,8 +16,8 @@ export interface LicenseDetails {
 
 export const licenseService = {
     getSummaries: (): Promise<LicenseSummary[]> =>
-        invoke<LicenseSummary[]>("get_license_summaries"),
+        invoke<LicenseSummary[]>("get_license_names"),
 
     getDetailed: (id: string): Promise<LicenseDetails> =>
-        invoke<LicenseDetails>("get_license_detailed", { id }),
+        invoke<LicenseDetails>("get_license_details", { id }),
 };

@@ -3,9 +3,7 @@ use crate::models::database::license::LicenseSummary;
 use tauri::State;
 
 #[tauri::command]
-pub async fn get_license_summaries(
-    state: State<'_, LicenseDb>
-) -> Result<Vec<LicenseSummary>, String> {
+pub async fn get_license_names(state: State<'_, LicenseDb>) -> Result<Vec<LicenseSummary>, String> {
     let pool = &state.0;
 
     let licenses = sqlx

@@ -3,7 +3,7 @@ use crate::models::database::license::LicenseDetails;
 use tauri::State;
 
 #[tauri::command]
-pub async fn get_license_detailed(
+pub async fn get_license_details(
     id: String,
     state: State<'_, LicenseDb>
 ) -> Result<LicenseDetails, String> {

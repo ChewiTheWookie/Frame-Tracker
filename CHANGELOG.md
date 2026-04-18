@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - ✏️ refactor stores with a factory `createDataStore.ts` to reduce duplicate code
 - ✏️ move profile logic to `useProfileStore.ts`
+- ✏️ change license command names to match structure of song commands
 
 ## 1.4.3
 

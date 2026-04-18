@@ -5,8 +5,8 @@ pub mod keybinds {
 }
 
 pub mod licenses {
-    pub mod get_license_detailed;
-    pub mod get_license_summaries;
+    pub mod get_license_details;
+    pub mod get_license_names;
 }
 
 pub mod mastery_tracker {
