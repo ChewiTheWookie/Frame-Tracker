@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { PATHS } from "@/routes/paths";
 import { ListLayoutContext } from "@/layouts/ListLayout/ListLayout";
 import { Plus, User, Check, Edit2, Trash2 } from "lucide-react";
-import { profileService } from "@/api/profiles";
+import {
+    useProfileStore,
+    useProfiles,
+    useCurrentProfile,
+    useProfileActions
+} from "@/stores/useProfileStore";
+
 import { Throbber } from "@/components/ui/Throbber";
 import { CardButton } from "@/components/ui/CardButton";
 import { Modal } from "@/components/ui/Modal";
@@ -17,9 +22,18 @@ export const Profile: React.FC = () => {
     const navigate = useNavigate();
     const { setHeaderAction } = useOutletContext<ListLayoutContext>();
 
-    const [profiles, setProfiles] = useState<string[]>([]);
-    const [currentProfile, setCurrentProfile] = useState("Default");
-    const [isLoading, setIsLoading] = useState(false);
+    const profiles = useProfiles();
+    const currentProfile = useCurrentProfile();
+    const isLoading = useProfileStore((s) => s.isLoading);
+    const {
+        refresh,
+        switchProfile,
+        createProfile,
+        renameProfile,
+        deleteProfile,
+        initializeListener
+    } = useProfileActions();
+
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -41,43 +55,31 @@ export const Profile: React.FC = () => {
     }, [setHeaderAction]);
 
     useEffect(() => {
-        let unlistenFn: (() => void) | undefined;
-        const init = async () => {
-            setIsLoading(true);
-            await loadProfiles();
-            try {
-                const active = await profileService.getCurrent();
-                setCurrentProfile(active);
-            } catch (err) {
-                console.error(err);
-            }
-            unlistenFn = await profileService.onSwitch((name) =>
-                setCurrentProfile(name),
-            );
-            setIsLoading(false);
-        };
-        init();
-        return () => {
-            if (unlistenFn) unlistenFn();
-        };
-    }, []);
+        let unlisten: (() => void) | undefined;
 
-    const loadProfiles = async () => {
-        try {
-            const list = await profileService.list();
-            setProfiles(list);
-        } catch (err) {
-            console.error(err);
-        }
-    };
+        const setup = async () => {
+            await refresh();
+            unlisten = await initializeListener();
+        };
+
+        setup();
+
+        return () => {
+            if (unlisten) unlisten();
+        };
+    }, [refresh, initializeListener]);
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!newProfileName.trim()) return;
-        await profileService.create(newProfileName.trim());
-        setNewProfileName("");
-        setIsCreateOpen(false);
-        await loadProfiles();
+
+        try {
+            await createProfile(newProfileName.trim());
+            setNewProfileName("");
+            setIsCreateOpen(false);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     const handleRename = async (e: React.FormEvent) => {
@@ -88,9 +90,8 @@ export const Profile: React.FC = () => {
         }
 
         try {
-            await profileService.rename(targetProfile, editName.trim());
+            await renameProfile(targetProfile, editName.trim());
             setIsEditOpen(false);
-            await loadProfiles();
         } catch (err) {
             alert(err);
         }
@@ -98,11 +99,19 @@ export const Profile: React.FC = () => {
 
     const handleDelete = async () => {
         try {
-            await profileService.delete(targetProfile);
+            await deleteProfile(targetProfile);
             setIsDeleteOpen(false);
-            await loadProfiles();
         } catch (err) {
             alert(err);
+        }
+    };
+
+    const handleSwitch = async (name: string) => {
+        try {
+            await switchProfile(name);
+            navigate(PATHS.Mastery);
+        } catch (err) {
+            console.error("Failed to switch profile:", err);
         }
     };
 
@@ -115,24 +124,12 @@ export const Profile: React.FC = () => {
                     {profiles.map((name) => (
                         <ListItem
                             key={name}
-                            icon={
-                                <User size={14} className={styles.userIcon} />
-                            }
+                            icon={<User size={14} className={styles.userIcon} />}
                             title={name}
                             button={
                                 <CardButton
                                     isActive={currentProfile === name}
-                                    onClick={async () => {
-                                        try {
-                                            await profileService.switch(name);
-                                            navigate(PATHS.Mastery);
-                                        } catch (err) {
-                                            console.error(
-                                                "Failed to switch profile:",
-                                                err,
-                                            );
-                                        }
-                                    }}
+                                    onClick={() => handleSwitch(name)}
                                     label="Switch"
                                     activeLabel={
                                         <>
@@ -156,10 +153,7 @@ export const Profile: React.FC = () => {
                                     </button>
                                     <button
                                         className="ModalDeleteAction"
-                                        disabled={
-                                            name === "Default" ||
-                                            name === currentProfile
-                                        }
+                                        disabled={name === "Default" || name === currentProfile}
                                         onClick={() => {
                                             setTargetProfile(name);
                                             setIsDeleteOpen(true);

@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Dev Notes
 
 - ✏️ refactor stores to reduce duplicate code
+- ✏️ move profile logic to `useProfileStore.ts`
 
 ## 1.4.3
 

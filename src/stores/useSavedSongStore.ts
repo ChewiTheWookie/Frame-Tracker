@@ -24,10 +24,10 @@ export const useSavedSongStore = create<SongState>((set, get) => ({
     error: null,
 
     actions: {
-        fetchSongNames: async (force = false) => {
+        fetchSongNames: async (silent = false) => {
             const { songNames, isLoading } = get();
 
-            if (!force && (songNames.length > 0 || isLoading)) return;
+            if (!silent && (songNames.length > 0 || isLoading)) return;
 
             set({ isLoading: true, error: null });
             try {
@@ -71,7 +71,7 @@ export const useSavedSongStore = create<SongState>((set, get) => ({
                 await songService.renameSong(oldName, newName);
                 set((state) => {
                     const newNames = state.songNames.map((n) =>
-                        n === oldName ? newName : n,
+                        n === oldName ? newName : n
                     );
                     const newCache = { ...state.songCache };
                     if (newCache[oldName]) {
