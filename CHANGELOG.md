@@ -4,6 +4,10 @@ All notable changes to this project will be logged here
 
 ## 1.4.3
 
+### Bug Fixes
+
+- 🛠️ change updater target from .exe to .json
+
 ### Dev Notes
 
 - ⚠️ AutoUpdater test
