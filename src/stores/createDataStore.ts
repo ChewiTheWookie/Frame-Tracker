@@ -23,7 +23,7 @@ interface DataActions<F, C> {
 }
 
 export const createDataStore = <T extends { id: string }, F, S, C>(
-    config: StoreConfig<T, F, S, C>
+    config: StoreConfig<T, F, S, C>,
 ) => {
     const TOTAL_VISIBLE = 50;
     let fetchVersion = 0;
@@ -54,7 +54,6 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
                     ...getDefaultResultState(),
                     activeCategory: category,
                     searchQuery: "",
-                    isLoading: true,
                 });
                 get().actions.fetchData();
             },
