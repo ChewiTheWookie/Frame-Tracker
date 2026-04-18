@@ -10,24 +10,30 @@ import { Throbber } from "@/components/ui/Throbber";
 import { ListItem } from "@/components/ui/ListItem";
 import { CardButton } from "@/components/ui/CardButton";
 import { Modal } from "@/components/ui/Modal";
+import { ListSection } from "@/components/ui/ListSection";
+import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
+import { PopupLayoutContext } from "@/layouts/PopUpLayout";
 
 import styles from "./Acknowledgments.module.css";
-import { ListSection } from "@/components/ui/ListSection";
+import { useOutletContext } from "react-router-dom";
 
 export function Acknowledgments() {
-    const { fetchSummaries } = useLicenseActions();
+    const { scrollRef } = useOutletContext<PopupLayoutContext>();
+    const { fetchData, loadMore } = useLicenseActions();
+
     const isLoading = useLicenseStore((s) => s.isLoading);
+    const hasMore = useLicenseStore((s) => s.hasMore);
 
     const frontend = useFrontendLicenses();
     const backend = useBackendLicenses();
 
     useEffect(() => {
-        fetchSummaries();
-    }, [fetchSummaries]);
+        fetchData();
+    }, [fetchData]);
 
     return (
         <>
-            {isLoading && frontend.length === 0 ? (
+            {isLoading && frontend.length === 0 && backend.length === 0 ? (
                 <Throbber label="Loading summaries" />
             ) : (
                 <>
@@ -41,15 +47,24 @@ export function Acknowledgments() {
                             </>
                         }
                     />
-                    <ListSection title="Backend Dependencies" list={
-                        <>
-                            {backend.map((item) => (
-                                <LicenseItem key={item.id} item={item} />
-                            ))}
-                        </>
-                    } />
+                    <ListSection
+                        title="Backend Dependencies"
+                        list={
+                            <>
+                                {backend.map((item) => (
+                                    <LicenseItem key={item.id} item={item} />
+                                ))}
+                            </>
+                        }
+                    />
                 </>
             )}
+            <ScrollSentinel
+                isLoading={isLoading}
+                hasMore={hasMore}
+                loadMore={loadMore}
+                targetRef={scrollRef}
+            />
         </>
     );
 }
@@ -75,6 +90,7 @@ function LicenseItem({ item }: { item: SummaryProps }) {
     return (
         <>
             <ListItem
+                key={item.id}
                 title={
                     <>
                         {item.id}:

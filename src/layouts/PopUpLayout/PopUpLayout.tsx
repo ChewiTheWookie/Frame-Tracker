@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import { ROUTE_METADATA } from "@/routes/metadata";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { Searchbar } from "@/components/ui/Searchbar";
 
 import styles from "./PopUpLayout.module.css";
 
@@ -28,6 +29,9 @@ export function PopUpLayout() {
                     >
                         <X size={20} className={styles.closeIcon} />
                     </button>
+                    <nav className={styles.navBottom}>
+                        {metadata?.hasSearch && <Searchbar />}
+                    </nav>
                 </header>
                 <div className={styles.scrollContainer} ref={scrollRef}>
                     <Outlet

@@ -1,19 +1,14 @@
 import { useLocation } from "react-router-dom";
-import { PATHS } from "@/routes/paths";
-import { useMasteryStore } from "@/stores/useMasteryStore";
-import { useTaskStore } from "@/stores/useTaskStore";
+import { ROUTE_METADATA } from "@/routes/metadata";
 
 export function useActiveStore() {
     const { pathname } = useLocation();
-    const rootPath = `/${pathname.split("/")[1]}`;
 
-    return <T>(selector: (state: any) => T): T => {
-        switch (rootPath) {
-            case PATHS.Tasks:
-                return useTaskStore(selector);
-            case PATHS.Mastery:
-            default:
-                return useMasteryStore(selector);
-        }
+    const activeStoreHook = ROUTE_METADATA[pathname]?.store;
+
+    return <T>(selector: (state: any) => T): T | null => {
+        if (!activeStoreHook) return null;
+
+        return activeStoreHook(selector);
     };
 }

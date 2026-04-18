@@ -1,6 +1,5 @@
 import { MASTERY_CATEGORIES, TASK_CATEGORIES } from "@/types/categories";
 import { PATHS } from "./paths";
-
 import {
     CalendarCheck,
     LucideIcon,
@@ -9,10 +8,18 @@ import {
     CircleUserRound,
     Guitar,
 } from "lucide-react";
+import { useMasteryStore } from "@/stores/useMasteryStore";
+import { useSavedSongStore } from "@/stores/useSavedSongStore";
+import { useTaskStore } from "@/stores/useTaskStore";
+import { useLicenseStore } from "@/stores/useLicenseStore";
+
+type StoreHook = (selector: (state: any) => any) => any;
 
 interface RouteMetadata {
     label: string;
     icon?: LucideIcon;
+
+    store?: StoreHook;
 
     showInNav: boolean;
     isCycleTarget?: boolean;
@@ -31,6 +38,8 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
         label: "Mastery Tracker",
         icon: Telescope,
 
+        store: useMasteryStore,
+
         showInNav: true,
         isCycleTarget: true,
 
@@ -46,6 +55,8 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
         label: "Task Tracker",
         icon: CalendarCheck,
 
+        store: useTaskStore,
+
         showInNav: true,
         isCycleTarget: true,
 
@@ -59,6 +70,8 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
     [PATHS.Music]: {
         label: "Shawzin Saver",
         icon: Guitar,
+
+        store: useSavedSongStore,
 
         showInNav: true,
         isCycleTarget: true,
@@ -75,7 +88,11 @@ export const ROUTE_METADATA: Record<string, RouteMetadata> = {
     },
     [PATHS.Acknowledgments]: {
         label: "Third-Party Software Notices",
+
+        store: useLicenseStore,
+
         showInNav: false,
+        hasSearch: true,
     },
     [PATHS.Keybinds]: {
         label: "Keybinds",

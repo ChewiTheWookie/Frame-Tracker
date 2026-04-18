@@ -4,11 +4,16 @@ All notable changes to this project will be logged here
 
 ## 1.4.4
 
+### Features
+
+- ✨ add search to `Acknowledgments.tsx`
+
 ### Dev Notes
 
 - ✏️ refactor stores with a factory `createDataStore.ts` to reduce duplicate code
 - ✏️ move profile logic to `useProfileStore.ts`
 - ✏️ change license command names to match structure of song commands
+- ✏️ add pagination to `Acknowledgments.tsx`
 
 ## 1.4.3
 

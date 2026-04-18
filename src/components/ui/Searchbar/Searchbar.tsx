@@ -9,9 +9,9 @@ import styles from "./Searchbar.module.css";
 export function Searchbar() {
     const useStore = useActiveStore();
 
-    const activeCategory = useStore((s) => s.activeCategory);
-    const search = useStore((s) => s.searchQuery);
-    const filters = useStore((s) => s.filters);
+    const activeCategory = useStore?.((s) => s.activeCategory);
+    const search = useStore?.((s) => s.searchQuery) ?? "";
+    const filters = useStore?.((s) => s.filters);
 
     const setSearch = useStore((s) => s.actions.setSearch);
     const setFilters = useStore((s) => s.actions.setFilters);
@@ -22,7 +22,15 @@ export function Searchbar() {
     const inputRef = useRef<HTMLInputElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const filterDefs = getFilterDefinitions(filters, setFilters);
+    if (!useStore || !setSearch) {
+        return null;
+    }
+
+    const filterDefs = (filters && setFilters)
+        ? getFilterDefinitions(filters, setFilters)
+        : [];
+
+    const hasFilters = filterDefs.length > 0;
 
     useEffect(() => {
         if (search !== localValue) {
@@ -59,6 +67,7 @@ export function Searchbar() {
     };
 
     const handleFilterWindow = () => {
+        if (!hasFilters) return;
         setIsOpen((prev) => !prev);
     };
 
@@ -74,7 +83,7 @@ export function Searchbar() {
 
     useActionKeybind("FOCUS_SEARCH", handleFocusSearch);
     useActionKeybind("CLEAR_SEARCH", handleEscape);
-    useActionKeybind("TOGGLE_FILTERS_WINDOW", handleFilterWindow);
+    useActionKeybind("TOGGLE_FILTERS_WINDOW", hasFilters ? handleFilterWindow : () => { });
 
     return (
         <div className={styles.searchContainer} ref={containerRef}>
@@ -87,18 +96,21 @@ export function Searchbar() {
                 onChange={(e) => setLocalValue(e.target.value)}
             />
 
-            <button
-                className={`${styles.filterButton} ${isOpen ? styles.active : ""}`}
-                onClick={handleFilterWindow}
-            >
-                <SlidersHorizontal
-                    size={18}
-                    strokeWidth={2}
-                    className={styles.filterIcon}
-                />
-            </button>
+            {hasFilters && (
+                <button
+                    className={`${styles.filterButton} ${isOpen ? styles.active : ""}`}
+                    onClick={handleFilterWindow}
+                >
+                    <SlidersHorizontal
+                        size={18}
+                        strokeWidth={2}
+                        className={styles.filterIcon}
+                    />
+                </button>
+            )}
 
-            {isOpen && (
+
+            {isOpen && hasFilters && (
                 <div className={styles.filterDropdown}>
                     <div className={styles.dropdownHeader}>
                         ADVANCED FILTERS
