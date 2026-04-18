@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { check } from "@tauri-apps/plugin-updater";
 import { ask } from "@tauri-apps/plugin-dialog";
-import { relaunch } from "@tauri-apps/plugin-process";
+import { exit } from "@tauri-apps/plugin-process";
 import { useMasteryStore } from "@/stores/useMasteryStore";
 import { useTaskStore } from "@/stores/useTaskStore";
 import { useTimeStore } from "@/stores/useTimeStore";
@@ -32,7 +32,7 @@ export const useAppInitialization = () => {
 
                     if (confirmed) {
                         await update.downloadAndInstall();
-                        await relaunch();
+                        await exit(0)
                     }
                 }
             } catch (error) {

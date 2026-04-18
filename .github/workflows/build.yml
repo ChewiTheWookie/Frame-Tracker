@@ -62,4 +62,4 @@ jobs:
                   releaseDraft: false
                   prerelease: false
                   includeUpdaterJson: true
-                  args: --bundles nsis
+                  args: --bundles nsis,updater
