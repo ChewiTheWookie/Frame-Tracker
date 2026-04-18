@@ -1,4 +1,3 @@
-import { useShallow } from "zustand/react/shallow";
 import { createDataStore } from "@/stores/createDataStore";
 import { masteryService } from "@/api/mastery";
 import { type MasteryCategory } from "@/types/categories";
@@ -9,8 +8,22 @@ import {
     calculateComponentQuantity,
     calculateMasteryToggle,
 } from "@/utils/itemLogic";
+import { error } from "@tauri-apps/plugin-log";
+import { StoreApi, UseBoundStore } from "zustand";
 
-export const useMasteryStore = createDataStore<
+interface MasteryExtraActions {
+    updateComponentQuantity: (
+        itemId: string,
+        componentName: string,
+        quantity: number,
+    ) => Promise<void>;
+    toggleMastery: (
+        itemId: string,
+        field: "mastered" | "owned" | "helminthed",
+    ) => Promise<void>;
+}
+
+const masteryBundle = createDataStore<
     Item,
     MasteryFilterState,
     MasteryStats,
@@ -41,28 +54,31 @@ export const useMasteryStore = createDataStore<
     },
 });
 
+type FullMasteryState = ReturnType<typeof masteryBundle.useStore.getState> & {
+    actions: MasteryExtraActions;
+};
+
+export const useMasteryStore =
+    masteryBundle.useStore as unknown as UseBoundStore<
+        StoreApi<FullMasteryState>
+    >;
+
 useMasteryStore.setState((state) => ({
     actions: {
         ...state.actions,
-
-        updateComponentQuantity: async (
-            itemId: string,
-            componentName: string,
-            quantity: number
-        ) => {
-            const { items, filters } = useMasteryStore.getState();
+        updateComponentQuantity: async (itemId, componentName, quantity) => {
+            const { items, filters, itemIds } = useMasteryStore.getState();
             const item = items[itemId];
             if (!item) return;
 
             const previousState = {
                 items: { ...items },
-                itemIds: [...useMasteryStore.getState().itemIds],
+                itemIds: [...itemIds],
             };
-
             const updatedItem = calculateComponentQuantity(
                 item,
                 componentName,
-                quantity
+                quantity,
             );
             const needsRemoval = shouldHide(updatedItem, filters);
 
@@ -75,38 +91,33 @@ useMasteryStore.setState((state) => ({
 
             try {
                 const component = updatedItem.components.find(
-                    (c) => c.componentName === componentName
+                    (c) => c.componentName === componentName,
                 );
                 await masteryService.setComponent(
                     itemId,
                     componentName,
-                    component!.ownedQuantity
+                    component!.ownedQuantity,
                 );
             } catch (err) {
-                console.error("Component update failed, rolling back", err);
+                error(`Rollback: ${err}`);
                 useMasteryStore.setState(previousState);
             }
         },
-
-        toggleMastery: async (
-            itemId: string,
-            field: "mastered" | "owned" | "helminthed"
-        ) => {
-            const { items, filters, activeCategory, stats } =
+        toggleMastery: async (itemId, field) => {
+            const { items, filters, activeCategory, stats, itemIds } =
                 useMasteryStore.getState();
             const item = items[itemId];
             if (!item) return;
 
             const previousState = {
                 items: { ...items },
-                itemIds: [...useMasteryStore.getState().itemIds],
+                itemIds: [...itemIds],
                 stats,
             };
-
             const updatedItem = calculateMasteryToggle(
                 item,
                 field,
-                !item[field]
+                !item[field],
             );
             const needsRemoval = shouldHide(updatedItem, filters);
 
@@ -123,7 +134,7 @@ useMasteryStore.setState((state) => ({
                     await masteryService.getMasteryStats(activeCategory);
                 useMasteryStore.setState({ stats: finalStats });
             } catch (err) {
-                console.error("Mastery update failed, rolling back", err);
+                error(`Rollback: ${err}`);
                 useMasteryStore.setState(previousState);
             }
         },
@@ -131,11 +142,8 @@ useMasteryStore.setState((state) => ({
 }));
 
 export const useMasteryActions = () => useMasteryStore((s) => s.actions);
-export const useMasteryItemIds = () =>
-    useMasteryStore(useShallow((state) => state.itemIds));
-export const useItemById = (id: string) =>
-    useMasteryStore((state) => state.items[id]);
-export const useMasteryStats = () =>
-    useMasteryStore(useShallow((state) => state.stats));
+export const useMasteryItemIds = masteryBundle.useItemIds;
+export const useItemById = masteryBundle.useItemById;
+export const useMasteryStats = masteryBundle.useStats;
 
 useMasteryStore.getState().actions.fetchData();

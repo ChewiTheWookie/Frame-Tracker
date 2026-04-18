@@ -1,7 +1,16 @@
 import { invoke } from "@tauri-apps/api/core";
 
 export const songService = {
-    getSongNames: (): Promise<string[]> => invoke<string[]>("get_song_names"),
+    getSongNames: (args: {
+        query: string;
+        limit: number;
+        offset: number;
+    }): Promise<string[]> =>
+        invoke<string[]>("get_song_names", {
+            search: args.query,
+            limit: args.limit,
+            offset: args.offset,
+        }),
 
     getSongDetails: (name: string): Promise<string | null> =>
         invoke<string | null>("get_song_details", { name }),

@@ -1,6 +1,7 @@
-use tauri::{ Emitter, State };
-use crate::database::db::{ UserDb, create_user_pool, get_profile_db_path };
+use crate::database::db::{ create_user_pool, get_profile_db_path, UserDb };
 use crate::ActiveProfile;
+use tauri::{ Emitter, State };
+use tauri_plugin_log::log::info;
 
 #[tauri::command]
 pub async fn switch_profile(
@@ -22,6 +23,8 @@ pub async fn switch_profile(
         let mut pool_guard = user_db.0.lock().await;
         *pool_guard = new_pool;
     }
+
+    info!("Switched to profile: {}", new_profile_name);
 
     handle.emit("profile-switched", &new_profile_name).map_err(|e| e.to_string())?;
 

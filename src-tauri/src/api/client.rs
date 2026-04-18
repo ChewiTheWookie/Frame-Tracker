@@ -1,4 +1,4 @@
-use reqwest::{ header, Client };
+use reqwest::{header, Client};
 use std::time::Duration;
 
 pub struct ApiClient {
@@ -11,7 +11,10 @@ impl ApiClient {
         let user_agent = format!("FrameTracker/{}", version);
 
         let mut headers = header::HeaderMap::new();
-        headers.insert(header::USER_AGENT, header::HeaderValue::from_str(&user_agent).unwrap());
+        headers.insert(
+            header::USER_AGENT,
+            header::HeaderValue::from_str(&user_agent).unwrap(),
+        );
 
         let client = Client::builder()
             .default_headers(headers)

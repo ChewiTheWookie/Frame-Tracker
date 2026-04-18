@@ -2,6 +2,7 @@ use crate::database::repositories::task_repo;
 use chrono::{ DateTime, Datelike, Duration, NaiveDateTime, TimeZone, Utc };
 use sqlx::SqlitePool;
 use tauri::{ AppHandle, Emitter };
+use tauri_plugin_log::log::error;
 
 pub enum ResetType {
     Daily(u32),
@@ -76,7 +77,7 @@ pub async fn check_and_apply_resets(
 
     if rows_affected > 0 {
         let _ = handle.emit("tasks-reset", "reset_triggered").map_err(|e| {
-            eprintln!(">>> [BACKEND] Emit FAILED: {:?}", e);
+            error!(">>> [BACKEND] Emit FAILED: {:?}", e);
         });
     }
 

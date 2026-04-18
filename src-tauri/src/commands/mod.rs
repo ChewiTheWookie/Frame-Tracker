@@ -5,8 +5,12 @@ pub mod keybinds {
 }
 
 pub mod licenses {
-    pub mod get_license_detailed;
-    pub mod get_license_summaries;
+    pub mod get_license_details;
+    pub mod get_license_names;
+}
+
+pub mod logs {
+    pub mod get_logs;
 }
 
 pub mod mastery_tracker {
@@ -29,8 +33,8 @@ pub mod saved_songs {
     pub mod delete_song;
     pub mod get_song_details;
     pub mod get_song_names;
-    pub mod set_song_name;
     pub mod set_song;
+    pub mod set_song_name;
 }
 
 pub mod task_tracker {

@@ -1,54 +1,71 @@
-import { create } from "zustand";
-import { useShallow } from "zustand/shallow";
+import { createDataStore } from "@/stores/createDataStore";
+import { useShallow } from "zustand/react/shallow";
+import { StoreApi, UseBoundStore } from "zustand";
+import { BaseState } from "@/types/store";
 import {
     licenseService,
     type LicenseSummary,
     type LicenseDetails,
 } from "@/api/licenses";
+import { error } from "@tauri-apps/plugin-log";
 
-interface LicenseState {
-    summaries: LicenseSummary[];
-    detailsCache: Record<string, LicenseDetails>;
-    isLoading: boolean;
-    error: string | null;
+type LicenseCategory = string;
+interface LicenseFilters {}
+interface LicenseStats {}
 
-    actions: {
-        fetchSummaries: () => Promise<void>;
-        fetchDetailed: (id: string) => Promise<void>;
-    };
+interface ExtendedActions {
+    fetchDetailed: (id: string) => Promise<void>;
 }
 
-export const useLicenseStore = create<LicenseState>((set, get) => ({
-    summaries: [],
+interface ExtraState {
+    detailsCache: Record<string, LicenseDetails>;
+}
+
+type FullLicenseState = BaseState<
+    LicenseSummary,
+    LicenseFilters,
+    LicenseStats,
+    LicenseCategory
+> & {
+    actions: ReturnType<typeof licenseBundle.useActions> & ExtendedActions;
+} & ExtraState;
+
+const licenseBundle = createDataStore<
+    LicenseSummary,
+    LicenseFilters,
+    LicenseStats,
+    LicenseCategory
+>({
+    initialStats: {},
+    initialFilters: {},
+    fetchItems: async ({ query, limit, offset }) => {
+        const items = await licenseService.getSummaries(query, limit, offset);
+        return [items, {}];
+    },
+});
+
+export const useLicenseStore = licenseBundle.useStore as UseBoundStore<
+    StoreApi<FullLicenseState>
+>;
+
+useLicenseStore.setState((state) => ({
     detailsCache: {},
-    isLoading: false,
-    error: null,
-
     actions: {
-        fetchSummaries: async () => {
-            const { summaries, isLoading } = get();
-            if (summaries.length > 0 || isLoading) return;
-
-            set({ isLoading: true, error: null });
-            try {
-                const data = await licenseService.getSummaries();
-                set({ summaries: data, isLoading: false });
-            } catch (err) {
-                console.error("Fetch summaries error:", err);
-                set({ error: String(err), isLoading: false });
-            }
-        },
-
+        ...state.actions,
         fetchDetailed: async (id: string) => {
-            if (get().detailsCache[id]) return;
+            const current = useLicenseStore.getState();
+            if (current.detailsCache[id]) return;
 
             try {
                 const detailed = await licenseService.getDetailed(id);
-                set((state) => ({
-                    detailsCache: { ...state.detailsCache, [id]: detailed },
+                useLicenseStore.setState((s) => ({
+                    detailsCache: {
+                        ...s.detailsCache,
+                        [id]: detailed,
+                    },
                 }));
             } catch (err) {
-                console.error(`[License] Detail fetch failed for ${id}:`, err);
+                error(`[License] Detail fetch failed for ${id}: ${err}`);
             }
         },
     },
@@ -56,19 +73,26 @@ export const useLicenseStore = create<LicenseState>((set, get) => ({
 
 export const useLicenseActions = () => useLicenseStore((s) => s.actions);
 
+export const useLicenseItemIds = licenseBundle.useItemIds;
+export const useLicenseItemById = licenseBundle.useItemById;
+
+export const useLicenseDetail = (id: string) =>
+    useLicenseStore((state) => state.detailsCache[id]);
+
 export const useFrontendLicenses = () =>
     useLicenseStore(
         useShallow((state) =>
-            state.summaries.filter((s) => s.source === "npm"),
+            state.itemIds
+                .map((id) => state.items[id])
+                .filter((s) => s?.source === "npm"),
         ),
     );
 
 export const useBackendLicenses = () =>
     useLicenseStore(
         useShallow((state) =>
-            state.summaries.filter((s) => s.source === "cargo"),
+            state.itemIds
+                .map((id) => state.items[id])
+                .filter((s) => s?.source === "cargo"),
         ),
     );
-
-export const useLicenseDetail = (id: string) =>
-    useLicenseStore((state) => state.detailsCache[id]);

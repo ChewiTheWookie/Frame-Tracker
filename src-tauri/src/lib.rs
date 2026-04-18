@@ -1,6 +1,7 @@
+use std::{ path::PathBuf, sync::Arc };
 use std::time::Duration;
-use std::sync::Arc;
 use tauri::Manager;
+use tauri_plugin_log::{ Target, TargetKind, log::{ self, error } };
 use tokio::time::sleep;
 
 pub mod api;
@@ -16,11 +17,38 @@ pub struct ActiveProfile(pub std::sync::Mutex<Option<String>>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    let level = if cfg!(debug_assertions) {
+        log::LevelFilter::Info //? Log level for dev enviroment
+    } else {
+        log::LevelFilter::Info
+    };
+
+    let mut log_path = std::env
+        ::var_os("APPDATA")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("."));
+    log_path.push("com.chewithewookie.frametracker");
+    log_path.push("logs");
+
     tauri::Builder
         ::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_dialog::init())
+        .plugin(
+            tauri_plugin_log::Builder
+                ::new()
+                .targets([
+                    Target::new(TargetKind::Stdout),
+                    Target::new(TargetKind::Webview),
+                    Target::new(TargetKind::Folder {
+                        path: log_path,
+                        file_name: Some("app".into()),
+                    }),
+                ])
+                .level(level)
+                .build()
+        )
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_opener::init())
@@ -59,7 +87,7 @@ pub fn run() {
                         {
                             let pool = pool_for_reset.lock().await;
                             if let Err(e) = check_and_apply_resets(&pool, &handle_for_reset).await {
-                                eprintln!("Error in background reset task: {}", e);
+                                error!("Error in background reset task: {}", e);
                             }
                         }
 

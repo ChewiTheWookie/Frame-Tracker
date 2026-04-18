@@ -1,10 +1,11 @@
 import { check } from "@tauri-apps/plugin-updater";
 import { ask } from "@tauri-apps/plugin-dialog";
 import { relaunch } from "@tauri-apps/plugin-process";
+import { info } from "@tauri-apps/plugin-log";
 
 export async function checkForUpdates() {
     const update = await check();
-    console.log("Update check result:", update);
+    info(`Update check result: ${update}`);
 
     if (update?.available) {
         const yes = await ask(

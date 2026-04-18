@@ -1,1 +1,1 @@
-export { PopUpLayout } from "./PopUpLayout";
+export * from "./PopUpLayout";

@@ -134,6 +134,60 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
+Package:    android_log-sys@0.3.2
+License:    MIT License
+Repository: https://github.com/rust-mobile/android_log-sys-rs
+----------------------------------------------------------
+
+Copyright (c) 2016 The android_log_sys Developers
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    android_logger@0.15.1
+License:    MIT License
+Repository: https://github.com/rust-mobile/android_logger-rs
+----------------------------------------------------------
+
+Copyright (c) 2016 The android_logger Developers
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+----------------------------------------------------------
 Package:    android_system_properties@0.1.5
 License:    MIT License
 Repository: https://github.com/nical/android_system_properties
@@ -254,6 +308,39 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    arrayvec@0.7.6
+License:    MIT License
+Repository: https://github.com/bluss/arrayvec
+----------------------------------------------------------
+
+Copyright (c) Ulrik Sverdrup "bluss" 2015-2023
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
@@ -471,7 +558,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 ----------------------------------------------------------
-Package:    async-signal@0.2.13
+Package:    async-signal@0.2.14
 License:    MIT License
 Repository: https://github.com/smol-rs/async-signal
 ----------------------------------------------------------
@@ -709,7 +796,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    aws-lc-rs@1.16.1
+Package:    aws-lc-rs@1.16.3
 License:    ISC License
 Repository: https://github.com/aws/aws-lc-rs
 ----------------------------------------------------------
@@ -725,177 +812,33 @@ THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO
 
 
 ----------------------------------------------------------
-Package:    aws-lc-sys@0.38.0
-License:    OpenSSL License
+Package:    aws-lc-sys@0.40.0
+License:    MIT License
 Repository: https://github.com/aws/aws-lc-rs
 ----------------------------------------------------------
 
-/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
- * All rights reserved.
- *
- * This package is an SSL implementation written
- * by Eric Young (eay@cryptsoft.com).
- * The implementation was written so as to conform with Netscapes SSL.
- *
- * This library is free for commercial and non-commercial use as long as
- * the following conditions are aheared to.  The following conditions
- * apply to all code found in this distribution, be it the RC4, RSA,
- * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
- * included with this distribution is covered by the same copyright terms
- * except that the holder is Tim Hudson (tjh@cryptsoft.com).
- *
- * Copyright remains Eric Young's, and as such any Copyright notices in
- * the code are not to be removed.
- * If this package is used in a product, Eric Young should be given attribution
- * as the author of the parts of the library used.
- * This can be in the form of a textual message at program startup or
- * in documentation (online or textual) provided with the package.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *    "This product includes cryptographic software written by
- *     Eric Young (eay@cryptsoft.com)"
- *    The word 'cryptographic' can be left out if the rouines from the library
- *    being used are not cryptographic related :-).
- * 4. If you include any Windows specific code (or a derivative thereof) from
- *    the apps directory (application code) you must include an acknowledgement:
- *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
- *
- * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- *
- * The licence and distribution terms for any publically available version or
- * derivative of this code cannot be changed.  i.e. this code cannot simply be
- * copied and put under another distribution licence
- * [including the GNU Public Licence.]
- */
-/* ====================================================================
- * Copyright (c) 1998-2007 The OpenSSL Project.  All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the
- *    distribution.
- *
- * 3. All advertising materials mentioning features or use of this
- *    software must display the following acknowledgment:
- *    "This product includes software developed by the OpenSSL Project
- *    for use in the OpenSSL Toolkit. (http://www.openssl.org/)"
- *
- * 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to
- *    endorse or promote products derived from this software without
- *    prior written permission. For written permission, please contact
- *    openssl-core@openssl.org.
- *
- * 5. Products derived from this software may not be called "OpenSSL"
- *    nor may "OpenSSL" appear in their names without prior written
- *    permission of the OpenSSL Project.
- *
- * 6. Redistributions of any form whatsoever must retain the following
- *    acknowledgment:
- *    "This product includes software developed by the OpenSSL Project
- *    for use in the OpenSSL Toolkit (http://www.openssl.org/)"
- *
- * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
- * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
- * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
- * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- * ====================================================================
- *
- * This product includes cryptographic software written by Eric Young
- * (eay@cryptsoft.com).  This product includes software written by Tim
- * Hudson (tjh@cryptsoft.com).
- *
- */
+The MIT License (MIT)
 
-#include <openssl/ssl.h>
+Copyright (c) 2015-2020 the fiat-crypto authors (see
+https://github.com/mit-plv/fiat-crypto/blob/master/AUTHORS).
 
-#if !defined(OPENSSL_WINDOWS) && !defined(OPENSSL_PNACL) && \
-    !defined(OPENSSL_NO_FILESYSTEM)
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-#include <dirent.h>
-#include <errno.h>
-#include <string.h>
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-#include <openssl/err.h>
-#include <openssl/mem.h>
-
-
-int SSL_add_dir_cert_subjects_to_stack(STACK_OF(X509_NAME) *stack,
-                                       const char *path) {
-  DIR *dir = opendir(path);
-  if (dir == NULL) {
-    OPENSSL_PUT_ERROR(SSL, ERR_R_SYS_LIB);
-    ERR_add_error_data(3, "opendir('", dir, "')");
-    return 0;
-  }
-
-  int ret = 0;
-  for (;;) {
-    // |readdir| may fail with or without setting |errno|.
-    errno = 0;
-    struct dirent *dirent = readdir(dir);
-    if (dirent == NULL) {
-      if (errno) {
-        OPENSSL_PUT_ERROR(SSL, ERR_R_SYS_LIB);
-        ERR_add_error_data(3, "readdir('", path, "')");
-      } else {
-        ret = 1;
-      }
-      break;
-    }
-
-    char buf[1024];
-    if (strlen(path) + strlen(dirent->d_name) + 2 > sizeof(buf)) {
-      OPENSSL_PUT_ERROR(SSL, SSL_R_PATH_TOO_LONG);
-      break;
-    }
-
-    int r = snprintf(buf, sizeof(buf), "%s/%s", path, dirent->d_name);
-    if (r <= 0 ||
-        r >= (int)sizeof(buf) ||
-        !SSL_add_file_cert_subjects_to_stack(stack, buf)) {
-      break;
-    }
-  }
-
-  closedir(dir);
-  return ret;
-}
-
-#endif  // !WINDOWS && !PNACL && !OPENSSL_NO_FILESYSTEM
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 ----------------------------------------------------------
@@ -1056,7 +999,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    bitflags@2.11.0
+Package:    bitflags@2.11.1
 License:    MIT License
 Repository: https://github.com/bitflags/bitflags
 ----------------------------------------------------------
@@ -1262,6 +1205,35 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    byte-unit@5.2.0
+License:    MIT License
+Repository: https://github.com/magiclen/byte-unit
+----------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2023 magiclen.org (Ron Li)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 ----------------------------------------------------------
@@ -1544,7 +1516,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    cc@1.2.56
+Package:    cc@1.2.60
 License:    MIT License
 Repository: https://github.com/rust-lang/cc-rs
 ----------------------------------------------------------
@@ -1739,7 +1711,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 ----------------------------------------------------------
-Package:    cmake@0.1.57
+Package:    cmake@0.1.58
 License:    MIT License
 Repository: https://github.com/rust-lang/cmake-rs
 ----------------------------------------------------------
@@ -3500,7 +3472,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ----------------------------------------------------------
-Package:    darling@0.21.3
+Package:    darling@0.23.0
 License:    MIT License
 Repository: https://github.com/TedDriggs/darling
 ----------------------------------------------------------
@@ -3529,7 +3501,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    darling_core@0.21.3
+Package:    darling_core@0.23.0
 License:    MIT License
 Repository: https://github.com/TedDriggs/darling
 ----------------------------------------------------------
@@ -3558,7 +3530,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    darling_macro@0.21.3
+Package:    darling_macro@0.23.0
 License:    MIT License
 Repository: https://github.com/TedDriggs/darling
 ----------------------------------------------------------
@@ -3932,7 +3904,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    dom_query@0.25.1
+Package:    dom_query@0.27.0
 License:    MIT License
 Repository: https://github.com/niklak/dom_query
 ----------------------------------------------------------
@@ -3959,8 +3931,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+---
 
-
+This project contains portions of code and architectural concepts originally 
+derived from the "nipper" project (https://github.com/importcjj/nipper), 
+developed by Chen Jiaju, licensed under the MIT License and the Apache License 2.0 (dual licensed).
 
 ----------------------------------------------------------
 Package:    dotenvy@0.15.7
@@ -4607,7 +4582,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    embed-resource@3.0.6
+Package:    embed-resource@3.0.8
 License:    MIT License
 Repository: https://github.com/nabijaczleweli/rust-embed-resource
 ----------------------------------------------------------
@@ -4792,6 +4767,33 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    env_filter@0.1.4
+License:    MIT License
+Repository: https://github.com/rust-cli/env_logger
+----------------------------------------------------------
+
+Copyright (c) Individual contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 ----------------------------------------------------------
@@ -4985,7 +4987,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    fastrand@2.3.0
+Package:    fastrand@2.4.1
 License:    MIT License
 Repository: https://github.com/smol-rs/fastrand
 ----------------------------------------------------------
@@ -5098,6 +5100,21 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    fern@0.7.1
+License:    MIT License
+Repository: https://github.com/daboross/fern
+----------------------------------------------------------
+
+Copyright (c) 2014-2017 David Ross
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
@@ -5491,7 +5508,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    frametracker@1.3.0
+Package:    frametracker@1.4.4
 License:    MIT License
 ----------------------------------------------------------
 
@@ -6917,7 +6934,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    hashbrown@0.16.1
+Package:    hashbrown@0.17.0
 License:    MIT License
 Repository: https://github.com/rust-lang/hashbrown
 ----------------------------------------------------------
@@ -7141,7 +7158,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    html5ever@0.36.1
+Package:    html5ever@0.38.0
 License:    MIT License
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
@@ -7301,7 +7318,7 @@ THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    hyper-rustls@0.27.7
+Package:    hyper-rustls@0.27.9
 License:    MIT License
 Repository: https://github.com/rustls/hyper-rustls
 ----------------------------------------------------------
@@ -7361,12 +7378,12 @@ THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    hyper@1.8.1
+Package:    hyper@1.9.0
 License:    MIT License
 Repository: https://github.com/hyperium/hyper
 ----------------------------------------------------------
 
-Copyright (c) 2014-2025 Sean McArthur
+Copyright (c) 2014-2026 Sean McArthur
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -7483,7 +7500,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    icu_collections@2.1.1
+Package:    icu_collections@2.2.0
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -7537,7 +7554,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    icu_locale_core@2.1.1
+Package:    icu_locale_core@2.2.0
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -7591,7 +7608,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    icu_normalizer@2.1.1
+Package:    icu_normalizer@2.2.0
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -7645,7 +7662,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    icu_normalizer_data@2.1.1
+Package:    icu_normalizer_data@2.2.0
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -7699,7 +7716,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    icu_properties@2.1.2
+Package:    icu_properties@2.2.0
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -7753,7 +7770,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    icu_properties_data@2.1.2
+Package:    icu_properties_data@2.2.0
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -7807,7 +7824,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    icu_provider@2.1.1
+Package:    icu_provider@2.2.0
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -8020,7 +8037,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    indexmap@2.13.0
+Package:    indexmap@2.14.0
 License:    MIT License
 Repository: https://github.com/indexmap-rs/indexmap
 ----------------------------------------------------------
@@ -8097,7 +8114,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 ----------------------------------------------------------
-Package:    iri-string@0.7.10
+Package:    iri-string@0.7.12
 License:    MIT License
 Repository: https://github.com/lo48576/iri-string
 ----------------------------------------------------------
@@ -8188,7 +8205,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    itoa@1.0.17
+Package:    itoa@1.0.18
 License:    MIT License
 Repository: https://github.com/dtolnay/itoa
 ----------------------------------------------------------
@@ -8280,9 +8297,62 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    jni-sys@0.3.0
+Package:    jni-sys-macros@0.4.1
 License:    MIT License
-Repository: https://github.com/sfackler/rust-jni-sys
+Repository: https://github.com/jni-rs/jni-sys
+----------------------------------------------------------
+
+MIT License
+
+Copyright (c) <year> <copyright holders>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    jni-sys@0.3.1
+License:    MIT License
+Repository: https://github.com/jni-rs/jni-sys
+----------------------------------------------------------
+
+Copyright (c) 2015 The rust-jni-sys Developers
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    jni-sys@0.4.1
+License:    MIT License
+Repository: https://github.com/jni-rs/jni-sys
 ----------------------------------------------------------
 
 Copyright (c) 2015 The rust-jni-sys Developers
@@ -8369,7 +8439,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    js-sys@0.3.91
+Package:    js-sys@0.3.95
 License:    MIT License
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/js-sys
 ----------------------------------------------------------
@@ -8517,7 +8587,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    libc@0.2.183
+Package:    libc@0.2.185
 License:    MIT License
 Repository: https://github.com/rust-lang/libc
 ----------------------------------------------------------
@@ -8550,7 +8620,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    libredox@0.1.14
+Package:    libredox@0.1.16
 License:    MIT License
 Repository: https://gitlab.redox-os.org/redox-os/libredox.git
 ----------------------------------------------------------
@@ -8637,7 +8707,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    litemap@0.8.1
+Package:    litemap@0.8.2
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -8816,7 +8886,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    markup5ever@0.36.1
+Package:    markup5ever@0.38.0
 License:    MIT License
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
@@ -9050,7 +9120,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    mio@1.1.1
+Package:    mio@1.2.0
 License:    MIT License
 Repository: https://github.com/tokio-rs/mio
 ----------------------------------------------------------
@@ -9286,9 +9356,9 @@ Repository: https://github.com/awxkee/moxcms.git
 
 
 ----------------------------------------------------------
-Package:    muda@0.17.1
+Package:    muda@0.17.2
 License:    MIT License
-Repository: https://github.com/amrbashir/muda
+Repository: https://github.com/tauri-apps/muda
 ----------------------------------------------------------
 
 MIT License
@@ -9487,12 +9557,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    num-conv@0.2.0
+Package:    num-conv@0.2.1
 License:    MIT License
 Repository: https://github.com/jhpratt/num-conv
 ----------------------------------------------------------
 
-Copyright (c) 2023 Jacob Pratt
+Copyright (c) Jacob Pratt
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -9547,7 +9617,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    num_enum@0.7.5
+Package:    num_enum@0.7.6
 License:    MIT License
 Repository: https://github.com/illicitonion/num_enum
 ----------------------------------------------------------
@@ -9578,7 +9648,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    num_enum_derive@0.7.5
+Package:    num_enum_derive@0.7.6
 License:    MIT License
 Repository: https://github.com/illicitonion/num_enum
 ----------------------------------------------------------
@@ -9606,6 +9676,33 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    num_threads@0.1.7
+License:    MIT License
+Repository: https://github.com/jhpratt/num_threads
+----------------------------------------------------------
+
+Copyright (c) 2021 Jacob Pratt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 ----------------------------------------------------------
@@ -11258,39 +11355,6 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    pin-utils@0.1.0
-License:    MIT License
-Repository: https://github.com/rust-lang-nursery/pin-utils
-----------------------------------------------------------
-
-Copyright (c) 2018 The pin-utils authors
-
-Permission is hereby granted, free of charge, to any
-person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the
-Software without restriction, including without
-limitation the rights to use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software
-is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice
-shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
-ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-
-----------------------------------------------------------
 Package:    piper@0.2.5
 License:    MIT License
 Repository: https://github.com/smol-rs/piper
@@ -11322,7 +11386,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    pkg-config@0.3.32
+Package:    pkg-config@0.3.33
 License:    MIT License
 Repository: https://github.com/rust-lang/pkg-config-rs
 ----------------------------------------------------------
@@ -11511,7 +11575,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    potential_utf@0.1.4
+Package:    potential_utf@0.1.5
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -11869,7 +11933,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    pxfm@0.1.28
+Package:    pxfm@0.1.29
 License:    Apache License 2.0
 Repository: https://github.com/awxkee/pxfm
 ----------------------------------------------------------
@@ -12284,7 +12348,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    rand@0.8.5
+Package:    rand@0.8.6
 License:    MIT License
 Repository: https://github.com/rust-random/rand
 ----------------------------------------------------------
@@ -12787,7 +12851,36 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    rustc-hash@2.1.1
+Package:    rust_decimal@1.41.0
+License:    MIT License
+Repository: https://github.com/paupino/rust-decimal
+----------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2016 Paul Mason
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    rustc-hash@2.1.2
 License:    MIT License
 Repository: https://github.com/rust-lang/rustc-hash
 ----------------------------------------------------------
@@ -13002,7 +13095,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    rustls-webpki@0.103.9
+Package:    rustls-webpki@0.103.12
 License:    ISC License
 Repository: https://github.com/rustls/webpki
 ----------------------------------------------------------
@@ -13029,7 +13122,7 @@ third-party/chromium/LICENSE.
 
 
 ----------------------------------------------------------
-Package:    rustls@0.23.37
+Package:    rustls@0.23.38
 License:    MIT License
 Repository: https://github.com/rustls/rustls
 ----------------------------------------------------------
@@ -13746,7 +13839,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 
 ----------------------------------------------------------
-Package:    selectors@0.35.0
+Package:    selectors@0.36.1
 License:    Mozilla Public License 2.0
 Repository: https://github.com/servo/stylo
 ----------------------------------------------------------
@@ -14127,7 +14220,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 
 ----------------------------------------------------------
-Package:    semver@1.0.27
+Package:    semver@1.0.28
 License:    MIT License
 Repository: https://github.com/dtolnay/semver
 ----------------------------------------------------------
@@ -14402,7 +14495,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    serde_spanned@1.0.4
+Package:    serde_spanned@1.1.1
 License:    MIT License
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
@@ -14462,7 +14555,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    serde_with@3.17.0
+Package:    serde_with@3.18.0
 License:    MIT License
 Repository: https://github.com/jonasbb/serde_with/
 ----------------------------------------------------------
@@ -14495,7 +14588,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    serde_with_macros@3.17.0
+Package:    serde_with_macros@3.18.0
 License:    MIT License
 Repository: https://github.com/jonasbb/serde_with/
 ----------------------------------------------------------
@@ -14745,7 +14838,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    simd-adler32@0.3.8
+Package:    simd-adler32@0.3.9
 License:    MIT License
 Repository: https://github.com/mcountryman/simd-adler32
 ----------------------------------------------------------
@@ -15746,7 +15839,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    tao@0.34.6
+Package:    tao@0.34.8
 License:    Apache License 2.0
 Repository: https://github.com/tauri-apps/tao
 ----------------------------------------------------------
@@ -16397,6 +16490,32 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
+Package:    tauri-plugin-log@2.8.0
+License:    MIT License
+Repository: https://github.com/tauri-apps/plugins-workspace
+----------------------------------------------------------
+
+MIT License
+
+Copyright (c) <year> <copyright holders>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+associated documentation files (the "Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
 Package:    tauri-plugin-opener@2.5.3
 License:    MIT License
 Repository: https://github.com/tauri-apps/plugins-workspace
@@ -16707,6 +16826,39 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
+Package:    tendril@0.5.0
+License:    MIT License
+Repository: https://github.com/servo/html5ever
+----------------------------------------------------------
+
+Copyright (c) 2015 Keegan McAllister
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
 Package:    thiserror-impl@1.0.69
 License:    MIT License
 Repository: https://github.com/dtolnay/thiserror
@@ -16941,7 +17093,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    tinystr@0.8.2
+Package:    tinystr@0.8.3
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -16995,7 +17147,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    tokio-macros@2.6.0
+Package:    tokio-macros@2.7.0
 License:    MIT License
 Repository: https://github.com/tokio-rs/tokio
 ----------------------------------------------------------
@@ -17116,7 +17268,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    tokio@1.50.0
+Package:    tokio@1.52.1
 License:    MIT License
 Repository: https://github.com/tokio-rs/tokio
 ----------------------------------------------------------
@@ -17259,7 +17411,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    toml_datetime@1.0.0+spec-1.1.0
+Package:    toml_datetime@1.1.1+spec-1.1.0
 License:    MIT License
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
@@ -17340,7 +17492,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    toml_edit@0.25.4+spec-1.1.0
+Package:    toml_edit@0.25.11+spec-1.1.0
 License:    MIT License
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
@@ -17367,7 +17519,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    toml_parser@1.0.9+spec-1.1.0
+Package:    toml_parser@1.1.2+spec-1.1.0
 License:    MIT License
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
@@ -17394,7 +17546,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    toml_writer@1.0.6+spec-1.1.0
+Package:    toml_writer@1.1.1+spec-1.1.0
 License:    MIT License
 Repository: https://github.com/toml-rs/toml
 ----------------------------------------------------------
@@ -17770,7 +17922,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    uds_windows@1.2.0
+Package:    uds_windows@1.2.1
 License:    MIT License
 Repository: https://github.com/haraldh/rust_uds_windows
 ----------------------------------------------------------
@@ -17976,7 +18128,7 @@ authorization of the copyright holder.
 
 
 ----------------------------------------------------------
-Package:    unicode-segmentation@1.12.0
+Package:    unicode-segmentation@1.13.2
 License:    MIT License
 Repository: https://github.com/unicode-rs/unicode-segmentation
 ----------------------------------------------------------
@@ -18123,6 +18275,35 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
+Package:    utf8-width@0.1.8
+License:    MIT License
+Repository: https://github.com/magiclen/utf8-width
+----------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2020 magiclen.org (Ron Li)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+----------------------------------------------------------
 Package:    utf8_iter@1.0.4
 License:    MIT License
 Repository: https://github.com/hsivonen/utf8_iter
@@ -18156,7 +18337,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    uuid@1.22.0
+Package:    uuid@1.23.1
 License:    MIT License
 Repository: https://github.com/uuid-rs/uuid
 ----------------------------------------------------------
@@ -18187,6 +18368,35 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    value-bag@1.12.0
+License:    MIT License
+Repository: https://github.com/sval-rs/value-bag
+----------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2020 sval-rs
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 ----------------------------------------------------------
@@ -18458,29 +18668,34 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    wasip2@1.0.2+wasi-0.2.9
+Package:    wasip2@1.0.3+wasi-0.2.9
 License:    MIT License
 Repository: https://github.com/bytecodealliance/wasi-rs
 ----------------------------------------------------------
 
-MIT License
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
 
-Copyright (c) <year> <copyright holders>
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-associated documentation files (the "Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the
-following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial
-portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
-EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
@@ -18510,7 +18725,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    wasm-bindgen-futures@0.4.64
+Package:    wasm-bindgen-futures@0.4.68
 License:    MIT License
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/futures
 ----------------------------------------------------------
@@ -18543,7 +18758,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    wasm-bindgen-macro-support@0.2.114
+Package:    wasm-bindgen-macro-support@0.2.118
 License:    MIT License
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/macro-support
 ----------------------------------------------------------
@@ -18576,7 +18791,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    wasm-bindgen-macro@0.2.114
+Package:    wasm-bindgen-macro@0.2.118
 License:    MIT License
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/macro
 ----------------------------------------------------------
@@ -18609,7 +18824,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    wasm-bindgen-shared@0.2.114
+Package:    wasm-bindgen-shared@0.2.118
 License:    MIT License
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/shared
 ----------------------------------------------------------
@@ -18642,7 +18857,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    wasm-bindgen@0.2.114
+Package:    wasm-bindgen@0.2.118
 License:    MIT License
 Repository: https://github.com/wasm-bindgen/wasm-bindgen
 ----------------------------------------------------------
@@ -18868,7 +19083,7 @@ THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    web-sys@0.3.91
+Package:    web-sys@0.3.95
 License:    MIT License
 Repository: https://github.com/wasm-bindgen/wasm-bindgen/tree/master/crates/web-sys
 ----------------------------------------------------------
@@ -18901,7 +19116,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    web_atoms@0.2.3
+Package:    web_atoms@0.2.4
 License:    MIT License
 Repository: https://github.com/servo/html5ever
 ----------------------------------------------------------
@@ -18988,7 +19203,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    webpki-root-certs@1.0.6
+Package:    webpki-root-certs@1.0.7
 License:    Community Data License Agreement Permissive 2.0
 Repository: https://github.com/rustls/webpki-roots
 ----------------------------------------------------------
@@ -20602,6 +20817,32 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
+Package:    winnow@1.0.1
+License:    MIT License
+Repository: https://github.com/winnow-rs/winnow
+----------------------------------------------------------
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
 Package:    winreg@0.55.0
 License:    MIT License
 Repository: https://github.com/gentoo90/winreg-rs
@@ -20630,6 +20871,37 @@ THE SOFTWARE.
 
 ----------------------------------------------------------
 Package:    wit-bindgen@0.51.0
+License:    MIT License
+Repository: https://github.com/bytecodealliance/wit-bindgen
+----------------------------------------------------------
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    wit-bindgen@0.57.1
 License:    MIT License
 Repository: https://github.com/bytecodealliance/wit-bindgen
 ----------------------------------------------------------
@@ -20693,7 +20965,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    writeable@0.6.2
+Package:    writeable@0.6.3
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -20747,7 +21019,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    wry@0.54.3
+Package:    wry@0.54.4
 License:    MIT License
 Repository: https://github.com/tauri-apps/wry
 ----------------------------------------------------------
@@ -20964,7 +21236,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    yoke-derive@0.8.1
+Package:    yoke-derive@0.8.2
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -21018,7 +21290,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    yoke@0.8.1
+Package:    yoke@0.8.2
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -21171,7 +21443,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    zerocopy-derive@0.8.42
+Package:    zerocopy-derive@0.8.48
 License:    MIT License
 Repository: https://github.com/google/zerocopy
 ----------------------------------------------------------
@@ -21205,7 +21477,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    zerocopy@0.8.42
+Package:    zerocopy@0.8.48
 License:    MIT License
 Repository: https://github.com/google/zerocopy
 ----------------------------------------------------------
@@ -21239,7 +21511,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    zerofrom-derive@0.1.6
+Package:    zerofrom-derive@0.1.7
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -21293,7 +21565,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    zerofrom@0.1.6
+Package:    zerofrom@0.1.7
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -21376,7 +21648,7 @@ SOFTWARE.
 
 
 ----------------------------------------------------------
-Package:    zerotrie@0.2.3
+Package:    zerotrie@0.2.4
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -21430,7 +21702,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    zerovec-derive@0.11.2
+Package:    zerovec-derive@0.11.3
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -21484,7 +21756,7 @@ ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation a
 
 
 ----------------------------------------------------------
-Package:    zerovec@0.11.5
+Package:    zerovec@0.11.6
 License:    Unicode License v3
 Repository: https://github.com/unicode-org/icu4x
 ----------------------------------------------------------
@@ -24192,6 +24464,33 @@ Creator: Person: Daniel Thompson-Yvetot
 
 ----------------------------------------------------------
 Package:    @tauri-apps/plugin-global-shortcut@2.3.1
+License:    MIT OR Apache-2.0
+Repository: https://github.com/tauri-apps/plugins-workspace
+----------------------------------------------------------
+
+SPDXVersion: SPDX-2.1
+DataLicense: CC0-1.0
+PackageName: tauri
+DataFormat: SPDXRef-1
+PackageSupplier: Organization: The Tauri Programme in the Commons Conservancy
+PackageHomePage: https://tauri.app
+PackageLicenseDeclared: Apache-2.0
+PackageLicenseDeclared: MIT
+PackageCopyrightText: 2019-2022, The Tauri Programme in the Commons Conservancy
+PackageSummary: <text>Tauri is a rust project that enables developers to make secure
+and small desktop applications using a web frontend.
+                </text>
+PackageComment: <text>The package includes the following libraries; see
+Relationship information.
+                </text>
+Created: 2019-05-20T09:00:00Z
+PackageDownloadLocation: git://github.com/tauri-apps/tauri
+PackageDownloadLocation: git+https://github.com/tauri-apps/tauri.git
+PackageDownloadLocation: git+ssh://github.com/tauri-apps/tauri.git
+Creator: Person: Daniel Thompson-Yvetot
+
+----------------------------------------------------------
+Package:    @tauri-apps/plugin-log@2.8.0
 License:    MIT OR Apache-2.0
 Repository: https://github.com/tauri-apps/plugins-workspace
 ----------------------------------------------------------
@@ -30436,6 +30735,21 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+----------------------------------------------------------
+Package:    prettier@3.8.3
+License:    MIT
+Repository: https://github.com/prettier/prettier
+----------------------------------------------------------
+
+Copyright © James Long and contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ----------------------------------------------------------

@@ -1,12 +1,12 @@
 use crate::database::repositories::mastery_repo;
 use crate::models::api::wiki_item::WikiItem;
-use sqlx::{ Pool, Sqlite };
-use tauri::{ AppHandle, Emitter };
+use sqlx::{Pool, Sqlite};
+use tauri::{AppHandle, Emitter};
 
 pub async fn sync_wiki_items(
     pool: &Pool<Sqlite>,
     items: Vec<WikiItem>,
-    handle: AppHandle
+    handle: AppHandle,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let mut tx = pool.begin().await?;
 
@@ -15,19 +15,17 @@ pub async fn sync_wiki_items(
 
         if let Some(components) = item.components {
             if !components.is_empty() {
-                mastery_repo::delete_obsolete_components(
-                    &mut tx,
-                    &item.unique_name,
-                    &components
-                ).await?;
+                mastery_repo::delete_obsolete_components(&mut tx, &item.unique_name, &components)
+                    .await?;
 
                 for comp in &components {
                     mastery_repo::upsert_item_component(
                         &mut tx,
                         &item.unique_name,
                         &comp.name,
-                        comp.item_count
-                    ).await?;
+                        comp.item_count,
+                    )
+                    .await?;
                 }
             }
         }

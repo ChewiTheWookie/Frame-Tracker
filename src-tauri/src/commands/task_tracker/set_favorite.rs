@@ -6,12 +6,12 @@ use tauri::State;
 pub async fn set_favorite(
     id: String,
     is_favorite: bool,
-    state: State<'_, UserDb>
+    state: State<'_, UserDb>,
 ) -> Result<(), String> {
     let pool_guard = state.0.lock().await;
 
-    let _ = task_repo
-        ::set_favorite_status(&*pool_guard, &id, is_favorite).await
+    let _ = task_repo::set_favorite_status(&*pool_guard, &id, is_favorite)
+        .await
         .map_err(|e| e.to_string())?;
 
     Ok(())

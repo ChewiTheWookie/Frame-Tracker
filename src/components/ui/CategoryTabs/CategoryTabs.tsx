@@ -9,13 +9,17 @@ export function CategoryTabs() {
     const { pathname } = useLocation();
     const useStore = useActiveStore();
 
-    const activeCategory = useStore((s) => s.activeCategory);
-    const setCategory = useStore((s) => s.actions.setCategory);
+    const activeCategory = useStore?.((s) => s.activeCategory);
+    const setCategory = useStore?.((s) => s.actions.setCategory);
 
-    const categories = ROUTE_METADATA[pathname]?.categories || [];
+    const rootPath = `/${pathname.split("/")[1]}`;
+    const categories = ROUTE_METADATA[rootPath]?.categories || [];
+
+    if (categories.length === 0 || !useStore || !setCategory) {
+        return null;
+    }
 
     const handleTabCycle = () => {
-        if (categories.length === 0) return;
         const currentIndex = categories.indexOf(activeCategory);
         const nextIndex = (currentIndex + 1) % categories.length;
         setCategory(categories[nextIndex]);
@@ -37,7 +41,8 @@ export function CategoryTabs() {
             {categories.map((cat) => (
                 <button
                     key={cat}
-                    className={`${styles.button} ${activeCategory === cat ? styles.active : ""}`}
+                    className={`${styles.button} ${activeCategory === cat ? styles.active : ""
+                        }`}
                     onClick={() => setCategory(cat)}
                 >
                     {cat}

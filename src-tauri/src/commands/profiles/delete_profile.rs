@@ -1,21 +1,21 @@
+use crate::database::db::UserDb;
 use std::fs;
-use crate::database::db::{ UserDb };
-use tauri::{ AppHandle, Manager, State };
+use tauri::{AppHandle, Manager, State};
 
 #[tauri::command]
 pub async fn delete_profile(
     handle: AppHandle,
     user_db: State<'_, UserDb>,
-    name: String
+    name: String,
 ) -> Result<(), String> {
     if name == "Default" {
         return Err("Cannot delete the Default profile.".into());
     }
 
     let current_pool = user_db.0.lock().await;
-    let row: (i64, String, String) = sqlx
-        ::query_as("PRAGMA database_list")
-        .fetch_one(&*current_pool).await
+    let row: (i64, String, String) = sqlx::query_as("PRAGMA database_list")
+        .fetch_one(&*current_pool)
+        .await
         .map_err(|e| e.to_string())?;
 
     let path = std::path::Path::new(&row.2);
@@ -29,7 +29,10 @@ pub async fn delete_profile(
         return Err("Cannot delete the profile you are currently using.".into());
     }
 
-    let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
+    let app_dir = handle
+        .path()
+        .app_data_dir()
+        .expect("Failed to get AppData dir");
     let profile_path = app_dir.join("profiles").join(&name);
 
     if profile_path.exists() {

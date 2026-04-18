@@ -11,8 +11,10 @@ export function MainLayout() {
     const { pathname } = useLocation();
     const metadata = ROUTE_METADATA[pathname];
 
+    const showMainSearch = metadata?.hasSearch && !metadata?.useInternalSearch;
+
     const hasHeaderContent =
-        metadata?.hasCategory || metadata?.hasSearch || metadata?.hasStatBar;
+        metadata?.hasCategory || showMainSearch || metadata?.hasStatBar;
 
     return (
         <>
@@ -22,7 +24,7 @@ export function MainLayout() {
                     <header className={styles.navContainer}>
                         {metadata?.hasCategory && <CategoryTabs />}
                         <nav className={styles.navBottom}>
-                            {metadata?.hasSearch && <Searchbar />}
+                            {showMainSearch && <Searchbar />}
                             {metadata?.hasStatBar && <StatBar />}
                         </nav>
                     </header>

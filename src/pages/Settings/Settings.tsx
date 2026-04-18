@@ -16,7 +16,7 @@ export function Settings() {
     return (
         <>
             {sections.map((section) => (
-                <ListSection icon={section.icon} title={section.title} list={
+                <ListSection key={section.title} icon={section.icon} title={section.title} list={
                     <>
                         {section.items.map((item) => (
                             <ListItem

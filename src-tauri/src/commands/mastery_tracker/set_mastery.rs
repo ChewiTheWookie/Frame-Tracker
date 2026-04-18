@@ -6,7 +6,7 @@ use tauri::State;
 pub async fn set_mastery(
     state: State<'_, UserDb>,
     item_id: String,
-    field: String
+    field: String,
 ) -> Result<(), String> {
     let pool_guard = state.0.lock().await;
 

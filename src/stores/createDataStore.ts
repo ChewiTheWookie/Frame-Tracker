@@ -1,5 +1,6 @@
-import { BaseState } from "@/types/store";
 import { create } from "zustand";
+import { useShallow } from "zustand/react/shallow";
+import { BaseState } from "@/types/store";
 
 interface StoreConfig<T, F, S, C> {
     initialFilters: F;
@@ -13,8 +14,16 @@ interface StoreConfig<T, F, S, C> {
     }) => Promise<[T[], S]>;
 }
 
+interface DataActions<F, C> {
+    setCategory: (category: C) => void;
+    setSearch: (query: string) => void;
+    setFilters: (newFilters: F) => void;
+    fetchData: (silent?: boolean) => Promise<void>;
+    loadMore: () => Promise<void>;
+}
+
 export const createDataStore = <T extends { id: string }, F, S, C>(
-    config: StoreConfig<T, F, S, C>
+    config: StoreConfig<T, F, S, C>,
 ) => {
     const TOTAL_VISIBLE = 50;
     let fetchVersion = 0;
@@ -26,7 +35,9 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
         hasMore: true,
     });
 
-    return create<BaseState<T, F, S, C> & { actions: any }>((set, get) => ({
+    const useStore = create<
+        BaseState<T, F, S, C> & { actions: DataActions<F, C> }
+    >((set, get) => ({
         ...getDefaultResultState(),
         activeCategory: "All" as unknown as C,
         stats: config.initialStats,
@@ -40,25 +51,17 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
             setCategory: (category: C) => {
                 if (get().activeCategory === category) return;
                 set({
-                    items: {},
-                    itemIds: [],
-                    page: 0,
-                    hasMore: true,
+                    ...getDefaultResultState(),
                     activeCategory: category,
                     searchQuery: "",
-                    isLoading: true,
                 });
                 get().actions.fetchData();
             },
 
             setSearch: (query: string) => {
                 if (get().searchQuery === query) return;
-
                 set({
-                    items: {},
-                    itemIds: [],
-                    page: 0,
-                    hasMore: true,
+                    ...getDefaultResultState(),
                     searchQuery: query,
                 });
                 get().actions.fetchData(true);
@@ -66,10 +69,7 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
 
             setFilters: (newFilters: F) => {
                 set({
-                    items: {},
-                    itemIds: [],
-                    page: 0,
-                    hasMore: true,
+                    ...getDefaultResultState(),
                     filters: newFilters,
                 });
                 get().actions.fetchData(true);
@@ -77,7 +77,6 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
 
             fetchData: async (silent = false) => {
                 const state = get();
-
                 if (!silent && (state.isLoading || state.isFetchingMore))
                     return;
 
@@ -124,15 +123,13 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
             loadMore: async () => {
                 const { isLoading, isFetchingMore, hasMore, page, itemIds } =
                     get();
-
                 if (
                     isLoading ||
                     isFetchingMore ||
                     !hasMore ||
                     itemIds.length === 0
-                ) {
+                )
                     return;
-                }
 
                 set({ isFetchingMore: true, page: page + 1 });
                 await get().actions.fetchData(true);
@@ -140,4 +137,12 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
             },
         },
     }));
+
+    return {
+        useStore,
+        useActions: () => useStore((s) => s.actions),
+        useItemIds: () => useStore(useShallow((s) => s.itemIds)),
+        useItemById: (id: string) => useStore((s) => s.items[id]),
+        useStats: () => useStore(useShallow((s) => s.stats)),
+    };
 };

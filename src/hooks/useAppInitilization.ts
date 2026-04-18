@@ -3,11 +3,13 @@ import { listen, UnlistenFn } from "@tauri-apps/api/event";
 import { check } from "@tauri-apps/plugin-updater";
 import { ask } from "@tauri-apps/plugin-dialog";
 import { exit } from "@tauri-apps/plugin-process";
+import { error } from "@tauri-apps/plugin-log";
 import { useMasteryStore } from "@/stores/useMasteryStore";
 import { useTaskStore } from "@/stores/useTaskStore";
 import { useTimeStore } from "@/stores/useTimeStore";
 import { useKeybindStore } from "@/stores/useKeybindStore";
 import { useSavedSongStore } from "@/stores/useSavedSongStore";
+import { logFailure } from "@/utils/logger";
 
 export const useAppInitialization = () => {
     const updateTime = useTimeStore((state) => state.updateTime);
@@ -27,7 +29,7 @@ export const useAppInitialization = () => {
                 if (update?.available) {
                     const confirmed = await ask(
                         `Version ${update.version} is available. Install and restart?`,
-                        { title: "Update Available", kind: "info" }
+                        { title: "Update Available", kind: "info" },
                     );
 
                     if (confirmed) {
@@ -35,8 +37,8 @@ export const useAppInitialization = () => {
                         await exit(0);
                     }
                 }
-            } catch (error) {
-                console.error("Failed to check for updates:", error);
+            } catch (err) {
+                error(`Failed to check for updates: ${err}`);
             }
         };
 
@@ -44,7 +46,7 @@ export const useAppInitialization = () => {
     }, []);
 
     useEffect(() => {
-        initializeKeybinds().catch(console.error);
+        initializeKeybinds().catch(logFailure("Keybind Initialization"));
     }, [initializeKeybinds]);
 
     useEffect(() => {
@@ -54,7 +56,9 @@ export const useAppInitialization = () => {
 
     useEffect(() => {
         const globalCallbacks = {};
-        refreshGlobals(globalCallbacks).catch(console.error);
+        refreshGlobals(globalCallbacks).catch(
+            logFailure("Refresh Global Keybinds"),
+        );
     }, [registry, refreshGlobals]);
 
     useEffect(() => {
@@ -78,7 +82,7 @@ export const useAppInitialization = () => {
                 {
                     name: "profile-switched",
                     handler: async () => {
-                        const resetObj = {
+                        const resetState = {
                             page: 0,
                             items: {},
                             itemIds: [],
@@ -86,13 +90,12 @@ export const useAppInitialization = () => {
                             isLoading: false,
                         };
 
-                        useMasteryStore.setState(resetObj);
-                        useTaskStore.setState(resetObj);
+                        useMasteryStore.setState(resetState);
+                        useTaskStore.setState(resetState);
                         useSavedSongStore.setState({
-                            songNames: [],
+                            ...resetState,
                             songCache: {},
-                            isLoading: false,
-                        });
+                        } as any);
 
                         try {
                             await Promise.all([
@@ -103,13 +106,10 @@ export const useAppInitialization = () => {
                                 useTaskStore.getState().actions.fetchData(true),
                                 useSavedSongStore
                                     .getState()
-                                    .actions.fetchSongNames(true),
+                                    .actions.fetchData(true),
                             ]);
                         } catch (err) {
-                            console.error(
-                                "Profile switch refresh failed:",
-                                err
-                            );
+                            error(`Profile switch refresh failed: ${err}`);
                         }
                     },
                 },

@@ -1,4 +1,3 @@
-import { useShallow } from "zustand/react/shallow";
 import { createDataStore } from "@/stores/createDataStore";
 import { taskService } from "@/api/tasks";
 import { type TaskCategory } from "@/types/categories";
@@ -9,8 +8,16 @@ import {
     calculateTaskToggleFavorite,
     calculateTaskStatAdjustment,
 } from "@/utils/taskLogic";
+import { error } from "@tauri-apps/plugin-log";
+import { StoreApi, UseBoundStore } from "zustand";
 
-export const useTaskStore = createDataStore<
+interface TaskExtraActions {
+    toggleFavorite: (id: string) => Promise<void>;
+    setTask: (id: string, count: number) => Promise<void>;
+    fetchData: () => Promise<void>;
+}
+
+const taskBundle = createDataStore<
     Task,
     TaskFilterState,
     TaskStats,
@@ -34,6 +41,14 @@ export const useTaskStore = createDataStore<
     },
 });
 
+type FullTaskState = ReturnType<typeof taskBundle.useStore.getState> & {
+    actions: TaskExtraActions;
+};
+
+export const useTaskStore = taskBundle.useStore as unknown as UseBoundStore<
+    StoreApi<FullTaskState>
+>;
+
 useTaskStore.setState((state) => ({
     actions: {
         ...state.actions,
@@ -49,14 +64,14 @@ useTaskStore.setState((state) => ({
                 itemIds: [...itemIds],
                 stats,
             };
-            const newFavoriteStatus = task.favorite === 1 ? 0 : 1;
 
+            const newFavoriteStatus = task.favorite === 1 ? 0 : 1;
             const { updatedTask, newTaskIds } = calculateTaskToggleFavorite(
                 items,
                 itemIds,
                 id,
                 newFavoriteStatus,
-                filters.favoriteFirst
+                filters.favoriteFirst,
             );
 
             const finalIds = shouldHide(updatedTask, filters)
@@ -74,7 +89,7 @@ useTaskStore.setState((state) => ({
                     await taskService.getTaskStats(activeCategory);
                 useTaskStore.setState({ stats: updatedStats });
             } catch (err) {
-                console.error("Rollback favorite:", err);
+                error(`Rollback favorite: ${err}`);
                 useTaskStore.setState(previousState);
             }
         },
@@ -94,7 +109,7 @@ useTaskStore.setState((state) => ({
             const newTotalCurrent = calculateTaskStatAdjustment(
                 task,
                 count,
-                stats.current
+                stats.current,
             );
 
             const updatedTask = { ...task, current_completions: count };
@@ -118,7 +133,7 @@ useTaskStore.setState((state) => ({
                     items: { ...state.items, [id]: serverTask },
                 }));
             } catch (err) {
-                console.error("Rollback task update:", err);
+                error(`Rollback task update: ${err}`);
                 useTaskStore.setState(previousState);
             }
         },
@@ -126,8 +141,8 @@ useTaskStore.setState((state) => ({
 }));
 
 export const useTaskActions = () => useTaskStore((s) => s.actions);
-export const useTaskIds = () => useTaskStore(useShallow((s) => s.itemIds));
-export const useTaskById = (id: string) => useTaskStore((s) => s.items[id]);
-export const useTaskStats = () => useTaskStore(useShallow((s) => s.stats));
+export const useTaskIds = taskBundle.useItemIds;
+export const useTaskById = taskBundle.useItemById;
+export const useTaskStats = taskBundle.useStats;
 
 useTaskStore.getState().actions.fetchData();
