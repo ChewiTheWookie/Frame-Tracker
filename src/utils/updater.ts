@@ -4,6 +4,7 @@ import { relaunch } from "@tauri-apps/plugin-process";
 
 export async function checkForUpdates() {
     const update = await check();
+    console.log("Update check result:", update);
 
     if (update?.available) {
         const yes = await ask(

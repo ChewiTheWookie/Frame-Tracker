@@ -61,3 +61,5 @@ jobs:
                   releaseBody: ${{ steps.extract_changelog.outputs.notes }}
                   releaseDraft: false
                   prerelease: false
+                  includeUpdaterJson: true
+                  args: --bundle nsis
