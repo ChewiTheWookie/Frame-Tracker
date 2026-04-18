@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { getSettingsConfig } from "@/config/settings";
 import { ListItem } from "@/components/ui/ListItem";
+import { ListSection } from "@/components/ui/ListSection";
 
 import styles from "./Settings.module.css";
 
@@ -15,30 +16,29 @@ export function Settings() {
     return (
         <>
             {sections.map((section) => (
-                <section key={section.title} className={styles.section}>
-                    <div className={styles.sectionHeader}>
-                        {section.icon} <h2>{section.title}</h2>
-                    </div>
-                    {section.items.map((item) => (
-                        <ListItem
-                            key={item.label}
-                            title={item.label}
-                            onClick={item.onClick}
-                            button={
-                                item.rightElement ? (
-                                    <span className={styles.rightElement}>
-                                        {item.rightElement}
-                                    </span>
-                                ) : (
-                                    <ChevronRight
-                                        size={20}
-                                        className={styles.chevron}
-                                    />
-                                )
-                            }
-                        />
-                    ))}
-                </section>
+                <ListSection icon={section.icon} title={section.title} list={
+                    <>
+                        {section.items.map((item) => (
+                            <ListItem
+                                key={item.label}
+                                title={item.label}
+                                onClick={item.onClick}
+                                button={
+                                    item.rightElement ? (
+                                        <span className={styles.rightElement}>
+                                            {item.rightElement}
+                                        </span>
+                                    ) : (
+                                        <ChevronRight
+                                            size={20}
+                                            className={styles.chevron}
+                                        />
+                                    )
+                                }
+                            />
+                        ))}
+                    </>
+                } />
             ))}
             <Outlet />
         </>

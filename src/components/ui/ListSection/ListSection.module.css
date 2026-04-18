@@ -1,6 +1,6 @@
 .section {
     width: 98%;
-    margin: 0 auto;
+    margin-bottom: 0.5rem;
 }
 
 .title {
@@ -9,4 +9,9 @@
     border-bottom: 1px solid var(--accent);
 
     color: var(--color);
+}
+
+.list {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }
