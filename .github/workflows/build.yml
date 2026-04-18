@@ -62,4 +62,4 @@ jobs:
                   releaseDraft: false
                   prerelease: false
                   includeUpdaterJson: true
-                  args: --bundles nsis,updater
+                  args: --bundles nsis --target x86_64-pc-windows-msvc
