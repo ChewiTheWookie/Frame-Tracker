@@ -18,7 +18,7 @@ pub struct ActiveProfile(pub std::sync::Mutex<Option<String>>);
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let level = if cfg!(debug_assertions) {
-        log::LevelFilter::Info //? Log level for dev enviroment
+        log::LevelFilter::Debug //? Log level for dev enviroment
     } else {
         log::LevelFilter::Info
     };

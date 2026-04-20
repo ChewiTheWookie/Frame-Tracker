@@ -1,4 +1,4 @@
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct MasteryFilters {
     pub hide_non_prime: bool,
@@ -11,7 +11,7 @@ pub struct MasteryFilters {
     pub hide_helminthed: bool,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct TaskFilters {
     pub hide_incomplete: bool,
