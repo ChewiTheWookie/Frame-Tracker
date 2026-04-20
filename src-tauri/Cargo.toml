@@ -28,7 +28,6 @@ sqlx = { version = "0.8.6", features = ["sqlite", "runtime-tokio", "macros"] }
 tokio = { version = "1.50.0", features = ["full"] }
 chrono = { version = "0.4.44", features = ["serde"] }
 reqwest = "0.13.2"
-owo-colors = "4.3.0"
 tauri-plugin-clipboard-manager = "2.3.2"
 tauri-plugin-updater = "2.10.1"
 tauri-plugin-process = "2.3.1"
