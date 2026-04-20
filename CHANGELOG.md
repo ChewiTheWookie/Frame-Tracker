@@ -12,6 +12,7 @@ All notable changes to this project will be logged here
 ### Dev Notes
 
 - ✏️ move to query builder for some repo functions in `mastery_repo.rs` and `task_repo.rs`
+- ✏️ add logging to backend
 
 ## 1.4.4
 
