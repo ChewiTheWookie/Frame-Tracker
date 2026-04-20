@@ -10,8 +10,7 @@ import {
 import { Throbber } from "@/components/ui/Throbber";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { CardButton } from "@/components/ui/CardButton";
-import { Modal } from "@/components/ui/Modal";
-import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { Modal, DeleteModal, RenameModal } from "@/components/ui/Modal";
 import { ListItem } from "@/components/ui/ListItem";
 import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
 
@@ -78,8 +77,7 @@ export function MusicSaver() {
         }
     };
 
-    const handleRename = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleRename = async () => {
         if (!editName.trim() || editName === targetSong) {
             setIsEditOpen(false);
             return;
@@ -114,7 +112,7 @@ export function MusicSaver() {
                                 />
                             }
                             dropdown={
-                                <div className="ListItemDropdown">
+                                <>
                                     <button onClick={() => {
                                         setTargetSong(name);
                                         setEditName(name);
@@ -128,7 +126,7 @@ export function MusicSaver() {
                                     }}>
                                         <Trash2 size={12} /> Delete
                                     </button>
-                                </div>
+                                </>
                             }
                         />
                     ))}
@@ -150,14 +148,16 @@ export function MusicSaver() {
                 </form>
             </Modal>
 
-            <Modal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} title={`Rename ${targetSong}`}>
-                <form onSubmit={handleRename} className="ModalForm">
-                    <input autoFocus value={editName} onChange={(e) => setEditName(e.target.value)} className="ModalInput" />
-                    <button type="submit" className="ModalSubmitButton">Save Changes</button>
-                </form>
-            </Modal>
+            <RenameModal
+                isOpen={isEditOpen}
+                onClose={() => setIsEditOpen(false)}
+                onSubmit={handleRename}
+                title={"Song"}
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+            />
 
-            <ConfirmModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={handleDelete} title="Song" toDelete={targetSong} />
+            <DeleteModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={handleDelete} title="Song" toDelete={targetSong} />
         </>
     );
 }

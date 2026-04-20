@@ -1,7 +1,5 @@
 import { Modal } from "@/components/ui/Modal";
 
-import styles from "./ConfirmModal.module.css";
-
 interface ConfirmModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -11,7 +9,7 @@ interface ConfirmModalProps {
     confirmLabel?: string;
 }
 
-export const ConfirmModal: React.FC<ConfirmModalProps> = ({
+export const DeleteModal: React.FC<ConfirmModalProps> = ({
     isOpen,
     onClose,
     onConfirm,
@@ -25,7 +23,7 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         </p>
         <button
             onClick={onConfirm}
-            className={`ModalSubmitButton ${styles.ConfirmModalSubmitButton}`}
+            className={`ModalSubmitButton DeleteModalModalSubmitButton`}
         >
             {confirmLabel}
         </button>

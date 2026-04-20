@@ -50,7 +50,11 @@ export function ListItem({
                         >
                             <MoreVertical size={16} />
                         </button>
-                        {dropdownState && dropdown}
+                        {dropdownState && (
+                            <div className={styles.ListItemDropdown}>
+                                {dropdown}
+                            </div>
+                        )}
                     </div>
                 )}
             </span>

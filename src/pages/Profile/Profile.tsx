@@ -13,8 +13,7 @@ import {
 
 import { Throbber } from "@/components/ui/Throbber";
 import { CardButton } from "@/components/ui/CardButton";
-import { Modal } from "@/components/ui/Modal";
-import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { Modal, DeleteModal, RenameModal } from "@/components/ui/Modal";
 import { ListItem } from "@/components/ui/ListItem";
 
 import styles from "./Profile.module.css";
@@ -83,8 +82,7 @@ export const Profile: React.FC = () => {
         }
     };
 
-    const handleRename = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleRename = async () => {
         if (!editName.trim() || editName === targetProfile) {
             setIsEditOpen(false);
             return;
@@ -142,7 +140,7 @@ export const Profile: React.FC = () => {
                                 />
                             }
                             dropdown={
-                                <div className="ListItemDropdown">
+                                <>
                                     <button
                                         onClick={() => {
                                             setTargetProfile(name);
@@ -162,7 +160,7 @@ export const Profile: React.FC = () => {
                                     >
                                         <Trash2 size={12} /> Delete
                                     </button>
-                                </div>
+                                </>
                             }
                         />
                     ))}
@@ -188,25 +186,16 @@ export const Profile: React.FC = () => {
                 </form>
             </Modal>
 
-            <Modal
+            <RenameModal
                 isOpen={isEditOpen}
                 onClose={() => setIsEditOpen(false)}
-                title="Rename Profile"
-            >
-                <form onSubmit={handleRename} className="ModalForm">
-                    <input
-                        autoFocus
-                        value={editName}
-                        onChange={(e) => setEditName(e.target.value)}
-                        className="ModalInput"
-                    />
-                    <button type="submit" className="ModalSubmitButton">
-                        Save Changes
-                    </button>
-                </form>
-            </Modal>
+                onSubmit={handleRename}
+                title="Profile"
+                value={editName}
+                onChange={(e) => setEditName(e.target.value)}
+            />
 
-            <ConfirmModal
+            <DeleteModal
                 isOpen={isDeleteOpen}
                 onClose={() => setIsDeleteOpen(false)}
                 onConfirm={handleDelete}
