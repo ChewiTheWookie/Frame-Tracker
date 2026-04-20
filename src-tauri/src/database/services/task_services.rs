@@ -2,7 +2,7 @@ use crate::database::repositories::task_repo;
 use chrono::{ DateTime, Datelike, Duration, NaiveDateTime, TimeZone, Utc };
 use sqlx::SqlitePool;
 use tauri::{ AppHandle, Emitter };
-use tauri_plugin_log::log::error;
+use tauri_plugin_log::log::{ debug, error, info, warn };
 
 pub enum ResetType {
     Daily(u32),
@@ -48,6 +48,7 @@ pub async fn check_and_apply_resets(
     pool: &SqlitePool,
     handle: &AppHandle
 ) -> Result<(), sqlx::Error> {
+    debug!("Checking for task resets...");
     let tasks = task_repo::find_all_raw(pool).await?;
     let mut rows_affected = 0;
     let now = Utc::now();
@@ -65,6 +66,7 @@ pub async fn check_and_apply_resets(
         };
 
         if should_reset {
+            debug!("Resetting task: {} (Last: {})", task.name, task.last_reset);
             let affected = task_repo::reset_task_progress(
                 pool,
                 &task.id,
@@ -76,9 +78,10 @@ pub async fn check_and_apply_resets(
     }
 
     if rows_affected > 0 {
-        let _ = handle.emit("tasks-reset", "reset_triggered").map_err(|e| {
-            error!(">>> [BACKEND] Emit FAILED: {:?}", e);
-        });
+        info!("Applied resets to {} task(s)", rows_affected);
+        if let Err(e) = handle.emit("tasks-reset", "reset_triggered") {
+            error!("Failed to emit tasks-reset event: {:?}", e);
+        }
     }
 
     Ok(())
@@ -138,6 +141,7 @@ fn parse_last_reset(last_reset: &str) -> DateTime<Utc> {
         return ndt.and_utc();
     }
 
+    warn!("Failed to parse last_reset date: '{}'. Defaulting to epoch 0.", last_reset);
     Utc.timestamp_opt(0, 0).unwrap()
 }
 
@@ -153,7 +157,10 @@ fn parse_duration_str(interval: &str) -> Option<Duration> {
         "d" => Some(Duration::days(value)),
         "h" => Some(Duration::hours(value)),
         "m" => Some(Duration::minutes(value)),
-        _ => None,
+        _ => {
+            debug!("Unknown duration suffix: {}", suffix);
+            None
+        }
     }
 }
 

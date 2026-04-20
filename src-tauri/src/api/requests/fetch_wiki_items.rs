@@ -8,19 +8,33 @@ use crate::models::api::{
     wiki_item::WikiItem,
 };
 use crate::models::resources::RESOURCES;
-use tauri_plugin_log::log::info;
+use tauri_plugin_log::log::{ debug, error, info, warn };
 use std::collections::{ HashMap, HashSet };
 
 pub async fn fetch_wiki_items(
     api_client: &ApiClient
 ) -> Result<Vec<WikiItem>, Box<dyn std::error::Error + Send + Sync>> {
     let url = "https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/All.json";
-    let response = api_client.client.get(url).send().await?;
+
+    debug!("Fetching wiki items from: {}", url);
+
+    let response = api_client.client
+        .get(url)
+        .send().await
+        .map_err(|e| {
+            error!("Network error fetching wiki items: {}", e);
+            e
+        })?;
+
     let bytes = response.bytes().await?;
+    debug!("Received {} bytes from API", bytes.len());
 
     let resource_lookup: HashSet<&str> = RESOURCES.iter().copied().collect();
 
-    let all_items: Vec<WikiItem> = serde_json::from_slice(&bytes)?;
+    let all_items: Vec<WikiItem> = serde_json::from_slice(&bytes).map_err(|e| {
+        error!("Failed to deserialize wiki JSON: {}", e);
+        e
+    })?;
 
     let mut filtered: Vec<WikiItem> = all_items
         .into_iter()
@@ -49,7 +63,7 @@ pub async fn fetch_wiki_items(
                     item.category = new_cat.to_string();
                 }
                 None => {
-                    info!(
+                    warn!(
                         "[Skipped] No UI Category: {} (API: {}) ID: {}",
                         name,
                         item.category,
@@ -86,7 +100,11 @@ pub async fn fetch_wiki_items(
     for item in &custom_list {
         info!("[Added] Custom: {}", item.name);
     }
+
+    let total_count = filtered.len() + custom_list.len();
     filtered.extend(custom_list);
+
+    info!("Successfully processed {} total wiki items", total_count);
 
     Ok(filtered)
 }

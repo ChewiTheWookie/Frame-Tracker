@@ -8,7 +8,7 @@ use crate::utils::paths::get_profile_dir;
 use crate::ActiveProfile;
 use sqlx::migrate;
 use sqlx::{ sqlite::SqlitePoolOptions, Pool, Sqlite };
-use tauri_plugin_log::log::{ error, info };
+use tauri_plugin_log::log::{ debug, error, info, warn };
 use std::fs;
 use std::path::{ Path, PathBuf };
 use std::sync::Arc;
@@ -24,6 +24,8 @@ fn migrate_legacy_db(app_dir: &Path) {
     let new_db_path = default_profile_dir.join("user_profile.db");
 
     if legacy_db_path.exists() && !new_db_path.exists() {
+        info!("Legacy database found at {:?}. Migrating to profiles/Default...", legacy_db_path);
+
         if let Err(e) = fs::create_dir_all(&default_profile_dir) {
             error!("Migration: Failed to create Default directory: {}", e);
             return;
@@ -45,12 +47,15 @@ pub fn get_profile_db_path(handle: &AppHandle, active_profile: &ActiveProfile) -
 }
 
 pub async fn create_user_pool(handle: &AppHandle, db_path: PathBuf) -> Pool<Sqlite> {
+    debug!("Initializing User DB Pool at: {:?}", db_path);
+
     if let Some(parent) = db_path.parent() {
-        let _ = fs::create_dir_all(parent);
+        if let Err(e) = fs::create_dir_all(parent) {
+            warn!("Could not create parent directories for DB: {}", e);
+        }
     }
 
     let path_str = db_path.to_string_lossy().replace("\\", "/");
-
     let db_url = format!("sqlite:///{}?mode=rwc", path_str);
 
     let pool = SqlitePoolOptions::new()
@@ -63,10 +68,12 @@ pub async fn create_user_pool(handle: &AppHandle, db_path: PathBuf) -> Pool<Sqli
         .execute(&pool).await
         .expect("Failed to enable foreign keys");
 
+    info!("Running database migrations...");
     migrate!("./migrations/user").run(&pool).await.expect("Failed to run user DB migrations");
 
+    debug!("Running custom relational data migrations...");
     if let Err(e) = run_relational_migration(&pool).await {
-        error!("Migration logic failed: {}", e);
+        error!("Relational migration logic failed: {}", e);
     }
 
     let sync_pool = pool.clone();
@@ -74,12 +81,15 @@ pub async fn create_user_pool(handle: &AppHandle, db_path: PathBuf) -> Pool<Sqli
     let handle_clone = handle.clone();
 
     tauri::async_runtime::spawn(async move {
-        if let Ok(items) = fetch_wiki_items(&api_client).await {
-            if !items.is_empty() {
-                let _ = sync_wiki_items(&sync_pool, items, handle_clone).await.map_err(|e| {
-                    error!("Wiki sync error: {}", e);
-                });
+        debug!("Starting background wiki sync...");
+        match fetch_wiki_items(&api_client).await {
+            Ok(items) if !items.is_empty() => {
+                if let Err(e) = sync_wiki_items(&sync_pool, items, handle_clone).await {
+                    error!("Wiki sync background task failed: {}", e);
+                }
             }
+            Ok(_) => debug!("Wiki sync skipped: No items returned from API."),
+            Err(e) => error!("Failed to fetch wiki items for sync: {}", e),
         }
     });
 
@@ -92,11 +102,17 @@ pub async fn init_license_db(handle: &AppHandle) -> Pool<Sqlite> {
         .resolve("resources/licenses.db", BaseDirectory::Resource)
         .expect("Failed to resolve resource path for licenses.db");
 
+    debug!("Initializing Read-Only License DB at: {:?}", resource_path);
+
     let path_str = resource_path.to_string_lossy().replace("\\\\?\\", "");
     let db_url = sqlx::sqlite::SqliteConnectOptions::new().filename(path_str).read_only(true);
 
     SqlitePoolOptions::new()
         .max_connections(2)
         .connect_with(db_url).await
-        .expect("Failed to connect to License DB")
+        .map_err(|e| {
+            error!("Failed to connect to License DB: {}", e);
+            e
+        })
+        .expect("Critical Failure: License DB connection")
 }

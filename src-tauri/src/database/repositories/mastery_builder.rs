@@ -1,5 +1,6 @@
 use sqlx::{ QueryBuilder, Sqlite };
 use crate::models::database::filters::MasteryFilters;
+use tauri_plugin_log::log::{ debug };
 
 pub struct MasteryQueryBuilder<'a> {
     category: &'a str,
@@ -27,6 +28,12 @@ impl<'a> MasteryQueryBuilder<'a> {
     }
 
     pub fn build(self) -> QueryBuilder<'a, Sqlite> {
+        debug!(
+            "Building Mastery list query | Category: {} | Search: '{}'",
+            self.category,
+            self.search
+        );
+
         let mut builder: QueryBuilder<Sqlite> = QueryBuilder::new(
             "SELECT * FROM mastery_tracker WHERE 1=1"
         );
@@ -42,6 +49,8 @@ impl<'a> MasteryQueryBuilder<'a> {
     }
 
     pub fn build_stats(self) -> QueryBuilder<'a, Sqlite> {
+        debug!("Building Mastery stats query | Category: {}", self.category);
+
         let mut builder: QueryBuilder<Sqlite> = QueryBuilder::new(
             r#"SELECT 
                 COUNT(*), 

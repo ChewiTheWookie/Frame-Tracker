@@ -5,6 +5,7 @@ use crate::models::database::item::{ Item, ItemComponent };
 use crate::models::database::stats::MasteryStats;
 use sqlx::{ Pool, Sqlite, Transaction };
 use std::collections::HashMap;
+use tauri_plugin_log::log::{ debug, error };
 
 pub async fn find_all_items(
     pool: &Pool<Sqlite>,
@@ -14,11 +15,17 @@ pub async fn find_all_items(
     limit: i64,
     offset: i64
 ) -> Result<Vec<Item>, sqlx::Error> {
+    debug!("find_all_items | Category: {} | Search: '{}'", category, search);
+
     let mut items = MasteryQueryBuilder::new(category, search, filters)
         .paginate(limit, offset)
         .build()
         .build_query_as::<Item>()
-        .fetch_all(pool).await?;
+        .fetch_all(pool).await
+        .map_err(|e| {
+            error!("Failed to fetch mastery items: {}", e);
+            e
+        })?;
 
     if items.is_empty() {
         return Ok(items);
@@ -39,7 +46,13 @@ pub async fn find_all_items(
     }
     separated.push_unseparated(")");
 
-    let all_components = comp_builder.build_query_as::<ItemComponent>().fetch_all(pool).await?;
+    let all_components = comp_builder
+        .build_query_as::<ItemComponent>()
+        .fetch_all(pool).await
+        .map_err(|e| {
+            error!("Failed to fetch item components: {}", e);
+            e
+        })?;
 
     let mut comp_map: HashMap<String, Vec<ItemComponent>> = HashMap::new();
     for comp in all_components {
@@ -50,6 +63,7 @@ pub async fn find_all_items(
         item.components = comp_map.remove(&item.id).unwrap_or_default();
     }
 
+    debug!("Successfully mapped components for {} items", items.len());
     Ok(items)
 }
 
@@ -58,10 +72,16 @@ pub async fn get_stats(
     category: &str,
     filters: &MasteryFilters
 ) -> Result<MasteryStats, sqlx::Error> {
+    debug!("get_stats | Category: {}", category);
+
     let (total, current): (i32, i32) = MasteryQueryBuilder::new(category, "", filters)
         .build_stats()
         .build_query_as::<(i32, i32)>()
-        .fetch_one(pool).await?;
+        .fetch_one(pool).await
+        .map_err(|e| {
+            error!("Failed to fetch mastery stats: {}", e);
+            e
+        })?;
 
     let mut h_current = 0;
     let mut h_total = 0;
@@ -97,6 +117,13 @@ pub async fn update_component_quantity(
     component_name: &str,
     quantity: i32
 ) -> Result<(), sqlx::Error> {
+    debug!(
+        "Updating component quantity | ID: {} | Comp: {} | Qty: {}",
+        item_id,
+        component_name,
+        quantity
+    );
+
     sqlx
         ::query(
             r#"
@@ -124,11 +151,14 @@ pub async fn toggle_mastery_field(
     item_id: &str,
     field: &str
 ) -> Result<(), String> {
+    debug!("Toggling mastery field | ID: {} | Field: {}", item_id, field);
+
     let query_str = match field {
         "mastered" => "UPDATE mastery_tracker SET mastered = NOT mastered WHERE id = ?",
         "owned" => "UPDATE mastery_tracker SET owned = NOT owned WHERE id = ?",
         "helminthed" => "UPDATE mastery_tracker SET helminthed = NOT helminthed WHERE id = ?",
         _ => {
+            error!("Invalid mastery field toggle attempt: {}", field);
             return Err("Invalid field name".into());
         }
     };
@@ -137,7 +167,10 @@ pub async fn toggle_mastery_field(
         ::query(query_str)
         .bind(item_id)
         .execute(pool).await
-        .map_err(|e| e.to_string())?;
+        .map_err(|e| {
+            error!("Failed to toggle mastery field '{}': {}", field, e);
+            e.to_string()
+        })?;
 
     Ok(())
 }
@@ -171,6 +204,14 @@ pub async fn delete_obsolete_components(
     item_id: &str,
     valid_components: &[WikiComponent]
 ) -> Result<(), sqlx::Error> {
+    if valid_components.is_empty() {
+        sqlx
+            ::query("DELETE FROM item_components WHERE item_id = ?")
+            .bind(item_id)
+            .execute(&mut **tx).await?;
+        return Ok(());
+    }
+
     let mut builder: sqlx::QueryBuilder<Sqlite> = sqlx::QueryBuilder::new(
         "DELETE FROM item_components WHERE item_id = "
     );
@@ -212,6 +253,8 @@ pub async fn upsert_item_component(
 }
 
 pub async fn update_craftable_states(tx: &mut Transaction<'_, Sqlite>) -> Result<(), sqlx::Error> {
+    debug!("Updating craftable states for all items");
+
     sqlx
         ::query(
             r#"

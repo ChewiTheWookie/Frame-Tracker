@@ -1,7 +1,7 @@
 use std::{ path::PathBuf, sync::Arc };
 use std::time::Duration;
 use tauri::Manager;
-use tauri_plugin_log::{ Target, TargetKind, log::{ self, error } };
+use tauri_plugin_log::{ Target, TargetKind, log::{ self, debug, error, info } };
 use tokio::time::sleep;
 
 pub mod api;
@@ -18,7 +18,7 @@ pub struct ActiveProfile(pub std::sync::Mutex<Option<String>>);
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let level = if cfg!(debug_assertions) {
-        log::LevelFilter::Debug //? Log level for dev enviroment
+        log::LevelFilter::Debug
     } else {
         log::LevelFilter::Info
     };
@@ -58,10 +58,13 @@ pub fn run() {
             let handle = app.handle().clone();
 
             tauri::async_runtime::block_on(async move {
+                info!("Starting FrameTracker backend setup...");
+
                 let app_dir = handle.path().app_data_dir().expect("Failed to get AppData dir");
                 let profiles_dir = app_dir.join("profiles");
 
                 let resolved_name = crate::utils::paths::resolve_profile_name(&profiles_dir);
+                info!("Resolved initial profile: {}", resolved_name);
 
                 {
                     let state = handle.state::<ActiveProfile>();
@@ -69,12 +72,13 @@ pub fn run() {
                     *profile = Some(resolved_name);
                 }
 
-                let default_path = database::db::get_profile_db_path(
+                let db_path = database::db::get_profile_db_path(
                     &handle,
                     &handle.state::<ActiveProfile>()
                 );
 
-                let user_pool = database::db::create_user_pool(&handle, default_path).await;
+                debug!("Initializing databases...");
+                let user_pool = database::db::create_user_pool(&handle, db_path).await;
                 let license_pool = database::db::init_license_db(&handle).await;
 
                 let shared_user_db = Arc::new(tokio::sync::Mutex::new(user_pool));
@@ -83,6 +87,7 @@ pub fn run() {
                 let handle_for_reset = handle.clone();
 
                 tauri::async_runtime::spawn(async move {
+                    debug!("Background reset task started (15m interval)");
                     loop {
                         {
                             let pool = pool_for_reset.lock().await;
@@ -97,6 +102,8 @@ pub fn run() {
 
                 app.manage(database::db::UserDb(shared_user_db));
                 app.manage(database::db::LicenseDb(license_pool));
+
+                info!("Backend setup complete.");
             });
 
             Ok(())

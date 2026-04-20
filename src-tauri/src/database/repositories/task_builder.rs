@@ -1,5 +1,6 @@
 use sqlx::{ QueryBuilder, Sqlite };
 use crate::models::database::filters::TaskFilters;
+use tauri_plugin_log::log::debug;
 
 pub struct TaskQueryBuilder<'a> {
     category: &'a str,
@@ -27,6 +28,12 @@ impl<'a> TaskQueryBuilder<'a> {
     }
 
     pub fn build(self) -> QueryBuilder<'a, Sqlite> {
+        debug!(
+            "Building Task list query | Category: {} | Search: '{}'",
+            self.category,
+            self.search
+        );
+
         let mut builder: QueryBuilder<Sqlite> = QueryBuilder::new(
             "SELECT * FROM task_tracker WHERE 1=1"
         );
@@ -46,6 +53,8 @@ impl<'a> TaskQueryBuilder<'a> {
     }
 
     pub fn build_stats(self) -> QueryBuilder<'a, Sqlite> {
+        debug!("Building Task stats query | Category: {}", self.category);
+
         let mut builder: QueryBuilder<Sqlite> = QueryBuilder::new(
             r#"SELECT 
                 COUNT(*), 
