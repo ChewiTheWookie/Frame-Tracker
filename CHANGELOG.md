@@ -2,7 +2,7 @@
 
 All notable changes to this project will be logged here
 
-## 1.5.0
+## 1.4.5
 
 ### Bug Fixes
 
