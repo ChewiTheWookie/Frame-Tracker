@@ -18,3 +18,11 @@ export interface TaskStats {
     current: number;
     total: number;
 }
+
+export const ARCHIMEDEA_IDS = [
+    "deep_archimedea",
+    "elite_deep_archimedea",
+    "elite_temporal_archimedea",
+];
+export const PULSE_COST = 2;
+export const MAX_PULSES = 5;

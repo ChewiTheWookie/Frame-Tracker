@@ -2,11 +2,12 @@ import { createDataStore } from "@/stores/createDataStore";
 import { taskService } from "@/api/tasks";
 import { type TaskCategory } from "@/types/categories";
 import { type TaskFilterState } from "@/types/filters";
-import { type Task, type TaskStats } from "@/types/tasks";
+import { ARCHIMEDEA_IDS, type Task, type TaskStats } from "@/types/tasks";
 import { shouldHide } from "@/utils/shouldHideObject";
 import {
     calculateTaskToggleFavorite,
     calculateTaskStatAdjustment,
+    calculatePulseUpdates,
 } from "@/utils/taskLogic";
 import { error } from "@tauri-apps/plugin-log";
 import { StoreApi, UseBoundStore } from "zustand";
@@ -16,6 +17,16 @@ interface TaskExtraActions {
     setTask: (id: string, count: number) => Promise<void>;
     fetchData: () => Promise<void>;
 }
+
+//TODO Remove when added the stats filtering
+const INITIAL_FILTERS: TaskFilterState = {
+    type: "tasks",
+    favoriteFirst: true,
+    hideIncomplete: false,
+    hideComplete: false,
+    hideFavorite: false,
+    hideNonFavorite: false,
+};
 
 const taskBundle = createDataStore<
     Task,
@@ -35,7 +46,7 @@ const taskBundle = createDataStore<
     fetchItems: async ({ category, query, filters, limit, offset }) => {
         const [tasksArray, stats] = await Promise.all([
             taskService.getTasks(category, query, filters, limit, offset),
-            taskService.getTaskStats(category),
+            taskService.getTaskStats(category, INITIAL_FILTERS),
         ]);
         return [tasksArray, stats];
     },
@@ -85,8 +96,10 @@ useTaskStore.setState((state) => ({
 
             try {
                 await taskService.setFavorite(id, newFavoriteStatus === 1);
-                const updatedStats =
-                    await taskService.getTaskStats(activeCategory);
+                const updatedStats = await taskService.getTaskStats(
+                    activeCategory,
+                    INITIAL_FILTERS,
+                );
                 useTaskStore.setState({ stats: updatedStats });
             } catch (err) {
                 error(`Rollback favorite: ${err}`);
@@ -95,45 +108,109 @@ useTaskStore.setState((state) => ({
         },
 
         setTask: async (id: string, count: number) => {
-            const { items, itemIds, filters, activeCategory, stats } =
+            const { items, itemIds, filters, stats, activeCategory } =
                 useTaskStore.getState();
             const task = items[id];
-            if (!task) return;
+            const netracellTask = items["netracells"];
+
+            if (!task || !netracellTask) return;
+
+            const isCompleting = count > task.current_completions;
+            const isUnchecking = count < task.current_completions;
+
+            if (isCompleting && ARCHIMEDEA_IDS.includes(id)) {
+                const available = 5 - netracellTask.current_completions;
+                const alreadyPaid = ARCHIMEDEA_IDS.some(
+                    (aid) => items[aid].current_completions > 0,
+                );
+                if (!alreadyPaid && available < 2) return;
+
+                if (
+                    id === "elite_temporal_archimedea" &&
+                    (items["deep_archimedea"].current_completions > 0 ||
+                        items["elite_deep_archimedea"].current_completions > 0)
+                )
+                    return;
+                if (
+                    (id === "deep_archimedea" ||
+                        id === "elite_deep_archimedea") &&
+                    items["elite_temporal_archimedea"].current_completions > 0
+                )
+                    return;
+                if (
+                    id === "deep_archimedea" &&
+                    items["elite_deep_archimedea"].current_completions > 0
+                ) {
+                    return;
+                }
+            }
+
+            if (id === "netracells" && isUnchecking) {
+                const anyArchimedeaComplete = ARCHIMEDEA_IDS.some(
+                    (aid) => items[aid].current_completions > 0,
+                );
+                if (anyArchimedeaComplete && count < 2) return;
+            }
+
+            let finalUpdates: Record<string, number> = { [id]: count };
+            let finalAdjustedStats = stats.current;
+
+            if (ARCHIMEDEA_IDS.includes(id) || id === "netracells") {
+                const { updates, adjustedStats } = calculatePulseUpdates(
+                    items,
+                    id,
+                    count,
+                    stats.current,
+                );
+                finalUpdates = updates;
+                finalAdjustedStats = adjustedStats;
+            } else {
+                finalAdjustedStats = calculateTaskStatAdjustment(
+                    task,
+                    count,
+                    stats.current,
+                );
+            }
 
             const previousState = {
                 items: { ...items },
                 itemIds: [...itemIds],
-                stats,
+                stats: { ...stats },
             };
+            const newItems = { ...items };
+            let newItemIds = [...itemIds];
 
-            const newTotalCurrent = calculateTaskStatAdjustment(
-                task,
-                count,
-                stats.current,
-            );
+            Object.entries(finalUpdates).forEach(([uid, ucount]) => {
+                const updatedObj = {
+                    ...newItems[uid],
+                    current_completions: ucount,
+                };
+                newItems[uid] = updatedObj;
 
-            const updatedTask = { ...task, current_completions: count };
-            const needsRemoval = shouldHide(updatedTask, filters);
+                if (shouldHide(updatedObj, filters)) {
+                    newItemIds = newItemIds.filter((tid) => tid !== uid);
+                } else if (!newItemIds.includes(uid)) {
+                    newItemIds.push(uid);
+                }
+            });
 
-            useTaskStore.setState((state) => ({
-                items: { ...state.items, [id]: updatedTask },
-                itemIds: needsRemoval
-                    ? state.itemIds.filter((tid) => tid !== id)
-                    : state.itemIds,
-                stats: { ...state.stats, current: newTotalCurrent },
-            }));
+            useTaskStore.setState({
+                items: newItems,
+                itemIds: newItemIds,
+                stats: { ...stats, current: finalAdjustedStats },
+            });
 
             try {
-                const serverTask = await taskService.setTask(id, count);
-                const updatedStats =
-                    await taskService.getTaskStats(activeCategory);
-
-                useTaskStore.setState((state) => ({
-                    stats: updatedStats,
-                    items: { ...state.items, [id]: serverTask },
-                }));
+                for (const [uid, ucount] of Object.entries(finalUpdates)) {
+                    await taskService.setTask(uid, ucount);
+                }
+                const freshStats = await taskService.getTaskStats(
+                    activeCategory,
+                    INITIAL_FILTERS,
+                );
+                useTaskStore.setState({ stats: freshStats });
             } catch (err) {
-                error(`Rollback task update: ${err}`);
+                error(`Task update failed: ${err}`);
                 useTaskStore.setState(previousState);
             }
         },

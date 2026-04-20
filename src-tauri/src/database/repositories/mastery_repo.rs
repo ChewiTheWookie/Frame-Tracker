@@ -1,9 +1,11 @@
-use crate::models::api::wiki_item::{WikiComponent, WikiItem};
+use crate::database::repositories::mastery_builder::MasteryQueryBuilder;
+use crate::models::api::wiki_item::{ WikiComponent, WikiItem };
 use crate::models::database::filters::MasteryFilters;
-use crate::models::database::item::{Item, ItemComponent};
+use crate::models::database::item::{ Item, ItemComponent };
 use crate::models::database::stats::MasteryStats;
-use sqlx::{Pool, Sqlite, Transaction};
+use sqlx::{ Pool, Sqlite, Transaction };
 use std::collections::HashMap;
+use tauri_plugin_log::log::{ debug, error };
 
 pub async fn find_all_items(
     pool: &Pool<Sqlite>,
@@ -11,58 +13,46 @@ pub async fn find_all_items(
     search: &str,
     filters: &MasteryFilters,
     limit: i64,
-    offset: i64,
+    offset: i64
 ) -> Result<Vec<Item>, sqlx::Error> {
-    let search_pattern = format!("%{}%", search);
+    debug!("find_all_items | Category: {} | Search: '{}'", category, search);
 
-    let mut items = sqlx::query_as::<_, Item>(
-        r#"
-        SELECT * FROM mastery_tracker 
-        WHERE (category = ? OR ? = 'All')
-        AND (name LIKE ?)
-        AND (NOT (? AND name LIKE '%Prime%'))
-        AND (NOT (? AND name NOT LIKE '%Prime%'))
-        AND (NOT (? AND mastered = 1))
-        AND (NOT (? AND helminthed = 1))
-        AND (NOT (? AND owned = 1 AND mastered = 0 AND helminthed = 0))
-        AND (NOT (? AND craftable = 1 AND owned = 0 AND mastered = 0 AND helminthed = 0))
-        AND (NOT (? AND mastered = 0 AND owned = 0 AND craftable = 0 AND helminthed = 0))
-        ORDER BY name ASC
-        LIMIT ? OFFSET ?
-        "#,
-    )
-    .bind(category)
-    .bind(category)
-    .bind(&search_pattern)
-    .bind(filters.hide_prime)
-    .bind(filters.hide_non_prime)
-    .bind(filters.hide_mastered)
-    .bind(filters.hide_helminthed)
-    .bind(filters.hide_owned)
-    .bind(filters.hide_craftable)
-    .bind(filters.hide_unowned)
-    .bind(limit)
-    .bind(offset)
-    .fetch_all(pool)
-    .await?;
+    let mut items = MasteryQueryBuilder::new(category, search, filters)
+        .paginate(limit, offset)
+        .build()
+        .build_query_as::<Item>()
+        .fetch_all(pool).await
+        .map_err(|e| {
+            error!("Failed to fetch mastery items: {}", e);
+            e
+        })?;
 
     if items.is_empty() {
         return Ok(items);
     }
 
-    let item_ids: Vec<String> = items.iter().map(|i| i.id.clone()).collect();
-    let placeholders = item_ids.iter().map(|_| "?").collect::<Vec<_>>().join(",");
-    let query_str = format!(
-        "SELECT * FROM item_components WHERE item_id IN ({})",
-        placeholders
+    let item_ids: Vec<String> = items
+        .iter()
+        .map(|i| i.id.clone())
+        .collect();
+
+    let mut comp_builder: sqlx::QueryBuilder<Sqlite> = sqlx::QueryBuilder::new(
+        "SELECT * FROM item_components WHERE item_id IN ("
     );
 
-    let mut query = sqlx::query_as::<_, ItemComponent>(&query_str);
+    let mut separated = comp_builder.separated(", ");
     for id in &item_ids {
-        query = query.bind(id);
+        separated.push_bind(id);
     }
+    separated.push_unseparated(")");
 
-    let all_components = query.fetch_all(pool).await?;
+    let all_components = comp_builder
+        .build_query_as::<ItemComponent>()
+        .fetch_all(pool).await
+        .map_err(|e| {
+            error!("Failed to fetch item components: {}", e);
+            e
+        })?;
 
     let mut comp_map: HashMap<String, Vec<ItemComponent>> = HashMap::new();
     for comp in all_components {
@@ -73,47 +63,49 @@ pub async fn find_all_items(
         item.components = comp_map.remove(&item.id).unwrap_or_default();
     }
 
+    debug!("Successfully mapped components for {} items", items.len());
     Ok(items)
 }
 
-pub async fn get_stats(pool: &Pool<Sqlite>, category: &str) -> Result<MasteryStats, sqlx::Error> {
-    let mastery = sqlx::query_as::<_, (i32, i32)>(
-        r#"
-        SELECT 
-            COUNT(*), 
-            CAST(COALESCE(SUM(mastered), 0) AS INTEGER) 
-        FROM mastery_tracker 
-        WHERE (category = ? OR ? = 'All')
-        "#,
-    )
-    .bind(category)
-    .bind(category)
-    .fetch_one(pool)
-    .await?;
+pub async fn get_stats(
+    pool: &Pool<Sqlite>,
+    category: &str,
+    filters: &MasteryFilters
+) -> Result<MasteryStats, sqlx::Error> {
+    debug!("get_stats | Category: {}", category);
+
+    let (total, current): (i32, i32) = MasteryQueryBuilder::new(category, "", filters)
+        .build_stats()
+        .build_query_as::<(i32, i32)>()
+        .fetch_one(pool).await
+        .map_err(|e| {
+            error!("Failed to fetch mastery stats: {}", e);
+            e
+        })?;
 
     let mut h_current = 0;
     let mut h_total = 0;
 
     if category == "All" || category == "Warframes" {
-        let helminth = sqlx::query_as::<_, (i32, i32)>(
-            r#"
+        let helminth = sqlx
+            ::query_as::<_, (i32, i32)>(
+                r#"
             SELECT 
                 COUNT(*), 
                 CAST(COALESCE(SUM(helminthed), 0) AS INTEGER) 
             FROM mastery_tracker 
             WHERE category = 'Warframes' AND name NOT LIKE '%Prime%'
-            "#,
-        )
-        .fetch_one(pool)
-        .await?;
+            "#
+            )
+            .fetch_one(pool).await?;
 
         h_total = helminth.0;
         h_current = helminth.1;
     }
 
     Ok(MasteryStats {
-        current: mastery.1,
-        total: mastery.0,
+        current,
+        total,
         helminth_current: h_current,
         helminth_total: h_total,
     })
@@ -123,10 +115,18 @@ pub async fn update_component_quantity(
     pool: &Pool<Sqlite>,
     item_id: &str,
     component_name: &str,
-    quantity: i32,
+    quantity: i32
 ) -> Result<(), sqlx::Error> {
-    sqlx::query(
-        r#"
+    debug!(
+        "Updating component quantity | ID: {} | Comp: {} | Qty: {}",
+        item_id,
+        component_name,
+        quantity
+    );
+
+    sqlx
+        ::query(
+            r#"
         UPDATE item_components 
         SET owned_quantity = CASE 
             WHEN ? > needed_quantity THEN needed_quantity 
@@ -134,15 +134,14 @@ pub async fn update_component_quantity(
             ELSE ? 
         END
         WHERE item_id = ? AND component_name = ?
-        "#,
-    )
-    .bind(quantity)
-    .bind(quantity)
-    .bind(quantity)
-    .bind(item_id)
-    .bind(component_name)
-    .execute(pool)
-    .await?;
+        "#
+        )
+        .bind(quantity)
+        .bind(quantity)
+        .bind(quantity)
+        .bind(item_id)
+        .bind(component_name)
+        .execute(pool).await?;
 
     Ok(())
 }
@@ -150,46 +149,52 @@ pub async fn update_component_quantity(
 pub async fn toggle_mastery_field(
     pool: &Pool<Sqlite>,
     item_id: &str,
-    field: &str,
+    field: &str
 ) -> Result<(), String> {
+    debug!("Toggling mastery field | ID: {} | Field: {}", item_id, field);
+
     let query_str = match field {
         "mastered" => "UPDATE mastery_tracker SET mastered = NOT mastered WHERE id = ?",
         "owned" => "UPDATE mastery_tracker SET owned = NOT owned WHERE id = ?",
         "helminthed" => "UPDATE mastery_tracker SET helminthed = NOT helminthed WHERE id = ?",
         _ => {
+            error!("Invalid mastery field toggle attempt: {}", field);
             return Err("Invalid field name".into());
         }
     };
 
-    sqlx::query(query_str)
+    sqlx
+        ::query(query_str)
         .bind(item_id)
-        .execute(pool)
-        .await
-        .map_err(|e| e.to_string())?;
+        .execute(pool).await
+        .map_err(|e| {
+            error!("Failed to toggle mastery field '{}': {}", field, e);
+            e.to_string()
+        })?;
 
     Ok(())
 }
 
 pub async fn upsert_mastery_item(
     tx: &mut Transaction<'_, Sqlite>,
-    item: &WikiItem,
+    item: &WikiItem
 ) -> Result<(), sqlx::Error> {
-    sqlx::query(
-        r#"
+    sqlx
+        ::query(
+            r#"
         INSERT INTO mastery_tracker (id, name, category, img_path)
         VALUES (?1, ?2, ?3, ?4)
         ON CONFLICT(id) DO UPDATE SET 
             name = excluded.name,
             category = excluded.category,
             img_path = excluded.img_path
-        "#,
-    )
-    .bind(&item.unique_name)
-    .bind(&item.name)
-    .bind(&item.category)
-    .bind(&item.image_name)
-    .execute(&mut **tx)
-    .await?;
+        "#
+        )
+        .bind(&item.unique_name)
+        .bind(&item.name)
+        .bind(&item.category)
+        .bind(&item.image_name)
+        .execute(&mut **tx).await?;
 
     Ok(())
 }
@@ -197,24 +202,30 @@ pub async fn upsert_mastery_item(
 pub async fn delete_obsolete_components(
     tx: &mut Transaction<'_, Sqlite>,
     item_id: &str,
-    valid_components: &[WikiComponent],
+    valid_components: &[WikiComponent]
 ) -> Result<(), sqlx::Error> {
-    let placeholders = valid_components
-        .iter()
-        .map(|_| "?")
-        .collect::<Vec<_>>()
-        .join(",");
-    let query_str = format!(
-        "DELETE FROM item_components WHERE item_id = ? AND component_name NOT IN ({})",
-        placeholders
-    );
-
-    let mut query = sqlx::query(&query_str).bind(item_id);
-    for comp in valid_components {
-        query = query.bind(&comp.name);
+    if valid_components.is_empty() {
+        sqlx
+            ::query("DELETE FROM item_components WHERE item_id = ?")
+            .bind(item_id)
+            .execute(&mut **tx).await?;
+        return Ok(());
     }
 
-    query.execute(&mut **tx).await?;
+    let mut builder: sqlx::QueryBuilder<Sqlite> = sqlx::QueryBuilder::new(
+        "DELETE FROM item_components WHERE item_id = "
+    );
+
+    builder.push_bind(item_id);
+    builder.push(" AND component_name NOT IN (");
+
+    let mut separated = builder.separated(", ");
+    for comp in valid_components {
+        separated.push_bind(&comp.name);
+    }
+    separated.push_unseparated(")");
+
+    builder.build().execute(&mut **tx).await?;
     Ok(())
 }
 
@@ -222,28 +233,31 @@ pub async fn upsert_item_component(
     tx: &mut Transaction<'_, Sqlite>,
     item_id: &str,
     component_name: &str,
-    needed_quantity: i32,
+    needed_quantity: i32
 ) -> Result<(), sqlx::Error> {
-    sqlx::query(
-        r#"
+    sqlx
+        ::query(
+            r#"
         INSERT INTO item_components (item_id, component_name, needed_quantity)
         VALUES (?1, ?2, ?3)
         ON CONFLICT(item_id, component_name) DO UPDATE SET 
             needed_quantity = excluded.needed_quantity
-        "#,
-    )
-    .bind(item_id)
-    .bind(component_name)
-    .bind(needed_quantity)
-    .execute(&mut **tx)
-    .await?;
+        "#
+        )
+        .bind(item_id)
+        .bind(component_name)
+        .bind(needed_quantity)
+        .execute(&mut **tx).await?;
 
     Ok(())
 }
 
 pub async fn update_craftable_states(tx: &mut Transaction<'_, Sqlite>) -> Result<(), sqlx::Error> {
-    sqlx::query(
-        r#"
+    debug!("Updating craftable states for all items");
+
+    sqlx
+        ::query(
+            r#"
         UPDATE mastery_tracker 
         SET craftable = (
             EXISTS (
@@ -257,10 +271,9 @@ pub async fn update_craftable_states(tx: &mut Transaction<'_, Sqlite>) -> Result
                 AND owned_quantity < needed_quantity
             )
         )
-        "#,
-    )
-    .execute(&mut **tx)
-    .await?;
+        "#
+        )
+        .execute(&mut **tx).await?;
 
     Ok(())
 }

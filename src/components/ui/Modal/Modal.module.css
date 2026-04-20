@@ -121,3 +121,8 @@
     opacity: 0.3;
     cursor: not-allowed;
 }
+
+[class*="DeleteModalModalSubmitButton"] {
+    background: var(--error);
+    color: var(--bg);
+}

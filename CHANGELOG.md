@@ -2,6 +2,18 @@
 
 All notable changes to this project will be logged here
 
+## 1.4.5
+
+### Bug Fixes
+
+- 🛠️ fix Mastery items not always showing the right amount of the component required
+- 🛠️ fix searchpulse math
+
+### Dev Notes
+
+- ✏️ move to query builder for some repo functions in `mastery_repo.rs` and `task_repo.rs`
+- ✏️ add logging to backend
+
 ## 1.4.4
 
 ### Features

@@ -23,6 +23,18 @@ interface MasteryExtraActions {
     ) => Promise<void>;
 }
 
+//TODO Remove when added the stats filtering
+const INITIAL_FILTERS: MasteryFilterState = {
+    type: "mastery",
+    hideNonPrime: false,
+    hidePrime: false,
+    hideUnowned: false,
+    hideCraftable: false,
+    hideOwned: false,
+    hideMastered: false,
+    hideHelminthed: false,
+};
+
 const masteryBundle = createDataStore<
     Item,
     MasteryFilterState,
@@ -48,7 +60,7 @@ const masteryBundle = createDataStore<
     fetchItems: async ({ category, query, filters, limit, offset }) => {
         const [itemsArray, stats] = await Promise.all([
             masteryService.getItems(category, query, filters, limit, offset),
-            masteryService.getMasteryStats(category),
+            masteryService.getMasteryStats(category, INITIAL_FILTERS),
         ]);
         return [itemsArray, stats];
     },
@@ -130,8 +142,10 @@ useMasteryStore.setState((state) => ({
 
             try {
                 await masteryService.setMastery(itemId, field);
-                const finalStats =
-                    await masteryService.getMasteryStats(activeCategory);
+                const finalStats = await masteryService.getMasteryStats(
+                    activeCategory,
+                    INITIAL_FILTERS,
+                );
                 useMasteryStore.setState({ stats: finalStats });
             } catch (err) {
                 error(`Rollback: ${err}`);

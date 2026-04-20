@@ -19,8 +19,11 @@ export const taskService = {
             offset,
         }),
 
-    getTaskStats: (category: TaskCategory): Promise<TaskStats> =>
-        invoke<TaskStats>("get_task_stats", { category }),
+    getTaskStats: (
+        category: TaskCategory,
+        filters: TaskFilterState,
+    ): Promise<TaskStats> =>
+        invoke<TaskStats>("get_task_stats", { category, filters }),
 
     setFavorite: (id: string, isFavorite: boolean): Promise<void> =>
         invoke("set_favorite", { id, isFavorite }),

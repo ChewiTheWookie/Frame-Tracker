@@ -49,7 +49,7 @@
     color: var(--bg);
 }
 
-[class*="ListItemDropdown"] {
+.ListItemDropdown {
     position: absolute;
     right: 0;
     top: 100%;
