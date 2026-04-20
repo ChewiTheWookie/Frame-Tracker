@@ -1,4 +1,5 @@
 use crate::api::client::ApiClient;
+use crate::models::api::wiki_item::WikiComponent;
 use crate::models::api::{
     category_mapper,
     custom_items,
@@ -8,7 +9,7 @@ use crate::models::api::{
 };
 use crate::models::resources::RESOURCES;
 use tauri_plugin_log::log::info;
-use std::collections::HashSet;
+use std::collections::{ HashMap, HashSet };
 
 pub async fn fetch_wiki_items(
     api_client: &ApiClient
@@ -59,12 +60,22 @@ pub async fn fetch_wiki_items(
             }
 
             if let Some(comps) = item.components {
-                item.components = Some(
-                    comps
-                        .into_iter()
-                        .filter(|c| !resource_lookup.contains(c.name.as_str()))
-                        .collect()
-                );
+                let mut merged_comps: HashMap<String, WikiComponent> = HashMap::new();
+
+                for c in comps.into_iter() {
+                    if resource_lookup.contains(c.name.as_str()) {
+                        continue;
+                    }
+
+                    merged_comps
+                        .entry(c.name.clone())
+                        .and_modify(|existing| {
+                            existing.item_count += c.item_count;
+                        })
+                        .or_insert(c);
+                }
+
+                item.components = Some(merged_comps.into_values().collect());
             }
 
             Some(item)

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 1.5.0
+
+### Bug Fixes
+
+- 🛠️ Fix Mastery items not always showing the right amount of the component required
+
 ## 1.4.4
 
 ### Features
