@@ -6,7 +6,8 @@ All notable changes to this project will be logged here
 
 ### Bug Fixes
 
-- 🛠️ Fix Mastery items not always showing the right amount of the component required
+- 🛠️ fix Mastery items not always showing the right amount of the component required
+- 🛠️ fix searchpulse math
 
 ## 1.4.4
 
