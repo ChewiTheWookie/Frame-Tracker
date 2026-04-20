@@ -19,8 +19,11 @@ export const masteryService = {
             offset,
         }),
 
-    getMasteryStats: (category: MasteryCategory): Promise<MasteryStats> =>
-        invoke<MasteryStats>("get_mastery_stats", { category }),
+    getMasteryStats: (
+        category: MasteryCategory,
+        filters: MasteryFilterState,
+    ): Promise<MasteryStats> =>
+        invoke<MasteryStats>("get_mastery_stats", { category, filters }),
 
     setComponent: (
         itemId: string,

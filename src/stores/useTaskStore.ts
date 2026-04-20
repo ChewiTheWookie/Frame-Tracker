@@ -18,6 +18,16 @@ interface TaskExtraActions {
     fetchData: () => Promise<void>;
 }
 
+//TODO Remove when added the stats filtering
+const INITIAL_FILTERS: TaskFilterState = {
+    type: "tasks",
+    favoriteFirst: true,
+    hideIncomplete: false,
+    hideComplete: false,
+    hideFavorite: false,
+    hideNonFavorite: false,
+};
+
 const taskBundle = createDataStore<
     Task,
     TaskFilterState,
@@ -36,7 +46,7 @@ const taskBundle = createDataStore<
     fetchItems: async ({ category, query, filters, limit, offset }) => {
         const [tasksArray, stats] = await Promise.all([
             taskService.getTasks(category, query, filters, limit, offset),
-            taskService.getTaskStats(category),
+            taskService.getTaskStats(category, INITIAL_FILTERS),
         ]);
         return [tasksArray, stats];
     },
@@ -86,8 +96,10 @@ useTaskStore.setState((state) => ({
 
             try {
                 await taskService.setFavorite(id, newFavoriteStatus === 1);
-                const updatedStats =
-                    await taskService.getTaskStats(activeCategory);
+                const updatedStats = await taskService.getTaskStats(
+                    activeCategory,
+                    INITIAL_FILTERS,
+                );
                 useTaskStore.setState({ stats: updatedStats });
             } catch (err) {
                 error(`Rollback favorite: ${err}`);
@@ -192,8 +204,10 @@ useTaskStore.setState((state) => ({
                 for (const [uid, ucount] of Object.entries(finalUpdates)) {
                     await taskService.setTask(uid, ucount);
                 }
-                const freshStats =
-                    await taskService.getTaskStats(activeCategory);
+                const freshStats = await taskService.getTaskStats(
+                    activeCategory,
+                    INITIAL_FILTERS,
+                );
                 useTaskStore.setState({ stats: freshStats });
             } catch (err) {
                 error(`Task update failed: ${err}`);
