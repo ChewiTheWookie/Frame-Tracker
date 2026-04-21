@@ -61,7 +61,7 @@
     padding: 2px 6px;
     border: 1px solid;
     border-radius: 2px;
-    background: rgba(0, 0, 0, 0.45);
+    background: var(--bg);
     letter-spacing: 0.5px;
     pointer-events: none;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);

@@ -27,25 +27,26 @@
 }
 
 [data-theme="light"] {
-    --bg: rgb(240, 236, 227);
-    --color: rgb(45, 45, 45);
-    --color-glow: rgb(19, 19, 19);
-    --border: rgba(0, 0, 0, 0.3);
+    --bg: rgb(245, 247, 250);
+    --blur: rgba(255, 255, 255, 0.6);
+    --color: rgb(30, 35, 45);
+    --color-glow: rgb(10, 10, 15);
+    --border: rgba(0, 80, 155, 0.5);
 
-    --accent: rgb(190, 164, 91);
-    --accent-glow: rgba(190, 164, 91, 0.6);
+    --accent: rgb(0, 150, 255);
+    --accent-glow: rgba(0, 150, 255, 0.25);
 
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --card-border: rgba(184, 150, 87, 0.7);
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --card-border: rgba(0, 120, 215, 0.5);
 
     --craftable: rgb(214, 130, 0);
-    --craftable-glow: rgba(214, 130, 0, 0.5);
-    --owned: rgb(0, 140, 158);
-    --owned-glow: rgba(0, 140, 158, 0.5);
-    --mastered: rgb(158, 143, 75);
-    --mastered-glow: rgba(158, 143, 75, 0.6);
-    --helminthed: rgb(123, 45, 135);
-    --helminthed-glow: rgba(123, 45, 135, 0.5);
+    --craftable-glow: rgba(214, 130, 0, 0.4);
+    --owned: rgb(0, 115, 230);
+    --owned-glow: rgba(0, 115, 230, 0.5);
+    --mastered: rgb(193, 172, 108);
+    --mastered-glow: rgba(193, 172, 108, 0.7);
+    --helminthed: rgb(135, 60, 190);
+    --helminthed-glow: rgba(135, 60, 190, 0.5);
 }
 
 html,

@@ -4,6 +4,10 @@ All notable changes to this project will be logged here
 
 ## 1.5.0
 
+### Features
+
+- ✨ new light theme
+
 ### Dev Notes
 
 - ✏️ remove boilder plate by adding `CreateModal.tsx`
