@@ -20,7 +20,11 @@
         "log:default",
         {
             "identifier": "core:event:allow-listen",
-            "allow": [{ "event": "tasks-reset" }]
+            "allow": [
+                { "event": "tasks-reset" },
+                { "event": "profile-switched" },
+                { "event": "db-initial-sync-complete" }
+            ]
         },
         {
             "identifier": "core:event:allow-emit",
