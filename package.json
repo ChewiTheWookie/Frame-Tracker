@@ -5,9 +5,6 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "licenses-frontend": "tsx scripts/licenses-frontend.ts",
-        "licenses-backend": "tsx scripts/licenses-backend.ts",
-        "sync-versions": "tsx scripts/sync-versions.ts",
         "prebuild": "tsx scripts/prebuild.ts",
         "build": "tsc && vite build",
         "preview": "vite preview",

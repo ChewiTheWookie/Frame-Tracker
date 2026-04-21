@@ -1,29 +1,32 @@
 import { execSync } from "child_process";
+import { gatherFrontendLicenses } from "./licenses-frontend";
+import { gatherBackendLicenses } from "./licenses-backend";
+import { saveToDb, generateLicenseTextFile } from "./utils/output-handlers.ts";
+import { isBlacklisted } from "./utils/blacklist";
 
 async function runPrebuild() {
     try {
         console.log("🛠️  Starting modular prebuild...");
 
-        console.log(" ");
         execSync("npx tsx scripts/check-version.ts", { stdio: "inherit" });
-
-        console.log(" ");
         execSync("npx tsx scripts/sync-versions.ts", { stdio: "inherit" });
 
-        console.log(" ");
-        execSync("npx tsx scripts/licenses-frontend.ts", { stdio: "inherit" });
+        const frontendRaw = await gatherFrontendLicenses();
+        const backendRaw = await gatherBackendLicenses();
+        const allLicenses = [...frontendRaw, ...backendRaw];
 
-        console.log(" ");
-        execSync("npx tsx scripts/licenses-backend.ts", { stdio: "inherit" });
+        console.log("\n📄 Generating full THIRD_PARTY_LICENSES.txt...");
+        generateLicenseTextFile(allLicenses);
 
-        console.log(" ");
-        execSync("npx tsx scripts/generate-license-file.ts", {
-            stdio: "inherit",
-        });
+        console.log("\n🗄️  Syncing filtered licenses to DB...");
+        const filteredLicenses = allLicenses.filter(
+            (pkg) => !isBlacklisted(pkg.id),
+        );
+        saveToDb(filteredLicenses);
 
-        console.log("\n✅ All prebuild tasks finished successfully!");
+        console.log("\n✅ Prebuild finished successfully!");
     } catch (error) {
-        console.error("\n❌ Prebuild failed during a sub-script execution.");
+        console.error("\n❌ Prebuild failed.", error);
         process.exit(1);
     }
 }

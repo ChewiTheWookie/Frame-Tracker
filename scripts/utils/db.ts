@@ -2,6 +2,7 @@ import Database from "better-sqlite3";
 import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
+import { isBlacklisted } from "./blacklist";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,7 +44,11 @@ export function saveLicensesToDb(licenses: any[], source: "npm" | "cargo") {
     `);
 
     const insertMany = db.transaction((items) => {
-        for (const item of items) insert.run(item);
+        for (const item of items) {
+            if (!isBlacklisted(item.id)) {
+                insert.run(item);
+            }
+        }
     });
 
     const preparedItems = licenses.map((item) => ({ ...item, source }));

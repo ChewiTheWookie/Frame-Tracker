@@ -4,7 +4,7 @@ const PKG_PATH = "./package.json";
 const CARGO_PATH = "./src-tauri/Cargo.toml";
 
 try {
-    console.log(`🔄 Syncing Versions...`);
+    console.log(`\n🔄 Syncing Versions...`);
 
     const pkg = JSON.parse(fs.readFileSync(PKG_PATH, "utf8"));
     const version = pkg.version;

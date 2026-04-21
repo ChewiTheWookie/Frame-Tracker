@@ -8,7 +8,7 @@ async function checkVersion() {
     const isCI = process.env.GITHUB_ACTIONS === "true";
 
     try {
-        console.log("🔍 Comparing version to Github releases...");
+        console.log("\n🔍 Comparing version to Github releases...");
         const packageJson = JSON.parse(
             fs.readFileSync("./package.json", "utf-8"),
         );

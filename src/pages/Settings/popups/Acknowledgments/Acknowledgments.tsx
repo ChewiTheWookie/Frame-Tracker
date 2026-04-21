@@ -37,26 +37,30 @@ export function Acknowledgments() {
                 <Throbber label="Loading summaries" />
             ) : (
                 <>
-                    <ListSection
-                        title="Frontend Dependencies"
-                        list={
-                            <>
-                                {frontend.map((item) => (
-                                    <LicenseItem key={item.id} item={item} />
-                                ))}
-                            </>
-                        }
-                    />
-                    <ListSection
-                        title="Backend Dependencies"
-                        list={
-                            <>
-                                {backend.map((item) => (
-                                    <LicenseItem key={item.id} item={item} />
-                                ))}
-                            </>
-                        }
-                    />
+                    {frontend.length !== 0 && (
+                        <ListSection
+                            title="Frontend Dependencies"
+                            list={
+                                <>
+                                    {frontend.map((item) => (
+                                        <LicenseItem key={item.id} item={item} />
+                                    ))}
+                                </>
+                            }
+                        />
+                    )}
+                    {backend.length !== 0 && (
+                        <ListSection
+                            title="Backend Dependencies"
+                            list={
+                                <>
+                                    {backend.map((item) => (
+                                        <LicenseItem key={item.id} item={item} />
+                                    ))}
+                                </>
+                            }
+                        />
+                    )}
                 </>
             )}
             <ScrollSentinel
