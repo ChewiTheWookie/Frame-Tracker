@@ -26,7 +26,7 @@ export function Keybinds() {
     return (
         <>
             {sortedGroups.map(([group, binds]) => (
-                <ListSection title={group} list={
+                <ListSection key={group} title={group} list={
                     <>
                         {binds.map((bind) => (
                             <KeybindRecorder
