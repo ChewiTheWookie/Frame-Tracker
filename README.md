@@ -1,6 +1,6 @@
 # Frame Tracker
 
-[![Version](https://img.shields.io/github/v/release/ChewiTheWookie/Frame-Tracker?style=for-the-badge)](https://github.com/ChewiTheWookie/Frame-Tracker/releases/latest) [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE.txt) [![Changelog](https://img.shields.io/badge/Changelog-%2314e31f?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/github/v/release/ChewiTheWookie/Frame-Tracker)](https://github.com/ChewiTheWookie/Frame-Tracker/releases/latest) [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE.txt) [![Changelog](https://img.shields.io/badge/Changelog-%2314e31f?style=flat)](CHANGELOG.md)
 
 **Frame Tracker** is a lightweight, third-party companion app for Warframe. Built with performance in mind using Tauri, it helps Tenno track progress, manage mastery, and stay on top of daily tasks without the clutter.
 
