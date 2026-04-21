@@ -8,6 +8,7 @@ All notable changes to this project will be logged here
 
 - ✨ new light theme
 - ✨ add task refresh popup with `TaskResetModal.tsx`
+- ✨ add statbar subtypes
 
 ### Dev Notes
 

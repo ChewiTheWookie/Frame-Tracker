@@ -128,7 +128,7 @@ export function Searchbar() {
                                                     filter.onChange(e.target.checked)
                                                 }
                                             />
-                                            <span className={styles.slider}></span>
+                                            <span className={styles.slider} />
                                         </label>
                                     </div>
                                 ))}

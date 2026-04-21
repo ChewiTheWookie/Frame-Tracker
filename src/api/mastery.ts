@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { Item, MasteryStats } from "@/types/items";
 import { MasteryCategory } from "@/types/categories";
-import { MasteryFilterState } from "@/types/filters";
+import { MasteryFilterState, MasteryStatFilterState } from "@/types/filters";
 
 export const masteryService = {
     getItems: (
@@ -21,7 +21,7 @@ export const masteryService = {
 
     getMasteryStats: (
         category: MasteryCategory,
-        filters: MasteryFilterState,
+        filters: MasteryStatFilterState,
     ): Promise<MasteryStats> =>
         invoke<MasteryStats>("get_mastery_stats", { category, filters }),
 

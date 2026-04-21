@@ -53,9 +53,13 @@ impl<'a> MasteryQueryBuilder<'a> {
 
         let mut builder: QueryBuilder<Sqlite> = QueryBuilder::new(
             r#"SELECT 
-                COUNT(*), 
-                CAST(COALESCE(SUM(mastered), 0) AS INTEGER) 
-            FROM mastery_tracker WHERE 1=1 "#
+            COUNT(*), 
+            CAST(COALESCE(SUM(mastered), 0) AS INTEGER),
+            CAST(COALESCE(SUM(
+                CASE WHEN category = 'WARFRAME' AND name NOT LIKE '%Prime%' THEN 1 ELSE 0 END
+            ), 0) AS INTEGER),
+            CAST(COALESCE(SUM(helminthed), 0) AS INTEGER)
+        FROM mastery_tracker WHERE 1=1 "#
         );
 
         self.apply_filters(&mut builder);

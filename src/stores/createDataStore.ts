@@ -2,28 +2,37 @@ import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 import { BaseState } from "@/types/store";
 
-interface StoreConfig<T, F, S, C> {
+interface StoreConfig<T, F, SF, S, C> {
     initialFilters: F;
+    initialStatFilters: SF;
     initialStats: S;
     fetchItems: (args: {
         category: C;
         query: string;
         filters: F;
+        statFilters: SF;
         limit: number;
         offset: number;
     }) => Promise<[T[], S]>;
 }
 
-interface DataActions<F, C> {
+interface DataActions<F, SF, C> {
     setCategory: (category: C) => void;
     setSearch: (query: string) => void;
     setFilters: (newFilters: F) => void;
+    setStatBarFilters: (newFilters: SF) => void;
     fetchData: (silent?: boolean) => Promise<void>;
     loadMore: () => Promise<void>;
 }
 
-export const createDataStore = <T extends { id: string }, F, S, C>(
-    config: StoreConfig<T, F, S, C>,
+export const createDataStore = <
+    T extends { id: string },
+    F extends { type: string },
+    SF extends { type: string },
+    S,
+    C,
+>(
+    config: StoreConfig<T, F, SF, S, C>,
 ) => {
     const TOTAL_VISIBLE = 50;
     let fetchVersion = 0;
@@ -36,13 +45,17 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
     });
 
     const useStore = create<
-        BaseState<T, F, S, C> & { actions: DataActions<F, C> }
+        BaseState<T, F, S, C> & {
+            statBarFilters: SF;
+            actions: DataActions<F, SF, C>;
+        }
     >((set, get) => ({
         ...getDefaultResultState(),
         activeCategory: "All" as unknown as C,
         stats: config.initialStats,
         searchQuery: "",
         filters: config.initialFilters,
+        statBarFilters: config.initialStatFilters,
         isLoading: false,
         isFetchingMore: false,
         error: null,
@@ -75,13 +88,24 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
                 get().actions.fetchData(true);
             },
 
+            setStatBarFilters: (newFilters: SF) => {
+                set({ statBarFilters: newFilters });
+                get().actions.fetchData(true);
+            },
+
             fetchData: async (silent = false) => {
                 const state = get();
                 if (!silent && (state.isLoading || state.isFetchingMore))
                     return;
 
                 const version = ++fetchVersion;
-                const { searchQuery, activeCategory, filters, page } = get();
+                const {
+                    searchQuery,
+                    activeCategory,
+                    filters,
+                    statBarFilters,
+                    page,
+                } = get();
 
                 if (!silent) set({ isLoading: true, error: null });
 
@@ -90,6 +114,7 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
                         category: activeCategory,
                         query: searchQuery,
                         filters: filters,
+                        statFilters: statBarFilters,
                         limit: TOTAL_VISIBLE,
                         offset: page * TOTAL_VISIBLE,
                     });
@@ -144,5 +169,6 @@ export const createDataStore = <T extends { id: string }, F, S, C>(
         useItemIds: () => useStore(useShallow((s) => s.itemIds)),
         useItemById: (id: string) => useStore((s) => s.items[id]),
         useStats: () => useStore(useShallow((s) => s.stats)),
+        useStatBarFilters: () => useStore(useShallow((s) => s.statBarFilters)),
     };
 };

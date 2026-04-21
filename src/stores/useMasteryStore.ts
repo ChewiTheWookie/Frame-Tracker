@@ -1,7 +1,10 @@
 import { createDataStore } from "@/stores/createDataStore";
 import { masteryService } from "@/api/mastery";
 import { type MasteryCategory } from "@/types/categories";
-import { type MasteryFilterState } from "@/types/filters";
+import {
+    MasteryStatFilterState,
+    type MasteryFilterState,
+} from "@/types/filters";
 import { MasteryStats, type Item } from "@/types/items";
 import { shouldHide } from "@/utils/shouldHideObject";
 import {
@@ -23,21 +26,10 @@ interface MasteryExtraActions {
     ) => Promise<void>;
 }
 
-//TODO Remove when added the stats filtering
-const INITIAL_FILTERS: MasteryFilterState = {
-    type: "mastery",
-    hideNonPrime: false,
-    hidePrime: false,
-    hideUnowned: false,
-    hideCraftable: false,
-    hideOwned: false,
-    hideMastered: false,
-    hideHelminthed: false,
-};
-
 const masteryBundle = createDataStore<
     Item,
     MasteryFilterState,
+    MasteryStatFilterState,
     MasteryStats,
     MasteryCategory
 >({
@@ -57,10 +49,22 @@ const masteryBundle = createDataStore<
         hideMastered: false,
         hideHelminthed: false,
     },
-    fetchItems: async ({ category, query, filters, limit, offset }) => {
+    initialStatFilters: {
+        type: "mastery",
+        hidePrime: false,
+        hideNonPrime: false,
+    },
+    fetchItems: async ({
+        category,
+        query,
+        filters,
+        statFilters,
+        limit,
+        offset,
+    }) => {
         const [itemsArray, stats] = await Promise.all([
             masteryService.getItems(category, query, filters, limit, offset),
-            masteryService.getMasteryStats(category, INITIAL_FILTERS),
+            masteryService.getMasteryStats(category, statFilters),
         ]);
         return [itemsArray, stats];
     },
@@ -87,6 +91,7 @@ useMasteryStore.setState((state) => ({
                 items: { ...items },
                 itemIds: [...itemIds],
             };
+
             const updatedItem = calculateComponentQuantity(
                 item,
                 componentName,
@@ -116,8 +121,14 @@ useMasteryStore.setState((state) => ({
             }
         },
         toggleMastery: async (itemId, field) => {
-            const { items, filters, activeCategory, stats, itemIds } =
-                useMasteryStore.getState();
+            const {
+                items,
+                filters,
+                statBarFilters,
+                activeCategory,
+                stats,
+                itemIds,
+            } = useMasteryStore.getState();
             const item = items[itemId];
             if (!item) return;
 
@@ -126,6 +137,7 @@ useMasteryStore.setState((state) => ({
                 itemIds: [...itemIds],
                 stats,
             };
+
             const updatedItem = calculateMasteryToggle(
                 item,
                 field,
@@ -144,7 +156,7 @@ useMasteryStore.setState((state) => ({
                 await masteryService.setMastery(itemId, field);
                 const finalStats = await masteryService.getMasteryStats(
                     activeCategory,
-                    INITIAL_FILTERS,
+                    statBarFilters,
                 );
                 useMasteryStore.setState({ stats: finalStats });
             } catch (err) {
@@ -159,5 +171,6 @@ export const useMasteryActions = () => useMasteryStore((s) => s.actions);
 export const useMasteryItemIds = masteryBundle.useItemIds;
 export const useItemById = masteryBundle.useItemById;
 export const useMasteryStats = masteryBundle.useStats;
+export const useStatBarFilters = masteryBundle.useStatBarFilters;
 
 useMasteryStore.getState().actions.fetchData();

@@ -10,7 +10,12 @@ import {
 import { error } from "@tauri-apps/plugin-log";
 
 type LicenseCategory = string;
-interface LicenseFilters {}
+interface LicenseFilters {
+    type: "licenses";
+}
+interface LicenseStatFilters {
+    type: "licenses";
+}
 interface LicenseStats {}
 
 interface ExtendedActions {
@@ -27,17 +32,20 @@ type FullLicenseState = BaseState<
     LicenseStats,
     LicenseCategory
 > & {
+    statBarFilters: LicenseStatFilters;
     actions: ReturnType<typeof licenseBundle.useActions> & ExtendedActions;
 } & ExtraState;
 
 const licenseBundle = createDataStore<
     LicenseSummary,
     LicenseFilters,
+    LicenseStatFilters,
     LicenseStats,
     LicenseCategory
 >({
     initialStats: {},
-    initialFilters: {},
+    initialFilters: { type: "licenses" },
+    initialStatFilters: { type: "licenses" },
     fetchItems: async ({ query, limit, offset }) => {
         const items = await licenseService.getSummaries(query, limit, offset);
         return [items, {}];

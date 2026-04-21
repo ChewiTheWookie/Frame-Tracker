@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { Task, TaskStats } from "@/types/tasks";
 import { TaskCategory } from "@/types/categories";
-import { TaskFilterState } from "@/types/filters";
+import { TaskFilterState, TaskStatFilterState } from "@/types/filters";
 
 export const taskService = {
     getTasks: (
@@ -21,7 +21,7 @@ export const taskService = {
 
     getTaskStats: (
         category: TaskCategory,
-        filters: TaskFilterState,
+        filters: TaskStatFilterState,
     ): Promise<TaskStats> =>
         invoke<TaskStats>("get_task_stats", { category, filters }),
 

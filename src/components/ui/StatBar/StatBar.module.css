@@ -1,4 +1,5 @@
 .statContainer {
+    position: relative;
     grid-column: 3;
     justify-self: end;
     display: flex;
@@ -12,6 +13,10 @@
     border: 1px solid var(--accent);
     border-radius: 6px;
     gap: 15px;
+}
+
+.statContainer:hover {
+    box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .item {

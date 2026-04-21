@@ -9,7 +9,8 @@ export interface SongItem {
     name: string;
 }
 
-type SongFilters = {};
+type SongFilters = { type: "songs" };
+type SongStatFilters = { type: "songs" };
 type SongStats = { total: number };
 type SongCategory = "All";
 
@@ -20,10 +21,12 @@ interface ExtraSongState {
 const songDataStore = createDataStore<
     SongItem,
     SongFilters,
+    SongStatFilters,
     SongStats,
     SongCategory
 >({
-    initialFilters: {},
+    initialFilters: { type: "songs" },
+    initialStatFilters: { type: "songs" },
     initialStats: { total: 0 },
     fetchItems: async ({ query, limit, offset }) => {
         const names = await songService.getSongNames({
@@ -41,6 +44,7 @@ export const useSavedSongStore =
     songDataStore.useStore as unknown as import("zustand").UseBoundStore<
         import("zustand").StoreApi<
             BaseState<SongItem, SongFilters, SongStats, SongCategory> & {
+                statBarFilters: SongStatFilters;
                 actions: any;
             } & ExtraSongState
         >

@@ -61,3 +61,47 @@ export const getFilterDefinitions = (
             onChange: (val) => setFilters({ ...filters, [key]: val }),
         }));
 };
+
+//? Statbar Filters
+export type TaskStatFilterState = {
+    type: "tasks";
+    hideFavorite: boolean;
+    hideNonFavorite: boolean;
+};
+
+export type MasteryStatFilterState = {
+    type: "mastery";
+    hideNonPrime: boolean;
+    hidePrime: boolean;
+};
+
+export type StatFilterState = MasteryStatFilterState | TaskStatFilterState;
+
+export interface StatFilterDef {
+    id: string;
+    label: string;
+    checked: boolean;
+    onChange: (val: boolean) => void;
+}
+
+export const getStatFilterDefinitions = (
+    filters: StatFilterState,
+    setStatFilters: (f: StatFilterState) => void,
+): StatFilterDef[] => {
+    const labels: Record<string, string> = {
+        hideFavorite: "Non Favorites",
+        hideNonFavorite: "Favorites",
+
+        hideNonPrime: "Primes",
+        hidePrime: "Non Primes",
+    };
+
+    return Object.entries(filters)
+        .filter(([key]) => key !== "type")
+        .map(([key, value]) => ({
+            id: key,
+            label: labels[key] || key,
+            checked: value as boolean,
+            onChange: (val) => setStatFilters({ ...filters, [key]: val }),
+        }));
+};

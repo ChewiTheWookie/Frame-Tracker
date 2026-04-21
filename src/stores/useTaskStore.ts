@@ -1,7 +1,10 @@
 import { createDataStore } from "@/stores/createDataStore";
 import { taskService } from "@/api/tasks";
 import { type TaskCategory } from "@/types/categories";
-import { type TaskFilterState } from "@/types/filters";
+import {
+    type TaskFilterState,
+    type TaskStatFilterState,
+} from "@/types/filters";
 import { ARCHIMEDEA_IDS, type Task, type TaskStats } from "@/types/tasks";
 import { shouldHide } from "@/utils/shouldHideObject";
 import {
@@ -19,28 +22,38 @@ interface TaskExtraActions {
     setResetModal: (isOpen: boolean, taskNames?: string[]) => void;
 }
 
-//TODO Remove when stats are implemented
-const INITIAL_FILTERS: TaskFilterState = {
-    type: "tasks",
-    favoriteFirst: true,
-    hideIncomplete: false,
-    hideComplete: false,
-    hideFavorite: false,
-    hideNonFavorite: false,
-};
-
 const taskBundle = createDataStore<
     Task,
     TaskFilterState,
+    TaskStatFilterState,
     TaskStats,
     TaskCategory
 >({
     initialStats: { current: 0, total: 0 },
-    initialFilters: INITIAL_FILTERS,
-    fetchItems: async ({ category, query, filters, limit, offset }) => {
+    initialFilters: {
+        type: "tasks",
+        favoriteFirst: true,
+        hideIncomplete: false,
+        hideComplete: false,
+        hideFavorite: false,
+        hideNonFavorite: false,
+    },
+    initialStatFilters: {
+        type: "tasks",
+        hideFavorite: false,
+        hideNonFavorite: false,
+    },
+    fetchItems: async ({
+        category,
+        query,
+        filters,
+        statFilters,
+        limit,
+        offset,
+    }) => {
         const [tasksArray, stats] = await Promise.all([
             taskService.getTasks(category, query, filters, limit, offset),
-            taskService.getTaskStats(category, INITIAL_FILTERS),
+            taskService.getTaskStats(category, statFilters),
         ]);
         return [tasksArray, stats];
     },
@@ -66,8 +79,14 @@ useTaskStore.setState((state) => ({
         },
 
         toggleFavorite: async (id: string) => {
-            const { items, itemIds, filters, activeCategory, stats } =
-                useTaskStore.getState();
+            const {
+                items,
+                itemIds,
+                filters,
+                statBarFilters,
+                activeCategory,
+                stats,
+            } = useTaskStore.getState();
             const task = items[id];
             if (!task) return;
 
@@ -99,7 +118,7 @@ useTaskStore.setState((state) => ({
                 await taskService.setFavorite(id, newFavoriteStatus === 1);
                 const updatedStats = await taskService.getTaskStats(
                     activeCategory,
-                    INITIAL_FILTERS,
+                    statBarFilters,
                 );
                 useTaskStore.setState({ stats: updatedStats });
             } catch (err) {
@@ -109,11 +128,17 @@ useTaskStore.setState((state) => ({
         },
 
         setTask: async (id: string, count: number) => {
-            const { items, itemIds, filters, stats, activeCategory } =
-                useTaskStore.getState();
+            const {
+                items,
+                itemIds,
+                filters,
+                statBarFilters,
+                stats,
+                activeCategory,
+            } = useTaskStore.getState();
+
             const task = items[id];
             const netracellTask = items["netracells"];
-
             if (!task || !netracellTask) return;
 
             const isCompleting = count > task.current_completions;
@@ -132,18 +157,19 @@ useTaskStore.setState((state) => ({
                         items["elite_deep_archimedea"].current_completions > 0)
                 )
                     return;
+
                 if (
                     (id === "deep_archimedea" ||
                         id === "elite_deep_archimedea") &&
                     items["elite_temporal_archimedea"].current_completions > 0
                 )
                     return;
+
                 if (
                     id === "deep_archimedea" &&
                     items["elite_deep_archimedea"].current_completions > 0
-                ) {
+                )
                     return;
-                }
             }
 
             if (id === "netracells" && isUnchecking) {
@@ -178,6 +204,7 @@ useTaskStore.setState((state) => ({
                 itemIds: [...itemIds],
                 stats: { ...stats },
             };
+
             const newItems = { ...items };
             let newItemIds = [...itemIds];
 
@@ -207,7 +234,7 @@ useTaskStore.setState((state) => ({
                 }
                 const freshStats = await taskService.getTaskStats(
                     activeCategory,
-                    INITIAL_FILTERS,
+                    statBarFilters,
                 );
                 useTaskStore.setState({ stats: freshStats });
             } catch (err) {
@@ -222,6 +249,7 @@ export const useTaskActions = () => useTaskStore((s) => s.actions);
 export const useTaskIds = taskBundle.useItemIds;
 export const useTaskById = taskBundle.useItemById;
 export const useTaskStats = taskBundle.useStats;
+export const useStatBarFilters = taskBundle.useStatBarFilters;
 
 export const useResetModal = () => useTaskStore((s) => s.resetModal);
 

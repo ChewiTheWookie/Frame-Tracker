@@ -39,6 +39,15 @@
     border-radius: 4px;
 }
 
+[class*="dropdown"] button:not(:last-child) {
+    margin-bottom: 4px;
+}
+
+[class*="dropdown"] button[class*="active"] {
+    background: var(--accent);
+    color: var(--bg);
+}
+
 [class*="dropdown"] button:hover {
     background: var(--accent);
     color: var(--bg);
