@@ -11,6 +11,10 @@ import { useKeybindStore } from "@/stores/useKeybindStore";
 import { useSavedSongStore } from "@/stores/useSavedSongStore";
 import { logFailure } from "@/utils/logger";
 
+interface TaskResetPayload {
+    task_names: string[];
+}
+
 export const useAppInitialization = () => {
     const updateTime = useTimeStore((state) => state.updateTime);
 
@@ -75,8 +79,13 @@ export const useAppInitialization = () => {
                 },
                 {
                     name: "tasks-reset",
-                    handler: () => {
-                        useTaskStore.getState().actions.fetchData(true);
+                    handler: (event: { payload: TaskResetPayload }) => {
+                        const store = useTaskStore.getState();
+                        store.actions.fetchData();
+                        store.actions.setResetModal(
+                            true,
+                            event.payload.task_names,
+                        );
                     },
                 },
                 {

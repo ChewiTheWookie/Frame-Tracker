@@ -1,0 +1,29 @@
+.p {
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.25rem;
+    margin: 0;
+}
+
+.ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.5rem 0;
+    max-height: 20rem;
+    overflow-y: auto;
+}
+
+.ul::-webkit-scrollbar {
+    display: none;
+}
+
+.li {
+    padding: 0.5rem 0.75rem;
+    background-color: var(--card-bg);
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--card-border);
+}
+
+.li:first-child {
+    margin-top: 0.5rem;
+}

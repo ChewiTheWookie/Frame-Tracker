@@ -44,13 +44,19 @@ impl ResetType {
     }
 }
 
+#[derive(Clone, serde::Serialize)]
+struct TaskResetPayload {
+    task_names: Vec<String>,
+}
+
 pub async fn check_and_apply_resets(
     pool: &SqlitePool,
     handle: &AppHandle
 ) -> Result<(), sqlx::Error> {
     debug!("Checking for task resets...");
+
     let tasks = task_repo::find_all_raw(pool).await?;
-    let mut rows_affected = 0;
+    let mut reset_task_names = Vec::new();
     let now = Utc::now();
 
     for task in tasks {
@@ -60,26 +66,39 @@ pub async fn check_and_apply_resets(
         let last_reset_dt = parse_last_reset(&task.last_reset);
         let current_period_start = get_period_start(&reset_type, now);
 
-        let should_reset = match reset_type {
+        let time_has_passed = match reset_type {
             ResetType::Custom(duration) => now >= last_reset_dt + duration,
             _ => last_reset_dt < current_period_start,
         };
 
-        if should_reset {
-            debug!("Resetting task: {} (Last: {})", task.name, task.last_reset);
-            let affected = task_repo::reset_task_progress(
+        if time_has_passed {
+            task_repo::reset_task_progress(
                 pool,
                 &task.id,
                 current_period_start.to_rfc3339()
             ).await?;
 
-            rows_affected += affected;
+            if task.current_completions > 0 {
+                debug!(
+                    "Resetting active task: {} (Completions: {})",
+                    task.name,
+                    task.current_completions
+                );
+                reset_task_names.push(task.name);
+            } else {
+                debug!("Silent reset for inactive task: {}", task.name);
+            }
         }
     }
 
-    if rows_affected > 0 {
-        info!("Applied resets to {} task(s)", rows_affected);
-        if let Err(e) = handle.emit("tasks-reset", "reset_triggered") {
+    if !reset_task_names.is_empty() {
+        info!("Applied resets to {} active task(s)", reset_task_names.len());
+
+        let payload = TaskResetPayload {
+            task_names: reset_task_names,
+        };
+
+        if let Err(e) = handle.emit("tasks-reset", payload) {
             error!("Failed to emit tasks-reset event: {:?}", e);
         }
     }

@@ -9,6 +9,7 @@ import {
     useTaskStore,
 } from "@/stores/useTaskStore";
 import { Modal } from "@/components/ui/Modal";
+import { TaskResetModal } from "@/components/modules/TaskResetModal";
 
 export function TaskTracker() {
     const [isDismissed, setIsDismissed] = useState(false);
@@ -33,6 +34,7 @@ export function TaskTracker() {
             >
                 <p>Error loading tasks: {error}</p>
             </Modal>
+            <TaskResetModal />
             {isLoading && taskIds.length === 0 ? (
                 <Throbber label={"Loading Tasks"} />
             ) : (

@@ -16,9 +16,10 @@ interface TaskExtraActions {
     toggleFavorite: (id: string) => Promise<void>;
     setTask: (id: string, count: number) => Promise<void>;
     fetchData: () => Promise<void>;
+    setResetModal: (isOpen: boolean, taskNames?: string[]) => void;
 }
 
-//TODO Remove when added the stats filtering
+//TODO Remove when stats are implemented
 const INITIAL_FILTERS: TaskFilterState = {
     type: "tasks",
     favoriteFirst: true,
@@ -35,14 +36,7 @@ const taskBundle = createDataStore<
     TaskCategory
 >({
     initialStats: { current: 0, total: 0 },
-    initialFilters: {
-        type: "tasks",
-        favoriteFirst: true,
-        hideIncomplete: false,
-        hideComplete: false,
-        hideFavorite: false,
-        hideNonFavorite: false,
-    },
+    initialFilters: INITIAL_FILTERS,
     fetchItems: async ({ category, query, filters, limit, offset }) => {
         const [tasksArray, stats] = await Promise.all([
             taskService.getTasks(category, query, filters, limit, offset),
@@ -53,6 +47,7 @@ const taskBundle = createDataStore<
 });
 
 type FullTaskState = ReturnType<typeof taskBundle.useStore.getState> & {
+    resetModal: { isOpen: boolean; taskNames: string[] };
     actions: TaskExtraActions;
 };
 
@@ -61,8 +56,14 @@ export const useTaskStore = taskBundle.useStore as unknown as UseBoundStore<
 >;
 
 useTaskStore.setState((state) => ({
+    resetModal: { isOpen: false, taskNames: [] },
+
     actions: {
         ...state.actions,
+
+        setResetModal: (isOpen: boolean, taskNames: string[] = []) => {
+            useTaskStore.setState({ resetModal: { isOpen, taskNames } });
+        },
 
         toggleFavorite: async (id: string) => {
             const { items, itemIds, filters, activeCategory, stats } =
@@ -221,5 +222,7 @@ export const useTaskActions = () => useTaskStore((s) => s.actions);
 export const useTaskIds = taskBundle.useItemIds;
 export const useTaskById = taskBundle.useItemById;
 export const useTaskStats = taskBundle.useStats;
+
+export const useResetModal = () => useTaskStore((s) => s.resetModal);
 
 useTaskStore.getState().actions.fetchData();

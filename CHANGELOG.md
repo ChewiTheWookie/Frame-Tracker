@@ -7,6 +7,7 @@ All notable changes to this project will be logged here
 ### Features
 
 - ✨ new light theme
+- ✨ add task refresh popup with `TaskResetModal.tsx`
 
 ### Dev Notes
 
