@@ -13,10 +13,11 @@ import {
 
 import { Throbber } from "@/components/ui/Throbber";
 import { CardButton } from "@/components/ui/CardButton";
-import { Modal, DeleteModal, RenameModal } from "@/components/ui/Modal";
+import { DeleteModal, RenameModal } from "@/components/ui/Modal";
 import { ListItem } from "@/components/ui/ListItem";
 
 import styles from "./Profile.module.css";
+import { CreateModal } from "@/components/ui/Modal/presets/CreateModal";
 
 export const Profile: React.FC = () => {
     const navigate = useNavigate();
@@ -69,8 +70,7 @@ export const Profile: React.FC = () => {
         };
     }, [refresh, initializeListener]);
 
-    const handleCreate = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleCreate = async () => {
         if (!newProfileName.trim()) return;
 
         try {
@@ -167,24 +167,14 @@ export const Profile: React.FC = () => {
                 </div>
             )}
 
-            <Modal
+            <CreateModal
                 isOpen={isCreateOpen}
                 onClose={() => setIsCreateOpen(false)}
-                title="New Profile"
-            >
-                <form onSubmit={handleCreate} className="ModalForm">
-                    <input
-                        autoFocus
-                        value={newProfileName}
-                        onChange={(e) => setNewProfileName(e.target.value)}
-                        className="ModalInput"
-                        placeholder="Enter name..."
-                    />
-                    <button type="submit" className="ModalSubmitButton">
-                        Create Profile
-                    </button>
-                </form>
-            </Modal>
+                onSubmit={handleCreate}
+                title="Profile"
+                value={newProfileName}
+                onChange={(e) => setNewProfileName(e.target.value)}
+            />
 
             <RenameModal
                 isOpen={isEditOpen}

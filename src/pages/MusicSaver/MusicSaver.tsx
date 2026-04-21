@@ -10,9 +10,10 @@ import {
 import { Throbber } from "@/components/ui/Throbber";
 import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { CardButton } from "@/components/ui/CardButton";
-import { Modal, DeleteModal, RenameModal } from "@/components/ui/Modal";
+import { DeleteModal, RenameModal } from "@/components/ui/Modal";
 import { ListItem } from "@/components/ui/ListItem";
 import { ScrollSentinel } from "@/components/shared/ScrollSentinel";
+import { CreateModal } from "@/components/ui/Modal/presets/CreateModal";
 
 export function MusicSaver() {
     const { setHeaderAction, scrollRef } = useOutletContext<ListLayoutContext>();
@@ -54,8 +55,7 @@ export function MusicSaver() {
         return () => setHeaderAction(null);
     }, [setHeaderAction]);
 
-    const handleAdd = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleAdd = async () => {
         if (!newName.trim() || !newString.trim()) return;
         await addSong(newName, newString);
         setNewName("");
@@ -140,13 +140,16 @@ export function MusicSaver() {
                 </>
             )}
 
-            <Modal isOpen={isAddOpen} onClose={() => setIsAddOpen(false)} title="Add New Song">
-                <form onSubmit={handleAdd} className="ModalForm">
-                    <input autoFocus value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Song Title" className="ModalInput" />
-                    <textarea value={newString} onChange={(e) => setNewString(e.target.value)} placeholder="Paste code here..." className="ModalTextarea" />
-                    <button type="submit" className="ModalSubmitButton">Save Song</button>
-                </form>
-            </Modal>
+            <CreateModal
+                isOpen={isAddOpen}
+                onClose={() => setIsAddOpen(false)}
+                onSubmit={handleAdd}
+                title="Song"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                textAreaValue={newString}
+                textAreaOnChange={(e) => setNewString(e.target.value)}
+            />
 
             <RenameModal
                 isOpen={isEditOpen}

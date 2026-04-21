@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { KeyConfig } from "@/types/keybinds";
 import { useKeybindStore } from "@/stores/useKeybindStore";
-import { ListItem } from "../ListItem";
-import { CardButton } from "../CardButton";
+import { ListItem } from "../../ui/ListItem";
+import { CardButton } from "../../ui/CardButton";
 import { CircleX, Earth } from "lucide-react";
 
 import styles from "./KeybindRecorder.module.css";
@@ -91,7 +91,7 @@ export function KeybindRecorder({ action, label }: Props) {
                 />
             }
             dropdown={
-                <div className="ListItemDropdown">
+                <>
                     <button
                         onClick={() =>
                             updateKeybind(action, {
@@ -116,7 +116,7 @@ export function KeybindRecorder({ action, label }: Props) {
                     >
                         <CircleX size={12} /> Clear bind
                     </button>
-                </div>
+                </>
             }
         />
     );

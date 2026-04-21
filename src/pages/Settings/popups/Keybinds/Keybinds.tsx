@@ -1,4 +1,4 @@
-import { KeybindRecorder } from "@/components/ui/KeybindRecorder";
+import { KeybindRecorder } from "@/components/modules/KeybindRecorder";
 import { useKeybindStore } from "@/stores/useKeybindStore";
 import { ListSection } from "@/components/ui/ListSection";
 

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be logged here
 
+## 1.5.0
+
+### Dev Notes
+
+- ✏️ remove boilder plate by adding `CreateModal.tsx`
+
 ## 1.4.5
 
 ### Bug Fixes
