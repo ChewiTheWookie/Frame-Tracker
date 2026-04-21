@@ -1,40 +1,56 @@
 # Frame Tracker
 
-[![version badge](https://img.shields.io/github/v/release/ChewiTheWookie/Frame-Tracker)](https://github.com/ChewiTheWookie/Frame-Tracker/releases/latest) [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE.txt) [![Changelog](https://img.shields.io/badge/Changelog-%2314e31f?style=flat)](CHANGELOG.md)
+[![Version](https://img.shields.io/github/v/release/ChewiTheWookie/Frame-Tracker?style=for-the-badge)](https://github.com/ChewiTheWookie/Frame-Tracker/releases/latest) [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE.txt) [![Changelog](https://img.shields.io/badge/Changelog-%2314e31f?style=for-the-badge)](CHANGELOG.md)
 
-Third-party companion app for Warframe built in Tauri with React, TypeScript and Rust to track various things along your Warframe journey.
+**Frame Tracker** is a lightweight, third-party companion app for Warframe. Built with performance in mind using Tauri, it helps Tenno track progress, manage mastery, and stay on top of daily tasks without the clutter.
 
-## Technologies
+[**Download Latest Release**](https://github.com/ChewiTheWookie/Frame-Tracker/releases/latest) | [**Report a Bug**](https://github.com/ChewiTheWookie/Frame-Tracker/issues)
 
-[![Tauri](https://img.shields.io/badge/Tauri-24C8D8?logo=tauri&logoColor=fff)](https://v2.tauri.app/) [![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff)](https://vite.dev/) [![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](https://www.npmjs.com/) [![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white)](https://html.spec.whatwg.org/multipage/) [![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org/) [![CSS](https://img.shields.io/badge/CSS-639?logo=css&logoColor=fff)](https://www.w3.org/Style/CSS/) [![Rust](https://img.shields.io/badge/Rust-%23000000.svg?e&logo=rust&logoColor=white)](https://rust-lang.org/) [![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&logoColor=white)](https://sqlite.org/)
+---
 
-## Features
+## ✨ Features
 
-Here is what Frame Tracker can do:
+### 👤 Multi-Profile Management
 
-### Profiles
+Keep track of your journey across multiple platforms or accounts. Switch seamlessly between profiles to manage different progression paths.
 
-- **Profile Switching**: Keep track of your progress on multiple different warframe accounts with the Profiles feature
+### 🏆 Mastery & Part Tracking
 
-### Mastery Tracking
+- **Component Logistics:** Track exactly which parts you have in your inventory for every weapon and Warframe.
+- **Smart Filtering:** Instantly see what you can craft right now, what you already own, and what has been mastered or consigned to the Helminth.
 
-- **Track Parts**: Remember what components you have for each weapon
-- **Filtering & Search**: Filter and search through everything in Warframe to see what you have the parts to craft or what you own, mastered or helminthed
+### 📅 Task & Reset Management
 
-### Task Tracking
+- **Automated Resets:** Track daily, weekly, and evergreen tasks with timers that automatically reset when the cycles flip.
+- **Favorites:** Pin your most important grinds (like Sorties or Netracells) to the top of your dashboard.
+- **Time-Gate Prevention:** Filter through completed tasks to see exactly what you should focus on next to maximize your efficiency.
 
-- **Tasks**: Track what daily, weekly and other tasks you have done with an automatic reset of those task when the can be done again
-- **Filtering & Search**: Filter and search through all tasks you have done to easily see what else you can do to advance you acount to help prevent being time gated
-- **Favorites**: Mark tasks as favorite to see them at the top of the list when you load the app
+### 🎸 Shawzin Song Library
 
-### Shawzin Song Saver
+Never lose a masterpiece again. Save, organize, and copy your Shawzin song strings directly within the app.
 
-- **Song**: Save your shawzin song strings with the song saver
+---
 
-## Keybinds
+## 🛠️ Built With
 
-- Customizable keybinds! Just visit the settings → keybinds
+Frame Tracker leverages a modern, high-performance stack to ensure a small footprint and native feel.
 
-## Licensing & Acknowledgments
+| Frontend                                                                                                                                                                                                          | Backend                                                                                                                                                                                        | Database                                                                                            |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------- |
+| ![React](https://img.shields.io/badge/React-20232a?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white) | ![Tauri](https://img.shields.io/badge/Tauri-24C8D8?style=flat-square&logo=tauri&logoColor=white) ![Rust](https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white) | ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=flat-square&logo=sqlite&logoColor=white) |
 
-Full third-party license attributions for all dependencies can be found directly within the application under the **Acknoledgments** in settings or in the [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
+**Other tools:** [![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff)](https://vite.dev/) [![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](https://www.npmjs.com/) [![CSS](https://img.shields.io/badge/CSS-639?logo=css&logoColor=fff)](https://www.w3.org/Style/CSS/) [![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white)](https://html.spec.whatwg.org/multipage/)
+
+---
+
+## ⌨️ Keybinds
+
+Take control with **fully customizable hotkeys**. Configure your workflow by visiting `Settings → Keybinds` to set up shortcuts that fit your playstyle.
+
+---
+
+## ⚖️ Licensing & Acknowledgments
+
+This project is licensed under the MIT License.
+
+Frame Tracker is a fan-made tool and is not affiliated with Digital Extremes. Full third-party license attributions for all dependencies can be found in [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt) or within the **Acknowledgments** section in the app settings.
