@@ -2,6 +2,7 @@ import React, { useState, MouseEvent } from "react";
 
 import styles from "./ListItem.module.css";
 import { MoreVertical } from "lucide-react";
+import { Dropdown } from "../Dropdown";
 
 interface Props {
     icon?: React.ReactNode;
@@ -43,19 +44,18 @@ export function ListItem({
             <span className={styles.controls}>
                 {button && button}
                 {dropdown && (
-                    <div className={styles.dropdownContainer}>
+                    <>
                         <button
                             className={styles.dropdownButton}
                             onClick={() => setDropdownState(!dropdownState)}
                         >
                             <MoreVertical size={16} />
                         </button>
-                        {dropdownState && (
-                            <div className={styles.ListItemDropdown}>
-                                {dropdown}
-                            </div>
-                        )}
-                    </div>
+                        <Dropdown
+                            isOpen={dropdownState}
+                            items={dropdown}
+                        />
+                    </>
                 )}
             </span>
         </div>

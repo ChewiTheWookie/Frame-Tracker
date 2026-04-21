@@ -112,16 +112,6 @@
     cursor: not-allowed;
 }
 
-[class*="ListItemDropdown"] [class*="ModalDeleteAction"]:hover {
-    background: var(--error);
-    color: var(--bg);
-}
-
-[class*="ListItemDropdown"] button:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
 [class*="DeleteModalModalSubmitButton"] {
     background: var(--error);
     color: var(--bg);

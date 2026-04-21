@@ -66,34 +66,6 @@
     color: var(--color);
 }
 
-.filterDropdown {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
-    width: 250px;
-    background: var(--card-bg);
-    border: 1px solid var(--accent);
-    border-radius: 6px;
-    backdrop-filter: blur(10px);
-    padding: 1rem;
-    z-index: 1000;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-}
-
-.filterDropdown:hover {
-    box-shadow: 0 0 15px var(--accent-glow);
-}
-
-.dropdownHeader {
-    width: 100%;
-    text-align: center;
-    font-size: 1rem;
-    letter-spacing: 3px;
-    border-bottom: 1px solid var(--accent-glow);
-    padding-bottom: 0.75rem;
-    color: var(--color);
-}
-
 .filterOption {
     display: flex;
     justify-content: space-between;

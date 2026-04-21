@@ -24,9 +24,6 @@
 .controls {
     display: flex;
     gap: 0.5rem;
-}
-
-.dropdownContainer {
     position: relative;
 }
 
@@ -45,40 +42,6 @@
 }
 
 .dropdownButton:hover {
-    background: var(--accent);
-    color: var(--bg);
-}
-
-.ListItemDropdown {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(10px);
-    border-radius: 6px;
-    padding: 4px;
-    z-index: 50;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-    min-width: 120px;
-}
-
-[class*="ListItemDropdown"] button {
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: none;
-    color: var(--color);
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 4px;
-}
-
-[class*="ListItemDropdown"] button:hover {
     background: var(--accent);
     color: var(--bg);
 }

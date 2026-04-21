@@ -120,7 +120,7 @@ export function MusicSaver() {
                                     }}>
                                         <Edit2 size={12} /> Rename
                                     </button>
-                                    <button className="ModalDeleteAction" onClick={() => {
+                                    <button className="DeleteAction" onClick={() => {
                                         setTargetSong(name);
                                         setIsDeleteOpen(true);
                                     }}>

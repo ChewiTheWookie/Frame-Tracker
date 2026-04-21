@@ -151,7 +151,7 @@ export const Profile: React.FC = () => {
                                         <Edit2 size={12} /> Rename
                                     </button>
                                     <button
-                                        className="ModalDeleteAction"
+                                        className="DeleteAction"
                                         disabled={name === "Default" || name === currentProfile}
                                         onClick={() => {
                                             setTargetProfile(name);

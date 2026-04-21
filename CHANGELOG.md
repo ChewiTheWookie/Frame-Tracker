@@ -11,7 +11,8 @@ All notable changes to this project will be logged here
 
 ### Dev Notes
 
-- ✏️ remove boilder plate by adding `CreateModal.tsx`
+- ✏️ remove boiler plate by adding `CreateModal.tsx`
+- ✏️ remove boiler plate by adding `Dropdown.tsx`
 
 ## 1.4.5
 
